@@ -1,0 +1,49 @@
+.menu {
+  margin-right: 8px;
+}
+
+
+.header {
+  position: relative;
+  padding: 0;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
+  clear: both;
+}
+
+
+.trigger {
+  height: 64px;
+  padding: calc((64px - 20px) / 2) 24px;
+  font-size: 20px;
+  cursor: pointer;
+  transition: all 0.3s, padding 0s;
+}
+
+
+.right {
+  float: right;
+  height: 100%;
+  overflow: hidden;
+}
+
+.right>* {
+  display: inline-block;
+  height: 100%;
+  padding: 0 12px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.right>*:hover {
+  background-color: rgba(0, 0, 0, 0.030);
+}
+
+.dropdown{
+  padding-right: 30px;
+}
+
+.avatarImage{
+  margin-top: -5px;
+  margin-right: 10px;
+}
