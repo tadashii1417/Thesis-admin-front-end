@@ -1,0 +1,44 @@
+.moduleContainer {
+    border: 1px solid #d9d9d9;
+    color: #1177d1;
+    /*font-size: 15px;*/
+    /*line-height: 18px;*/
+}
+
+.moduleContainer > div:nth-child(odd) {
+    background-color: #f4fcff;
+}
+
+.moduleContainer > div:nth-child(even) {
+    background-color: #fff;
+}
+
+.moduleContainer > div:last-child {
+    border-bottom: none;
+}
+
+.module {
+    padding: 10px 15px;
+    border-bottom: 1px solid #e8e8e8;
+    display: flex;
+    justify-content: space-between;
+}
+
+.dragIcon {
+    margin-right: 20px;
+    color: #5c5c5c;
+}
+
+.actionArea {
+    display: inline-block;
+    margin-left: auto;
+    color: #5c5c5c;
+    font-size: 13px;
+}
+
+.actionArea > * {
+    margin: 5px;
+}
+.actionArea > *:hover {
+    color: #1177d1;
+}

@@ -1,0 +1,24 @@
+.quizContainer {
+    width: 90%;
+    margin: 0 auto;
+    font-size: 15px;
+    line-height: 22px;
+}
+
+.quizContainer > h4 {
+    color: #f98012;
+}
+
+.divider {
+    margin-top: 10px;
+}
+
+.quizInfo > * {
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.introduction {
+
+}

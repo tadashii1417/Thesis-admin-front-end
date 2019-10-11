@@ -1,0 +1,16 @@
+.cardBody {
+    color: #23282d;
+    padding: 0 5px;
+}
+
+.formItem {
+    margin-bottom: 10px;
+}
+
+.formHeading {
+    font-weight: 500;
+}
+
+.formHeading > i {
+    margin-right: 15px;
+}

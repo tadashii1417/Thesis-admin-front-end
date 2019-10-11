@@ -12,3 +12,38 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.Collapsible {
+  border: 1px solid #e8e8e8;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05), 0 1px 1px rgba(0, 0, 0, 0.05);
+  margin: 15px 0;
+  line-height: 1.5;
+  border-radius: 2px;
+  transition: all 0.3s;
+}
+
+.Collapsible__contentInner{
+  padding: 12px 20px 12px 50px;
+  /*background-color: #fdfdfd;*/
+}
+
+.ant-card-bordered {
+  border: 1px solid #e8e8e8;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05), 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+h4.ant-typography, .ant-typography h4 {
+  color: #f98012;
+  line-height: 20px;
+  margin: 5px;
+}
+
+
+.iconEdit {
+  position: absolute;
+  top: 17px;
+  right: 30px;
+  color: #fff;
+  background-color: #337ab7;
+  border-color: #2e6da4;
+}

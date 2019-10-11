@@ -1,0 +1,16 @@
+.option {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 30px;
+    border: 1px solid #e8e8e8;
+    margin: 5px 0;
+    padding: 20px;
+    font-size: 17px;
+}
+
+.option > input[type='radio'] {
+    /*opacity: 0;*/
+    float: right;
+}

@@ -1,34 +1,28 @@
 import React, {Component} from "react";
-import styles from "./Courses.module.css";
-import {Typography, Button, Divider, Input} from "antd";
 import CoursesTable from "../../../components/CoursesTable/CoursesTable";
+import Categories from "../../../components/Categories/Categories";
+import CourseTags from "../../../components/CourseTags/CourseTags";
+// import styles from './Courses.module.css';
+import '../admin.css';
+import { Tabs } from 'antd';
 
-const {Title} = Typography;
-const {Search} = Input;
+const { TabPane } = Tabs;
 
 class Courses extends Component {
     render() {
         return (
-            <div className={styles.content}>
-                <div className={styles.container}>
-                    <Title level={4}>Courses</Title>
-                    <Divider/>
-                    <div className={styles.toolbar}>
-                        <Button icon="plus" type="primary">
-                            Add new
-                        </Button>
-                        {/*<Button icon="delete" type="danger">*/}
-                      {/*    Delete*/}
-                      {/*</Button>*/}
-                        <Search
-                            placeholder="Search Courses"
-                            onSearch={value => console.log(value)}
-                            className={styles.searchBox}
-                            enterButton
-                        />
-                    </div>
-                    <CoursesTable/>
-                </div>
+            <div className="adminContent">
+                <Tabs type={"card"}>
+                    <TabPane tab="Courses" key="1">
+                        <CoursesTable/>
+                    </TabPane>
+                    <TabPane tab="Categories" key="2">
+                        <Categories/>
+                    </TabPane>
+                    <TabPane tab="Tags" key="3">
+                        <CourseTags/>
+                    </TabPane>
+                </Tabs>
             </div>
         );
     }

@@ -1,0 +1,15 @@
+.toolbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.container {
+    width: 100%;
+}
+
+.searchBox {
+    width: 40%;
+
+}

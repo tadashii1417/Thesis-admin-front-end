@@ -1,0 +1,29 @@
+.assignmentContent {
+    width: 90%;
+    margin-left: 5%;
+    font-size: 15px;
+    line-height: 22px;
+    /*letter-spacing: 0.5px;*/
+}
+
+.assignmentContent > h4 {
+    color: #f98012;
+}
+
+.table {
+    width: 100%;
+}
+.table > *:nth-child(odd) {
+    background-color: rgba(0,0,0,.05);
+}
+
+.table td {
+
+    padding: .75rem;
+    vertical-align: top;
+    border-top: 1px solid #dee2e6;
+}
+
+.divider {
+    margin-top: 10px;
+}
