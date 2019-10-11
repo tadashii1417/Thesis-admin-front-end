@@ -11,43 +11,43 @@ const activities = [
     {
         type: ModuleType.VIDEO,
         icon: book,
-        color: "#108EE9",
+        color: "#0e77ca",
         title: "Video"
     },
     {
         type: ModuleType.QUIZ,
         icon: alarm,
-        color: "#2BA8A6",
+        color: "#00924c",
         title: "Quiz"
     },
     {
         type: ModuleType.CONTENT,
         icon: fileText2,
-        color: "#f46e65",
+        color: "#d73435",
         title: "Article"
     },
     {
         type: ModuleType.RESOURCE,
         icon: folderOpen,
-        color: "#3dbd7d",
+        color: "#00924c",
         title: "Resource"
     },
     {
         type: ModuleType.ANNOUNCEMENT,
         icon: feed,
-        color: "#f78e3d",
+        color: "#d75000",
         title: "Announcement"
     },
     {
         type: ModuleType.ASSIGNMENT,
         icon: addressBook,
-        color: "#948aec",
+        color: "#533eb4",
         title: "Assignment"
     },
     {
         type: ModuleType.FORUM,
         icon: enter,
-        color: "#00a2ae",
+        color: "#00707f",
         title: "Forum"
     }
 ];

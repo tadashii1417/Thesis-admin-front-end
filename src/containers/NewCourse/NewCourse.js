@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {Card, Input, Form, Upload, Button} from 'antd';
 import styles from './NewCourse.module.css';
-import PublicCard from "../../../components/CourseSettings/PublicCard";
+import PublicCard from "../../components/CourseSettings/PublicCard";
 import Curriculum from "./CurriculumCreation/Curriculum";
 const {Meta} = Card;
 const {TextArea} = Input;

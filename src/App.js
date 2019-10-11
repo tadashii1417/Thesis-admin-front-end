@@ -1,11 +1,11 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import "./App.css";
-import Admin from "./containers/admin/admin";
+import Route from './router';
 
 class App extends Component {
-  render() {
-    return <Admin />;
-  }
+    render() {
+        return <Route/>;
+    }
 }
 
 export default App;

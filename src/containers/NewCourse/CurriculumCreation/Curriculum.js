@@ -5,9 +5,9 @@ import {
 } from 'react-sortable-hoc';
 import arrayMove from 'array-move';
 import {Button, Modal} from "antd";
-import NewSession from "../../../../components/Curriculum/NewSession/NewSession";
-import Session from "../../../../components/Curriculum/Session/Session";
-import ModuleList from "../../../../components/Curriculum/ModuleList/ModuleList";
+import NewSession from "../../../components/Curriculum/NewSession/NewSession";
+import Session from "../../../components/Curriculum/Session/Session";
+import ModuleList from "../../../components/Curriculum/ModuleList/ModuleList";
 
 const SortableContainer = sortableContainer(({children}) => {
     return <div>{children}</div>;

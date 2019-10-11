@@ -1,6 +1,7 @@
 import React from "react";
 import {Button, Divider, Typography} from "antd";
 import styles from './Quiz.module.css';
+import {Link} from "react-router-dom";
 
 const {Title} = Typography;
 export default function (props) {
@@ -21,9 +22,10 @@ export default function (props) {
                 <div className={styles.quizInfo}>
                     <div>This quiz open at: Thursday, 10 October 2019, 11:06 AM</div>
                     <div>Time limit: 20 minutes</div>
-
                     <div>
-                        <Button type={"primary"}>Edit questions</Button>
+                        <Link to={"/course/edit-question"}>
+                            <Button type={"primary"}>Edit questions</Button>
+                        </Link>
                     </div>
                 </div>
 

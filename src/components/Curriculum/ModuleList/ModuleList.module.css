@@ -5,11 +5,11 @@
     /*line-height: 18px;*/
 }
 
-.moduleContainer > div:nth-child(odd) {
+.moduleContainer > div:nth-child(even) {
     background-color: #f4fcff;
 }
 
-.moduleContainer > div:nth-child(even) {
+.moduleContainer > div:nth-child(odd) {
     background-color: #fff;
 }
 

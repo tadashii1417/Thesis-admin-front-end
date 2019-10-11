@@ -12,25 +12,34 @@ import {ic_format_line_spacing} from 'react-icons-kit/md/ic_format_line_spacing'
 import {pencil} from 'react-icons-kit/icomoon/pencil';
 import {eye} from 'react-icons-kit/icomoon/eye';
 import {bin2} from 'react-icons-kit/icomoon/bin2';
+import {Link} from "react-router-dom";
 
 const DragHandle = sortableHandle(() => <span><Icon icon={ic_format_line_spacing} className={styles.dragIcon}/></span>);
 
 const SortableItem = sortableElement(({value}) => (
     <div className={styles.module}>
         <DragHandle/>
-
-
         {DefaultActivity.map(ele => {
-            if (ele.type == value.type) {
-                return <Icon key={ele.icon} icon={ele.icon} size={16} style={{color: ele.color, marginRight: "20px"}}/>
+            if (ele.type === value.type) {
+                return (
+                    <React.Fragment>
+                        <Icon key={ele.icon} icon={ele.icon} size={16} style={{color: ele.color, marginRight: "20px"}}/>
+                        <Link to={"course/"+value.type}>
+                            {value.title}
+                        </Link>
+
+                        <div className={styles.actionArea}>
+                            <Icon icon={eye} size={13}/>
+                            <Link to={"/course/edit/" + value.type} style={{color: '#5c5c5c'}}><Icon icon={pencil}
+                                                                                                     size={13}/></Link>
+                            <Icon icon={bin2} size={13}/>
+                        </div>
+                    </React.Fragment>
+                );
             }
+            return "";
         })}
-        {value.title}
-        <div className={styles.actionArea}>
-            <Icon icon={eye} size={13} onClick={()=>(alert('1'))}/>
-            <Icon icon={pencil} size={13}/>
-            <Icon icon={bin2} size={13}/>
-        </div>
+
     </div>
 ));
 

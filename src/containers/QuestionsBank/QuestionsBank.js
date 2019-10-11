@@ -4,6 +4,7 @@ import styles from './QuestionsBank.module.css';
 import '../admin.css';
 
 import {Typography, Button, Divider, Input} from "antd";
+import {Link} from "react-router-dom";
 
 const {Title} = Typography;
 const {Search} = Input;
@@ -82,9 +83,11 @@ export default function (props) {
                 <Title level={4}>Question Bank</Title>
                 <Divider/>
                 <div className={styles.toolbar}>
-                    <Button icon="plus" type="primary">
-                        Add new
-                    </Button>
+                    <Link to={"/new-question"}>
+                        <Button icon="plus" type="primary">
+                            Add new
+                        </Button>
+                    </Link>
                     <Search
                         placeholder="Search questions."
                         onSearch={value => console.log(value)}

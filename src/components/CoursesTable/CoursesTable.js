@@ -2,6 +2,7 @@ import React from "react";
 import {Table, Tag, Badge} from "antd";
 import styles from './CoursesTable.module.css';
 import {Typography, Button, Divider, Input} from "antd";
+import {Link} from 'react-router-dom';
 
 const {Title} = Typography;
 const {Search} = Input;
@@ -120,9 +121,11 @@ export default function (props) {
                 <Title level={4}>Courses</Title>
                 <Divider/>
                 <div className={styles.toolbar}>
-                    <Button icon="plus" type="primary">
-                        Add new
-                    </Button>
+                    <Link to="new-course">
+                        <Button icon="plus" type="primary">
+                            Add new
+                        </Button>
+                    </Link>
                     <Search
                         placeholder="Search Courses"
                         onSearch={value => console.log(value)}

@@ -1,0 +1,26 @@
+.clear {
+    clear: both;
+}
+
+.option {
+    width: 50%;
+    float: left;
+    margin: 0 10px;
+}
+
+.form {
+    padding: 0 5px;
+}
+.form > * {
+    margin-bottom: 0px;
+}
+
+.setting {
+    width: 45%;
+    float: left;
+    margin: 0 10px;
+}
+
+.setting > * {
+    box-shadow: none;
+}
