@@ -22,9 +22,9 @@ const SortableItem = sortableElement(({value}) => (
         {DefaultActivity.map(ele => {
             if (ele.type === value.type) {
                 return (
-                    <React.Fragment>
+                    <React.Fragment key={ele.icon}>
                         <Icon key={ele.icon} icon={ele.icon} size={16} style={{color: ele.color, marginRight: "20px"}}/>
-                        <Link to={"course/"+value.type}>
+                        <Link to={"course/"+value.type} style={{color: '#101ee6'}}>
                             {value.title}
                         </Link>
 

@@ -2,7 +2,6 @@ import React from "react";
 import {Button, Divider, Form, Input, Typography} from 'antd';
 
 const {Title} = Typography;
-const { TextArea} = Input;
 
 export default function (props) {
 

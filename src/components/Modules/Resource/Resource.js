@@ -1,9 +1,7 @@
 import React from "react";
-import {Button, Divider, Form, Input, Typography, Upload, Icon, DatePicker} from 'antd';
+import {Button, Divider, Form, Input, Typography, Upload, Icon} from 'antd';
 
-const {RangePicker} = DatePicker;
 const {Title} = Typography;
-const {TextArea} = Input;
 
 export default function (props) {
 

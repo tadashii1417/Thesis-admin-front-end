@@ -3,9 +3,10 @@ import {Card, Input, Form, Upload, Button} from 'antd';
 import styles from './NewCourse.module.css';
 import PublicCard from "../../components/CourseSettings/PublicCard";
 import Curriculum from "./CurriculumCreation/Curriculum";
+
 const {Meta} = Card;
 const {TextArea} = Input;
-export default  class extends Component{
+export default class extends Component {
     render() {
         return (
             <div className={styles.content}>
@@ -16,7 +17,14 @@ export default  class extends Component{
                                 <Input/>
                             </Form.Item>
                             <Form.Item label="Description" style={{padding: 0, marginBottom: "10px"}} required>
-                                <TextArea style={{height: "150px"}}/>
+                                <TextArea style={{height: "80px"}}/>
+                            </Form.Item>
+                            <Form.Item label="Learning Outcome" style={{padding: 0, marginBottom: "10px"}} required>
+                                <TextArea style={{height: "80px"}}/>
+                            </Form.Item>
+                            <Form.Item label="Requirements" style={{padding: 0, marginBottom: "10px"}}
+                                       required>
+                                <TextArea style={{height: "80px"}}/>
                             </Form.Item>
                         </Form>
                     </Card>
@@ -34,7 +42,8 @@ export default  class extends Component{
                     </Card>
                     <Card size="small"
                           actions={[<Upload><Button type="primary">Save</Button></Upload>]}
-                          cover={<iframe title="promotional video" src="https://www.youtube.com/embed/9oViNcxFF5g"></iframe>}>
+                          cover={<iframe title="promotional video"
+                                         src="https://www.youtube.com/embed/9oViNcxFF5g"></iframe>}>
                         <Meta title="Promotional Videos"/>
                         <Input placeholder="Video url"/>
                     </Card>

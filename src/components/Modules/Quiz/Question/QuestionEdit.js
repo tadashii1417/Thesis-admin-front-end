@@ -1,7 +1,8 @@
 import React from "react";
 import styles from './Question.module.css';
-import {Button, Card, Collapse, Divider, Form, Icon, Input} from "antd";
+import {Button, Card, Collapse, Divider, Form, Icon, Input, Select} from "antd";
 
+const {Option} = Select;
 const {Panel} = Collapse;
 const {TextArea} = Input;
 const genExtra = () => {
@@ -41,6 +42,12 @@ export default function (props) {
 
             <Card title={"Question Setting"} size={"small"} className={styles.setting} extra={<Icon type={"setting"}/>}>
                 <Form className={styles.form}>
+                    <Form.Item label={"Type"}>
+                        <Select defaultValue="private">
+                            <Option value="public">Public</Option>
+                            <Option value="private">Private</Option>
+                        </Select>
+                    </Form.Item>
                     <Form.Item label={"Title"}>
                         <Input value={question.title}/>
                     </Form.Item>

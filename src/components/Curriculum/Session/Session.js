@@ -25,7 +25,7 @@ class Session extends Component {
             <Collapsible trigger={
                 <div className={styles.collapseHead}>
                     <DragHandle/>
-                    Section {sessions.findIndex(ele => ele.title == value)} : {value}
+                    Section {sessions.findIndex(ele => ele.title === value)} : {value}
                     <div>
                         <Icon type={"edit"} theme="twoTone" onClick={(e) => {
                             alert("deleted !");

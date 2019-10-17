@@ -1,4 +1,4 @@
-import {Button, Card, Form, Icon, Input, Select, TreeSelect} from "antd";
+import {Button, Card, DatePicker, Form, Icon, Input, Select, TreeSelect} from "antd";
 import React from "react";
 import styles from './PublicCard.module.css';
 
@@ -102,12 +102,28 @@ export default function (props) {
                                 <Option value="private">Private</Option>
                             </Select>
                         </Form.Item>
+
+                        <Form.Item
+                            label={<span className={styles.formHeading}><Icon type="build" theme="twoTone"/>Course Type</span>}
+                            className={styles.formItem}>
+                            <Select defaultValue="online">
+                                <Option value="offline">Offline</Option>
+                                <Option value="online">Online</Option>
+                            </Select>
+                        </Form.Item>
+
+                        <Form.Item label={<span className={styles.formHeading}><Icon type="fire" theme="twoTone"/>Opening Day</span>}
+                                   className={styles.formItem}>
+                            <DatePicker/>
+                        </Form.Item>
+
                         <Form.Item label={<span className={styles.formHeading}><Icon type="dollar" theme="twoTone"/>Price</span>}
                                    className={styles.formItem}>
                             <Input/>
                         </Form.Item>
-                        <Form.Item label={<span className={styles.formHeading}><Icon type="folder-open" theme="twoTone"/>Course Category</span>}
-                                   className={styles.formItem}>
+                        <Form.Item
+                            label={<span className={styles.formHeading}><Icon type="folder-open" theme="twoTone"/>Course Category</span>}
+                            className={styles.formItem}>
                             <TreeSelect treeData={treeData}/>
                         </Form.Item>
                         <Form.Item label={<span className={styles.formHeading}><Icon type="tag" theme="twoTone"/>Course Tags</span>}
