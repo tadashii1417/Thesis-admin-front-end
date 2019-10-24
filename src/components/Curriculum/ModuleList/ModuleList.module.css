@@ -19,8 +19,10 @@
 
 .module {
     padding: 10px 15px;
+    border-left: 4px solid #1177d1;
     border-bottom: 1px solid #e8e8e8;
     display: flex;
+    /* align-items: flex-start; */
     justify-content: space-between;
 }
 
@@ -31,6 +33,7 @@
 
 .actionArea {
     display: inline-block;
+    display: none;
     margin-left: auto;
     color: #5c5c5c;
     font-size: 13px;
@@ -41,4 +44,9 @@
 }
 .actionArea > *:hover {
     color: #1177d1;
+}
+
+.actionIcon {
+  color: #5c5c5c;
+  margin-right: 10px;
 }

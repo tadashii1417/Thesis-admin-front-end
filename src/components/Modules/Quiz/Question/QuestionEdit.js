@@ -43,9 +43,9 @@ export default function (props) {
             <Card title={"Question Setting"} size={"small"} className={styles.setting} extra={<Icon type={"setting"}/>}>
                 <Form className={styles.form}>
                     <Form.Item label={"Type"}>
-                        <Select defaultValue="private">
-                            <Option value="public">Public</Option>
-                            <Option value="private">Private</Option>
+                        <Select defaultValue="single">
+                            <Option value="single">Single choice</Option>
+                            <Option value="mulitple">Mulitple choice</Option>
                         </Select>
                     </Form.Item>
                     <Form.Item label={"Title"}>
