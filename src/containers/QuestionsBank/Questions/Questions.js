@@ -1,7 +1,7 @@
 import React from "react";
 import {Table, Icon} from "antd";
-import styles from './QuestionsBank.module.css';
-import '../admin.css';
+import styles from './Questions.module.css';
+import '../../admin.css';
 
 import {Typography, Button, Divider, Input} from "antd";
 import {Link} from "react-router-dom";
@@ -32,6 +32,11 @@ const columns = [
         dataIndex: "date"
     },
     {
+        title: "Category",
+        key: "category",
+        dataIndex: "category"
+    },
+    {
         title: 'Action',
         key: 'action',
         render: (text, record) => {
@@ -50,35 +55,39 @@ const data = [
         title: "Find biggest number",
         author: "tadashii",
         type: 'Single Choice',
-        date: "20/10/2019"
+        date: "20/10/2019",
+        category: "category 1"
     },
     {
         key: "2",
         title: "What do you like ?",
         author: "tadashii",
         type: 'Fill in the blank',
-        date: "20/10/2019"
+        date: "20/10/2019",
+        category: "category 2"
     },
     {
         key: "3",
         title: "True or false ?",
         author: "tadashii",
         type: 'True or False',
-        date: "20/10/2019"
+        date: "20/10/2019",
+        category: "category 3"
     },
     {
         key: "4",
         title: "Where are you come from ?",
         author: "tadashii",
         type: 'Multiple Choice',
-        date: "20/10/2019"
+        date: "20/10/2019",
+        category: "category 4"
     },
 
 ];
 
 export default function (props) {
     return (
-        <div className="adminContent">
+        <div>
             <div className={styles.container}>
                 <Title level={4}>Question Bank</Title>
                 <Divider/>

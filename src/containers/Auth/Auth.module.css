@@ -1,0 +1,22 @@
+.body {
+    width: 100%;
+    height: 100vh;
+    background-color: #45A1FC;
+}
+
+.container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #45A1FC;
+}
+
+
+.title {
+    text-align: center;
+}
+
+
+  

@@ -57,3 +57,18 @@ h4.ant-typography, .ant-typography h4 {
 .editor-class .ant-form-item-control {
   line-height: 0;
 }
+
+.login-form {
+  max-width: 400px;
+  padding: 30px;
+  border-radius: 10px;
+  margin: 0 auto;
+  background-color: #fff;
+}
+.login-form-forgot {
+  float: right;
+}
+.login-form-button {
+  width: 100%;
+  margin: 10px 0;
+}

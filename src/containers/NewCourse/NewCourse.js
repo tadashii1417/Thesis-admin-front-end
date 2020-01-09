@@ -38,14 +38,16 @@ export default class extends Component {
                     <Card size="small"
                           actions={[<Upload><Button type="primary">Upload</Button></Upload>]}
                           cover={<img alt="example" src="https://i.udemycdn.com/course/240x135/24823_963e_14.jpg"/>}>
-                        <Meta title="Course Image"/>
+                        {/* <Meta title="Course Image"/> */}
+                        <h4>Course image</h4>
                     </Card>
                     <Card size="small"
                           actions={[<Upload><Button type="primary">Save</Button></Upload>]}
                           cover={<iframe title="promotional video"
                                          src="https://www.youtube.com/embed/9oViNcxFF5g"></iframe>}>
-                        <Meta title="Promotional Videos"/>
-                        <Input placeholder="Video url"/>
+                        {/* <Meta title="Promotional Videos"/> */}
+                        <h4>Promotional video</h4>
+                        <Input placeholder="new video url"/>
                     </Card>
                 </div>
             </div>);

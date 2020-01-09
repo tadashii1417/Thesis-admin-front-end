@@ -1,8 +1,8 @@
 import React from "react";
-import {BrowserRouter, Switch, Route} from 'react-router-dom';
+import {Switch, Route} from 'react-router-dom';
 import AdminLayout from "./containers/admin";
 import NewCourse from "./containers/NewCourse/NewCourse";
-import QuestionsBank from "./containers/QuestionsBank/QuestionsBank";
+import QuestionsBank from "./containers/QuestionsBank/index.js";
 import NewQuestion from "./containers/NewQuestion/NewQuestion";
 
 import Announcement from "./components/Modules/Announcement/Announcement";
@@ -12,16 +12,18 @@ import AssignmentReport from "./components/Modules/Assignment/AssignmentReport";
 import Assignment from "./components/Modules/Assignment/Assignment";
 import Video from "./components/Modules/Video/Video";
 import Resource from "./components/Modules/Resource/Resource";
-import QuizSetting  from "./components/Modules/Quiz/QuizSetting";
+import QuizSetting from "./components/Modules/Quiz/QuizSetting";
 import QuizEntrance from "./components/Modules/Quiz/QuizEntrance";
 import QuizEdit from "./components/Modules/Quiz/QuizEdit";
 import Courses from "./containers/Courses/Courses";
+import Auth from "./containers/Auth/Auth";
 
 export default function (props) {
     return (
-        <BrowserRouter>
-            <AdminLayout>
-                <Switch>
+        <React.Fragment>
+            <Switch>
+                <Route path="/login" component={Auth} exact/>
+                <AdminLayout>
                     <Route path="/" component={Courses} exact/>
                     <Route path="/courses" component={Courses} exact/>
                     <Route path="/new-course" component={NewCourse} exact/>
@@ -38,8 +40,8 @@ export default function (props) {
                     <Route path="/course/edit-question" component={QuizEdit} exact/>
                     <Route path="/questions" component={QuestionsBank} exact/>
                     <Route path="/new-question" component={NewQuestion} exact/>
-                </Switch>
-            </AdminLayout>
-        </BrowserRouter>
+                </AdminLayout>
+            </Switch>
+        </React.Fragment>
     );
 }

@@ -49,21 +49,21 @@ export default [
         display: "Setting",
         name: "setting",
         icon: "setting",
-        path: "/admin/dashbosdfiu88ard",
+        path: "/",
         routes: []
     },
     {
-        display: "Appearance",
-        name: "appearance",
-        icon: "laptop",
-        path: "/appearance",
+        display: "Feedback",
+        name: "feedback",
+        icon: "alert",
+        path: "/",
         routes: []
     },
     {
-        display: "Tools",
+        display: "Help",
         name: "tool",
-        icon: "tool",
-        path: "/adm232vfin/dashboard",
+        icon: "question-circle",
+        path: "/",
         routes: []
     }
 ];
