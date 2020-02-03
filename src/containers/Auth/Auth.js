@@ -1,16 +1,12 @@
 import React from "react";
-import {Form, Icon, Input, Button, Checkbox, Spin, Alert, Divider} from 'antd';
-import * as actions from '../../store/actions/index';
-import {connect} from 'react-redux';
+import {Form, Icon, Input, Button, Checkbox, Spin, Alert} from 'antd';
 import styles from './Auth.module.css';
-import logo from '../../assets/logo.svg';
 
-class NormalLoginForm extends React.Component {
+class LoginForm extends React.Component {
     handleSubmit = e => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                console.log('Received values of form: ', values);
                 this.props.onAuth(values.username, values.password);
             }
         });
@@ -74,18 +70,6 @@ class NormalLoginForm extends React.Component {
     }
 }
 
-const mapStateToProps = state => {
-    return {
-        loading: state.auth.loading,
-        error: state.auth.error
-    }
-};
 
-const mapDispatchToProps = dispatch => {
-    return {
-        onAuth: (username, password) => dispatch(actions.auth(username, password))
-    }
-};
-
-const Auth = Form.create({name: 'normal_login'})(NormalLoginForm);
-export default connect(mapStateToProps, mapDispatchToProps)(Auth);
+const Auth = Form.create({name: 'Login'})(LoginForm);
+export default Auth;

@@ -2,6 +2,7 @@ import React from "react";
 import {Switch, Route} from 'react-router-dom';
 import AdminLayout from "./containers/admin";
 import NewCourse from "./containers/NewCourse/NewCourse";
+import NewCourseTrial from "./containers/NewCourse/NewCourseTrial";
 import QuestionsBank from "./containers/QuestionsBank/index.js";
 import NewQuestion from "./containers/NewQuestion/NewQuestion";
 
@@ -16,7 +17,7 @@ import QuizSetting from "./components/Modules/Quiz/QuizSetting";
 import QuizEntrance from "./components/Modules/Quiz/QuizEntrance";
 import QuizEdit from "./components/Modules/Quiz/QuizEdit";
 import Courses from "./containers/Courses/Courses";
-import Auth from "./containers/Auth/Auth";
+import Auth from "./containers/Auth";
 
 export default function (props) {
     return (
@@ -26,7 +27,8 @@ export default function (props) {
                 <AdminLayout>
                     <Route path="/" component={Courses} exact/>
                     <Route path="/courses" component={Courses} exact/>
-                    <Route path="/new-course" component={NewCourse} exact/>
+                    <Route path="/new-course" component={NewCourseTrial} exact/>
+                    {/*<Route path="/new-course-trial" component={NewCourseTrial} exact/>*/}
                     <Route path="/course/edit/announcement" component={Announcement} exact/>
                     <Route path="/course/edit/video" component={Video} exact/>
                     <Route path="/course/edit/quiz" component={QuizSetting} exact/>

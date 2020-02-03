@@ -1,4 +1,4 @@
-import * as ModuleType from '../../constants/Course.constant';
+import * as ModuleType from '../../constants/course_constant';
 import {book} from 'react-icons-kit/icomoon/book';
 import {fileText2} from 'react-icons-kit/icomoon/fileText2';
 import {folderOpen} from 'react-icons-kit/icomoon/folderOpen';

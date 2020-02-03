@@ -92,58 +92,59 @@ export default function (props) {
                   <Button type="ghost">Preview</Button>,
                   <Button type="primary">Save</Button>,
               ]}>
-            <div>
-                <div className={styles.cardBody}>
-                    <Form>
-                        <Form.Item label={<span className={styles.formHeading}><Icon type="eye" theme="twoTone"/>Visibility</span>}
-                                   className={styles.formItem}>
-                            <Select defaultValue="private">
-                                <Option value="public">Public</Option>
-                                <Option value="private">Private</Option>
-                            </Select>
-                        </Form.Item>
+            <div className={styles.cardBody}>
+                <Form>
+                    <Form.Item
+                        label={<span className={styles.formHeading}><Icon type="eye" theme="twoTone"/>Visibility</span>}
+                        className={styles.formItem}>
+                        <Select defaultValue="private">
+                            <Option value="public">Public</Option>
+                            <Option value="private">Private</Option>
+                        </Select>
+                    </Form.Item>
 
-                        <Form.Item
-                            label={<span className={styles.formHeading}><Icon type="build" theme="twoTone"/>Course Type</span>}
-                            className={styles.formItem}>
-                            <Select defaultValue="online">
-                                <Option value="offline">Offline</Option>
-                                <Option value="online">Online</Option>
-                            </Select>
-                        </Form.Item>
+                    <Form.Item
+                        label={<span className={styles.formHeading}><Icon type="build"
+                                                                          theme="twoTone"/>Course Type</span>}
+                        className={styles.formItem}>
+                        <Select defaultValue="online">
+                            <Option value="offline">Offline</Option>
+                            <Option value="online">Online</Option>
+                        </Select>
+                    </Form.Item>
 
-                        <Form.Item label={<span className={styles.formHeading}><Icon type="fire" theme="twoTone"/>Opening Day</span>}
-                                   className={styles.formItem}>
-                            <DatePicker/>
-                        </Form.Item>
+                    <Form.Item label={<span className={styles.formHeading}><Icon type="fire" theme="twoTone"/>Opening Day</span>}
+                               className={styles.formItem}>
+                        <DatePicker/>
+                    </Form.Item>
 
-                        <Form.Item label={<span className={styles.formHeading}><Icon type="dollar" theme="twoTone"/>Price</span>}
-                                   className={styles.formItem}>
-                            <Input/>
-                        </Form.Item>
-                        <Form.Item
-                            label={<span className={styles.formHeading}><Icon type="folder-open" theme="twoTone"/>Course Category</span>}
-                            className={styles.formItem}>
-                            <TreeSelect treeData={treeData}/>
-                        </Form.Item>
-                        <Form.Item label={<span className={styles.formHeading}><Icon type="tag" theme="twoTone"/>Course Tags</span>}
-                                   className={styles.formItem}>
-                            <Select
-                                mode="tags"
-                                defaultValue={['html', 'css']}
-                            >{tagOptions}</Select>
-                        </Form.Item>
-                        <Form.Item
-                            label={<span className={styles.formHeading}><Icon type="smile" theme="twoTone"/>Course Teachers</span>}
-                            className={styles.formItem}>
-                            <Select
-                                mode="tags"
-                                defaultValue={['tadashii']}
-                            >{teacherOptions}</Select>
-                        </Form.Item>
-                    </Form>
+                    <Form.Item
+                        label={<span className={styles.formHeading}><Icon type="dollar" theme="twoTone"/>Price</span>}
+                        className={styles.formItem}>
+                        <Input/>
+                    </Form.Item>
+                    <Form.Item
+                        label={<span className={styles.formHeading}><Icon type="folder-open" theme="twoTone"/>Course Category</span>}
+                        className={styles.formItem}>
+                        <TreeSelect treeData={treeData}/>
+                    </Form.Item>
+                    <Form.Item label={<span className={styles.formHeading}><Icon type="tag" theme="twoTone"/>Course Tags</span>}
+                               className={styles.formItem}>
+                        <Select
+                            mode="tags"
+                            defaultValue={['html', 'css']}
+                        >{tagOptions}</Select>
+                    </Form.Item>
+                    <Form.Item
+                        label={<span className={styles.formHeading}><Icon type="smile" theme="twoTone"/>Course Teachers</span>}
+                        className={styles.formItem}>
+                        <Select
+                            mode="tags"
+                            defaultValue={['tadashii']}
+                        >{teacherOptions}</Select>
+                    </Form.Item>
+                </Form>
 
-                </div>
             </div>
         </Card>
     )

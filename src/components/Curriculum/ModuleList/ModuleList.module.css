@@ -6,7 +6,7 @@
 }
 
 .moduleContainer > div:nth-child(even) {
-    background-color: #f4fcff;
+    background-color: lightcyan;
 }
 
 .moduleContainer > div:nth-child(odd) {

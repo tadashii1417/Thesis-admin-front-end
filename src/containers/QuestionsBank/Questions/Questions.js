@@ -1,7 +1,6 @@
 import React from "react";
 import {Table, Icon} from "antd";
 import styles from './Questions.module.css';
-import '../../admin.css';
 
 import {Typography, Button, Divider, Input} from "antd";
 import {Link} from "react-router-dom";

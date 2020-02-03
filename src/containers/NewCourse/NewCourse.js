@@ -28,6 +28,7 @@ export default class extends Component {
                             </Form.Item>
                         </Form>
                     </Card>
+
                     <Card title="Curriculum" size="small">
                         <Curriculum/>
                     </Card>
@@ -43,8 +44,7 @@ export default class extends Component {
                     </Card>
                     <Card size="small"
                           actions={[<Upload><Button type="primary">Save</Button></Upload>]}
-                          cover={<iframe title="promotional video"
-                                         src="https://www.youtube.com/embed/9oViNcxFF5g"></iframe>}>
+                          cover={<iframe title="promotional video" src="https://www.youtube.com/embed/9oViNcxFF5g"/>}>
                         {/* <Meta title="Promotional Videos"/> */}
                         <h4>Promotional video</h4>
                         <Input placeholder="new video url"/>

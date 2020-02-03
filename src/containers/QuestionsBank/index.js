@@ -1,5 +1,4 @@
 import React, {Component} from "react";
-import '../admin.css';
 import {Tabs} from 'antd';
 import Questions from "./Questions/Questions";
 import QuestionCategories from "./QuestionCategories/QuestionCategories";

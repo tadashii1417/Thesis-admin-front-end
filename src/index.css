@@ -13,6 +13,15 @@ code {
     monospace;
 }
 
+.adminContent {
+  margin: 15px 24px 0 24px;
+  padding: 15px 24px;
+  background: #fff;
+  position: relative;
+  border-radius: 2px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05), 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
 .Collapsible {
   border: 1px solid #e8e8e8;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05), 0 1px 1px rgba(0, 0, 0, 0.05);
@@ -24,12 +33,25 @@ code {
 
 .Collapsible__contentInner{
   padding: 12px 20px 12px 50px;
-  /*background-color: #fdfdfd;*/
 }
 
-.ant-card-bordered {
-  border: 1px solid #e8e8e8;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05), 0 2px 4px rgba(0, 0, 0, 0.05);
+
+.editor-class {
+  height: 275px !important;
+  border: 1px solid #F1F1F1 !important;
+  padding: 5px !important;
+  border-radius: 2px !important;
+}
+
+/*********************** ANTD CSS REFACTOR************************/
+
+/*.ant-card-bordered {*/
+/*  border: 1px solid #e8e8e8;*/
+/*  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05), 0 2px 4px rgba(0, 0, 0, 0.05);*/
+/*}*/
+
+.ant-tabs .ant-tabs-left-content{
+  min-height: 80vh;
 }
 
 h4.ant-typography, .ant-typography h4 {
@@ -38,6 +60,13 @@ h4.ant-typography, .ant-typography h4 {
   margin: 5px;
 }
 
+.ant-tabs-nav .ant-tabs-tab-active {
+  background-color: lightcyan;
+}
+
+.editor-class .ant-form-item-control {
+  line-height: 0;
+}
 
 .iconEdit {
   position: absolute;
@@ -54,9 +83,6 @@ h4.ant-typography, .ant-typography h4 {
   line-height: 30px;
 }
 
-.editor-class .ant-form-item-control {
-  line-height: 0;
-}
 
 .login-form {
   max-width: 400px;
