@@ -4,14 +4,13 @@ import Auth from './Auth';
 
 const mapStateToProps = state => {
     return {
-        loading: state.auth.loading,
-        error: state.auth.error
+        error: state.authReducer.error
     }
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        onAuth: (username, password) => dispatch(actions.auth(username, password))
+        loginUser: (username, password) => dispatch(actions.loginUser(username, password))
     }
 };
 

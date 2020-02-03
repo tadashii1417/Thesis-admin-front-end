@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {Layout} from "antd";
 import AdminSider from "../components/AdminSider/AdminSider";
-import AdminHeader from "../components/AdminHeader/AdminHeader";
+import AdminHeader from "../components/AdminHeader";
 
 
 class Admin extends Component {

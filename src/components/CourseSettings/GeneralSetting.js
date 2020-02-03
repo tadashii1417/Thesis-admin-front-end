@@ -1,4 +1,4 @@
-import {Button, Checkbox, Col, DatePicker, Form, Icon, Input, Row, Select, TreeSelect} from "antd";
+import {Button, Checkbox, Col, DatePicker, Form, Input, Row, Select, TreeSelect} from "antd";
 import React from "react";
 import styles from './PublicCard.module.css';
 
@@ -211,7 +211,7 @@ class RegistrationForm extends React.Component {
                         valuePropName: 'checked',
                     })(
                         <Checkbox>
-                            I have read the <a href="">agreement</a>
+                            I have read the <a href="/">agreement</a>
                         </Checkbox>,
                     )}
                 </Form.Item>

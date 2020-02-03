@@ -1,7 +1,7 @@
 import React from "react";
-import {Switch, Route} from 'react-router-dom';
+import {Switch} from 'react-router-dom';
 import AdminLayout from "./containers/admin";
-import NewCourse from "./containers/NewCourse/NewCourse";
+// import NewCourse from "./containers/NewCourse/NewCourse";
 import NewCourseTrial from "./containers/NewCourse/NewCourseTrial";
 import QuestionsBank from "./containers/QuestionsBank/index.js";
 import NewQuestion from "./containers/NewQuestion/NewQuestion";
@@ -18,32 +18,36 @@ import QuizEntrance from "./components/Modules/Quiz/QuizEntrance";
 import QuizEdit from "./components/Modules/Quiz/QuizEdit";
 import Courses from "./containers/Courses/Courses";
 import Auth from "./containers/Auth";
+import AdminRoute from "./routes/AdminRoute";
+import PublicRoute from "./routes/PublicRoute";
 
 export default function (props) {
+    const {isAuthenticated} = props;
+
     return (
-        <React.Fragment>
-            <Switch>
-                <Route path="/login" component={Auth} exact/>
-                <AdminLayout>
-                    <Route path="/" component={Courses} exact/>
-                    <Route path="/courses" component={Courses} exact/>
-                    <Route path="/new-course" component={NewCourseTrial} exact/>
-                    {/*<Route path="/new-course-trial" component={NewCourseTrial} exact/>*/}
-                    <Route path="/course/edit/announcement" component={Announcement} exact/>
-                    <Route path="/course/edit/video" component={Video} exact/>
-                    <Route path="/course/edit/quiz" component={QuizSetting} exact/>
-                    <Route path="/course/edit/resource" component={Resource} exact/>
-                    <Route path="/course/edit/content" component={Article} exact/>
-                    <Route path="/course/edit/forum" component={Forum} exact/>
-                    <Route path="/course/edit/assignment" component={Assignment} exact/>
-                    <Route path="/course/edit/announcement" component={Announcement} exact/>
-                    <Route path="/course/quiz" component={QuizEntrance} exact/>
-                    <Route path="/course/assignment" component={AssignmentReport}/>
-                    <Route path="/course/edit-question" component={QuizEdit} exact/>
-                    <Route path="/questions" component={QuestionsBank} exact/>
-                    <Route path="/new-question" component={NewQuestion} exact/>
-                </AdminLayout>
-            </Switch>
-        </React.Fragment>
+        <Switch>
+            <PublicRoute isAuthenticated={isAuthenticated} path="/login" component={Auth} exact/>
+            <AdminLayout>
+                <AdminRoute isAuthenticated={isAuthenticated} path="/" component={Courses} exact/>
+                <AdminRoute isAuthenticated={isAuthenticated} path="/courses" component={Courses} exact/>
+                <AdminRoute isAuthenticated={isAuthenticated} path="/new-course" component={NewCourseTrial} exact/>
+                <AdminRoute isAuthenticated={isAuthenticated} path="/course/edit/announcement" component={Announcement}
+                            exact/>
+                <AdminRoute isAuthenticated={isAuthenticated} path="/course/edit/video" component={Video} exact/>
+                <AdminRoute isAuthenticated={isAuthenticated} path="/course/edit/quiz" component={QuizSetting} exact/>
+                <AdminRoute isAuthenticated={isAuthenticated} path="/course/edit/resource" component={Resource} exact/>
+                <AdminRoute isAuthenticated={isAuthenticated} path="/course/edit/content" component={Article} exact/>
+                <AdminRoute isAuthenticated={isAuthenticated} path="/course/edit/forum" component={Forum} exact/>
+                <AdminRoute isAuthenticated={isAuthenticated} path="/course/edit/assignment" component={Assignment}
+                            exact/>
+                <AdminRoute isAuthenticated={isAuthenticated} path="/course/edit/announcement" component={Announcement}
+                            exact/>
+                <AdminRoute isAuthenticated={isAuthenticated} path="/course/quiz" component={QuizEntrance} exact/>
+                <AdminRoute isAuthenticated={isAuthenticated} path="/course/assignment" component={AssignmentReport}/>
+                <AdminRoute isAuthenticated={isAuthenticated} path="/course/edit-question" component={QuizEdit} exact/>
+                <AdminRoute isAuthenticated={isAuthenticated} path="/questions" component={QuestionsBank} exact/>
+                <AdminRoute isAuthenticated={isAuthenticated} path="/new-question" component={NewQuestion} exact/>
+            </AdminLayout>
+        </Switch>
     );
 }

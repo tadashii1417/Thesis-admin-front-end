@@ -4,7 +4,6 @@ import styles from './NewCourse.module.css';
 import PublicCard from "../../components/CourseSettings/PublicCard";
 import Curriculum from "./CurriculumCreation/Curriculum";
 
-const {Meta} = Card;
 const {TextArea} = Input;
 export default class extends Component {
     render() {
