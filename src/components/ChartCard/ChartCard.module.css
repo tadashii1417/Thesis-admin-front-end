@@ -1,0 +1,41 @@
+.card {
+    border: 1px solid #e8e8e8;
+    /*padding: 20px 24px 10px;*/
+    padding: 20px 15px 10px 15px;
+    color: rgba(0, 0, 0, 0.65);
+    background: #fff;
+    border-radius: 2px;
+    line-height: 1.5;
+    position: relative;
+}
+
+.subNumber{
+    margin-left: 10px;
+    color: rgba(0,0,0,.85);
+}
+
+.divider {
+    margin: 10px 0;
+}
+
+.totalNumber {
+    height: 38px;
+    padding-left: 10px;
+    margin-top: 4px;
+    overflow: hidden;
+    color: rgba(0,0,0,.85);
+    font-size: 30px;
+    line-height: 38px;
+}
+
+.icon {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    cursor: pointer;
+}
+
+.mainIcon {
+    margin-right: 10px;
+    font-size: 25px;
+}
