@@ -1,8 +1,9 @@
 import React, {Component} from "react";
-import {Card, Input, Form, Upload, Button, Tabs, Icon, Typography, Divider} from 'antd';
-import styles from './NewCourse.module.css';
+import {Card, Input, Form, Upload, Button, Tabs, Icon, Typography, Divider, Breadcrumb} from 'antd';
+import styles from './CourseDetail.module.css';
 import Curriculum from "./CurriculumCreation/Curriculum";
 import GeneralSetting from "../../components/CourseSettings/GeneralSetting";
+import {Link} from "react-router-dom";
 
 const {TextArea} = Input;
 const {TabPane} = Tabs;
@@ -12,6 +13,12 @@ export default class extends Component {
     render() {
         return (
             <div className={"adminContent"}>
+                {/*<Breadcrumb>*/}
+                {/*    <Breadcrumb.Item>*/}
+                {/*        <Link to={"/courses"}>Courses</Link>*/}
+                {/*    </Breadcrumb.Item>*/}
+                {/*    <Breadcrumb.Item>New course</Breadcrumb.Item>*/}
+                {/*</Breadcrumb>*/}
                 <Title level={4}>Course Setting</Title>
                 <Divider/>
                 <Tabs defaultActiveKey="1" tabPosition={"left"}>

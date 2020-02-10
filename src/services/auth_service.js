@@ -1,7 +1,7 @@
 import axios from '../axios-config';
 
 export async function fetchMe() {
-    const {data} = await axios.get("/me");
+    const {data} = await axios.get("/api/me");
 
     const {user, accessToken} = data;
     return {user, accessToken};
@@ -13,7 +13,7 @@ export async function login(email, password) {
         password: password
     };
 
-    const {data} = await axios.post("/auth/login", body);
+    const {data} = await axios.post("/api/auth/login", body);
 
     const {user, accessToken} = data;
     return {user, accessToken};

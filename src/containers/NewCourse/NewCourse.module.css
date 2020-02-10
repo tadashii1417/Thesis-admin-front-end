@@ -1,33 +1,31 @@
-.content {
-    margin: 15px 12px 0 12px;
-    /*padding: 15px 12px;*/
-    min-height: 100%;
-    border-radius: 2px;
-    display: flex;
+.header {
+    background-color: #fff;
+    width: 100%;
+    padding: 12px 24px 16px 24px;
+    color: rgba(0,0,0,.65);
+    font-size: 14px;
+    line-height: 1.5;
 }
 
-.contentLeft {
-    flex: 70%;
-    padding: 0 10px;
+.heading {
+    margin-top: 8px;
+    width: 100%;
+    overflow: hidden;
+    color: rgba(0,0,0,.85);
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 32px;
+    /*color: #f98012;*/
 }
 
-.contentLeft > * {
-    margin-bottom: 20px;
+.description{
+    padding-top: 12px;
 }
 
-.contentRight {
-    flex: 30%;
-    padding: 0 10px;
+.mainForm {
+    margin: 24px 24px 0;
 }
 
-.contentRight > * {
-    margin-bottom: 20px;
-}
-
-.imgBanner {
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    padding: 5px;
-    max-width: 100%;
-    height: auto;
+.mainForm .ant-divider{
+    margin: 16px 0 24px;
 }

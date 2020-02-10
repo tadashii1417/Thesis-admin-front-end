@@ -2,7 +2,7 @@ import axios from 'axios';
 import {getToken} from "./utils/storage_util";
 
 const instance = axios.create({
-    baseURL: 'http://localhost:5000/api',
+    baseURL: 'http://localhost:5000',
     timeout: 7500
 });
 

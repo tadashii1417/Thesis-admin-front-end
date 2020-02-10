@@ -1,136 +1,141 @@
-import React from "react";
-import { Table, Tag, Badge, Avatar } from "antd";
+import React, {Component} from "react";
+import {Table, Tag, Badge, Avatar, message} from "antd";
 import styles from './CoursesTable.module.css';
-import { Typography, Button, Divider, Input } from "antd";
-import { Link } from 'react-router-dom';
+import {Typography, Button, Divider, Input} from "antd";
+import {Link} from 'react-router-dom';
+import {httpErrorHandler} from "../../utils/axios_util";
+import axios from '../../axios-config';
 
-const { Title } = Typography;
-const { Search } = Input;
+const {Title} = Typography;
+const {Search} = Input;
 
-
+const base = 'http://localhost:5000';
 const columns = [
     {
-        title: "Image",
-        dataIndex: "image",
-        key: "image",
-        render: src => <Avatar shape="square" size={64} src={src} />
+        title: "Banner",
+        dataIndex: "banner",
+        key: "banner",
+        render: (src) => {
+            if (src) {
+                return <Avatar shape="square" size={64} src={base + src.origin}/>
+            } else {
+                return <Avatar shape="square" size={64} icon={"file-image"}/>
+            }
+        }
     },
     {
-        title: "Title",
-        dataIndex: "title",
-        key: "title",
-        render: text => <a href="/">{text}</a>
+        title: "Name",
+        dataIndex: "name",
+        key: "name",
+        render: text => <Link to={'/course-detail'}>{text}</Link>
     },
     {
-        title: "Author",
-        dataIndex: "author",
-        key: "author"
+        title: "Type",
+        dataIndex: "type",
+        key: "type"
+    },
+    {
+        title: "Visibility",
+        dataIndex: "visibility",
+        key: "visibility"
     },
     {
         title: "Price",
         key: "price",
-        dataIndex: "price"
+        dataIndex: "priceResult",
+        render: res => (res.price.amount + " " + res.price.currency)
     },
     {
-        title: "Category",
-        key: "category",
-        dataIndex: "category"
-    },
-    {
-        title: "Date",
-        key: "date",
-        dataIndex: "date"
-    },
-    {
-        title: "Students",
-        dataIndex: "students",
-        key: "student",
-        render: text => <Badge count={text} />
-    },
-    {
-        title: "Tags",
-        key: "tags",
-        dataIndex: "tags",
-        render: tags => (
+        title: "Instructors",
+        dataIndex: "instructors",
+        key: "instructors",
+        render: items => (
             <span>
-                {tags.map(tag => {
-                    let color = tag.length > 5 ? "geekblue" : "green";
-                    if (tag === "loser") {
-                        color = "volcano";
-                    }
-                    return (
-                        <Tag color={color} key={tag}>
-                            {tag.toUpperCase()}
-                        </Tag>
-                    );
-                })}
+                {items.map(item => item)}
             </span>
         )
     }
 ];
 const data = [
     {
-        key: "1",
-        image: "https://sogo.edu.vn/wp-content/uploads/2019/08/javascript-la-gi.jpg",
-        title: "Learn HTML, CSS from Scratch",
-        author: "tadashii",
-        students: "15",
-        tags: ["HTML", "CSS", "WEB"],
-        price: "600.000 đ",
-        category: "Web",
-        date: "20/10/2019"
+        id: "1",
+        name: "Learn HTML, CSS from Scratch",
+        type: "Online",
+        instructors: [],
+        visibility: "Visible",
+        priceResult: {
+            price: {
+                amount: 0,
+                currency: "VND"
+            }
+        },
+        banner: {
+            "220x135": "/images/6c284004-1b0a-4be9-b523-0019967b568e-220x135.jpeg",
+            "origin": "/images/6c284004-1b0a-4be9-b523-0019967b568e.jpeg"
+        },
     },
     {
-        key: "2",
-        image: "http://dexlerone.com/wp-content/uploads/2019/08/technical-analysis-online-course.jpg",
-        title: "Javascript Basic",
-        author: "tadashii",
-        students: "20",
-        tags: ["JAVASCRIPT"],
-        price: "200.000 đ",
-        category: "Front-end",
-        date: "20/10/2019"
-    },
-    {
-        key: "3",
-        image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShV5Ff8R1eQho7SypNI2f-9WathvYZaniUJXwm9q_cwQEvPEyp&s",
-        title: "Javascript Advanced",
-        author: "tadashii",
-        students: "20",
-        tags: ["JAVASCRIPT"],
-        price: "200.000 đ",
-        category: "Web",
-        date: "20/10/2019"
-    },
-    {
-        key: "4",
-        image: "https://techtalk.vn/wp-content/uploads/2016/06/techtalk-reactjs-696x392.png",
-        title: "PHP and mySQL Basic",
-        author: "tadashii",
-        students: "10",
-        tags: ["PHP", "MYSQL"],
-        price: "200.000 đ",
-        category: "Back-end",
-        date: "20/10/2019"
+        id: "2",
+        name: "Learn HTML, CSS from Scratch 2",
+        type: "Online",
+        instructors: ["Teacher 1"],
+        visibility: "Visible",
+        priceResult: {
+            price: {
+                amount: 100000,
+                currency: "VND"
+            }
+        }
     }
 ];
-// const rowSelection = {
-//     onChange: (selectedRowKeys, selectedRows) => {
-//         console.log(
-//             `selectedRowKeys: ${selectedRowKeys}`,
-//             "selectedRows: ",
-//             selectedRows
-//         );
-//     },
-//     hideDefaultSelections: true
-// };
 
-export default function (props) {
-    return (
-        <div>
+export default class extends Component {
+    state = {
+        data: [],
+        pagination: {},
+        loading: false
+    };
+
+    componentDidMount() {
+        this.fetchCourses({page: 1});
+    }
+
+    async fetchCourses(params = {}) {
+        this.setState({loading: true});
+        try {
+            const {data} = await axios.get('/api/courses?page='+params.page);
+            const pagination = {...this.state.pagination};
+            pagination.total = data.totalPageCount * 10;
+            this.setState({
+                loading: false,
+                data: data.items,
+                pagination
+            });
+        } catch (e) {
+            httpErrorHandler(e, () => {
+                switch (e.code) {
+                    default:
+                        message.error("Something went wrong")
+                }
+            })
+        }
+    }
+
+    handleTableChange = (pagination) => {
+        const pager = {...this.state.pagination};
+        pager.current = pagination.current;
+        this.setState({
+            pagination: pager,
+        });
+        console.log(pagination);
+        this.fetchCourses({page: pagination.current})
+    };
+
+    render() {
+        return (
             <div className={styles.container}>
                 <Title level={4}>Courses</Title>
-                <Divider />
+                <Divider/>
                 <div className={styles.toolbar}>
                     <Link to="new-course">
                         <Button icon="plus" type="primary">
@@ -144,8 +149,16 @@ export default function (props) {
                         enterButton
                     />
                 </div>
-                <Table columns={columns} dataSource={data} />
+                <Table
+                    columns={columns}
+                    dataSource={this.state.data}
+                    rowKey={record => record.id}
+                    // size={"small"}
+                    pagination={this.state.pagination}
+                    loading={this.state.loading}
+                    onChange={this.handleTableChange}
+                />
             </div>
-        </div>
-    );
+        );
+    };
 }

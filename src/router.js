@@ -1,10 +1,10 @@
 import React from "react";
-import {Switch} from 'react-router-dom';
+import {Route, Switch} from 'react-router-dom';
 import AdminLayout from "./containers/admin";
 import AdminRoute from "./routes/AdminRoute";
 import PublicRoute from "./routes/PublicRoute";
-// import NewCourse from "./containers/NewCourse/NewCourse";
-import NewCourseTrial from "./containers/NewCourse/NewCourseTrial";
+// import CourseDetail from "./containers/CourseDetail/CourseDetail";
+import CourseDetail from "./containers/CourseDetail/CourseDetail";
 import QuestionsBank from "./containers/QuestionsBank/index.js";
 import NewQuestion from "./containers/NewQuestion/NewQuestion";
 import Announcement from "./components/Modules/Announcement/Announcement";
@@ -20,6 +20,8 @@ import QuizEdit from "./components/Modules/Quiz/QuizEdit";
 import Courses from "./containers/Courses/Courses";
 import Auth from "./containers/Auth";
 import Dashboard from "./containers/Dashboard";
+import NewCourse from "./containers/NewCourse/NewCourse";
+import TestOnly from "./containers/Test";
 
 export default function (props) {
     const {isAuthenticated} = props;
@@ -27,10 +29,12 @@ export default function (props) {
     return (
         <Switch>
             <PublicRoute isAuthenticated={isAuthenticated} path="/login" component={Auth} exact/>
+            <Route path={"/test"} component={TestOnly}/>
             <AdminLayout>
                 <AdminRoute isAuthenticated={isAuthenticated} path="/" component={Dashboard} exact/>
                 <AdminRoute isAuthenticated={isAuthenticated} path="/courses" component={Courses} exact/>
-                <AdminRoute isAuthenticated={isAuthenticated} path="/new-course" component={NewCourseTrial} exact/>
+                <AdminRoute isAuthenticated={isAuthenticated} path="/course-detail" component={CourseDetail} exact/>
+                <AdminRoute isAuthenticated={isAuthenticated} path="/new-course" component={NewCourse} exact/>
                 <AdminRoute isAuthenticated={isAuthenticated} path="/course/edit/announcement" component={Announcement}
                             exact/>
                 <AdminRoute isAuthenticated={isAuthenticated} path="/course/edit/video" component={Video} exact/>
