@@ -26,7 +26,6 @@ class NewCourse extends Component {
                 <div className={styles.mainForm}>
                     <Card bordered={false}>
                         <NewCourseForm/>
-
                     </Card>
                 </div>
             </React.Fragment>

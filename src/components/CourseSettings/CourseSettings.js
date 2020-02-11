@@ -1,15 +1,21 @@
 import {
-    Button, Divider, Form, Icon, Input, InputNumber, message, Radio, Select, Tooltip, TreeSelect, Upload
+    Button,
+    Divider,
+    Form,
+    Icon,
+    Input,
+    InputNumber, Radio,
+    Select,
+    Upload,
+    Tooltip,
+    TreeSelect
 } from "antd";
 import React from "react";
-import {httpErrorHandler} from "../../utils/axios_util";
-import {createCourse} from "../../services/course_service";
-import {ServerErrors} from "../../constants/server_error_constant";
-import {withRouter} from "react-router";
+import styles from './CourseSettings.module.css';
 
 const {TextArea} = Input;
-const {Option} = Select;
 const {Dragger} = Upload;
+const {Option} = Select;
 const treeData = [
     {
         title: 'Development',
@@ -82,9 +88,8 @@ const treeData = [
         ]
     },
 ];
-
 const tags = ['css', 'html', 'javascript', 'web', 'python', 'socket'];
-const teachers = ['teacher1', 'teacher2', 'teacher3'];
+const teachers = ['tadashii1417', 'hieu123', 'hao123'];
 
 const tagOptions = tags.map((tag) => (
     <Option key={tag}>{tag}</Option>
@@ -95,30 +100,12 @@ const teacherOptions = teachers.map((teacher) => (
 
 let id = 1;
 
-class NewCourseForm extends React.Component {
+class CourseSettingsBasic extends React.Component {
     handleSubmit = e => {
         e.preventDefault();
-        this.props.form.validateFieldsAndScroll(async (err, values) => {
+        this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
                 console.log('Received values of form: ', values);
-                try {
-                    await createCourse(values);
-                    message.success("Create course successfully .");
-                    this.props.history.push('/courses');
-                } catch (e) {
-                    httpErrorHandler(e, () => {
-                        switch (e.code) {
-                            case ServerErrors.INVALID_COURSE_DATA:
-                                message.error(e.details);
-                                break;
-                            case ServerErrors.SLUG_ALREADY_EXISTS:
-                                message.error(e.message);
-                                break;
-                            default:
-                                message.error("Create course fail")
-                        }
-                    })
-                }
             }
         });
     };
@@ -142,6 +129,7 @@ class NewCourseForm extends React.Component {
 
     render() {
         const {getFieldDecorator, getFieldValue} = this.props.form;
+        const {data} = this.props;
         const formItemLayout = {
             labelCol: {
                 xs: {span: 24},
@@ -159,7 +147,6 @@ class NewCourseForm extends React.Component {
                 sm: {span: 20, offset: 6},
             },
         };
-
         getFieldDecorator('keys', {initialValue: []});
         const keys = getFieldValue('keys');
         const formItems = keys.map((k) => (
@@ -184,10 +171,11 @@ class NewCourseForm extends React.Component {
 
         return (
             <Form {...formItemLayout}>
-                <h3>General Setting</h3>
+                <h4>General Setting</h4>
                 <Divider style={{margin: '12px 0 24px'}}/>
                 <Form.Item label={"Course full name"}>
                     {getFieldDecorator('name', {
+                        initialValue: data.name,
                         rules: [{required: true, message: 'Please input new course name'}]
                     })(
                         <Input/>
@@ -201,6 +189,7 @@ class NewCourseForm extends React.Component {
                     </Tooltip>
                     </span>}>
                     {getFieldDecorator('slug', {
+                        initialValue: data.slug,
                         rules: [{required: true, message: 'Please input course slug.'}]
                     })(
                         <Input/>
@@ -219,7 +208,7 @@ class NewCourseForm extends React.Component {
                 <Form.Item label="Course Type">
                     {getFieldDecorator('type', {
                         rules: [],
-                        initialValue: 'online'
+                        initialValue: data.type
                     })(<Select style={{width: '50%'}}>
                         <Option value="offline">Offline</Option>
                         <Option value="online">Online</Option>
@@ -227,16 +216,20 @@ class NewCourseForm extends React.Component {
                 </Form.Item>
 
                 <Form.Item label="Price">
-                    {getFieldDecorator('price', {initialValue: 0})(<InputNumber/>)}
+                    {getFieldDecorator('price', {
+                        initialValue: data.priceResult.price.amount
+                    })(<InputNumber/>)}
                 </Form.Item>
                 <Form.Item label="List Price">
-                    {getFieldDecorator('listPrice', {initialValue: 0})(<InputNumber/>)}
+                    {getFieldDecorator('listPrice', {
+                        initialValue: data.priceResult.listPrice.amount
+                    })(<InputNumber/>)}
                 </Form.Item>
 
                 <Form.Item label="Visibility">
                     {getFieldDecorator('visibility', {
                         rules: [],
-                        initialValue: 'invisible'
+                        initialValue: data.visibility
                     })(
                         <Radio.Group>
                             <Radio value={'visible'}>
@@ -265,11 +258,12 @@ class NewCourseForm extends React.Component {
                     )}
                 </Form.Item>
 
-                <h3>Course Descriptions</h3>
+                <h4>Course Descriptions</h4>
                 <Divider style={{margin: '12px 0 24px'}}/>
 
                 <Form.Item label={"Course description"}>
                     {getFieldDecorator('description', {
+                        initialValue: data.description,
                         rules: [{required: true, message: "Please input course description"}]
                     })(
                         <TextArea style={{height: '100px'}}/>
@@ -278,20 +272,10 @@ class NewCourseForm extends React.Component {
 
                 <Form.Item label={"Course requirements"}>
                     {getFieldDecorator('requirements', {
+                        initialValue: data.requirements,
                         rules: [{required: true, message: "Please input course requirement"}]
                     })(
                         <TextArea style={{height: '75px'}}/>
-                    )}
-                </Form.Item>
-
-                <Form.Item label={"Course image"} extra={"Only image file type accepted: JPEG, JPG"}>
-                    {getFieldDecorator('banner', {})(
-                        <Dragger>
-                            <p className="ant-upload-drag-icon">
-                                <Icon type="inbox"/>
-                            </p>
-                            <p className="ant-upload-text">Click or drag file to this area to upload</p>
-                        </Dragger>,
                     )}
                 </Form.Item>
 
@@ -299,6 +283,8 @@ class NewCourseForm extends React.Component {
                     {getFieldDecorator(`learningOutcomes[${0}]`, {})(
                         <Input placeholder={"learning outcome"}/>)}
                 </Form.Item>
+
+{/*// TODO: Display learning outcome to front-end*/}
 
                 {formItems}
                 <Form.Item {...formItemLayoutWithOutLabel}>
@@ -309,7 +295,7 @@ class NewCourseForm extends React.Component {
 
                 <Form.Item {...formItemLayoutWithOutLabel}>
                     <Button type="primary" onClick={this.handleSubmit}>
-                        Create course
+                        Update course
                     </Button>
                     <Button style={{marginLeft: '10px'}}>Cancel</Button>
                 </Form.Item>
@@ -318,5 +304,5 @@ class NewCourseForm extends React.Component {
     }
 }
 
-const WrappedNewCourseForm = Form.create({name: 'new-course'})(NewCourseForm);
-export default withRouter(WrappedNewCourseForm);
+const CourseSettings = Form.create({name: 'course_setting'})(CourseSettingsBasic);
+export default CourseSettings;

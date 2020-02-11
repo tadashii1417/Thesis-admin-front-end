@@ -33,7 +33,7 @@ export default function (props) {
             <AdminLayout>
                 <AdminRoute isAuthenticated={isAuthenticated} path="/" component={Dashboard} exact/>
                 <AdminRoute isAuthenticated={isAuthenticated} path="/courses" component={Courses} exact/>
-                <AdminRoute isAuthenticated={isAuthenticated} path="/course-detail" component={CourseDetail} exact/>
+                <AdminRoute isAuthenticated={isAuthenticated} path="/courses/:slug" component={CourseDetail} exact/>
                 <AdminRoute isAuthenticated={isAuthenticated} path="/new-course" component={NewCourse} exact/>
                 <AdminRoute isAuthenticated={isAuthenticated} path="/course/edit/announcement" component={Announcement}
                             exact/>

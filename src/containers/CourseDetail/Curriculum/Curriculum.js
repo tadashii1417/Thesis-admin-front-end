@@ -4,7 +4,7 @@ import {
     sortableElement,
 } from 'react-sortable-hoc';
 import arrayMove from 'array-move';
-import {Button, Modal} from "antd";
+import {Button, Divider, Modal} from "antd";
 import NewSession from "../../../components/Curriculum/NewSession/NewSession";
 import Session from "../../../components/Curriculum/Session/Session";
 import ModuleList from "../../../components/Curriculum/ModuleList/ModuleList";
@@ -62,7 +62,7 @@ class Curriculum extends Component {
                         key: '1-1',
                         type: 'announcement',
                         title: 'This is lesson 3'
-                    },  {
+                    }, {
                         key: '1-2',
                         type: 'forum',
                         title: 'Forum chap 3'
@@ -119,7 +119,12 @@ class Curriculum extends Component {
 
     render() {
         return (
-            <div>
+            <React.Fragment>
+                <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                    <h4>Course curriculum</h4>
+                    <Button type={'primary'} icon={'save'}>Save</Button>
+                </div>
+                <Divider style={{margin: '12px 0 24px'}}/>
                 <SortableContainer
                     onSortEnd={this.onSortEnd} useDragHandle>
                     {
@@ -129,7 +134,7 @@ class Curriculum extends Component {
                     }
                 </SortableContainer>
                 <Button icon="plus" type={"primary"} style={{float: "right", margin: "10px"}}
-                        onClick={this.showNewSessionModal}>New
+                        onClick={this.showNewSessionModal}>New session
                 </Button>
                 <Modal title={"Create New Session"}
                        visible={this.state.newSession}
@@ -137,7 +142,7 @@ class Curriculum extends Component {
                        onCancel={this.handleCancelNewSession}>
                     <NewSession/>
                 </Modal>
-            </div>
+            </React.Fragment>
         );
     }
 }

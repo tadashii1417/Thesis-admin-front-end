@@ -1,80 +1,144 @@
 import React, {Component} from "react";
-import {Card, Input, Form, Upload, Button, Tabs, Icon, Typography, Divider, Breadcrumb} from 'antd';
+import {
+    Card,
+    Input,
+    Upload,
+    Button,
+    Tabs,
+    Icon,
+    Breadcrumb,
+    message,
+    Spin,
+    Result, Divider, Form, Avatar
+} from 'antd';
 import styles from './CourseDetail.module.css';
-import Curriculum from "./CurriculumCreation/Curriculum";
-import GeneralSetting from "../../components/CourseSettings/GeneralSetting";
+import Curriculum from "./Curriculum/Curriculum";
 import {Link} from "react-router-dom";
+import {httpErrorHandler} from "../../utils/axios_util";
+import axios from '../../axios-config';
+import CourseSettings from "../../components/CourseSettings/CourseSettings";
+import './CourseDetail.css';
 
-const {TextArea} = Input;
 const {TabPane} = Tabs;
-const {Title} = Typography;
 
 export default class extends Component {
+    state = {
+        data: null,
+        loading: true
+    };
+
+    async componentDidMount() {
+        const {slug} = this.props.match.params;
+        try {
+            const {data} = await axios.get('/api/courses/' + slug);
+            console.log(data);
+            this.setState({data: data, loading: false})
+        } catch (e) {
+            httpErrorHandler(e, () => {
+                switch (e.code) {
+                    default:
+                        message.error("Something went wrong");
+                }
+            })
+        }
+    }
+
     render() {
+        const {data, loading} = this.state;
+        if (loading) {
+            return <Spin/>
+        }
         return (
-            <div className={"adminContent"}>
-                {/*<Breadcrumb>*/}
-                {/*    <Breadcrumb.Item>*/}
-                {/*        <Link to={"/courses"}>Courses</Link>*/}
-                {/*    </Breadcrumb.Item>*/}
-                {/*    <Breadcrumb.Item>New course</Breadcrumb.Item>*/}
-                {/*</Breadcrumb>*/}
-                <Title level={4}>Course Setting</Title>
-                <Divider/>
-                <Tabs defaultActiveKey="1" tabPosition={"left"}>
-                    <TabPane
-                        tab={<span><Icon type="home" theme={"twoTone"}/>Basic Information</span>}
-                        key="1">
-                        <Form>
-                            <Form.Item label="Course Title" style={{padding: 0, marginBottom: "10px"}} required>
-                                <Input/>
-                            </Form.Item>
-                            <Form.Item label="Description" style={{padding: 0, marginBottom: "10px"}} required>
-                                <TextArea style={{height: "80px"}}/>
-                            </Form.Item>
-                            <Form.Item label="Learning Outcome" style={{padding: 0, marginBottom: "10px"}} required>
-                                <TextArea style={{height: "80px"}}/>
-                            </Form.Item>
-                            <Form.Item label="Requirements" style={{padding: 0, marginBottom: "10px"}}
-                                       required>
-                                <TextArea style={{height: "80px"}}/>
-                            </Form.Item>
-                        </Form>
-                    </TabPane>
+            <React.Fragment>
+                <div className={styles.headerContainer}>
+                    <div className={styles.header}>
+                        <Breadcrumb>
+                            <Breadcrumb.Item>
+                                <Link to={"/courses"}>Courses</Link>
+                            </Breadcrumb.Item>
+                            <Breadcrumb.Item>{data.name}</Breadcrumb.Item>
+                        </Breadcrumb>
+                        <div className={styles.heading}>
+                            {data.name}
+                        </div>
+                        <div className={styles.description}>
+                            {data.description}
+                        </div>
+                    </div>
+                    <div className={styles.headerImage}>
+                        {data.banner ?
+                            <Avatar shape={"square"} size={120} src={data.banner.origin}/> :
+                            <Avatar shape="square" size={120} icon={"file-image"}/>
+                        }
+                    </div>
 
-                    <TabPane
-                        tab={<span><Icon type="setting" theme={"twoTone"}/>General Settings</span>}
-                        key="2">
-                        <GeneralSetting/>
-                    </TabPane>
+                </div>
+                <div className={"adminContent"} style={{paddingLeft: '10px'}}>
+                    <Tabs defaultActiveKey="1" tabPosition={"left"}>
+                        <TabPane
+                            tab={<span>
+                                <Icon type="home" theme={"twoTone"}
+                                      style={{marginRight: '10px'}}/>Basic Information
+                            </span>}
+                            key="1">
+                            <CourseSettings data={data}/>
+                        </TabPane>
 
-                    <TabPane
-                        tab={<span><Icon type="database" theme={"twoTone"}/>Course Curriculum</span>}
-                        key="3">
-                        <Curriculum/>
-                    </TabPane>
+                        <TabPane
+                            tab={<span>
+                                <Icon type="database" theme={"twoTone"} style={{marginRight: '10px'}}/>Course Curriculum</span>}
+                            key="3">
 
-                    <TabPane
-                        tab={<span><Icon type="picture" theme={"twoTone"}/>Course Banner</span>}
-                        key="4">
-                        <img className={styles.imgBanner} alt="example"
-                             src="https://cdn7.allevents.in/banners/cc3b0720-e965-11e9-8061-8f22b3fe5a8a-rimg-w1200-h600-gmir.jpg?v=1570495904"/>
-                    </TabPane>
+                            <Curriculum/>
+                        </TabPane>
 
-                    <TabPane
-                        tab={<span><Icon type="sound" theme={"twoTone"}/>Promotional Video</span>}
-                        key="5">
-                        <Card size="small"
-                              actions={[<Upload><Button type="primary">Save</Button></Upload>]}
-                              cover={<iframe title="promotional video"
-                                             src="https://www.youtube.com/embed/9oViNcxFF5g" width="560"
-                                             height="349"/>}>
+                        <TabPane
+                            tab={<span>
+                                <Icon type="picture" theme={"twoTone"} style={{marginRight: '10px'}}/>Course Banner Image</span>}
+                            key="4">
+                            <h4>Course banner image</h4>
+                            {data.banner ?
+                                (
+                                    <img className={styles.imgBanner} alt="example"
+                                         src={data.banner.origin}/>
+                                ) :
+                                (
+                                    <Result
+                                        status="404"
+                                        title="404"
+                                        subTitle="No banner found."
+                                    />
+                                )}
+                        </TabPane>
+
+                        <TabPane
+                            tab={<span>
+                                <Icon type="sound" theme={"twoTone"}
+                                      style={{marginRight: '10px'}}/>Promotional Video</span>}
+                            key="5">
                             <h4>Promotional video</h4>
+                            {data.promoVideoUrl ?
+                                (
+                                    <Card size="small"
+                                          actions={[<Upload><Button type="primary">Save</Button></Upload>]}
+                                          cover={<iframe title="promotional video"
+                                                         src={data.promoVideoUrl} width="560"
+                                                         height="349"/>}>
+                                    </Card>
+                                ) :
+                                (
+                                    <Result
+                                        status="404"
+                                        title="404"
+                                        subTitle="No promotional video found."
+                                    />
+                                )}
                             <Input placeholder="new video url"/>
-                        </Card>
-                    </TabPane>
+                        </TabPane>
 
-                </Tabs>
-            </div>);
+                    </Tabs>
+                </div>
+            </React.Fragment>
+        );
     }
 }

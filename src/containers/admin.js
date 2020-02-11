@@ -15,6 +15,22 @@ class Admin extends Component {
         });
     };
 
+    updateDimensions = () => {
+        if (window.innerWidth < (window.screen.availWidth * 2 / 3)) {
+            this.setState({collapsed: true});
+        } else {
+            this.setState({collapsed: false});
+        }
+    };
+
+    componentDidMount() {
+        window.addEventListener('resize', this.updateDimensions);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.updateDimensions);
+    }
+
     render() {
         return (
             <Layout style={{height: "100vh"}}>

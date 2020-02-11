@@ -5,13 +5,14 @@
 .collapseHead{
     min-height: 36px;
     padding: 12px 15px;
-    font-size: 14px;
     color: rgba(0, 0, 0, 0.85);
     font-weight: 500;
     border-bottom: 1px solid #e8e8e8;
     border-radius: 2px 2px 0 0;
     zoom: 1;
     background-color: #fafafa;
+    cursor: pointer;
+    /*background-color: rgba(230, 247, 255, 0.47);*/
 }
 
 .collapseHead > div {

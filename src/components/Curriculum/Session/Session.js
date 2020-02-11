@@ -1,13 +1,14 @@
 import React, {Component} from "react";
 import Collapsible from "react-collapsible";
-import {Button, Divider, Icon, Modal} from "antd";
+import {Button, Divider, Icon, Modal, Tag} from "antd";
 import styles from './Session.module.css';
 import {
     sortableHandle,
 } from 'react-sortable-hoc';
 import AddActivity from "../AddActivity/AddActivity";
 
-const DragHandle = sortableHandle(() => <span style={{marginRight: '15px'}}><Icon type={'menu'}/></span>);
+const DragHandle = sortableHandle(() => <span style={{marginRight: '15px'}}><Icon type={'menu'}
+                                                                                  style={{color: '#1890ff'}}/></span>);
 
 class Session extends Component {
     state = {
@@ -25,7 +26,7 @@ class Session extends Component {
             <Collapsible trigger={
                 <div className={styles.collapseHead}>
                     <DragHandle/>
-                    Section {sessions.findIndex(ele => ele.title === value)} : {value}
+                    <h4 style={{display: 'inline-block'}}>Section {sessions.findIndex(ele => ele.title === value)} : {value}</h4>
                     <div>
                         <Icon type={"edit"} theme="twoTone" onClick={(e) => {
                             alert("deleted !");
@@ -38,11 +39,13 @@ class Session extends Component {
                         }}/>
                     </div>
                 </div>
-            } open>
+            }>
                 {children}
-                <Button type={"link"} icon={"plus"} onClick={() => {
-                    this.setState({isAddActivity: true})
-                }} style={{float: "right", margin:"5px"}}>Add an activity</Button>
+                <div style={{display: "flex", justifyContent: "flex-end"}}>
+                    <Button type={"link"} icon={"plus"} onClick={() => {
+                        this.setState({isAddActivity: true})
+                    }}>Add an activity</Button>
+                </div>
 
                 <Modal title={"Add new activity"}
                        visible={this.state.isAddActivity}

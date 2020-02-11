@@ -9,7 +9,6 @@ import axios from '../../axios-config';
 const {Title} = Typography;
 const {Search} = Input;
 
-const base = 'http://localhost:5000';
 const columns = [
     {
         title: "Banner",
@@ -17,7 +16,7 @@ const columns = [
         key: "banner",
         render: (src) => {
             if (src) {
-                return <Avatar shape="square" size={64} src={base + src.origin}/>
+                return <Avatar shape="square" size={64} src={src['220x135']}/>
             } else {
                 return <Avatar shape="square" size={64} icon={"file-image"}/>
             }
@@ -27,7 +26,7 @@ const columns = [
         title: "Name",
         dataIndex: "name",
         key: "name",
-        render: text => <Link to={'/course-detail'}>{text}</Link>
+        render: (text, row) => <Link to={'/courses/' + row.slug}>{text}</Link>
     },
     {
         title: "Type",
@@ -56,38 +55,6 @@ const columns = [
         )
     }
 ];
-const data = [
-    {
-        id: "1",
-        name: "Learn HTML, CSS from Scratch",
-        type: "Online",
-        instructors: [],
-        visibility: "Visible",
-        priceResult: {
-            price: {
-                amount: 0,
-                currency: "VND"
-            }
-        },
-        banner: {
-            "220x135": "/images/6c284004-1b0a-4be9-b523-0019967b568e-220x135.jpeg",
-            "origin": "/images/6c284004-1b0a-4be9-b523-0019967b568e.jpeg"
-        },
-    },
-    {
-        id: "2",
-        name: "Learn HTML, CSS from Scratch 2",
-        type: "Online",
-        instructors: ["Teacher 1"],
-        visibility: "Visible",
-        priceResult: {
-            price: {
-                amount: 100000,
-                currency: "VND"
-            }
-        }
-    }
-];
 
 export default class extends Component {
     state = {
@@ -103,7 +70,7 @@ export default class extends Component {
     async fetchCourses(params = {}) {
         this.setState({loading: true});
         try {
-            const {data} = await axios.get('/api/courses?page='+params.page);
+            const {data} = await axios.get('/api/courses?page=' + params.page);
             const pagination = {...this.state.pagination};
             pagination.total = data.totalPageCount * 10;
             this.setState({
@@ -115,7 +82,8 @@ export default class extends Component {
             httpErrorHandler(e, () => {
                 switch (e.code) {
                     default:
-                        message.error("Something went wrong")
+                        message.info("No course found !")
+                        this.setState({loading: false, data: []})
                 }
             })
         }
@@ -157,6 +125,7 @@ export default class extends Component {
                     pagination={this.state.pagination}
                     loading={this.state.loading}
                     onChange={this.handleTableChange}
+                    style={{background: '#fff'}}
                 />
             </div>
         );
