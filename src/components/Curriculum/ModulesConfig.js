@@ -1,4 +1,4 @@
-import * as ModuleType from '../../constants/course_constant';
+import ModuleType from '../../constants/module_constant';
 import {book} from 'react-icons-kit/icomoon/book';
 import {fileText2} from 'react-icons-kit/icomoon/fileText2';
 import {folderOpen} from 'react-icons-kit/icomoon/folderOpen';
@@ -7,7 +7,7 @@ import {enter} from 'react-icons-kit/icomoon/enter';
 import {addressBook} from 'react-icons-kit/icomoon/addressBook';
 import {alarm} from 'react-icons-kit/icomoon/alarm';
 
-const activities = [
+const ModulesConfig = [
     {
         type: ModuleType.VIDEO,
         icon: book,
@@ -21,7 +21,7 @@ const activities = [
         title: "Quiz"
     },
     {
-        type: ModuleType.CONTENT,
+        type: ModuleType.ARTICLE,
         icon: fileText2,
         color: "#d73435",
         title: "Article"
@@ -52,4 +52,4 @@ const activities = [
     }
 ];
 
-export default activities;
+export default ModulesConfig;

@@ -1,16 +1,19 @@
 import React, {Component} from "react";
 import Collapsible from "react-collapsible";
 import {Button, Divider, Icon, Modal, Tag} from "antd";
-import styles from './Session.module.css';
+import styles from './Sections.module.css';
 import {
     sortableHandle,
 } from 'react-sortable-hoc';
 import AddActivity from "../AddActivity/AddActivity";
 
-const DragHandle = sortableHandle(() => <span style={{marginRight: '15px'}}><Icon type={'menu'}
-                                                                                  style={{color: '#1890ff'}}/></span>);
+const DragHandle = sortableHandle(() =>
+    <span style={{marginRight: '15px'}}>
+        <Icon type={'menu'} style={{color: '#1890ff'}}/>
+    </span>
+);
 
-class Session extends Component {
+class Sections extends Component {
     state = {
         isAddActivity: false
     };
@@ -28,15 +31,19 @@ class Session extends Component {
                     <DragHandle/>
                     <h4 style={{display: 'inline-block'}}>Section {sessions.findIndex(ele => ele.title === value)} : {value}</h4>
                     <div>
-                        <Icon type={"edit"} theme="twoTone" onClick={(e) => {
-                            alert("deleted !");
-                            e.stopPropagation();
-                        }}/>
+                        <Button>
+                            <Icon type={"edit"} theme="twoTone" onClick={(e) => {
+                                alert("deleted !");
+                                e.stopPropagation();
+                            }}/>
+                        </Button>
                         <Divider type="vertical"/>
-                        <Icon type={"delete"} theme="twoTone" twoToneColor="#eb2f96" onClick={(e) => {
-                            alert("deleted !");
-                            e.stopPropagation();
-                        }}/>
+                        <Button>
+                            <Icon type={"delete"} theme="twoTone" twoToneColor="#eb2f96" onClick={(e) => {
+                                alert("deleted !");
+                                e.stopPropagation();
+                            }}/>
+                        </Button>
                     </div>
                 </div>
             }>
@@ -60,4 +67,4 @@ class Session extends Component {
     }
 }
 
-export default Session;
+export default Sections;

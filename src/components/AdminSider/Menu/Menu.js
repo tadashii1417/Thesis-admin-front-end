@@ -38,7 +38,7 @@ const loadMenu = menuConfig.map(menuItem => {
 });
 
 const menu = props => (
-    <Menu theme="dark" mode="inline" className={styles.menu} defaultOpenKeys={'doodle'}>
+    <Menu theme="dark" mode="inline" className={styles.menu}>
         {loadMenu}
     </Menu>
 );

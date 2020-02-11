@@ -1,6 +1,6 @@
 import React from "react";
 import {Icon} from 'react-icons-kit';
-import Activities from '../DefaultActivity';
+import Activities from '../ModulesConfig';
 import styles from './AddActivity.module.css';
 
 export default function (props) {

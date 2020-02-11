@@ -89,7 +89,7 @@ export default class extends Component {
                                 <Icon type="database" theme={"twoTone"} style={{marginRight: '10px'}}/>Course Curriculum</span>}
                             key="3">
 
-                            <Curriculum/>
+                            <Curriculum courseData={data}/>
                         </TabPane>
 
                         <TabPane
