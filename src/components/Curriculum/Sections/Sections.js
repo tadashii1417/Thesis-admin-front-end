@@ -1,11 +1,14 @@
 import React, {Component} from "react";
 import Collapsible from "react-collapsible";
-import {Button, Divider, Icon, Modal, Tag} from "antd";
+import {Button, Divider, Icon, Modal, message} from "antd";
 import styles from './Sections.module.css';
 import {
     sortableHandle,
 } from 'react-sortable-hoc';
-import AddActivity from "../AddActivity/AddActivity";
+import AddActivity from "../AddModule/AddModule";
+import ModuleList from "../ModuleList/ModuleList";
+import {httpErrorHandler} from "../../../utils/axios_util";
+import axios from '../../../axios-config';
 
 const DragHandle = sortableHandle(() =>
     <span style={{marginRight: '15px'}}>
@@ -15,21 +18,41 @@ const DragHandle = sortableHandle(() =>
 
 class Sections extends Component {
     state = {
-        isAddActivity: false
+        isAddModule: false
     };
 
-    handleOkNewActivity = () => {
-        this.setState({isAddActivity: false});
+    handleCancel = () => {
+        this.setState({isAddModule: false});
+    };
+
+    handleOK = () => {
+        this.setState({isAddModule: true})
+    };
+
+    handleNewModule = async (values) => {
+        try {
+            const {id} = this.props.value;
+            const {data} = await axios.post('/api/sections/' + id + '/modules', values);
+            this.props.value.modules.push(data);
+            message.success("New module has been created");
+            this.setState({isAddModule: false});
+        } catch (e) {
+            httpErrorHandler(e, () => {
+                switch (e.code) {
+                    default:
+                        message.error("Something went wrong");
+                }
+            })
+        }
     };
 
     render() {
-        const {sessions, value, children} = this.props;
-
+        const {sections, value} = this.props;
         return (
             <Collapsible trigger={
                 <div className={styles.collapseHead}>
-                    <DragHandle/>
-                    <h4 style={{display: 'inline-block'}}>Section {sessions.findIndex(ele => ele.title === value)} : {value}</h4>
+                    {value.order !== null ? <DragHandle/> : ""}
+                    <h4 style={{display: 'inline-block'}}>Section {sections.findIndex(ele => ele.id === value.id)} : {value.title}</h4>
                     <div>
                         <Button>
                             <Icon type={"edit"} theme="twoTone" onClick={(e) => {
@@ -47,20 +70,23 @@ class Sections extends Component {
                     </div>
                 </div>
             }>
-                {children}
+
+                <ModuleList modules={value.modules}/>
+
                 <div style={{display: "flex", justifyContent: "flex-end"}}>
-                    <Button type={"link"} icon={"plus"} onClick={() => {
-                        this.setState({isAddActivity: true})
-                    }}>Add an activity</Button>
+                    <Button type={"link"} icon={"plus"}
+                            onClick={this.handleOK}
+                            style={{border: '1px solid', margin: '10px'}}>
+                        Add new module
+                    </Button>
                 </div>
 
-                <Modal title={"Add new activity"}
-                       visible={this.state.isAddActivity}
-                       onOk={this.handleOkNewActivity}
-                       onCancel={this.handleOkNewActivity}
+                <Modal title={"Add New Module"}
+                       visible={this.state.isAddModule}
+                       onCancel={this.handleCancel}
                        bodyStyle={{padding: "12px 24px"}}
-                >
-                    <AddActivity name={value}/>
+                       footer={null}>
+                    <AddActivity handleNewModule={this.handleNewModule}/>
                 </Modal>
             </Collapsible>
         );

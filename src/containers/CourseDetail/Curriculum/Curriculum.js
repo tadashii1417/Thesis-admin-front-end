@@ -4,7 +4,7 @@ import arrayMove from 'array-move';
 import axios from '../../../axios-config';
 import {Button, Divider, message, Modal, Spin} from "antd";
 import NewSession from "../../../components/Curriculum/NewSection/NewSection";
-import Session from "../../../components/Curriculum/Sections/Sections";
+import Section from "../../../components/Curriculum/Sections/Sections";
 import ModuleList from "../../../components/Curriculum/ModuleList/ModuleList";
 import {httpErrorHandler} from "../../../utils/axios_util";
 
@@ -43,9 +43,7 @@ class Curriculum extends Component {
     };
 
     SortableItem = sortableElement(({value}) => (
-        <Session sessions={this.state.sectionList} value={value.title}>
-            <ModuleList modules={value.modules}/>
-        </Session>
+        <Section sections={this.state.sectionList} value={value}/>
     ));
 
     handleSubmitNewSession = async (value) => {

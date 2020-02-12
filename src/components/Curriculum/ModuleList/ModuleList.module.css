@@ -5,6 +5,10 @@
     /*line-height: 18px;*/
 }
 
+.moduleContainer:empty{
+    border: none;
+}
+
 .moduleContainer > div:nth-child(even) {
     background-color: lightcyan;
 }

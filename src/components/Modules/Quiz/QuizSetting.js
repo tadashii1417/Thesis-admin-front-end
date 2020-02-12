@@ -7,6 +7,7 @@ const {TextArea} = Input;
 export default function (props) {
     return (
         <div className="adminContent">
+
             <Title level={4}>New Quiz Setting !</Title>
             <Divider/>
             <Form labelCol={{span: 5}} wrapperCol={{span: 15}}>

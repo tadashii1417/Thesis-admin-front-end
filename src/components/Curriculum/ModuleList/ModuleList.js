@@ -57,7 +57,7 @@ const SortableItem = sortableElement(({value}) => (
                             size={16}
                             style={{color: ele.color, marginRight: "20px"}}
                         />
-                        <Link to={"course/" + value.type} style={{color: "#101ee6"}}>
+                        <Link to={"/course/" + value.type} style={{color: "#101ee6"}}>
                             {value.title}
                         </Link>
 

@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Divider, Typography} from "antd";
+import {Breadcrumb, Button, Divider, Typography} from "antd";
 import styles from './Quiz.module.css';
 import {Link} from "react-router-dom";
 
@@ -7,6 +7,13 @@ const {Title} = Typography;
 export default function (props) {
     return (
         <div className="adminContent">
+            <Breadcrumb>
+                <Breadcrumb.Item>
+                    <Link to={"/courses"}>Courses</Link>
+                </Breadcrumb.Item>
+                <Breadcrumb.Item>{"HTLML CSS COURSE"}</Breadcrumb.Item>
+                <Breadcrumb.Item>{"First test"}</Breadcrumb.Item>
+            </Breadcrumb>
             <Title level={4}>Quiz Entrance</Title>
             <Button type={"primary"} icon={"setting"} className="iconEdit">Edit Setting</Button>
             <Divider/>
