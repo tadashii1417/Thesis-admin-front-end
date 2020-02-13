@@ -44,7 +44,7 @@ const DragHandle = sortableHandle(() => (
   </span>
 ));
 
-const SortableItem = sortableElement(({value}) => (
+const SortableItem = sortableElement(({value, course}) => (
     <div className={styles.module}>
         <DragHandle/>
         {ModulesConfig.map(ele => {
@@ -55,9 +55,12 @@ const SortableItem = sortableElement(({value}) => (
                             key={ele.icon}
                             icon={ele.icon}
                             size={16}
-                            style={{color: ele.color, marginRight: "20px"}}
-                        />
-                        <Link to={"/course/" + value.type} style={{color: "#101ee6"}}>
+                            style={{color: ele.color, marginRight: "20px"}}/>
+
+                        <Link to={{
+                            pathname: "/courses/" + course.slug + '/' + value.id,
+                            search: "?course="+ course.name
+                        }}>
                             {value.title}
                         </Link>
 
@@ -93,7 +96,6 @@ const SortableContainer = sortableContainer(({children}) => {
 
 export default class extends Component {
     state = {items: this.props.modules};
-
     onSortEnd = ({oldIndex, newIndex}) => {
         this.setState(({items}) => ({
             items: arrayMove(items, oldIndex, newIndex)
@@ -101,6 +103,7 @@ export default class extends Component {
     };
 
     render() {
+        const {course} = this.props;
         return (
             <SortableContainer onSortEnd={this.onSortEnd} useDragHandle>
                 {this.state.items.map((value, index) => (
@@ -108,6 +111,7 @@ export default class extends Component {
                         key={`item-${value.id}`}
                         index={index}
                         value={value}
+                        course={course}
                     />
                 ))}
             </SortableContainer>

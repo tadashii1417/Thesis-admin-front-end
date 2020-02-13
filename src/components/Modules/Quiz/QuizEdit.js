@@ -116,10 +116,7 @@ export default class extends Component {
 
     render() {
         return (
-            <div className="adminContent">
-                <Title level={4}>Editing Quiz Question</Title>
-                <Button type={"primary"} icon={"plus"} className="iconEdit" onClick={this.addQuestionHandler}>Add</Button>
-                <Divider/>
+            <div>
                 {
                     this.state.questions.length ? "" : <Result
                         status="404"

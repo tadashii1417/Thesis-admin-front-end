@@ -13,12 +13,58 @@
     margin-top: 10px;
 }
 
-.quizInfo > * {
-    text-align: center;
-    margin-top: 10px;
-    margin-bottom: 20px;
+.quizInfo{
+    display: flex;
+    width: 100%;
 }
 
-.introduction {
+.fields {
+    flex: 50%;
+    font-weight: bold;
+}
 
+.fields > div {
+    width: 100%;
+    text-align: right;
+    padding: 7px 10px;
+}
+
+.values {
+    flex: 50%;
+}
+
+.values > div {
+    width: 100%;
+    text-align: left;
+    padding: 7px 10px;
+
+}
+
+.header {
+    background-color: #fff;
+    padding: 12px 24px 16px 24px;
+    color: rgba(0, 0, 0, .65);
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.heading {
+    margin-top: 8px;
+    width: 100%;
+    overflow: hidden;
+    color: rgba(0, 0, 0, .85);
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 32px;
+    /*color: #f98012;*/
+}
+
+.description {
+    padding-top: 12px;
+}
+
+.settingButton{
+    width: 100%;
+    text-align: center;
+    margin: 20px;
 }

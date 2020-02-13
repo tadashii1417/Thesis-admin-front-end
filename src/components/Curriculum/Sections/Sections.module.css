@@ -3,6 +3,7 @@
 }
 
 .collapseHead{
+    overflow: hidden;
     min-height: 36px;
     padding: 12px 15px;
     color: rgba(0, 0, 0, 0.85);

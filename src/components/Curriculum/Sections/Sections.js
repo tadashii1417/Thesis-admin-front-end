@@ -8,7 +8,10 @@ import {
 import AddActivity from "../AddModule/AddModule";
 import ModuleList from "../ModuleList/ModuleList";
 import {httpErrorHandler} from "../../../utils/axios_util";
-import axios from '../../../axios-config';
+import {createNewModule} from "../../../services/module_service";
+import {createNewQuiz} from "../../../services/quiz_service";
+import ModuleType from '../../../constants/module_constant';
+
 
 const DragHandle = sortableHandle(() =>
     <span style={{marginRight: '15px'}}>
@@ -32,8 +35,15 @@ class Sections extends Component {
     handleNewModule = async (values) => {
         try {
             const {id} = this.props.value;
-            const {data} = await axios.post('/api/sections/' + id + '/modules', values);
+            const {modules} = this.props.value;
+
+            const {data} = await createNewModule(values, modules, id);
+            if (data.type === ModuleType.QUIZ){
+                const {quiz} = await createNewQuiz(data.id);
+            }
+
             this.props.value.modules.push(data);
+
             message.success("New module has been created");
             this.setState({isAddModule: false});
         } catch (e) {
@@ -47,7 +57,7 @@ class Sections extends Component {
     };
 
     render() {
-        const {sections, value} = this.props;
+        const {course, sections, value} = this.props;
         return (
             <Collapsible trigger={
                 <div className={styles.collapseHead}>
@@ -71,7 +81,7 @@ class Sections extends Component {
                 </div>
             }>
 
-                <ModuleList modules={value.modules}/>
+                <ModuleList course={course} modules={value.modules}/>
 
                 <div style={{display: "flex", justifyContent: "flex-end"}}>
                     <Button type={"link"} icon={"plus"}

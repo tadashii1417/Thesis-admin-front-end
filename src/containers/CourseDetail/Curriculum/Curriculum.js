@@ -5,7 +5,6 @@ import axios from '../../../axios-config';
 import {Button, Divider, message, Modal, Spin} from "antd";
 import NewSession from "../../../components/Curriculum/NewSection/NewSection";
 import Section from "../../../components/Curriculum/Sections/Sections";
-import ModuleList from "../../../components/Curriculum/ModuleList/ModuleList";
 import {httpErrorHandler} from "../../../utils/axios_util";
 
 const SortableContainer = sortableContainer(({children}) => {
@@ -43,10 +42,10 @@ class Curriculum extends Component {
     };
 
     SortableItem = sortableElement(({value}) => (
-        <Section sections={this.state.sectionList} value={value}/>
+        <Section course={this.props.courseData} sections={this.state.sectionList} value={value}/>
     ));
 
-    handleSubmitNewSession = async (value) => {
+    handleSubmitNewSection = async (value) => {
         const newSectionList = [...this.state.sectionList];
         const {courseData} = this.props;
         try {
@@ -110,7 +109,7 @@ class Curriculum extends Component {
                        visible={this.state.openModal}
                        onCancel={this.handleCancelNewSession}
                        footer={null}>
-                    <NewSession handleSectionChange={this.handleSubmitNewSession}/>
+                    <NewSession handleSectionChange={this.handleSubmitNewSection}/>
                 </Modal>
 
             </React.Fragment>
