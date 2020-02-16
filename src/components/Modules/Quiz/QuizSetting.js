@@ -1,19 +1,33 @@
 import React from "react";
-import {Button, DatePicker, Form, Input, InputNumber, Radio, Slider, TimePicker} from "antd";
+import {Button, DatePicker, Form, Icon, Input, InputNumber, Radio, Slider, Spin, Tooltip, message, Row} from "antd";
 import {GradingPolicy} from "../../../constants/quiz_constant";
+import {createPatch} from "../../../utils/patch_util";
+import {httpErrorHandler} from "../../../utils/axios_util";
+import moment from "moment";
+import config from "../../../config";
 
 class QuizSettingBasic extends React.Component {
     handleSubmit = e => {
         e.preventDefault();
-        this.props.form.validateFields((err, values) => {
+        const {validateFields, isFieldTouched} = this.props.form;
+
+        const patch = [];
+
+        validateFields((err, values) => {
             if (!err) {
-                console.log(values);
-                console.log(this.props.form.isFieldsTouched(['openAt', 'closeAt']));
+                for (let key of Object.keys(values)) {
+                    if (isFieldTouched(key)) {
+                        createPatch(patch, key, values[key]);
+                    }
+                }
+                this.props.handleUpdateQuiz(patch);
             }
         });
     };
 
     render() {
+        const {data} = this.props;
+
         const formItemLayout = {
             labelCol: {
                 xs: {span: 24},
@@ -28,13 +42,17 @@ class QuizSettingBasic extends React.Component {
         return (
             <Form layout="vertical" onSubmit={this.handleSubmit} {...formItemLayout}>
                 <Form.Item label="Description">
-                    {getFieldDecorator('description', {})(
+                    {getFieldDecorator('description', {
+                        initialValue: data.description
+                    })(
                         <Input/>
                     )}
                 </Form.Item>
 
                 <Form.Item label="Module type:">
-                    {getFieldDecorator('gradingPolicy', {})(
+                    {getFieldDecorator('gradingPolicy', {
+                        initialValue: data.gradingPolicy
+                    })(
                         <Radio.Group>
                             <Radio value={GradingPolicy.ATTEMPT_AVERAGE}>Average Attempts</Radio>
                             <Radio value={GradingPolicy.LAST_ATTEMPT}>Last Attempt</Radio>
@@ -42,15 +60,18 @@ class QuizSettingBasic extends React.Component {
                     )}
                 </Form.Item>
 
-                <Form.Item label="Duration">
-                    {getFieldDecorator('duration', {})(
+                <Form.Item
+                    label={<span> Duration <Tooltip title={"Minutes"}><Icon type="info-circle"/></Tooltip> </span>}>
+                    {getFieldDecorator('duration', {
+                        initialValue: data.duration
+                    })(
                         <InputNumber/>
                     )}
                 </Form.Item>
 
                 <Form.Item label="Maximum attempts allowed">
                     {getFieldDecorator('numAttempt', {
-                        initialValue: 1
+                        initialValue: data.numAttempt
                     })(
                         <Slider min={0} max={20} step={1}/>
                     )}
@@ -58,27 +79,30 @@ class QuizSettingBasic extends React.Component {
 
                 <Form.Item label="Pass threshold">
                     {getFieldDecorator('passThreshold', {
-                        initialValue: 0.5
+                        initialValue: data.passThreshold
                     })(
                         <Slider min={0} max={1} step={0.1}/>
                     )}
                 </Form.Item>
 
                 <Form.Item label="Open at">
-                    {getFieldDecorator('openAt', {})(
-                        <DatePicker showTime placeholder="Select Time"/>
+                    {getFieldDecorator('openAt', {
+                        initialValue: data.openAt ? moment(data.openAt, config.timeFormat) : null
+                    })(
+                        <DatePicker showTime placeholder="Select Time" format={config.timeFormat}/>
                     )}
                 </Form.Item>
 
                 <Form.Item label="Close at">
-                    {getFieldDecorator('closeAt', {})(
-                        <DatePicker showTime placeholder="Select Time"/>
+                    {getFieldDecorator('closeAt', {
+                        initialValue: data.closeAt ? moment(data.closeAt, config.timeFormat) : null
+                    })(
+                        <DatePicker showTime placeholder="Select Time" format={config.timeFormat}/>
                     )}
                 </Form.Item>
-
-                <Form.Item style={{textAlign: 'center'}}>
+                <Form.Item label={"."}>
                     <Button type="primary" htmlType="submit">
-                        Edit setting
+                        Update
                     </Button>
                 </Form.Item>
             </Form>

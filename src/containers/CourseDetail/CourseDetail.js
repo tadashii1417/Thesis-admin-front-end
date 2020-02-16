@@ -9,7 +9,7 @@ import {
     Breadcrumb,
     message,
     Spin,
-    Result, Divider, Form, Avatar
+    Result, Avatar
 } from 'antd';
 import styles from './CourseDetail.module.css';
 import Curriculum from "./Curriculum/Curriculum";
@@ -31,7 +31,6 @@ export default class extends Component {
         const {slug} = this.props.match.params;
         try {
             const {data} = await axios.get('/api/courses/' + slug);
-            console.log(data);
             this.setState({data: data, loading: false})
         } catch (e) {
             httpErrorHandler(e, () => {

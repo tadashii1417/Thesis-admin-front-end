@@ -6,15 +6,11 @@ import {
     Input,
     InputNumber, Radio,
     Select,
-    Upload,
     Tooltip,
     TreeSelect
 } from "antd";
 import React from "react";
-import styles from './CourseSettings.module.css';
-
 const {TextArea} = Input;
-const {Dragger} = Upload;
 const {Option} = Select;
 const treeData = [
     {

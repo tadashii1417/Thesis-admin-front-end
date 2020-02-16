@@ -19,7 +19,7 @@ import Courses from "./containers/Courses/Courses";
 import Auth from "./containers/Auth";
 import Dashboard from "./containers/Dashboard";
 import NewCourse from "./containers/NewCourse/NewCourse";
-import TestOnly from "./containers/Test";
+// import TestOnly from "./containers/Test";
 
 export default function (props) {
     const {isAuthenticated} = props;

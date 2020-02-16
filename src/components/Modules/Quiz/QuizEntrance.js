@@ -8,8 +8,9 @@ import QuizEdit from "./QuizEdit";
 import {createNewModule, getModule} from "../../../services/module_service";
 import {httpErrorHandler} from "../../../utils/axios_util";
 import ModuleType from "../../../constants/module_constant";
-import {createNewQuiz} from "../../../services/quiz_service";
+import {createNewQuiz, updateQuizConfig} from "../../../services/quiz_service";
 import QuizSetting from "./QuizSetting";
+import {QuizDto} from "../../../dtos/quiz_dto";
 
 const {TabPane} = Tabs;
 
@@ -23,7 +24,6 @@ export default class extends Component {
     async componentDidMount() {
         try {
             const {data} = await getModule(this.props.match.params.moduleId);
-            console.log(data)
             this.setState({module: data, loading: false});
         } catch (e) {
             httpErrorHandler(e, () => {
@@ -43,20 +43,15 @@ export default class extends Component {
         this.setState({openModal: true})
     };
 
-    handleNewModule = async (values) => {
+    handleUpdateQuizConfig = async (patch) => {
         try {
-            const {id} = this.props.value;
-            const {modules} = this.props.value;
-
-            const {data} = await createNewModule(values, modules, id);
-            if (data.type === ModuleType.QUIZ) {
-                const {quiz} = await createNewQuiz(data.id);
-            }
-
-            this.props.value.modules.push(data);
-
-            message.success("New module has been created");
-            this.setState({isAddModule: false});
+            const {module} = this.state;
+            const {data} = await updateQuizConfig(module.id, patch);
+            message.success("Quiz setting has been updated");
+            this.setState({
+                module: {...this.state.module, instanceData: data},
+                openModal: false
+            });
         } catch (e) {
             httpErrorHandler(e, () => {
                 switch (e.code) {
@@ -68,13 +63,14 @@ export default class extends Component {
     };
 
     render() {
-        if (this.state.loading) {
+        const {module, loading} = this.state;
+        if (loading) {
             return <Spin/>
         }
 
         const {match, location} = this.props;
-        const {module} = this.state;
         const {instanceData} = module;
+        const quizSettingDto = QuizDto.toQuizSettingDto(instanceData);
         const query = new URLSearchParams(location.search);
 
 
@@ -116,7 +112,7 @@ export default class extends Component {
                                 <h4>Description</h4>
                                 <Divider className={styles.divider}/>
                                 <div className={styles.introduction}>
-                                    {instanceData.description}
+                                    {quizSettingDto.description}
                                 </div>
                                 <br/><br/>
                                 <h4>Quiz Information</h4>
@@ -132,13 +128,13 @@ export default class extends Component {
                                         <div>Maximum attempt allowed</div>
                                     </div>
                                     <div className={styles.values}>
-                                        <div>{instanceData.gradingPolicy}</div>
-                                        <div>{instanceData.passThreshold}</div>
-                                        <div>{instanceData.shuffleAnswer ? "False" : "True"}</div>
-                                        <div>{instanceData.duration + " "} minutes</div>
-                                        <div>{instanceData.openAt + " "}</div>
-                                        <div>{instanceData.closeAt + " "}</div>
-                                        <div>{instanceData.numAttempt + " "}</div>
+                                        <div>{quizSettingDto.gradingPolicy}</div>
+                                        <div>{quizSettingDto.passThreshold}</div>
+                                        <div>{quizSettingDto.shuffleAnswer}</div>
+                                        <div>{quizSettingDto.duration} minutes</div>
+                                        <div>{quizSettingDto.openAt}</div>
+                                        <div>{quizSettingDto.closeAt}</div>
+                                        <div>{quizSettingDto.numAttempt}</div>
                                     </div>
                                 </div>
 
@@ -162,7 +158,7 @@ export default class extends Component {
                        onCancel={this.handleCancel}
                        bodyStyle={{padding: "12px 24px"}}
                        footer={null}>
-                    <QuizSetting handleEditSetting={this.handleNewModule}/>
+                    <QuizSetting handleUpdateQuiz={this.handleUpdateQuizConfig} data={instanceData}/>
                 </Modal>
             </>
         );

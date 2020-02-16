@@ -1,5 +1,5 @@
 import React from "react";
-import {Chart, Axis, Tooltip, Geom} from 'bizcharts';
+import {Chart, Geom} from 'bizcharts';
 import styles from '../MiniChart.module.css';
 
 const data = [

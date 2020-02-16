@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Table, Tag, Badge, Avatar, message} from "antd";
+import {Table, Avatar, message} from "antd";
 import styles from './CoursesTable.module.css';
 import {Typography, Button, Divider, Input} from "antd";
 import {Link} from 'react-router-dom';
