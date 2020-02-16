@@ -1,5 +1,19 @@
 import React from "react";
-import {Button, DatePicker, Form, Icon, Input, InputNumber, Radio, Slider, Spin, Tooltip, message, Row} from "antd";
+import {
+    Button,
+    DatePicker,
+    Form,
+    Icon,
+    Input,
+    InputNumber,
+    Radio,
+    Slider,
+    Spin,
+    Tooltip,
+    message,
+    Row,
+    Checkbox
+} from "antd";
 import {GradingPolicy} from "../../../constants/quiz_constant";
 import {createPatch} from "../../../utils/patch_util";
 import {httpErrorHandler} from "../../../utils/axios_util";
@@ -27,7 +41,7 @@ class QuizSettingBasic extends React.Component {
 
     render() {
         const {data} = this.props;
-
+        console.log(data);
         const formItemLayout = {
             labelCol: {
                 xs: {span: 24},
@@ -82,6 +96,15 @@ class QuizSettingBasic extends React.Component {
                         initialValue: data.passThreshold
                     })(
                         <Slider min={0} max={1} step={0.1}/>
+                    )}
+                </Form.Item>
+
+                <Form.Item label="Shuffle answer">
+                    {getFieldDecorator('shuffleAnswer', {
+                        valuePropName: 'checked',
+                        initialValue: data.shuffleAnswer
+                    })(
+                        <Checkbox/>
                     )}
                 </Form.Item>
 

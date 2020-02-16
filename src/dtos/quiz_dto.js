@@ -1,4 +1,6 @@
 import {GradingPolicy} from "../constants/quiz_constant";
+import moment from "moment";
+import config from "../config";
 
 export class QuizDto {
     static fromGradingPolicyToText(policy) {
@@ -17,12 +19,12 @@ export class QuizDto {
 
         quizDto.description = data.description;
         quizDto.gradingPolicy = QuizDto.fromGradingPolicyToText(data.gradingPolicy);
-        quizDto.shuffleAnswer = data.shuffleAnswer ? "False" : "True";
+        quizDto.shuffleAnswer = data.shuffleAnswer ? "True" : "False";
         quizDto.duration = data.duration || ".";
         quizDto.passThreshold = data.passThreshold;
         quizDto.numAttempt = data.numAttempt || ".";
-        quizDto.openAt = data.openAt ? data.openAt : ".";
-        quizDto.closeAt = data.closeAt ? data.closeAt : ".";
+        quizDto.openAt = data.openAt ? moment(data.openAt, config.timeFormat).format('HH:mm:ss DD/MM/YYYY') : ".";
+        quizDto.closeAt = data.closeAt ? moment(data.closeAt, config.timeFormat).format('HH:mm:ss DD/MM/YYYY') : ".";
 
         return quizDto;
     }
