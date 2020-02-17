@@ -1,0 +1,11 @@
+.container {
+    border: 1px solid lightblue;
+    border-radius: 2px;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #fafafa;
+}
+
+.container .ant-form-item {
+    margin: 0;
+}

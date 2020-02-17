@@ -30,6 +30,11 @@
     justify-content: space-between;
 }
 
+.moduleTitle{
+    padding-top: 5px;
+    font-weight: 500;
+}
+
 .dragIcon {
     margin-right: 20px;
     color: #5c5c5c;

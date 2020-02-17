@@ -11,3 +11,11 @@ export async function fetchQuizConfig(moduleId) {
 export async function updateQuizConfig(moduleId, patch) {
     return axios.patch('/api/quizzes/' + moduleId, patch);
 }
+
+export async function fetchQuizQuestions(moduleId) {
+    return axios.get('/api/quizzes/' + moduleId + '/questions');
+}
+
+export async function insertQuizQuestionByHand(moduleId, body) {
+    return axios.post('/api/quizzes/' + moduleId + '/questions', body);
+}

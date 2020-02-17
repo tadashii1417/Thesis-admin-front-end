@@ -19,6 +19,8 @@ import axios from '../../axios-config';
 import CourseSettings from "../../components/CourseSettings/CourseSettings";
 import './CourseDetail.css';
 
+// TODO: Create lazy loading for tab panel
+
 const {TabPane} = Tabs;
 
 export default class extends Component {

@@ -7,6 +7,9 @@ import NewSession from "../../../components/Curriculum/NewSection/NewSection";
 import Section from "../../../components/Curriculum/Sections/Sections";
 import {httpErrorHandler} from "../../../utils/axios_util";
 
+// TODO: Lazy loading component
+// TODO: Save sort order
+
 const SortableContainer = sortableContainer(({children}) => {
     return <div>{children}</div>;
 });

@@ -1,16 +1,17 @@
-import React, {Component} from "react";
+import React, {Component, Suspense} from "react";
 import {Alert, Breadcrumb, Button, Divider, message, Modal, Spin, Tabs} from "antd";
 import styles from './Quiz.module.css';
 import {Link} from "react-router-dom";
 import {Icon} from "react-icons-kit";
 import ModulesConfig from "../../Curriculum/ModulesConfig";
-import QuizEdit from "./QuizEdit";
-import {createNewModule, getModule} from "../../../services/module_service";
+import {getModule} from "../../../services/module_service";
 import {httpErrorHandler} from "../../../utils/axios_util";
-import ModuleType from "../../../constants/module_constant";
-import {createNewQuiz, updateQuizConfig} from "../../../services/quiz_service";
+import {updateQuizConfig} from "../../../services/quiz_service";
 import QuizSetting from "./QuizSetting";
 import {QuizDto} from "../../../dtos/quiz_dto";
+import Loading from "../../Loading/Loading";
+
+const QuizQuestions = React.lazy(() => import('./QuizQuestions'));
 
 const {TabPane} = Tabs;
 
@@ -111,7 +112,7 @@ export default class extends Component {
                                 }
                                 <h4>Description</h4>
                                 <Divider className={styles.divider}/>
-                                <div className={styles.introduction}>
+                                <div>
                                     {quizSettingDto.description}
                                 </div>
                                 <br/><br/>
@@ -147,8 +148,11 @@ export default class extends Component {
                                 </div>
                             </div>
                         </TabPane>
-                        <TabPane key={"questions"} tab={<span>Questions</span>}>
-                            <QuizEdit/>
+
+                        <TabPane key={"questions"} tab={<span> Questions</span>}>
+                            <Suspense fallback={<Loading/>}>
+                                <QuizQuestions moduleId={module.id}/>
+                            </Suspense>
                         </TabPane>
                     </Tabs>
                 </div>

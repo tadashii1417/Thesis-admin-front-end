@@ -9,7 +9,7 @@ const topColResponsiveProps = {
     md: 12,
     lg: 12,
     xl: 6,
-    style: {marginBottom: 24},
+    style: {marginBottom: 16, padding: '0 6px'},
 };
 
 export default function (props) {

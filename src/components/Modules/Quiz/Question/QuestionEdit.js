@@ -16,28 +16,29 @@ const genExtra = () => {
 };
 export default function (props) {
     const {question} = props;
+    const {quizChoices} = question;
 
     return (
         <div>
             <div className={styles.option}>
                 <Collapse>
-                    {question.choices.map(choice => (
-                        <Panel key={choice.key} header={choice.value} extra={genExtra()}>
+                    {quizChoices.map(choice => (
+                        <Panel key={choice.id} header={choice.content} extra={genExtra()}>
                             <Form className={styles.form}>
                                 <Form.Item label={"Fraction"}>
                                     <Input value={choice.fraction}/>
                                 </Form.Item>
                                 <Form.Item label={"Right answer explanation"}>
-                                    <Input value={choice.rightExplanation}/>
+                                    <Input value={choice.correctFeedback}/>
                                 </Form.Item>
                                 <Form.Item label={"Wrong answer explanation"}>
-                                    <Input value={choice.wrongExplanation}/>
+                                    <Input value={choice.incorrectFeedback}/>
                                 </Form.Item>
                             </Form>
                         </Panel>
                     ))}
                 </Collapse>
-                <Button type={"link"} icon={"plus"} style={{margin: "5px", float:"right"}}>Add option</Button>
+                <Button type={"link"} icon={"plus"} style={{margin: "5px", float: "right"}}>Add option</Button>
             </div>
 
             <Card title={"Question Setting"} size={"small"} className={styles.setting} extra={<Icon type={"setting"}/>}>
@@ -49,16 +50,16 @@ export default function (props) {
                         </Select>
                     </Form.Item>
                     <Form.Item label={"Title"}>
-                        <Input value={question.title}/>
+                        <Input value={question.content}/>
                     </Form.Item>
                     <Form.Item label={"Description"}>
-                        <TextArea value={question.description}/>
+                        <TextArea/>
                     </Form.Item>
                     <Form.Item label={"Explanation"}>
-                        <Input value={question.explanation}/>
+                        <Input/>
                     </Form.Item>
                     <Form.Item label={"Hint"}>
-                        <Input value={question.hint}/>
+                        <Input/>
                     </Form.Item>
                 </Form>
             </Card>

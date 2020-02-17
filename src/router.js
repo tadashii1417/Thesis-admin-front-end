@@ -14,7 +14,7 @@ import Assignment from "./components/Modules/Assignment/Assignment";
 import Video from "./components/Modules/Video/Video";
 import Resource from "./components/Modules/Resource/Resource";
 import QuizEntrance from "./components/Modules/Quiz/QuizEntrance";
-import QuizEdit from "./components/Modules/Quiz/QuizEdit";
+import QuizEdit from "./components/Modules/Quiz/QuizQuestions";
 import Courses from "./containers/Courses/Courses";
 import Auth from "./containers/Auth";
 import Dashboard from "./containers/Dashboard";
@@ -43,7 +43,7 @@ export default function (props) {
                             exact/>
                 <AdminRoute isAuthenticated={isAuthenticated} path="/course/edit/announcement" component={Announcement}
                             exact/>
-                <AdminRoute isAuthenticated={isAuthenticated} path="/courses/:slug/:moduleId" component={QuizEntrance} exact/>
+                <AdminRoute isAuthenticated={isAuthenticated} path="/courses/:slug/quiz/:moduleId" component={QuizEntrance} exact/>
                 <AdminRoute isAuthenticated={isAuthenticated} path="/course/assignment" component={AssignmentReport}/>
                 <AdminRoute isAuthenticated={isAuthenticated} path="/course/edit-question" component={QuizEdit} exact/>
                 <AdminRoute isAuthenticated={isAuthenticated} path="/questions" component={QuestionsBank} exact/>

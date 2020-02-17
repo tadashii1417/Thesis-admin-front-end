@@ -8,15 +8,11 @@ import {
     InputNumber,
     Radio,
     Slider,
-    Spin,
     Tooltip,
-    message,
-    Row,
     Checkbox
 } from "antd";
 import {GradingPolicy} from "../../../constants/quiz_constant";
 import {createPatch} from "../../../utils/patch_util";
-import {httpErrorHandler} from "../../../utils/axios_util";
 import moment from "moment";
 import config from "../../../config";
 
@@ -41,7 +37,6 @@ class QuizSettingBasic extends React.Component {
 
     render() {
         const {data} = this.props;
-        console.log(data);
         const formItemLayout = {
             labelCol: {
                 xs: {span: 24},

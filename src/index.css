@@ -101,3 +101,7 @@ h4.ant-typography, .ant-typography h4 {
   width: 100%;
   margin: 10px 0;
 }
+
+.ant-form-vertical .ant-form-item{
+  padding-bottom: 0;
+}

@@ -57,11 +57,13 @@ const SortableItem = sortableElement(({value, course}) => (
                             size={16}
                             style={{color: ele.color, marginRight: "20px"}}/>
 
-                        <Link to={{
-                            pathname: "/courses/" + course.slug + '/' + value.id,
-                            search: "?course="+ course.name
-                        }}>
-                            {value.title}
+                        <Link
+                            to={{
+                                pathname: "/courses/" + course.slug + '/' + value.type + '/' + value.id,
+                                search: "?course=" + course.name
+                            }}
+                            className={styles.moduleTitle}>
+                            <span>{value.title}</span>
                         </Link>
 
                         <div style={{marginLeft: "auto"}}>
