@@ -1,107 +1,108 @@
 body {
-  margin: 0;
-  padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
 
 .adminContent {
-  margin: 15px 24px 0 24px;
-  padding: 15px 24px;
-  /*background: #F9F9F9;*/
-  background: #fff;
-  position: relative;
-  border-radius: 2px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05), 0 2px 4px rgba(0, 0, 0, 0.15);
-  /*min-height: 85vh;*/
+    margin: 15px 24px 0 24px;
+    padding: 15px 24px;
+    /*background: #F9F9F9;*/
+    background: #fff;
+    position: relative;
+    border-radius: 2px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05), 0 2px 4px rgba(0, 0, 0, 0.15);
+    /*min-height: 85vh;*/
 }
 
 .Collapsible {
-  border: 1px solid #e8e8e8;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05), 0 1px 1px rgba(0, 0, 0, 0.05);
-  margin: 15px 0;
-  line-height: 1.5;
-  border-radius: 2px;
-  transition: all 0.3s;
+    border: 1px solid #e8e8e8;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05), 0 1px 1px rgba(0, 0, 0, 0.05);
+    margin: 15px 0;
+    line-height: 1.5;
+    border-radius: 2px;
+    transition: all 0.3s;
 }
 
-.Collapsible__contentInner{
-  padding: 12px 20px 12px 50px;
-  background-color: #fafafa;
+.Collapsible__contentInner {
+    padding: 12px 20px 12px 50px;
+    background-color: #fafafa;
 }
 
 
 .editor-class {
-  height: 275px !important;
-  border: 1px solid #F1F1F1 !important;
-  padding: 5px !important;
-  border-radius: 2px !important;
+    height: 275px !important;
+    border: 1px solid #F1F1F1 !important;
+    padding: 5px !important;
+    border-radius: 2px !important;
 }
 
 /*********************** ANTD CSS REFACTOR************************/
 
-/*.ant-card-bordered {*/
-/*  border: 1px solid #e8e8e8;*/
-/*  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05), 0 2px 4px rgba(0, 0, 0, 0.05);*/
-/*}*/
+.ant-collapse-header {
+    overflow: hidden;
+}
 
-.ant-tabs .ant-tabs-left-content{
-  min-height: 80vh;
+.ant-tabs .ant-tabs-left-content {
+    min-height: 80vh;
 }
 
 h4.ant-typography, .ant-typography h4 {
-  color: #f98012;
-  line-height: 20px;
-  margin: 5px;
+    color: #f98012;
+    line-height: 20px;
+    margin: 5px;
 }
 
 .ant-tabs-nav .ant-tabs-tab-active {
-  background-color: lightcyan;
-  text-align: left;
+    background-color: lightcyan;
+    text-align: left;
 }
 
 .editor-class .ant-form-item-control {
-  line-height: 0;
+    line-height: 0;
 }
 
 .iconEdit {
-  position: absolute;
-  top: 17px;
-  right: 30px;
-  color: #fff;
-  background-color: #337ab7;
-  border-color: #2e6da4;
+    position: absolute;
+    top: 17px;
+    right: 30px;
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #2e6da4;
 }
 
 .public-DraftStyleDefault-block {
-  margin: 0;
-  line-height: 30px;
+    margin: 0;
+    line-height: 30px;
 }
 
 
 .login-form {
-  max-width: 400px;
-  padding: 30px;
-  border-radius: 10px;
-  margin: 0 auto;
-  background-color: #fff;
-}
-.login-form-forgot {
-  float: right;
-}
-.login-form-button {
-  width: 100%;
-  margin: 10px 0;
+    max-width: 400px;
+    padding: 30px;
+    border-radius: 10px;
+    margin: 0 auto;
+    background-color: #fff;
 }
 
-.ant-form-vertical .ant-form-item{
-  padding-bottom: 0;
+.login-form-forgot {
+    float: right;
+}
+
+.login-form-button {
+    width: 100%;
+    margin: 10px 0;
+}
+
+.ant-form-vertical .ant-form-item {
+    padding-bottom: 0;
 }

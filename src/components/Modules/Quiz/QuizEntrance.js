@@ -28,6 +28,7 @@ export default class extends Component {
             this.setState({module: data, loading: false});
         } catch (e) {
             httpErrorHandler(e, () => {
+                // TODO: more specific cases
                 switch (e.code) {
                     default:
                         message.error("Something went wrong");

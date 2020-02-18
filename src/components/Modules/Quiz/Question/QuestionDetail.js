@@ -1,6 +1,7 @@
 import React from "react";
 import styles from './Question.module.css';
-import {Button, Card, Collapse, Divider, Form, Icon, Input, Select} from "antd";
+import {Button, Card, Collapse, Divider, Form, Icon, Input, InputNumber, Select, Slider} from "antd";
+import {QuestionType} from "../../../../constants/quiz_constant";
 
 const {Option} = Select;
 const {Panel} = Collapse;
@@ -21,12 +22,12 @@ export default function (props) {
     return (
         <div>
             <div className={styles.option}>
-                <Collapse>
+                <Collapse accordion>
                     {quizChoices.map(choice => (
                         <Panel key={choice.id} header={choice.content} extra={genExtra()}>
                             <Form className={styles.form}>
                                 <Form.Item label={"Fraction"}>
-                                    <Input value={choice.fraction}/>
+                                    <InputNumber value={choice.fraction}/>
                                 </Form.Item>
                                 <Form.Item label={"Right answer explanation"}>
                                     <Input value={choice.correctFeedback}/>
@@ -43,20 +44,18 @@ export default function (props) {
 
             <Card title={"Question Setting"} size={"small"} className={styles.setting} extra={<Icon type={"setting"}/>}>
                 <Form className={styles.form}>
+                    <Form.Item label={"Content"}>
+                        <TextArea value={question.content}/>
+                    </Form.Item>
                     <Form.Item label={"Type"}>
-                        <Select defaultValue="single">
-                            <Option value="single">Single choice</Option>
-                            <Option value="mulitple">Mulitple choice</Option>
+                        <Select value={question.type}>
+                            <Option value={QuestionType.SINGLE_ANSWER}>Single answer</Option>
+                            <Option value={QuestionType.MULTIPLE_ANSWER}>Mulitple answer</Option>
+                            <Option value={QuestionType.INPUT}>Fill in the blank</Option>
                         </Select>
                     </Form.Item>
-                    <Form.Item label={"Title"}>
-                        <Input value={question.content}/>
-                    </Form.Item>
-                    <Form.Item label={"Description"}>
-                        <TextArea/>
-                    </Form.Item>
-                    <Form.Item label={"Explanation"}>
-                        <Input/>
+                    <Form.Item label={"Mark"}>
+                        <InputNumber value={question.mark}/>
                     </Form.Item>
                     <Form.Item label={"Hint"}>
                         <Input/>

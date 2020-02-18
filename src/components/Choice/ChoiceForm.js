@@ -5,7 +5,7 @@ import styles from './ChoiceForm.module.css';
 const {TextArea} = Input;
 
 export default function (props) {
-    const {index, k, getFieldDecorator, state, removeOption} = props;
+    const {k, getFieldDecorator, state, removeOption} = props;
     const formItemLayout = {
         labelCol: {
             xs: {span: 24},
@@ -27,6 +27,15 @@ export default function (props) {
         },
     };
 
+    let {data} = props;
+    if (data === undefined) {
+        data = {};
+        data.content = "";
+        data.fraction = 0;
+        data.correctFeedback = "";
+        data.incorrectFeedback = "";
+    }
+
     return (
         <div className={styles.container}>
             <Row>
@@ -35,6 +44,7 @@ export default function (props) {
                     label={'Option content'}
                     key={k}>
                     {getFieldDecorator(`choices[${k}].content`, {
+                        initialValue: data.content,
                         rules: [{required: true, message: "Please fill in at least one option."}]
                     })(
                         <TextArea placeholder=""/>)}
@@ -47,7 +57,7 @@ export default function (props) {
                     required={false}
                     key={k}>
                     {getFieldDecorator(`choices[${k}].fraction`, {
-                        initialValue: 0
+                        initialValue: data.fraction
                     })(
                         <Slider max={1} min={0} step={0.1}/>
                     )}
@@ -58,9 +68,10 @@ export default function (props) {
                     <Form.Item
                         {...formItemLayout}
                         label={'Correct Feedback'}
-                        required={false}
                         key={k}>
-                        {getFieldDecorator(`choices[${k}].correctFeedback`, {})(
+                        {getFieldDecorator(`choices[${k}].correctFeedback`, {
+                            initialValue: data.correctFeedback
+                        })(
                             <Input placeholder=""/>)}
                     </Form.Item>
                 </Col>
@@ -70,7 +81,9 @@ export default function (props) {
                         label={"Incorrect feedback"}
                         required={false}
                         key={k}>
-                        {getFieldDecorator(`choices[${k}].incorrectFeedback`, {})(
+                        {getFieldDecorator(`choices[${k}].incorrectFeedback`, {
+                            initialValue: data.incorrectFeedback
+                        })(
                             <Input placeholder=""/>)}
                     </Form.Item>
                 </Col>

@@ -7,55 +7,31 @@ import {
 } from "antd";
 import {QuestionType} from "../../../../constants/quiz_constant";
 import ChoiceForm from "../../../Choice/ChoiceForm";
+import {removeUndefined} from "../../../../utils/dev_util";
 
 const {Option} = Select;
 const {TextArea} = Input;
 
-class QuestionEditFormBasic extends React.Component {
+class NewQuestionFormBasic extends React.Component {
     state = {
-        keys: [0],
-        loading: true,
-        data: {}
+        keys: [0]
     };
-
-    componentDidMount() {
-        let {data} = this.props;
-        const choiceCount = data.quizChoices.length;
-        const newKeys = [...Array(choiceCount).keys()];
-        this.setState({keys: newKeys, loading: false});
-    }
-
-    static getDerivedStateFromProps(nextProps, prevState) {
-        if (nextProps.data !== prevState.data) {
-            const choiceCount = nextProps.data.quizChoices.length;
-            const newKeys = [...Array(choiceCount).keys()];
-            return {
-                keys: newKeys,
-                loading: false,
-                data: nextProps.data
-            }
-        } else {
-            return null;
-        }
-    }
 
     handleSubmit = e => {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
                 console.log('Received values of form: ', values);
-                // values.choices = removeUndefined(values.choices);
-                // this.props.addQuestionHandler(values);
+                values.choices = removeUndefined(values.choices);
+                this.props.addQuestionHandler(values);
             }
         });
     };
 
     addOption = () => {
-        console.log(this.state.keys);
         const len = this.state.keys.length;
         const newKeys = [...this.state.keys];
         newKeys.push(this.state.keys[len - 1] + 1);
-        console.log("newkey", newKeys);
         this.setState({keys: newKeys});
     };
 
@@ -68,11 +44,6 @@ class QuestionEditFormBasic extends React.Component {
     };
 
     render() {
-        if (this.state.loading) {
-            return <Spin/>
-        }
-        const {data} = this.props;
-
         const formItemLayout = {
             labelCol: {
                 xs: {span: 24},
@@ -93,7 +64,6 @@ class QuestionEditFormBasic extends React.Component {
                 state={this.state}
                 getFieldDecorator={getFieldDecorator}
                 removeOption={this.removeOption}
-                data={data.quizChoices[k]}
             />
         ));
         return (
@@ -101,7 +71,6 @@ class QuestionEditFormBasic extends React.Component {
                 <Form.Item label="Content">
                     {getFieldDecorator('content', {
                         rules: [{required: true, message: "Please fill in content"}],
-                        initialValue: data.content
                     })(
                         <TextArea/>
                     )}
@@ -109,7 +78,7 @@ class QuestionEditFormBasic extends React.Component {
 
                 <Form.Item label={"Type"}>
                     {getFieldDecorator('type', {
-                        initialValue: data.type
+                        initialValue: QuestionType.SINGLE_ANSWER
                     })(
                         <Select>
                             <Option value={QuestionType.INPUT}>Fill in the blank</Option>
@@ -121,7 +90,7 @@ class QuestionEditFormBasic extends React.Component {
 
                 <Form.Item label="Mark">
                     {getFieldDecorator('mark', {
-                        initialValue: data.mark
+                        initialValue: 1
                     })(
                         <InputNumber/>
                     )}
@@ -140,7 +109,7 @@ class QuestionEditFormBasic extends React.Component {
 
                 <Form.Item label={<span>&nbsp;&nbsp;</span>}>
                     <Button type="primary" htmlType="submit">
-                        Edit question
+                        Add question
                     </Button>
                 </Form.Item>
             </Form>
@@ -150,6 +119,6 @@ class QuestionEditFormBasic extends React.Component {
 
 }
 
-const QuestionEditForm = Form.create({name: "question_edit_form"})(QuestionEditFormBasic);
+const NewQuestionForm = Form.create({name: "new_Question_form"})(NewQuestionFormBasic);
 
-export default QuestionEditForm;
+export default NewQuestionForm;
