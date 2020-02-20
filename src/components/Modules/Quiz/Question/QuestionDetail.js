@@ -17,14 +17,14 @@ const genExtra = () => {
 };
 export default function (props) {
     const {question} = props;
-    const {quizChoices} = question;
+    const {choices} = question;
 
     return (
         <div>
             <div className={styles.option}>
                 <Collapse accordion>
-                    {quizChoices.map(choice => (
-                        <Panel key={choice.id} header={choice.content} extra={genExtra()}>
+                    {choices.map(choice => (
+                        <Panel key={choice.content} header={choice.content} extra={genExtra()}>
                             <Form className={styles.form}>
                                 <Form.Item label={"Fraction"}>
                                     <InputNumber value={choice.fraction}/>

@@ -7,6 +7,7 @@ import {
 } from "antd";
 import {QuestionType} from "../../../../constants/quiz_constant";
 import ChoiceForm from "../../../Choice/ChoiceForm";
+import {removeIdNewChoices, removeNullId, removeUndefined} from "../../../../utils/dev_util";
 
 const {Option} = Select;
 const {TextArea} = Input;
@@ -20,15 +21,17 @@ class QuestionEditFormBasic extends React.Component {
 
     componentDidMount() {
         let {data} = this.props;
-        const choiceCount = data.quizChoices.length;
+        const choiceCount = data.choices.length;
         const newKeys = [...Array(choiceCount).keys()];
         this.setState({keys: newKeys, loading: false});
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
         if (nextProps.data !== prevState.data) {
-            const choiceCount = nextProps.data.quizChoices.length;
+            const choiceCount = nextProps.data.choices.length;
             const newKeys = [...Array(choiceCount).keys()];
+            nextProps.form.resetFields();
+
             return {
                 keys: newKeys,
                 loading: false,
@@ -41,21 +44,20 @@ class QuestionEditFormBasic extends React.Component {
 
     handleSubmit = e => {
         e.preventDefault();
+        const {data} = this.state;
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
-                console.log('Received values of form: ', values);
-                // values.choices = removeUndefined(values.choices);
-                // this.props.addQuestionHandler(values);
+                values.choices = removeUndefined(values.choices);
+                removeNullId(values.choices);
+                this.props.editQuestionHandler(data.id, values);
             }
         });
     };
 
     addOption = () => {
-        console.log(this.state.keys);
         const len = this.state.keys.length;
         const newKeys = [...this.state.keys];
         newKeys.push(this.state.keys[len - 1] + 1);
-        console.log("newkey", newKeys);
         this.setState({keys: newKeys});
     };
 
@@ -71,7 +73,7 @@ class QuestionEditFormBasic extends React.Component {
         if (this.state.loading) {
             return <Spin/>
         }
-        const {data} = this.props;
+        const {data} = this.state;
 
         const formItemLayout = {
             labelCol: {
@@ -93,7 +95,7 @@ class QuestionEditFormBasic extends React.Component {
                 state={this.state}
                 getFieldDecorator={getFieldDecorator}
                 removeOption={this.removeOption}
-                data={data.quizChoices[k]}
+                data={data.choices[k]}
             />
         ));
         return (

@@ -19,3 +19,7 @@ export async function fetchQuizQuestions(moduleId) {
 export async function insertQuizQuestionByHand(moduleId, body) {
     return axios.post('/api/quizzes/' + moduleId + '/questions', body);
 }
+
+export async function updateQuizQuestion(id, body) {
+    return axios.put('/api/quizzes/questions/'+ id, body);
+}

@@ -3,11 +3,11 @@ import {
     Button,
     Form,
     Input,
-    Select, InputNumber, Icon, Spin
+    Select, InputNumber, Icon
 } from "antd";
 import {QuestionType} from "../../../../constants/quiz_constant";
 import ChoiceForm from "../../../Choice/ChoiceForm";
-import {removeUndefined} from "../../../../utils/dev_util";
+import {removeIdNewChoices, removeUndefined} from "../../../../utils/dev_util";
 
 const {Option} = Select;
 const {TextArea} = Input;
@@ -19,11 +19,11 @@ class NewQuestionFormBasic extends React.Component {
 
     handleSubmit = e => {
         e.preventDefault();
-        this.props.form.validateFieldsAndScroll((err, values) => {
+        this.props.form.validateFieldsAndScroll(async (err, values) => {
             if (!err) {
-                console.log('Received values of form: ', values);
                 values.choices = removeUndefined(values.choices);
-                this.props.addQuestionHandler(values);
+                removeIdNewChoices(values.choices);
+                await this.props.addQuestionHandler(values);
             }
         });
     };

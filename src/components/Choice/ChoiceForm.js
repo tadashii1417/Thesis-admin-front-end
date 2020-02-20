@@ -30,18 +30,26 @@ export default function (props) {
     let {data} = props;
     if (data === undefined) {
         data = {};
+        data.id = null;
         data.content = "";
         data.fraction = 0;
         data.correctFeedback = "";
         data.incorrectFeedback = "";
+        data.hint = "";
     }
 
     return (
         <div className={styles.container}>
             <Row>
+                <Form.Item style={{display: 'none'}}>
+                    {getFieldDecorator(`choices[${k}].id`, {
+                        initialValue: data.id,
+                    })(<Input/>)}
+                </Form.Item>
                 <Form.Item
                     {...formItemLayout2}
                     label={'Option content'}
+                    style={{marginBottom: '7px'}}
                     key={k}>
                     {getFieldDecorator(`choices[${k}].content`, {
                         initialValue: data.content,
@@ -54,6 +62,7 @@ export default function (props) {
                 <Form.Item
                     {...formItemLayout2}
                     label={'Fraction'}
+                    style={{marginBottom: '7px'}}
                     required={false}
                     key={k}>
                     {getFieldDecorator(`choices[${k}].fraction`, {
@@ -68,6 +77,7 @@ export default function (props) {
                     <Form.Item
                         {...formItemLayout}
                         label={'Correct Feedback'}
+                        style={{marginBottom: '7px'}}
                         key={k}>
                         {getFieldDecorator(`choices[${k}].correctFeedback`, {
                             initialValue: data.correctFeedback
@@ -79,6 +89,7 @@ export default function (props) {
                     <Form.Item
                         {...formItemLayout}
                         label={"Incorrect feedback"}
+                        style={{marginBottom: '7px'}}
                         required={false}
                         key={k}>
                         {getFieldDecorator(`choices[${k}].incorrectFeedback`, {
@@ -87,6 +98,19 @@ export default function (props) {
                             <Input placeholder=""/>)}
                     </Form.Item>
                 </Col>
+            </Row>
+            <Row>
+                <Form.Item
+                    {...formItemLayout2}
+                    label={"Hint"}
+                    required={false}
+                    style={{marginBottom: '7px'}}
+                    key={k}>
+                    {getFieldDecorator(`choices[${k}].hint`, {
+                        initialValue: data.hint
+                    })(
+                        <Input placeholder=""/>)}
+                </Form.Item>
             </Row>
 
             <Row>
