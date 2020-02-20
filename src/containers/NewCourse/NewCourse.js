@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import styles from './NewCourse.module.css';
-import {Breadcrumb, Card, Divider} from "antd";
+import {Breadcrumb, Card} from "antd";
 import NewCourseForm from "./NewCourseForm";
 import {Link} from "react-router-dom";
 

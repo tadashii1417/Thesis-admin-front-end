@@ -3,13 +3,18 @@ import {Button, Divider, Collapse, Icon, Result, Spin, message, Modal} from "ant
 import styles from './Quiz.module.css';
 import QuestionEdit from "./Question/QuestionDetail";
 import {httpErrorHandler} from "../../../utils/axios_util";
-import {fetchQuizQuestions, insertQuizQuestionByHand, updateQuizQuestion} from "../../../services/quiz_service";
+import {
+    deleteQuizQuestion,
+    fetchQuizQuestions,
+    insertQuizQuestionByHand,
+    updateQuizQuestion
+} from "../../../services/quiz_service";
 import NewQuestionForm from "./Question/NewQuestionForm";
 import QuestionEditForm from "./Question/QuestionEditForm";
 import {ServerErrors} from "../../../constants/server_error_constant";
 
 const {Panel} = Collapse;
-
+const {confirm} = Modal;
 
 export default class extends Component {
     state = {
@@ -42,7 +47,7 @@ export default class extends Component {
                     <Icon type={"edit"} theme={"twoTone"}/>
                 </Button>
                 <Divider type={"vertical"}/>
-                <Button>
+                <Button onClick={(e) => this.showDeleteConfirm(question.id, e) }>
                     <Icon type={"delete"} theme={"twoTone"} twoToneColor={"#eb2f96"}/>
                 </Button>
             </React.Fragment>
@@ -106,6 +111,40 @@ export default class extends Component {
                     case (ServerErrors.INVALID_FRACTION_SUM):
                         message.error("Sum of all options fraction must be 1");
                         break;
+                    default:
+                        message.error("Something went wrong");
+                }
+            })
+        }
+    };
+
+    showDeleteConfirm= (id, e) => {
+        e.stopPropagation();
+        confirm({
+            title: 'Are you sure delete this task?',
+            content: 'Some descriptions',
+            okText: 'Yes',
+            okType: 'danger',
+            cancelText: 'No',
+            onOk: () => {
+                this.deleteQuestionHandler(id);
+            },
+            onCancel() {
+                console.log('Cancel');
+            },
+        });
+    };
+
+    deleteQuestionHandler = async (id) => {
+        try{
+            await deleteQuizQuestion(id);
+            message.success("Question has been deleted");
+            let updatedQuestions = [...this.state.questions];
+            updatedQuestions = updatedQuestions.filter(question => question.id !== id);
+            this.setState({questions: updatedQuestions});
+        }catch (e) {
+            httpErrorHandler(e, ()=> {
+                switch (e.code) {
                     default:
                         message.error("Something went wrong");
                 }

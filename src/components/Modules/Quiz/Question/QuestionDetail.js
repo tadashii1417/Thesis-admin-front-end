@@ -1,6 +1,6 @@
 import React from "react";
 import styles from './Question.module.css';
-import {Button, Card, Collapse, Divider, Form, Icon, Input, InputNumber, Select, Slider} from "antd";
+import {Button, Card, Collapse, Divider, Form, Icon, Input, InputNumber, Select} from "antd";
 import {QuestionType} from "../../../../constants/quiz_constant";
 
 const {Option} = Select;

@@ -7,7 +7,7 @@ import {
 } from "antd";
 import {QuestionType} from "../../../../constants/quiz_constant";
 import ChoiceForm from "../../../Choice/ChoiceForm";
-import {removeIdNewChoices, removeNullId, removeUndefined} from "../../../../utils/dev_util";
+import {removeNullId, removeUndefined} from "../../../../utils/dev_util";
 
 const {Option} = Select;
 const {TextArea} = Input;

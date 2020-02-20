@@ -39,7 +39,7 @@ class Sections extends Component {
 
             const {data} = await createNewModule(values, modules, id);
             if (data.type === ModuleType.QUIZ){
-                const {quiz} = await createNewQuiz(data.id);
+                await createNewQuiz(data.id);
             }
 
             this.props.value.modules.push(data);

@@ -23,3 +23,7 @@ export async function insertQuizQuestionByHand(moduleId, body) {
 export async function updateQuizQuestion(id, body) {
     return axios.put('/api/quizzes/questions/'+ id, body);
 }
+
+export async function deleteQuizQuestion(id) {
+    return axios.delete('/api/quizzes/questions/'+ id);
+}
