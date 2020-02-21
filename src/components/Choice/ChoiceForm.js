@@ -33,9 +33,7 @@ export default function (props) {
         data.id = null;
         data.content = "";
         data.fraction = 0;
-        data.correctFeedback = "";
-        data.incorrectFeedback = "";
-        data.hint = "";
+        data.feedback = "";
     }
 
     return (
@@ -72,47 +70,18 @@ export default function (props) {
                     )}
                 </Form.Item>
             </Row>
-            <Row gutter={2}>
-                <Col span={12}>
-                    <Form.Item
-                        {...formItemLayout}
-                        label={'Correct Feedback'}
-                        style={{marginBottom: '7px'}}
-                        key={k}>
-                        {getFieldDecorator(`choices[${k}].correctFeedback`, {
-                            initialValue: data.correctFeedback
-                        })(
-                            <Input placeholder=""/>)}
-                    </Form.Item>
-                </Col>
-                <Col span={12}>
-                    <Form.Item
-                        {...formItemLayout}
-                        label={"Incorrect feedback"}
-                        style={{marginBottom: '7px'}}
-                        required={false}
-                        key={k}>
-                        {getFieldDecorator(`choices[${k}].incorrectFeedback`, {
-                            initialValue: data.incorrectFeedback
-                        })(
-                            <Input placeholder=""/>)}
-                    </Form.Item>
-                </Col>
-            </Row>
             <Row>
-                <Form.Item
-                    {...formItemLayout2}
-                    label={"Hint"}
-                    required={false}
-                    style={{marginBottom: '7px'}}
-                    key={k}>
-                    {getFieldDecorator(`choices[${k}].hint`, {
-                        initialValue: data.hint
-                    })(
-                        <Input placeholder=""/>)}
-                </Form.Item>
+                    <Form.Item
+                        {...formItemLayout}
+                        label={'Option Feedback'}
+                        style={{marginBottom: '7px'}}
+                        key={k}>
+                        {getFieldDecorator(`choices[${k}].feedback`, {
+                            initialValue: data.feedback
+                        })(
+                            <Input placeholder=""/>)}
+                    </Form.Item>
             </Row>
-
             <Row>
                 {state.keys.length > 1 ? (
                     <span style={{color: '#eb2f96', cursor: 'pointer'}} onClick={() => removeOption(k)}>

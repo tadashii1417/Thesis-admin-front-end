@@ -15,7 +15,9 @@ export default function (props) {
                 <span className={styles.mainIcon}>{icon}</span>
                 {totalNumber}
             </div>
-            {props.children}
+            <div className={styles.content}>
+                {props.children}
+            </div>
             <Divider className={styles.divider}/>
             <div>
                 {subTitle} <span className={styles.subNumber}>{subNumber}</span>

@@ -30,7 +30,11 @@ export default function (props) {
                            subTitle={"Daily sale"}
                            icon={<Icon type="shopping" theme="twoTone" />}
                            subNumber={12}>
-                    <VisitsChart/>
+                    <img
+                        alt={"total sale"}
+                        src={"https://i.pinimg.com/originals/61/41/e7/6141e701c93cb9522fa121d3a3d0fd94.jpg"}
+                        style={{objectFit: "cover", width: "100%", height: "100%"}}
+                    />
                 </ChartCard>
             </Col>
             <Col {...topColResponsiveProps}>
@@ -39,7 +43,11 @@ export default function (props) {
                            subTitle={"New student"}
                            icon={<Icon type="edit" theme="twoTone" />}
                            subNumber={123}>
-                    <VisitsChart/>
+                    <img
+                        alt={"total student"}
+                        src={"https://webstockreview.net/images/conversation-clipart-grouping-2.png"}
+                        style={{objectFit: "cover", width: "100%", height: "100%"}}
+                    />
                 </ChartCard>
             </Col>
             <Col {...topColResponsiveProps}>
@@ -48,7 +56,11 @@ export default function (props) {
                            subTitle={"Daily visits"}
                            icon={<Icon type="video-camera" theme="twoTone" />}
                            subNumber={123}>
-                    <VisitsChart/>
+                    <img
+                        alt={"total course"}
+                        src={"https://pngimage.net/wp-content/uploads/2018/06/%D1%83%D0%BF%D1%80%D0%B0%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5-png-5.png"}
+                        style={{objectFit: "cover", width: "100%", height: "100%"}}
+                    />
                 </ChartCard>
             </Col>
         </Row>

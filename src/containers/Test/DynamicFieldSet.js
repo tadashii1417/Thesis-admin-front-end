@@ -29,7 +29,7 @@ class DynamicFieldSet extends React.Component {
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 const {keys, names} = values;
-                console.log('Received values of form: ', values);
+                console.log('Received values of categoryForm: ', values);
                 console.log('Merged values:', keys.map(key => names[key]));
             }
         });

@@ -6,46 +6,46 @@ import {QuestionType} from "../../../../constants/quiz_constant";
 const {Option} = Select;
 const {Panel} = Collapse;
 const {TextArea} = Input;
-const genExtra = () => {
-    return (
-        <React.Fragment>
-            <Icon type={"edit"}/>
-            <Divider type={"vertical"}/>
-            <Icon type={"delete"}/>
-        </React.Fragment>
-    );
-};
+
 export default function (props) {
     const {question} = props;
     const {choices} = question;
-
+    const formItemLayout2 = {
+        labelCol: {
+            xs: {span: 24},
+            sm: {span: 6},
+        },
+        wrapperCol: {
+            xs: {span: 24},
+            sm: {span: 18},
+        },
+    };
     return (
         <div>
             <div className={styles.option}>
                 <Collapse accordion>
                     {choices.map(choice => (
-                        <Panel key={choice.content} header={choice.content} extra={genExtra()}>
-                            <Form className={styles.form}>
+                        <Panel key={choice.content} header={choice.content}>
+                            <Form className={styles.form} >
                                 <Form.Item label={"Fraction"}>
                                     <InputNumber value={choice.fraction}/>
                                 </Form.Item>
-                                <Form.Item label={"Right answer explanation"}>
-                                    <Input value={choice.correctFeedback}/>
-                                </Form.Item>
-                                <Form.Item label={"Wrong answer explanation"}>
-                                    <Input value={choice.incorrectFeedback}/>
+                                <Form.Item label={"Option Feedback"}>
+                                    <Input value={choice.feedback}/>
                                 </Form.Item>
                             </Form>
                         </Panel>
                     ))}
                 </Collapse>
-                <Button type={"link"} icon={"plus"} style={{margin: "5px", float: "right"}}>Add option</Button>
             </div>
 
-            <Card title={"Question Setting"} size={"small"} className={styles.setting} extra={<Icon type={"setting"}/>}>
+            <Card title={"Question detail"} size={"small"} className={styles.setting} extra={<Icon type={"setting"}/>}>
                 <Form className={styles.form}>
                     <Form.Item label={"Content"}>
                         <TextArea value={question.content}/>
+                    </Form.Item>
+                    <Form.Item label={"Mark"}>
+                        <InputNumber value={question.mark}/>
                     </Form.Item>
                     <Form.Item label={"Type"}>
                         <Select value={question.type}>
@@ -53,12 +53,6 @@ export default function (props) {
                             <Option value={QuestionType.MULTIPLE_ANSWER}>Mulitple answer</Option>
                             <Option value={QuestionType.INPUT}>Fill in the blank</Option>
                         </Select>
-                    </Form.Item>
-                    <Form.Item label={"Mark"}>
-                        <InputNumber value={question.mark}/>
-                    </Form.Item>
-                    <Form.Item label={"Hint"}>
-                        <Input/>
                     </Form.Item>
                 </Form>
             </Card>

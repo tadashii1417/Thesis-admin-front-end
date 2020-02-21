@@ -11,7 +11,7 @@ import {
 } from "../../../services/quiz_service";
 import NewQuestionForm from "./Question/NewQuestionForm";
 import QuestionEditForm from "./Question/QuestionEditForm";
-import {ServerErrors} from "../../../constants/server_error_constant";
+import ServerErrors from "../../../constants/server_error_constant";
 
 const {Panel} = Collapse;
 const {confirm} = Modal;
@@ -121,8 +121,8 @@ export default class extends Component {
     showDeleteConfirm= (id, e) => {
         e.stopPropagation();
         confirm({
-            title: 'Are you sure delete this task?',
-            content: 'Some descriptions',
+            title: 'Are you sure delete this question?',
+            content: "This action can't be reverted.",
             okText: 'Yes',
             okType: 'danger',
             cancelText: 'No',
@@ -182,9 +182,9 @@ export default class extends Component {
                     <Divider/>
 
                     <div>
-                        <Button onClick={this.handleAddModal}>Add</Button>
+                        <Button onClick={this.handleAddModal} type={"primary"}>Add question</Button>
                         <Divider type={"vertical"}/>
-                        <Button type={"primary"}>Save</Button>
+                        <Button>Import from bank</Button>
                     </div>
 
                     <Modal title={"Add new question"}

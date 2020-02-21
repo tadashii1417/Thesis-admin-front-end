@@ -1,104 +1,22 @@
 import React, {Component} from 'react';
 import styles from './Categories.module.css';
-import {Icon, Typography, Divider, Button, Table, Modal} from 'antd';
-import CategoryForm from './Form/Form';
+import {Icon, Typography, Divider, Table, Modal, Spin, message} from 'antd';
+import CategoryForm from './Form/CategoryForm';
+import {httpErrorHandler} from "../../utils/axios_util";
+import {createNewCategory, deleteCategory, fetchCategories, updateCategory} from "../../services/category_service";
+import ServerErrors from "../../constants/server_error_constant";
+import EditCategory from "./Form/EditCategory";
 
 const {Title} = Typography;
-const {confirm} =Modal;
-function showDeleteConfirm() {
-    confirm({
-        title: 'Are you sure delete this task?',
-        content: 'Some descriptions',
-        okText: 'Yes',
-        okType: 'danger',
-        cancelText: 'No',
-        onOk() {
-            console.log('OK');
-        },
-        onCancel() {
-            console.log('Cancel');
-        },
-    });
-}
-
-const treeData = [
-    {
-        title: 'Development',
-        description: "",
-        slug: "development",
-        count: 10,
-        value: '0-0',
-        key: '0-0',
-        children: [
-            {
-                title: 'Web development',
-                description: "",
-                slug: "web-development",
-                count: 10,
-                value: '0-0-1',
-                key: '0-0-1',
-                children: [
-                    {
-                        title: 'Javascript',
-                        description: "javascript",
-                        slug: "javascript",
-                        count: 10,
-                        value: '0-0-1-0',
-                        key: '0-0-1-0',
-                    },
-                    {
-                        title: 'React JS',
-                        description: "",
-                        slug: "react-js",
-                        count: 10,
-                        value: '0-0-1-1',
-                        key: '0-0-1-1',
-                    },
-                ]
-            },
-            {
-                title: 'Mobile Apps',
-                description: "",
-                slug: "mobile-apps",
-                count: 10,
-                value: '0-0-2',
-                key: '0-0-2',
-            },
-        ],
-    },
-    {
-        title: 'Business',
-        description: "",
-        slug: "business",
-        count: 10,
-        value: '0-1',
-        key: '0-1',
-        children: [
-            {
-                title: 'Finance',
-                description: "",
-                slug: "finance",
-                count: 10,
-                value: '0-1-0',
-                key: '0-1-0',
-            },
-            {
-                title: 'Entrepreneurship',
-                description: "entrepreneurship",
-                slug: "",
-                count: 10,
-                value: '0-1-1',
-                key: '0-1-1',
-            }
-        ]
-    },
-];
-
+const {confirm} = Modal;
 
 export default class extends Component {
     state = {
-        visible: false
-    }
+        categories: [],
+        loading: true,
+        editModal: false,
+        selected: null
+    };
 
     columns = [
         {
@@ -113,46 +31,144 @@ export default class extends Component {
             key: 'slug',
         },
         {
-            title: 'Count',
-            dataIndex: 'count',
-            key: 'count',
-        },
-        {
             title: 'Action',
             key: 'action',
-            render: (text, record) => {
-                return (<div>
-                    <Icon type="edit" theme="twoTone" onClick={() => {
-                        this.setState({visible: true});
-                    }}/>
-                    <Divider type="vertical"/>
-                    <Icon type="delete" theme="twoTone" twoToneColor="#eb2f96" onClick={showDeleteConfirm}/>
-                </div>);
+            render: (text, row) => {
+                return (
+                    <div>
+                        <Icon type="edit" theme="twoTone" onClick={() => {
+                            this.setState({selected: row, editModal: true});
+                        }}/>
+                        <Divider type="vertical"/>
+                        <Icon type="delete" theme="twoTone" twoToneColor="#eb2f96"
+                              onClick={() => this.showDeleteConfirm(row.id)}/>
+                    </div>
+                );
             }
         }
     ];
-    handlerCancel = () => {
-        this.setState({visible: false});
+
+    async componentDidMount() {
+        try {
+            const {data} = await fetchCategories();
+            this.setState({categories: data, loading: false});
+        } catch (e) {
+            httpErrorHandler(e, () => {
+                switch (e.code) {
+                    default:
+                        message.error("Something went wrong");
+                }
+            })
+        }
     }
 
+    handlerCancel = () => {
+        this.setState({editModal: false});
+    };
+
+    handleNewCategory = async (body) => {
+        try {
+            await createNewCategory(body);
+            const {data} = await fetchCategories();
+            message.success("New category has been created");
+            this.setState({categories: data});
+        } catch (e) {
+            httpErrorHandler(e, () => {
+                switch (e.code) {
+                    case ServerErrors.SLUG_ALREADY_EXISTS:
+                        message.error("Slug already exist");
+                        break;
+                    default:
+                        message.error("Title already exist");
+                }
+            })
+        }
+    };
+
+    handleEditCategory = async (patch) => {
+        const {selected} = this.state;
+        const {id} = selected;
+        try {
+            await updateCategory(id, patch);
+            const {data} = await fetchCategories();
+            message.success("Category has been updated");
+            this.setState({categories: data, editModal: false});
+        } catch (e) {
+            httpErrorHandler(e, () => {
+                switch (e.code) {
+                    case ServerErrors.CATEGORY_NOT_FOUND:
+                        message.error("Category not found");
+                        break;
+                    case ServerErrors.SLUG_ALREADY_EXISTS:
+                        message.error("Slug already exist");
+                        break;
+                    default:
+                        message.error("Title already exist");
+                }
+            })
+        }
+    };
+    showDeleteConfirm = (id) => {
+        confirm({
+            title: 'Are you sure delete this category?',
+            okText: 'Yes',
+            okType: 'danger',
+            cancelText: 'No',
+            onOk: async () => {
+                try {
+                    await deleteCategory(id);
+                    const {data} = await fetchCategories();
+                    this.setState({categories: data});
+                } catch (e) {
+                    httpErrorHandler(e, () => {
+                        switch (e.code) {
+                            default:
+                                message.error("Something went wrong");
+                        }
+                    })
+                }
+            },
+            onCancel() {
+                console.log('Cancel');
+            },
+        });
+    };
+
     render() {
+        if (this.state.loading) {
+            return <Spin/>
+        }
+
+        const {categories} = this.state;
+
         return (
             <div>
                 <Title level={4}>Course Categories</Title>
                 <Divider/>
                 <div className={styles.container}>
+
                     <div className={styles.left}>
                         <div className={styles.addTitle}>Add New Course Category</div>
-                        <CategoryForm treeData={treeData}/>
-                        <Divider/>
-                        <Button type={"primary"}>Add Category</Button>
+                        <CategoryForm categories={categories}
+                                      handleNewCategory={this.handleNewCategory}/>
                     </div>
-                    <Modal visible={this.state.visible} onOk={this.handlerCancel} onCancel={this.handlerCancel} title="Edit Category !">
-                        <CategoryForm treeData={treeData}/>
+
+                    <Modal visible={this.state.editModal}
+                           footer={null}
+                           bodyStyle={{padding: '0 24px 12px 24px'}}
+                           onCancel={this.handlerCancel}
+                           title="Edit Category !">
+                        <EditCategory categories={categories}
+                                      handleEditCategory={this.handleEditCategory}
+                                      data={this.state.selected}/>
                     </Modal>
+
                     <div className={styles.right}>
                         <div className={styles.addTitle}>Current Categories</div>
-                        <Table columns={this.columns} dataSource={treeData}/>
+                        <Table columns={this.columns}
+                               dataSource={categories}
+                               childrenColumnName={"subcategories"}
+                               rowKey={"id"}/>
                     </div>
                 </div>
             </div>

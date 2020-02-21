@@ -4,7 +4,7 @@ import {
 import React from "react";
 import {httpErrorHandler} from "../../utils/axios_util";
 import {createCourse} from "../../services/course_service";
-import {ServerErrors} from "../../constants/server_error_constant";
+import ServerErrors from "../../constants/server_error_constant";
 import {withRouter} from "react-router";
 
 const {TextArea} = Input;
@@ -100,7 +100,7 @@ class NewCourseForm extends React.Component {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll(async (err, values) => {
             if (!err) {
-                console.log('Received values of form: ', values);
+                console.log('Received values of categoryForm: ', values);
                 try {
                     await createCourse(values);
                     message.success("Create course successfully .");

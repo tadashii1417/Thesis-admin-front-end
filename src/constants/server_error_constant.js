@@ -57,7 +57,7 @@ const SEMESTER_ALREADY_EXISTS = -700;
 const SEMESTER_NOT_FOUND = -701;
 const INVALID_SEMESTER_DATA = -702;
 
-export const ServerErrors = {
+const ServerErrors = {
     INVALID_PATCH_DATA,
     INVALID_QUERY_STRING,
     PAGE_NOT_FOUND,
@@ -117,3 +117,5 @@ export const ServerErrors = {
     SEMESTER_NOT_FOUND,
     INVALID_SEMESTER_DATA
 };
+
+export default ServerErrors;
