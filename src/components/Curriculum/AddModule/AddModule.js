@@ -29,7 +29,7 @@ class NewModuleBasic extends React.Component {
             <Form layout="vertical" onSubmit={this.handleSubmit}>
                 <Form.Item label="Module Title">
                     {getFieldDecorator('title', {
-                        rules: [{required: true, message: "Please input section title"}]
+                        rules: [{required: true, message: "Please input module title"}]
                     })(
                         <Input/>
                     )}
@@ -40,12 +40,17 @@ class NewModuleBasic extends React.Component {
                         rules: [{required: true, message: "Please select module type"}],
                     })(
                         <Radio.Group style={{width: '100%'}}>
-                            {ModulesConfig.map(item =>
-                                <Radio key={item.type} value={item.type} style={radioStyle}>
-                                    <Icon icon={item.icon} size={16} style={{color: item.color, margin: "0 25px"}}/>
-                                    {item.title}
-                                </Radio>
-                            )}
+                            {
+                                Object.keys(ModulesConfig).map(key => {
+                                        const config = ModulesConfig[key];
+                                        return (<Radio key={key} value={key} style={radioStyle}>
+                                            <Icon icon={config.icon} size={16}
+                                                  style={{color: config.color, margin: "0 25px"}}/>
+                                            {config.title}
+                                        </Radio>);
+                                    }
+                                )
+                            }
                         </Radio.Group>
                     )}
                 </Form.Item>
@@ -61,6 +66,6 @@ class NewModuleBasic extends React.Component {
 
 }
 
-const NewModule = Form.create({name: "section_form"})(NewModuleBasic);
+const NewModule = Form.create({name: "add_module_form"})(NewModuleBasic);
 
 export default NewModule;

@@ -6,10 +6,6 @@ import {createPatch} from "../../../utils/patch_util";
 const {TreeNode} = TreeSelect;
 
 class EditCategory extends Component {
-    state = {
-        data: null
-    };
-
     handleSubmit = e => {
         e.preventDefault();
         const {isFieldTouched} = this.props.form;
@@ -40,21 +36,10 @@ class EditCategory extends Component {
         }
     };
 
-    static getDerivedStateFromProps(nextProps, prevState) {
-        if (nextProps.data !== prevState.data) {
-            return {
-                data: nextProps.data
-            }
-        } else {
-            return null;
-        }
-    }
-
     render() {
         const {getFieldDecorator} = this.props.form;
-        const {categories} = this.props;
+        const {categories, data} = this.props;
         const treeNodes = this.genChildren(categories);
-        const {data} = this.props;
 
         return (
             <Form onSubmit={this.handleSubmit} hideRequiredMark>

@@ -28,8 +28,7 @@ export default class extends Component {
     async componentDidMount() {
         try {
             const {data} = await fetchQuizQuestions(this.props.moduleId);
-            const {questions} = data;
-            this.setState({questions: questions, loading: false})
+            this.setState({questions: data, loading: false})
         } catch (e) {
             httpErrorHandler(e, () => {
                 switch (e.code) {

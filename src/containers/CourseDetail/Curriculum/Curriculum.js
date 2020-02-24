@@ -3,7 +3,7 @@ import {sortableContainer, sortableElement} from 'react-sortable-hoc';
 import arrayMove from 'array-move';
 import axios from '../../../axios-config';
 import {Button, Divider, message, Modal, Spin} from "antd";
-import NewSession from "../../../components/Curriculum/NewSection/NewSection";
+import NewSection from "../../../components/Curriculum/NewSection/NewSection";
 import Section from "../../../components/Curriculum/Sections/Sections";
 import {httpErrorHandler} from "../../../utils/axios_util";
 
@@ -16,7 +16,7 @@ const SortableContainer = sortableContainer(({children}) => {
 
 class Curriculum extends Component {
     state = {
-        openModal: false,
+        newModal: false,
         loading: true,
         sectionList: []
     };
@@ -45,7 +45,10 @@ class Curriculum extends Component {
     };
 
     SortableItem = sortableElement(({value}) => (
-        <Section course={this.props.courseData} sections={this.state.sectionList} value={value}/>
+        <Section course={this.props.courseData}
+                 sections={this.state.sectionList}
+                 handleDeleleSection={this.handleDeleteSection}
+                 value={value}/>
     ));
 
     handleSubmitNewSection = async (value) => {
@@ -61,7 +64,7 @@ class Curriculum extends Component {
                 modules: []
             });
             message.success("New section has been created");
-            this.setState({sectionList: newSectionList, openModal: false});
+            this.setState({sectionList: newSectionList, newModal: false});
         } catch (e) {
             httpErrorHandler(e, () => {
                 switch (e.code) {
@@ -72,12 +75,18 @@ class Curriculum extends Component {
         }
     };
 
-    handleCancelNewSession = () => {
-        this.setState({openModal: false});
+    closeNewSection = () => {
+        this.setState({newModal: false});
     };
 
-    showNewSessionModal = () => {
-        this.setState({openModal: true});
+    openNewSectionModal = () => {
+        this.setState({newModal: true});
+    };
+
+    handleDeleteSection = (id) => {
+        let sectionList = [...this.state.sectionList];
+        sectionList = sectionList.filter(section => section.id !== id);
+        this.setState({sectionList});
     };
 
     render() {
@@ -104,15 +113,17 @@ class Curriculum extends Component {
                     }
                 </SortableContainer>
 
-                <Button icon="plus" type={"primary"} style={{float: "right", margin: "10px"}}
-                        onClick={this.showNewSessionModal}>New session
+                <Button icon="plus" type={"primary"}
+                        style={{float: "right", margin: "10px"}}
+                        onClick={this.openNewSectionModal}>
+                    New session
                 </Button>
 
                 <Modal title={"Create New Sections"}
-                       visible={this.state.openModal}
-                       onCancel={this.handleCancelNewSession}
+                       visible={this.state.newModal}
+                       onCancel={this.closeNewSection}
                        footer={null}>
-                    <NewSession handleSectionChange={this.handleSubmitNewSection}/>
+                    <NewSection handleSectionChange={this.handleSubmitNewSection}/>
                 </Modal>
 
             </React.Fragment>

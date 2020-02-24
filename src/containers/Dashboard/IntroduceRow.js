@@ -46,7 +46,7 @@ export default function (props) {
                     <img
                         alt={"total student"}
                         src={"https://webstockreview.net/images/conversation-clipart-grouping-2.png"}
-                        style={{objectFit: "cover", width: "100%", height: "100%"}}
+                        style={{objectFit: "cover", width: "80%", height: "100%", marginLeft: "10%"}}
                     />
                 </ChartCard>
             </Col>

@@ -6,82 +6,12 @@ import {httpErrorHandler} from "../../utils/axios_util";
 import {createCourse} from "../../services/course_service";
 import ServerErrors from "../../constants/server_error_constant";
 import {withRouter} from "react-router";
+import {fetchCategories} from "../../services/category_service";
 
 const {TextArea} = Input;
 const {Option} = Select;
 const {Dragger} = Upload;
-const treeData = [
-    {
-        title: 'Development',
-        description: "",
-        slug: "development",
-        count: 10,
-        value: '0-0',
-        key: '0-0',
-        children: [
-            {
-                title: 'Web development',
-                description: "",
-                slug: "web-development",
-                count: 10,
-                value: '0-0-1',
-                key: '0-0-1',
-                children: [
-                    {
-                        title: 'Javascript',
-                        description: "javascript",
-                        slug: "javascript",
-                        count: 10,
-                        value: '0-0-1-0',
-                        key: '0-0-1-0',
-                    },
-                    {
-                        title: 'React JS',
-                        description: "",
-                        slug: "react-js",
-                        count: 10,
-                        value: '0-0-1-1',
-                        key: '0-0-1-1',
-                    },
-                ]
-            },
-            {
-                title: 'Mobile Apps',
-                description: "",
-                slug: "mobile-apps",
-                count: 10,
-                value: '0-0-2',
-                key: '0-0-2',
-            },
-        ],
-    },
-    {
-        title: 'Business',
-        description: "",
-        slug: "business",
-        count: 10,
-        value: '0-1',
-        key: '0-1',
-        children: [
-            {
-                title: 'Finance',
-                description: "",
-                slug: "finance",
-                count: 10,
-                value: '0-1-0',
-                key: '0-1-0',
-            },
-            {
-                title: 'Entrepreneurship',
-                description: "entrepreneurship",
-                slug: "",
-                count: 10,
-                value: '0-1-1',
-                key: '0-1-1',
-            }
-        ]
-    },
-];
+const {TreeNode} = TreeSelect;
 
 const tags = ['css', 'html', 'javascript', 'web', 'python', 'socket'];
 const teachers = ['teacher1', 'teacher2', 'teacher3'];
@@ -96,6 +26,10 @@ const teacherOptions = teachers.map((teacher) => (
 let id = 1;
 
 class NewCourseForm extends React.Component {
+    state = {
+        categories: []
+    };
+
     handleSubmit = e => {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll(async (err, values) => {
@@ -123,6 +57,20 @@ class NewCourseForm extends React.Component {
         });
     };
 
+    async componentDidMount() {
+        try {
+            const {data} = await fetchCategories();
+            this.setState({categories: data});
+        } catch (e) {
+            httpErrorHandler(e, () => {
+                switch (e.code) {
+                    default:
+                        message.error("Something went wrong when fetching categories");
+                }
+            })
+        }
+    }
+
     removeOutcome = k => {
         const {form} = this.props;
         const keys = form.getFieldValue('keys');
@@ -140,7 +88,20 @@ class NewCourseForm extends React.Component {
         });
     };
 
+    createCategoryTreeNode = (categories) => {
+        if (categories === undefined) {
+            return;
+        } else {
+            return categories.map(child => (
+                <TreeNode key={child.id} title={child.title} value={child.id}>
+                    {this.createCategoryTreeNode(child.subcategories)}
+                </TreeNode>
+            ));
+        }
+    };
+
     render() {
+        const {categories} = this.state;
         const {getFieldDecorator, getFieldValue} = this.props.form;
         const formItemLayout = {
             labelCol: {
@@ -160,6 +121,7 @@ class NewCourseForm extends React.Component {
             },
         };
 
+        // Generate learning outcome list
         getFieldDecorator('keys', {initialValue: []});
         const keys = getFieldValue('keys');
         const formItems = keys.map((k) => (
@@ -209,10 +171,12 @@ class NewCourseForm extends React.Component {
 
                 <Form.Item
                     label={"Course Category"}>
-                    {getFieldDecorator('category', {
+                    {getFieldDecorator('categoryId', {
                         rules: []
                     })(
-                        <TreeSelect treeData={treeData} style={{width: '80%'}}/>
+                        <TreeSelect style={{width: '80%'}}>
+                            {this.createCategoryTreeNode(categories)}
+                        </TreeSelect>
                     )}
                 </Form.Item>
 
@@ -229,6 +193,7 @@ class NewCourseForm extends React.Component {
                 <Form.Item label="Price">
                     {getFieldDecorator('price', {initialValue: 0})(<InputNumber/>)}
                 </Form.Item>
+
                 <Form.Item label="List Price">
                     {getFieldDecorator('listPrice', {initialValue: 0})(<InputNumber/>)}
                 </Form.Item>
@@ -284,9 +249,9 @@ class NewCourseForm extends React.Component {
                     )}
                 </Form.Item>
 
-                <Form.Item label={"Course image"} extra={"Only image file type accepted: JPEG, JPG"}>
+                <Form.Item label={"Course image"}>
                     {getFieldDecorator('banner', {})(
-                        <Dragger>
+                        <Dragger multiple={"false"} listType={"image"}>
                             <p className="ant-upload-drag-icon">
                                 <Icon type="inbox"/>
                             </p>

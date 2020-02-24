@@ -1,6 +1,6 @@
 import React from "react";
 import styles from './Question.module.css';
-import {Button, Card, Collapse, Divider, Form, Icon, Input, InputNumber, Select} from "antd";
+import {Card, Collapse, Form, Icon, Input, InputNumber, Select} from "antd";
 import {QuestionType} from "../../../../constants/quiz_constant";
 
 const {Option} = Select;
@@ -10,16 +10,7 @@ const {TextArea} = Input;
 export default function (props) {
     const {question} = props;
     const {choices} = question;
-    const formItemLayout2 = {
-        labelCol: {
-            xs: {span: 24},
-            sm: {span: 6},
-        },
-        wrapperCol: {
-            xs: {span: 24},
-            sm: {span: 18},
-        },
-    };
+
     return (
         <div>
             <div className={styles.option}>

@@ -40,14 +40,6 @@
     color: #5c5c5c;
 }
 
-.actionArea {
-    display: inline-block;
-    display: none;
-    margin-left: auto;
-    color: #5c5c5c;
-    font-size: 13px;
-}
-
 .actionArea > * {
     margin: 5px;
 }
@@ -55,7 +47,12 @@
     color: #1177d1;
 }
 
-.actionIcon {
-  color: #5c5c5c;
+.deleteIcon {
+  color: #e44749;
   margin-right: 10px;
 }
+.editIcon {
+  color: #1890ff;
+  margin-right: 10px;
+}
+

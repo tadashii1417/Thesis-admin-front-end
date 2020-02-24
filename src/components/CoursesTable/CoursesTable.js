@@ -26,7 +26,10 @@ const columns = [
         title: "Name",
         dataIndex: "name",
         key: "name",
-        render: (text, row) => <Link to={'/courses/' + row.slug}>{text}</Link>
+        render: (text, row) => <Link
+            to={'/courses/' + row.slug}>
+            <span style={{fontWeight: '500', fontSize: '15px', padding: '3px'}}>{text}</span>
+        </Link>
     },
     {
         title: "Type",

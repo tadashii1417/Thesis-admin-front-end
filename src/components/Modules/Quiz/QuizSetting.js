@@ -80,7 +80,7 @@ class QuizSettingBasic extends React.Component {
 
                 <Form.Item label="Maximum attempts allowed">
                     {getFieldDecorator('numAttempt', {
-                        initialValue: data.numAttempt
+                        initialValue: data.numAttempt ? data.numAttempt: 0
                     })(
                         <Slider min={0} max={20} step={1}/>
                     )}

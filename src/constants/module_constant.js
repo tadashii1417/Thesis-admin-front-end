@@ -6,7 +6,7 @@ const RESOURCE = "resource";
 const ASSIGNMENT = "assignment";
 const ANNOUNCEMENT = "announcement";
 
-export default {
+export const ModuleType = {
     QUIZ,
     FORUM,
     VIDEO,
@@ -15,3 +15,10 @@ export default {
     ASSIGNMENT,
     ANNOUNCEMENT
 };
+
+export const CurriculumPreviewableModuleType = [
+    ModuleType.ARTICLE,
+    ModuleType.RESOURCE,
+    ModuleType.VIDEO
+];
+

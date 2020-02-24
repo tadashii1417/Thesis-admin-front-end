@@ -25,3 +25,14 @@ export async function createCourse(values) {
     formData.append('visibility', values.visibility);
     return axios.post('/api/courses', formData);
 }
+
+export async function updateCourse(id, patch) {
+    return axios.patch('/api/courses/' + id, patch);
+}
+
+export async function updateCourseBanner(id, file) {
+    const formData = new FormData();
+
+    formData.append('banner', file);
+    return axios.patch('/api/courses/' + id + '/banner', formData);
+}

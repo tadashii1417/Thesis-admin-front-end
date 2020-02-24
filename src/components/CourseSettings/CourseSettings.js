@@ -4,86 +4,20 @@ import {
     Form,
     Icon,
     Input,
-    InputNumber, Radio,
+    InputNumber, message, Radio,
     Select,
     Tooltip,
     TreeSelect
 } from "antd";
 import React from "react";
+import {fetchCategories} from "../../services/category_service";
+import {httpErrorHandler} from "../../utils/axios_util";
+import {createPatch} from "../../utils/patch_util";
+
 const {TextArea} = Input;
 const {Option} = Select;
-const treeData = [
-    {
-        title: 'Development',
-        description: "",
-        slug: "development",
-        count: 10,
-        value: '0-0',
-        key: '0-0',
-        children: [
-            {
-                title: 'Web development',
-                description: "",
-                slug: "web-development",
-                count: 10,
-                value: '0-0-1',
-                key: '0-0-1',
-                children: [
-                    {
-                        title: 'Javascript',
-                        description: "javascript",
-                        slug: "javascript",
-                        count: 10,
-                        value: '0-0-1-0',
-                        key: '0-0-1-0',
-                    },
-                    {
-                        title: 'React JS',
-                        description: "",
-                        slug: "react-js",
-                        count: 10,
-                        value: '0-0-1-1',
-                        key: '0-0-1-1',
-                    },
-                ]
-            },
-            {
-                title: 'Mobile Apps',
-                description: "",
-                slug: "mobile-apps",
-                count: 10,
-                value: '0-0-2',
-                key: '0-0-2',
-            },
-        ],
-    },
-    {
-        title: 'Business',
-        description: "",
-        slug: "business",
-        count: 10,
-        value: '0-1',
-        key: '0-1',
-        children: [
-            {
-                title: 'Finance',
-                description: "",
-                slug: "finance",
-                count: 10,
-                value: '0-1-0',
-                key: '0-1-0',
-            },
-            {
-                title: 'Entrepreneurship',
-                description: "entrepreneurship",
-                slug: "",
-                count: 10,
-                value: '0-1-1',
-                key: '0-1-1',
-            }
-        ]
-    },
-];
+const {TreeNode} = TreeSelect;
+
 const tags = ['css', 'html', 'javascript', 'web', 'python', 'socket'];
 const teachers = ['tadashii1417', 'hieu123', 'hao123'];
 
@@ -94,14 +28,39 @@ const teacherOptions = teachers.map((teacher) => (
     <Option key={teacher}>{teacher}</Option>
 ));
 
-let id = 1;
-
 class CourseSettingsBasic extends React.Component {
+    state = {
+        categories: []
+    };
+
+    async componentDidMount() {
+        try {
+            const {data} = await fetchCategories();
+            this.setState({categories: data});
+        } catch (e) {
+            httpErrorHandler(e, () => {
+                switch (e.code) {
+                    default:
+                        message.error("Something went wrong when fetching categories");
+                }
+            })
+        }
+    }
+
     handleSubmit = e => {
         e.preventDefault();
-        this.props.form.validateFieldsAndScroll((err, values) => {
+        const {isFieldTouched, validateFieldsAndScroll} = this.props.form;
+        let patch = [];
+
+        validateFieldsAndScroll((err, values) => {
             if (!err) {
-                console.log('Received values of categoryForm: ', values);
+                for (let key of Object.keys(values)) {
+                    if (isFieldTouched(key)) {
+                        createPatch(patch, key, values[key]);
+                    }
+                }
+                this.props.handleUpdateCourse(patch);
+
             }
         });
     };
@@ -117,14 +76,29 @@ class CourseSettingsBasic extends React.Component {
     addOutcome = () => {
         const {form} = this.props;
         const keys = form.getFieldValue('keys');
-        const nextKeys = keys.concat(id++);
+        const max = keys[keys.length - 1] + 1;
+        const nextKeys = keys.concat(max);
         form.setFieldsValue({
             keys: nextKeys,
         });
     };
 
+    createCategoryTreeNode = (categories) => {
+        if (categories === undefined) {
+            return;
+        } else {
+            return categories.map(child => (
+                <TreeNode key={child.id} title={child.title} value={child.id}>
+                    {this.createCategoryTreeNode(child.subcategories)}
+                </TreeNode>
+            ));
+        }
+    };
+
+
     render() {
         const {getFieldDecorator, getFieldValue} = this.props.form;
+        const {categories} = this.state;
         const {data} = this.props;
         const formItemLayout = {
             labelCol: {
@@ -143,12 +117,19 @@ class CourseSettingsBasic extends React.Component {
                 sm: {span: 20, offset: 6},
             },
         };
-        getFieldDecorator('keys', {initialValue: []});
+
+        const outcomes = data.learningOutcomes.length;
+        const newKeys = [...Array(outcomes).keys()];
+
+        getFieldDecorator('keys', {initialValue: newKeys});
         const keys = getFieldValue('keys');
-        const formItems = keys.map((k) => (
-            <Form.Item {...formItemLayoutWithOutLabel} key={k}>
+        const learningOutcomes = keys.map((k, index) => (
+            <Form.Item {...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
+                       label={index === 0 ? 'Learning outcomes' : ''}
+                       key={k}>
                 {getFieldDecorator(`learningOutcomes[${k}]`, {
                     validateTrigger: ['onChange', 'onBlur'],
+                    initialValue: data.learningOutcomes[k],
                     rules: [
                         {
                             required: true,
@@ -157,11 +138,13 @@ class CourseSettingsBasic extends React.Component {
                     ],
                 })(
                     <Input placeholder="learning outcome" style={{width: '60%', marginRight: 8}}/>)}
-                <Icon
-                    className="dynamic-delete-button"
-                    type="minus-circle-o"
-                    onClick={() => this.removeOutcome(k)}
-                />
+                {keys.length > 1 ? (
+                    <Icon
+                        className="dynamic-delete-button"
+                        type="minus-circle-o"
+                        onClick={() => this.removeOutcome(k)}
+                    />
+                ) : null}
             </Form.Item>
         ));
 
@@ -195,9 +178,12 @@ class CourseSettingsBasic extends React.Component {
                 <Form.Item
                     label={"Course Category"}>
                     {getFieldDecorator('category', {
-                        rules: []
+                        rules: [],
+                        initialValue: data.categoryId
                     })(
-                        <TreeSelect treeData={treeData} style={{width: '80%'}}/>
+                        <TreeSelect style={{width: '80%'}}>
+                            {this.createCategoryTreeNode(categories)}
+                        </TreeSelect>
                     )}
                 </Form.Item>
 
@@ -275,14 +261,15 @@ class CourseSettingsBasic extends React.Component {
                     )}
                 </Form.Item>
 
-                <Form.Item label={"Learning outcome"}>
-                    {getFieldDecorator(`learningOutcomes[${0}]`, {})(
-                        <Input placeholder={"learning outcome"}/>)}
+                <Form.Item label={"Course promotional video"}>
+                    {getFieldDecorator('promoVideoUrl', {
+                        initialValue: data.promoVideoUrl,
+                    })(
+                        <Input/>
+                    )}
                 </Form.Item>
 
-{/*// TODO: Display learning outcome to front-end*/}
-
-                {formItems}
+                {learningOutcomes}
                 <Form.Item {...formItemLayoutWithOutLabel}>
                     <Button type="dashed" onClick={this.addOutcome} style={{width: '60%'}}>
                         <Icon type="plus"/> Add learning outcome

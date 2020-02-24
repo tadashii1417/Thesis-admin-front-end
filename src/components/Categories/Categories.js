@@ -108,6 +108,7 @@ export default class extends Component {
             })
         }
     };
+
     showDeleteConfirm = (id) => {
         confirm({
             title: 'Are you sure delete this category?',

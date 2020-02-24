@@ -10,6 +10,7 @@ import {updateQuizConfig} from "../../../services/quiz_service";
 import QuizSetting from "./QuizSetting";
 import {QuizDto} from "../../../dtos/quiz_dto";
 import Loading from "../../Loading/Loading";
+import {ModuleType} from "../../../constants/module_constant";
 
 const QuizQuestions = React.lazy(() => import('./QuizQuestions'));
 
@@ -92,8 +93,8 @@ export default class extends Component {
                     </Breadcrumb>
                     <div className={styles.heading}>
                         <Icon
-                            icon={ModulesConfig[1].icon}
-                            style={{color: ModulesConfig[1].color, marginRight: "20px"}}
+                            icon={ModulesConfig[ModuleType.QUIZ].icon}
+                            style={{color: ModulesConfig[ModuleType.QUIZ].color, marginRight: "20px"}}
                         />
                         {module.title}
                     </div>

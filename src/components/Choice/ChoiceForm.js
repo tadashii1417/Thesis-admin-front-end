@@ -1,5 +1,5 @@
 import React from "react";
-import {Col, Form, Icon, Input, Row, Slider} from "antd";
+import {Form, Icon, Input, Row, Slider} from "antd";
 import styles from './ChoiceForm.module.css';
 
 const {TextArea} = Input;

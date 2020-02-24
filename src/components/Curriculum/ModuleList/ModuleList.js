@@ -1,122 +1,170 @@
 import React, {Component} from "react";
 import {Icon} from "react-icons-kit";
-import {Dropdown, Button, Menu, Icon as AntIcon} from "antd";
+import {Dropdown, Button, Menu, Icon as AntIcon, Modal, message} from "antd";
 import {sortableContainer, sortableElement, sortableHandle} from "react-sortable-hoc";
 import arrayMove from "array-move";
 import styles from "./ModuleList.module.css";
 import ModulesConfig from "../ModulesConfig";
 import {ic_format_line_spacing} from "react-icons-kit/md/ic_format_line_spacing";
-import {pencil} from "react-icons-kit/icomoon/pencil";
-import {eye} from "react-icons-kit/icomoon/eye";
-import {bin2} from "react-icons-kit/icomoon/bin2";
 import {cog} from "react-icons-kit/iconic/cog";
 import {Link} from "react-router-dom";
+import EditModule from "../EditModule/EditModule";
+import {httpErrorHandler} from "../../../utils/axios_util";
+import {deleteModule, updateModule} from "../../../services/module_service";
+import {deleteCategory, fetchCategories} from "../../../services/category_service";
 
-const menu = type => (
-    <Menu>
-        <Menu.Item>
-            <a
-                target="_blank"
-                rel="noopener noreferrer"
-                href="http://www.alipay.com/">
-                <AntIcon type="eye" theme="filled" className={styles.actionIcon}/>
-                <span>Visibility</span>
-            </a>
-        </Menu.Item>
-        <Menu.Item>
-            <Link to={"/course/edit/" + type}>
-                <AntIcon type="edit" theme="filled" className={styles.actionIcon}/>
-                <span>Edit</span>
-            </Link>
-        </Menu.Item>
-        <Menu.Item>
-            <a target="_blank" rel="noopener noreferrer" href="http://www.tmall.com/">
-                <AntIcon type="delete" theme="filled" className={styles.actionIcon}/>
-                <span>Delete</span>
-            </a>
-        </Menu.Item>
-    </Menu>
-);
+const {confirm} = Modal;
 
 const DragHandle = sortableHandle(() => (
-    <span>
-    <Icon icon={ic_format_line_spacing} className={styles.dragIcon}/>
-  </span>
+    <span style={{cursor: "pointer"}}><Icon icon={ic_format_line_spacing} className={styles.dragIcon}/></span>
 ));
 
-const SortableItem = sortableElement(({value, course}) => (
-    <div className={styles.module}>
-        <DragHandle/>
-        {ModulesConfig.map(ele => {
-            if (ele.type === value.type) {
-                return (
-                    <React.Fragment key={ele.icon}>
-                        <Icon
-                            key={ele.icon}
-                            icon={ele.icon}
-                            size={16}
-                            style={{color: ele.color, marginRight: "20px"}}/>
-
-                        <Link
-                            to={{
-                                pathname: "/courses/" + course.slug + '/' + value.type + '/' + value.id,
-                                search: "?course=" + course.name
-                            }}
-                            className={styles.moduleTitle}>
-                            <span>{value.title}</span>
-                        </Link>
-
-                        <div style={{marginLeft: "auto"}}>
-                            <Dropdown overlay={menu(value.type)}>
-                                <Button>
-                                    <Icon icon={cog} size={13}/>
-                                </Button>
-                            </Dropdown>
-                        </div>
-
-                        <div className={styles.actionArea}>
-                            <Icon icon={eye} size={13}/>
-                            <Link
-                                to={"/course/edit/" + value.type}
-                                style={{color: "#5c5c5c"}}
-                            >
-                                <Icon icon={pencil} size={13}/>
-                            </Link>
-                            <Icon icon={bin2} size={13}/>
-                        </div>
-                    </React.Fragment>
-                );
-            }
-            return "";
-        })}
-    </div>
-));
 
 const SortableContainer = sortableContainer(({children}) => {
     return <div className={styles.moduleContainer}>{children}</div>;
 });
 
 export default class extends Component {
-    state = {items: this.props.modules};
+    state = {
+        modules: this.props.modules,
+        editModal: false,
+        selectedModule: {}
+    };
+
+    closeEditModule = () => {
+        this.setState({editModal: false});
+    };
+
+    openEditModule = (module) => {
+        console.log('click');
+        this.setState({selectedModule: module, editModal: true});
+    };
+
+    // TODO: add previewable, visibility icon to FE.
+    menu = (module) => (
+        <Menu>
+            <Menu.Item onClick={() => this.openEditModule(module)}>
+                <AntIcon type="edit" theme="filled" className={styles.editIcon}/>
+                <span>Edit</span>
+            </Menu.Item>
+
+            <Menu.Item onClick={() => this.showDeleteConfirm(module.id)}>
+                <AntIcon type="delete" theme="filled" className={styles.deleteIcon}/>
+                <span>Delete</span>
+            </Menu.Item>
+        </Menu>
+    );
+
+    SortableItem = sortableElement(({value, course}) => {
+        const config = ModulesConfig[value.type];
+        return <div className={styles.module}>
+            <DragHandle/>
+            <Icon
+                key={config.icon}
+                icon={config.icon}
+                size={16}
+                style={{color: config.color, marginRight: "20px"}}/>
+
+            <Link
+                to={{
+                    pathname: "/courses/" + course.slug + '/' + value.type + '/' + value.id,
+                    search: "?course=" + course.name
+                }}
+                className={styles.moduleTitle}>
+                <span>{value.title}</span>
+            </Link>
+
+            <div style={{marginLeft: "auto"}}>
+                <Dropdown overlay={this.menu(value)}>
+                    <Button>
+                        <Icon icon={cog} size={13}/>
+                    </Button>
+                </Dropdown>
+            </div>
+
+        </div>
+    });
+
+    handleEditModule = async (patch) => {
+        const {selectedModule, modules} = this.state;
+        try {
+            const {data} = await updateModule(selectedModule.id, patch);
+            data.instanceData = selectedModule.instanceData;
+            let newModules = [...modules];
+            let index = newModules.findIndex(module => module.id === selectedModule.id);
+            newModules[index] = data;
+            this.setState({modules: newModules, editModal: false});
+            message.success("Module has been updated");
+        } catch (e) {
+            httpErrorHandler(e, () => {
+                switch (e.code) {
+                    default:
+                        message.error("Something went wrong")
+                }
+            })
+        }
+    };
+
+    showDeleteConfirm = (id) => {
+        confirm({
+            title: 'Are you sure delete this module?',
+            okText: 'Yes',
+            okType: 'danger',
+            cancelText: 'No',
+            onOk: async () => {
+                try {
+                    await deleteModule(id);
+
+                    let newModules = [...this.state.modules];
+                    newModules = newModules.filter(module => module.id !== id);
+                    this.setState({modules: newModules});
+                    message.success("Module has been deleted")
+                } catch (e) {
+                    httpErrorHandler(e, () => {
+                        switch (e.code) {
+                            default:
+                                message.error("Something went wrong");
+                        }
+                    })
+                }
+            },
+            onCancel() {
+                console.log('Cancel');
+            },
+        });
+    };
     onSortEnd = ({oldIndex, newIndex}) => {
-        this.setState(({items}) => ({
-            items: arrayMove(items, oldIndex, newIndex)
+        this.setState(({modules}) => ({
+            modules: arrayMove(modules, oldIndex, newIndex)
         }));
     };
 
     render() {
         const {course} = this.props;
         return (
-            <SortableContainer onSortEnd={this.onSortEnd} useDragHandle>
-                {this.state.items.map((value, index) => (
-                    <SortableItem
-                        key={`item-${value.id}`}
-                        index={index}
-                        value={value}
-                        course={course}
+            <React.Fragment>
+                <SortableContainer onSortEnd={this.onSortEnd} useDragHandle>
+                    {this.state.modules.map((value, index) => (
+                        <this.SortableItem
+                            key={`item-${value.id}`}
+                            index={index}
+                            value={value}
+                            course={course}
+                        />
+                    ))}
+                </SortableContainer>
+
+                <Modal title={"Edit module"}
+                       visible={this.state.editModal}
+                       onCancel={this.closeEditModule}
+                       footer={null}>
+                    <EditModule
+                        data={this.state.selectedModule}
+                        handleEditModule={this.handleEditModule}
                     />
-                ))}
-            </SortableContainer>
+                </Modal>
+            </React.Fragment>
+
         );
     }
 }

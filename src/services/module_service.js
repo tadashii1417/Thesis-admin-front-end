@@ -18,3 +18,11 @@ export async function createNewModule(values, modules, id) {
 export async function getModule(moduleId) {
     return axios.get('/api/modules/' + moduleId);
 }
+
+export async function updateModule(id, patch) {
+    return axios.patch('/api/modules/' + id, patch);
+}
+
+export async function deleteModule(id) {
+    return axios.delete('/api/modules/' + id);
+}
