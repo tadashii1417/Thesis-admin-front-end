@@ -2,7 +2,6 @@ import React from "react";
 import {
     Button,
     Form,
-    Input,
     Select, InputNumber, Icon
 } from "antd";
 import {Editor} from 'doodle-editor';
@@ -11,7 +10,6 @@ import ChoiceForm from "../../../Choice/ChoiceForm";
 import {removeIdNewChoices, removeUndefined} from "../../../../utils/dev_util";
 
 const {Option} = Select;
-const {TextArea} = Input;
 
 class NewQuestionFormBasic extends React.Component {
     state = {

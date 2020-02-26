@@ -1,5 +1,5 @@
 export function removeUndefined(values) {
-    return values.filter(val => val !== undefined);
+    return values.filter(val => val.fraction !== undefined);
 }
 
 export function removeIdNewChoices(choices) {
@@ -10,7 +10,6 @@ export function removeIdNewChoices(choices) {
 
 export function removeNullId(choices) {
     for(let choice of choices){
-        console.log(choice);
         if(choice.id === null) {
             delete choice.id;
         }

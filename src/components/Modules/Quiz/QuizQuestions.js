@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {Button, Divider, Collapse, Icon, Result, Spin, message, Modal} from "antd";
 import styles from './Quiz.module.css';
-import QuestionEdit from "./Question/QuestionDetail";
+import QuestionDetail from "./Question/QuestionDetail";
 import {httpErrorHandler} from "../../../utils/axios_util";
 import {
     deleteQuizQuestion,
@@ -10,7 +10,6 @@ import {
     updateQuizQuestion
 } from "../../../services/quiz_service";
 import NewQuestionForm from "./Question/NewQuestionForm";
-import QuestionEditForm from "./Question/QuestionEditForm";
 import ServerErrors from "../../../constants/server_error_constant";
 
 const {Panel} = Collapse;
@@ -21,8 +20,6 @@ export default class extends Component {
         questions: [],
         loading: true,
         addModal: false,
-        editModal: false,
-        selectedQuestion: null
     };
 
     async componentDidMount() {
@@ -42,10 +39,6 @@ export default class extends Component {
     genExtra = (question) => {
         return (
             <React.Fragment>
-                <Button onClick={(e) => this.handleEditModal(question, e)}>
-                    <Icon type={"edit"} theme={"twoTone"}/>
-                </Button>
-                <Divider type={"vertical"}/>
                 <Button onClick={(e) => this.showDeleteConfirm(question.id, e) }>
                     <Icon type={"delete"} theme={"twoTone"} twoToneColor={"#eb2f96"}/>
                 </Button>
@@ -59,15 +52,6 @@ export default class extends Component {
 
     handleAddModal = () => {
         this.setState({addModal: true})
-    };
-
-    handleCancelEdit = () => {
-        this.setState({editModal: false})
-    };
-
-    handleEditModal = (question, e) => {
-        e.stopPropagation();
-        this.setState({editModal: true, selectedQuestion: question})
     };
 
     addQuestionHandler = async (values, action) => {
@@ -100,7 +84,7 @@ export default class extends Component {
             const updatedQuestions = [...this.state.questions];
             let index = updatedQuestions.findIndex(obj => obj.id === id);
             updatedQuestions[index] = data;
-            this.setState({questions: updatedQuestions, editModal: false});
+            this.setState({questions: updatedQuestions});
         }catch (e) {
             httpErrorHandler(e, ()=>{
                 switch (e.code) {
@@ -173,7 +157,7 @@ export default class extends Component {
                     <Collapse accordion>
                         {this.state.questions.map((item, index) => (
                             <Panel key={item.id} header={"Question "+ (index + 1)} extra={this.genExtra(item)}>
-                                <QuestionEdit question={item}/>
+                                <QuestionDetail question={item} editQuestionHandler={this.editQuestionHandler}/>
                             </Panel>
                         ))}
                     </Collapse>
@@ -196,15 +180,6 @@ export default class extends Component {
                         <NewQuestionForm addQuestionHandler={this.addQuestionHandler}/>
                     </Modal>
 
-                    <Modal title={"Edit question"}
-                           visible={this.state.editModal}
-                           onCancel={this.handleCancelEdit}
-                           bodyStyle={{padding: "12px 20px"}}
-                           style={{top: 20}}
-                           width={'60%'}
-                           footer={null}>
-                        <QuestionEditForm data={this.state.selectedQuestion} editQuestionHandler={this.editQuestionHandler}/>
-                    </Modal>
                 </div>
             </div>
 

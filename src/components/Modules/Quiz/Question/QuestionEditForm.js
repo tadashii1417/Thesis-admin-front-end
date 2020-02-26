@@ -2,8 +2,7 @@ import React from "react";
 import {
     Button,
     Form,
-    Input,
-    Select, InputNumber, Icon, Spin
+    Select, InputNumber, Icon, Spin, Divider
 } from "antd";
 import {QuestionType} from "../../../../constants/quiz_constant";
 import ChoiceForm from "../../../Choice/ChoiceForm";
@@ -11,13 +10,11 @@ import {removeNullId, removeUndefined} from "../../../../utils/dev_util";
 import {Editor} from 'doodle-editor';
 
 const {Option} = Select;
-const {TextArea} = Input;
 
 class QuestionEditFormBasic extends React.Component {
     state = {
         keys: [0],
         loading: true,
-        data: {}
     };
 
     componentDidMount() {
@@ -27,25 +24,9 @@ class QuestionEditFormBasic extends React.Component {
         this.setState({keys: newKeys, loading: false});
     }
 
-    static getDerivedStateFromProps(nextProps, prevState) {
-        if (nextProps.data !== prevState.data) {
-            const choiceCount = nextProps.data.choices.length;
-            const newKeys = [...Array(choiceCount).keys()];
-            nextProps.form.resetFields();
-
-            return {
-                keys: newKeys,
-                loading: false,
-                data: nextProps.data
-            }
-        } else {
-            return null;
-        }
-    }
-
     handleSubmit = e => {
         e.preventDefault();
-        const {data} = this.state;
+        const {data} = this.props;
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
                 values.choices = removeUndefined(values.choices);
@@ -74,8 +55,7 @@ class QuestionEditFormBasic extends React.Component {
         if (this.state.loading) {
             return <Spin/>
         }
-        const {data} = this.state;
-        console.log(data);
+        const {data} = this.props;
 
         const formItemLayout = {
             labelCol: {
@@ -112,15 +92,6 @@ class QuestionEditFormBasic extends React.Component {
                     )}
                 </Form.Item>
 
-                {/*<Form.Item label="Content">*/}
-                {/*    {getFieldDecorator('content', {*/}
-                {/*        rules: [{required: true, message: "Please fill in content"}],*/}
-                {/*        initialValue: data.content*/}
-                {/*    })(*/}
-                {/*        <TextArea/>*/}
-                {/*    )}*/}
-                {/*</Form.Item>*/}
-
                 <Form.Item label={"Type"}>
                     {getFieldDecorator('type', {
                         initialValue: data.type
@@ -155,6 +126,10 @@ class QuestionEditFormBasic extends React.Component {
                 <Form.Item label={<span>&nbsp;&nbsp;</span>}>
                     <Button type="primary" htmlType="submit">
                         Edit question
+                    </Button>
+                    <Divider type={'vertical'}/>
+                    <Button onClick={this.props.handleCancel}>
+                        Cancel
                     </Button>
                 </Form.Item>
             </Form>
