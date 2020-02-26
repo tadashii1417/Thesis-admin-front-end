@@ -8,6 +8,7 @@ import {
 import {QuestionType} from "../../../../constants/quiz_constant";
 import ChoiceForm from "../../../Choice/ChoiceForm";
 import {removeNullId, removeUndefined} from "../../../../utils/dev_util";
+import {Editor} from 'doodle-editor';
 
 const {Option} = Select;
 const {TextArea} = Input;
@@ -74,6 +75,7 @@ class QuestionEditFormBasic extends React.Component {
             return <Spin/>
         }
         const {data} = this.state;
+        console.log(data);
 
         const formItemLayout = {
             labelCol: {
@@ -103,11 +105,21 @@ class QuestionEditFormBasic extends React.Component {
                 <Form.Item label="Content">
                     {getFieldDecorator('content', {
                         rules: [{required: true, message: "Please fill in content"}],
+                        valuePropName: 'initialContent',
                         initialValue: data.content
                     })(
-                        <TextArea/>
+                        <Editor/>
                     )}
                 </Form.Item>
+
+                {/*<Form.Item label="Content">*/}
+                {/*    {getFieldDecorator('content', {*/}
+                {/*        rules: [{required: true, message: "Please fill in content"}],*/}
+                {/*        initialValue: data.content*/}
+                {/*    })(*/}
+                {/*        <TextArea/>*/}
+                {/*    )}*/}
+                {/*</Form.Item>*/}
 
                 <Form.Item label={"Type"}>
                     {getFieldDecorator('type', {

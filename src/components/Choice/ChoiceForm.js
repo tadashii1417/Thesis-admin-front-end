@@ -1,5 +1,6 @@
 import React from "react";
 import {Form, Icon, Input, Row, Slider} from "antd";
+import {Editor} from 'doodle-editor';
 import styles from './ChoiceForm.module.css';
 
 const {TextArea} = Input;
@@ -35,7 +36,6 @@ export default function (props) {
         data.fraction = 0;
         data.feedback = "";
     }
-
     return (
         <div className={styles.container}>
             <Row>
@@ -50,10 +50,11 @@ export default function (props) {
                     style={{marginBottom: '7px'}}
                     key={k}>
                     {getFieldDecorator(`choices[${k}].content`, {
+                        valuePropName: 'initialContent',
                         initialValue: data.content,
                         rules: [{required: true, message: "Please fill in at least one option."}]
                     })(
-                        <TextArea placeholder=""/>)}
+                        <Editor/>)}
                 </Form.Item>
             </Row>
             <Row>

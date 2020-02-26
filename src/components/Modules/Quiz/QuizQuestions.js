@@ -171,8 +171,8 @@ export default class extends Component {
                     }
 
                     <Collapse accordion>
-                        {this.state.questions.map(item => (
-                            <Panel key={item.id} header={item.content} extra={this.genExtra(item)}>
+                        {this.state.questions.map((item, index) => (
+                            <Panel key={item.id} header={"Question "+ (index + 1)} extra={this.genExtra(item)}>
                                 <QuestionEdit question={item}/>
                             </Panel>
                         ))}

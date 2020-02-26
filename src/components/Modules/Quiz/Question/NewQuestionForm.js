@@ -5,6 +5,7 @@ import {
     Input,
     Select, InputNumber, Icon
 } from "antd";
+import {Editor} from 'doodle-editor';
 import {QuestionType} from "../../../../constants/quiz_constant";
 import ChoiceForm from "../../../Choice/ChoiceForm";
 import {removeIdNewChoices, removeUndefined} from "../../../../utils/dev_util";
@@ -72,7 +73,7 @@ class NewQuestionFormBasic extends React.Component {
                     {getFieldDecorator('content', {
                         rules: [{required: true, message: "Please fill in content"}],
                     })(
-                        <TextArea/>
+                        <Editor/>
                     )}
                 </Form.Item>
 
