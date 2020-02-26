@@ -106,3 +106,20 @@ h4.ant-typography, .ant-typography h4 {
 .ant-form-vertical .ant-form-item {
     padding-bottom: 5px;
 }
+
+/********************************** EDITOR ********************************/
+.article .ql-toolbar {
+    padding: 0;
+}
+.quiz-content .ql-toolbar {
+    padding: 0;
+}
+
+.choice-content .ql-toolbar{
+    padding: 0;
+}
+.article .ql-editor {
+    min-height: 200px;
+}
+
+

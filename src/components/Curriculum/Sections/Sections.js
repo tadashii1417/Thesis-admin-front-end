@@ -13,6 +13,7 @@ import {createNewQuiz} from "../../../services/quiz_service";
 import {ModuleType} from '../../../constants/module_constant';
 import EditSection from "../EditSection/EditSection";
 import {deleteSection} from "../../../services/section_service";
+import {createNewArticle} from "../../../services/article_service";
 
 const {confirm} = Modal;
 
@@ -42,8 +43,16 @@ class Sections extends Component {
             const {modules} = this.props.value;
 
             const {data} = await createNewModule(values, modules, id);
-            if (data.type === ModuleType.QUIZ) {
-                await createNewQuiz(data.id);
+
+            switch (data.type) {
+                case ModuleType.QUIZ:
+                    await createNewQuiz(data.id);
+                    break;
+                case ModuleType.ARTICLE:
+                    await createNewArticle(data.id);
+                    break;
+                default:
+                    break;
             }
 
             this.props.value.modules.push(data);
@@ -116,7 +125,9 @@ class Sections extends Component {
 
                         <Divider type="vertical"/>
 
-                        <Button onClick={(e)=> {this.showDeleteConfirm(value.id, e)}}>
+                        <Button onClick={(e) => {
+                            this.showDeleteConfirm(value.id, e)
+                        }}>
                             <Icon type={"delete"} theme="twoTone" twoToneColor="#eb2f96"/>
                         </Button>
                     </div>

@@ -3,8 +3,6 @@ import {Form, Icon, Input, Row, Slider} from "antd";
 import {Editor} from 'doodle-editor';
 import styles from './ChoiceForm.module.css';
 
-const {TextArea} = Input;
-
 export default function (props) {
     const {k, getFieldDecorator, state, removeOption} = props;
     const formItemLayout = {
@@ -48,6 +46,7 @@ export default function (props) {
                     {...formItemLayout2}
                     label={'Option content'}
                     style={{marginBottom: '7px'}}
+                    className={'choice-content'}
                     key={k}>
                     {getFieldDecorator(`choices[${k}].content`, {
                         valuePropName: 'initialContent',

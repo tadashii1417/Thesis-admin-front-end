@@ -35,15 +35,11 @@ export default function (props) {
                 <AdminRoute isAuthenticated={isAuthenticated} path="/new-course" component={NewCourse} exact/>
                 <AdminRoute isAuthenticated={isAuthenticated} path="/course/edit/announcement" component={Announcement}
                             exact/>
-                <AdminRoute isAuthenticated={isAuthenticated} path="/course/edit/video" component={Video} exact/>
-                <AdminRoute isAuthenticated={isAuthenticated} path="/course/edit/resource" component={Resource} exact/>
-                <AdminRoute isAuthenticated={isAuthenticated} path="/course/edit/content" component={Article} exact/>
-                <AdminRoute isAuthenticated={isAuthenticated} path="/course/edit/forum" component={Forum} exact/>
-                <AdminRoute isAuthenticated={isAuthenticated} path="/course/edit/assignment" component={Assignment}
-                            exact/>
                 <AdminRoute isAuthenticated={isAuthenticated} path="/course/edit/announcement" component={Announcement}
                             exact/>
                 <AdminRoute isAuthenticated={isAuthenticated} path="/courses/:slug/quiz/:moduleId" component={QuizEntrance} exact/>
+                <AdminRoute isAuthenticated={isAuthenticated} path="/courses/:slug/article/:moduleId" component={Article} exact/>
+
                 <AdminRoute isAuthenticated={isAuthenticated} path="/course/assignment" component={AssignmentReport}/>
                 <AdminRoute isAuthenticated={isAuthenticated} path="/course/edit-question" component={QuizEdit} exact/>
                 <AdminRoute isAuthenticated={isAuthenticated} path="/questions" component={QuestionsBank} exact/>

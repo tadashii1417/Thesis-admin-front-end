@@ -82,7 +82,7 @@ class QuestionEditFormBasic extends React.Component {
         ));
         return (
             <Form layout="vertical" onSubmit={this.handleSubmit} {...formItemLayout} hideRequiredMark>
-                <Form.Item label="Content">
+                <Form.Item label="Content" className={'quiz-content'}>
                     {getFieldDecorator('content', {
                         rules: [{required: true, message: "Please fill in content"}],
                         valuePropName: 'initialContent',

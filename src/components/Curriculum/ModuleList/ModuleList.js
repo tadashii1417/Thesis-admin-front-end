@@ -11,7 +11,6 @@ import {Link} from "react-router-dom";
 import EditModule from "../EditModule/EditModule";
 import {httpErrorHandler} from "../../../utils/axios_util";
 import {deleteModule, updateModule} from "../../../services/module_service";
-import {deleteCategory, fetchCategories} from "../../../services/category_service";
 
 const {confirm} = Modal;
 
