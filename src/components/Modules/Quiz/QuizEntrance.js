@@ -11,6 +11,7 @@ import QuizSetting from "./QuizSetting";
 import {QuizDto} from "../../../dtos/quiz_dto";
 import Loading from "../../Loading/Loading";
 import {ModuleType} from "../../../constants/module_constant";
+import ServerErrors from "../../../constants/server_error_constant";
 
 const QuizQuestions = React.lazy(() => import('./QuizQuestions'));
 
@@ -58,6 +59,12 @@ export default class extends Component {
         } catch (e) {
             httpErrorHandler(e, () => {
                 switch (e.code) {
+                    case ServerErrors.INVALID_TIME_CONFIG:
+                        message.error('Close time must be larger than open time !');
+                        break;
+                    case ServerErrors.TIME_RANGE_SMALLER_THAN_DURATION:
+                        message.error('Not enough for duration in this time range !');
+                        break;
                     default:
                         message.error("Something went wrong");
                 }
@@ -94,6 +101,7 @@ export default class extends Component {
                     <div className={styles.heading}>
                         <Icon
                             icon={ModulesConfig[ModuleType.QUIZ].icon}
+                            className={'circle-icon quiz-icon'}
                             style={{color: ModulesConfig[ModuleType.QUIZ].color, marginRight: "20px"}}
                         />
                         {module.title}
@@ -134,7 +142,7 @@ export default class extends Component {
                                         <div>{quizSettingDto.gradingPolicy}</div>
                                         <div>{quizSettingDto.passThreshold}</div>
                                         <div>{quizSettingDto.shuffleAnswer}</div>
-                                        <div>{quizSettingDto.duration} minutes</div>
+                                        <div>{quizSettingDto.duration} seconds</div>
                                         <div>{quizSettingDto.openAt}</div>
                                         <div>{quizSettingDto.closeAt}</div>
                                         <div>{quizSettingDto.numAttempt}</div>

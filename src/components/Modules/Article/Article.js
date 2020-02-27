@@ -49,7 +49,7 @@ class Article extends Component {
                     let patch = [];
                     createPatch(patch, 'content/html', content);
                     await updateArticle(module.id, patch);
-                    message.success("Content has been save !");
+                    message.success("Content has been saved !");
                     this.setState({touched: false})
                 }catch (e) {
                     httpErrorHandler(e, () => {
@@ -90,6 +90,7 @@ class Article extends Component {
                     <div className={styles.heading}>
                         <Icon
                             icon={ModulesConfig[ModuleType.ARTICLE].icon}
+                            className={'circle-icon'}
                             style={{color: ModulesConfig[ModuleType.ARTICLE].color, marginRight: "20px"}}
                         />
                         {module.title}

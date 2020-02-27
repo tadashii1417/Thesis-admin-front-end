@@ -111,15 +111,34 @@ h4.ant-typography, .ant-typography h4 {
 .article .ql-toolbar {
     padding: 0;
 }
+
 .quiz-content .ql-toolbar {
     padding: 0;
 }
 
-.choice-content .ql-toolbar{
+.choice-content .ql-toolbar {
     padding: 0;
 }
+
 .article .ql-editor {
     min-height: 200px;
 }
 
+.circle-icon {
+    background: #f3f3f3;
+    border: 1px solid red;
+    padding:10px;
+    border-radius: 50%;
+    width: 38px;
+    height: 38px;
+}
 
+.circle-icon svg {
+    margin-top: -17px;
+    margin-left: 1px;
+}
+
+.quiz-icon {
+    border: 1px solid green;
+    /*background-color: #e1ffd7;*/
+}
