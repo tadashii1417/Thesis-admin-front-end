@@ -5,7 +5,6 @@ import AdminRoute from "./routes/AdminRoute";
 import PublicRoute from "./routes/PublicRoute";
 import CourseDetail from "./containers/CourseDetail/CourseDetail";
 import QuestionsBank from "./containers/QuestionsBank/index.js";
-import NewQuestion from "./containers/NewQuestion/NewQuestion";
 import Announcement from "./components/Modules/Announcement/Announcement";
 import Article from "./components/Modules/Article/Article";
 import Forum from "./components/Modules/Forum/Forum";
@@ -43,7 +42,6 @@ export default function (props) {
                 <AdminRoute isAuthenticated={isAuthenticated} path="/course/assignment" component={AssignmentReport}/>
                 <AdminRoute isAuthenticated={isAuthenticated} path="/course/edit-question" component={QuizEdit} exact/>
                 <AdminRoute isAuthenticated={isAuthenticated} path="/questions" component={QuestionsBank} exact/>
-                <AdminRoute isAuthenticated={isAuthenticated} path="/new-question" component={NewQuestion} exact/>
             </AdminLayout>
         </Switch>
     );
