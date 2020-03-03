@@ -118,6 +118,7 @@ class QuizSettingBasic extends React.Component {
                         <DatePicker showTime placeholder="Select Time" format={config.timeFormat}/>
                     )}
                 </Form.Item>
+
                 <Form.Item label={"."}>
                     <Button type="primary" htmlType="submit">
                         Update

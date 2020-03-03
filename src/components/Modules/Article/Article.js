@@ -69,7 +69,6 @@ class Article extends Component {
         if (loading) {
             return <Spin/>
         }
-        console.log(this.state);
         const {match, location} = this.props;
         const query = new URLSearchParams(location.search);
 

@@ -125,20 +125,14 @@ h4.ant-typography, .ant-typography h4 {
 }
 
 .circle-icon {
-    background: #f3f3f3;
-    border: 1px solid red;
-    padding:10px;
+    background: #e2e2e2;
+    padding: 8px;
     border-radius: 50%;
-    width: 38px;
-    height: 38px;
+    width: 35px;
+    height: 35px;
 }
 
 .circle-icon svg {
     margin-top: -17px;
     margin-left: 1px;
-}
-
-.quiz-icon {
-    border: 1px solid green;
-    /*background-color: #e1ffd7;*/
 }

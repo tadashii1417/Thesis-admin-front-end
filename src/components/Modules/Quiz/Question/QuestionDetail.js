@@ -41,7 +41,7 @@ export default class extends Component {
                 <div className={styles.option}>
                     <Collapse accordion>
                         {choices.map(choice => (
-                            <Panel key={choice.content} header={<EditorContent content={choice.content}/>}>
+                            <Panel key={choice.id} header={<EditorContent content={choice.content}/>}>
                                 <Form className={styles.form} layout={"vertical"}>
                                     <Form.Item label={"Fraction"} {...formItemLayout}>
                                         <InputNumber value={choice.fraction}/>

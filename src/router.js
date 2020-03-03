@@ -27,7 +27,7 @@ export default function (props) {
         <Switch>
             <PublicRoute isAuthenticated={isAuthenticated} path="/login" component={Auth} exact/>
             <AdminLayout>
-                <Route path={"/test"} component={QuizEntrance}/>
+                <Route path={"/test"} component={Assignment}/>
                 <AdminRoute isAuthenticated={isAuthenticated} path="/" component={Dashboard} exact/>
                 <AdminRoute isAuthenticated={isAuthenticated} path="/courses" component={Courses} exact/>
                 <AdminRoute isAuthenticated={isAuthenticated} path="/courses/:slug" component={CourseDetail} exact/>
@@ -38,6 +38,7 @@ export default function (props) {
                             exact/>
                 <AdminRoute isAuthenticated={isAuthenticated} path="/courses/:slug/quiz/:moduleId" component={QuizEntrance} exact/>
                 <AdminRoute isAuthenticated={isAuthenticated} path="/courses/:slug/article/:moduleId" component={Article} exact/>
+                <AdminRoute isAuthenticated={isAuthenticated} path="/courses/:slug/assignment/:moduleId" component={Assignment} exact/>
 
                 <AdminRoute isAuthenticated={isAuthenticated} path="/course/assignment" component={AssignmentReport}/>
                 <AdminRoute isAuthenticated={isAuthenticated} path="/course/edit-question" component={QuizEdit} exact/>

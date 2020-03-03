@@ -12,8 +12,10 @@ import {QuizDto} from "../../../dtos/quiz_dto";
 import Loading from "../../Loading/Loading";
 import {ModuleType} from "../../../constants/module_constant";
 import ServerErrors from "../../../constants/server_error_constant";
+import QuizResult from "./QuizResult";
 
 const QuizQuestions = React.lazy(() => import('./QuizQuestions'));
+const QuizResults = React.lazy(()=> import('./QuizResult'));
 
 const {TabPane} = Tabs;
 
@@ -101,7 +103,7 @@ export default class extends Component {
                     <div className={styles.heading}>
                         <Icon
                             icon={ModulesConfig[ModuleType.QUIZ].icon}
-                            className={'circle-icon quiz-icon'}
+                            className={'circle-icon'}
                             style={{color: ModulesConfig[ModuleType.QUIZ].color, marginRight: "20px"}}
                         />
                         {module.title}
@@ -162,6 +164,12 @@ export default class extends Component {
                         <TabPane key={"questions"} tab={<span> Questions</span>}>
                             <Suspense fallback={<Loading/>}>
                                 <QuizQuestions moduleId={module.id}/>
+                            </Suspense>
+                        </TabPane>
+
+                        <TabPane key={"attempts"} tab={<span> Results</span>}>
+                            <Suspense fallback={<Loading/>}>
+                                <QuizResult moduleId={module.id}/>
                             </Suspense>
                         </TabPane>
                     </Tabs>

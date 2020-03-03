@@ -1,13 +1,47 @@
+.header {
+    background-color: #fff;
+    padding: 12px 24px 16px 24px;
+    color: rgba(0, 0, 0, .65);
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.heading {
+    display: flex;
+    align-items: center;
+    margin-top: 8px;
+    width: 100%;
+    overflow: hidden;
+    color: rgba(0, 0, 0, .85);
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 32px;
+}
+
 .assignmentContent {
     width: 90%;
     margin-left: 5%;
+    padding-top: 10px;
     font-size: 15px;
     line-height: 22px;
-    /*letter-spacing: 0.5px;*/
+    min-height: 50vh;
 }
 
-.assignmentContent > h4 {
+.assignmentContent h4 {
     color: #f98012;
+}
+
+.assignmentContent > div {
+    margin-bottom: 20px;
+}
+
+.fileContainer {
+    margin: 7px;
+}
+
+
+.assignmentContent .ql-editor{
+    min-height: 50px;
 }
 
 .table {
@@ -18,12 +52,17 @@
 }
 
 .table td {
-
     padding: .75rem;
     vertical-align: top;
     border-top: 1px solid #dee2e6;
 }
 
 .divider {
-    margin-top: 10px;
+    margin: 10px 0;
+}
+
+.editButton {
+    width: 100%;
+    text-align: center;
+    margin-top: 30px;
 }

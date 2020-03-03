@@ -27,7 +27,7 @@ const columns = [
         title: 'Avatar',
         dataIndex: 'avatar',
         key: 'avatar',
-        render: text => (<Avatar src={text} />)
+        render: text => (<Avatar src={text}/>)
     },
     {
         title: 'Name',
@@ -49,46 +49,34 @@ const columns = [
 export default function (props) {
 
     return (
-        <div className="adminContent">
-            <Title level={4}>Assignment 1: Functional Programming</Title>
-            <Button type={"primary"} icon={"setting"} className="iconEdit">Edit Setting</Button>
+        <div className={styles.assignmentContent}>
+            <h4>Grading Summary</h4>
+            <Divider className={styles.divider}/>
+            <table style={{width: "100%"}}>
+                <tbody className={styles.table}>
+                <tr>
+                    <td>Participants</td>
+                    <td>10</td>
+                </tr>
+                <tr>
+                    <td>Submitted</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <td>Due date</td>
+                    <td>Thursday, 26 December 2019, 1:00 AM</td>
+                </tr>
+                <tr>
+                    <td>Time remaining</td>
+                    <td>76 days 15 hours</td>
+                </tr>
+                </tbody>
+            </table>
 
-            <Divider/>
-            <div className={styles.assignmentContent}>
-                <h4>Description</h4>
-                <Divider className={styles.divider}/>
-                Keep it short! Type or Record your answer! <br/>Record with the audio or video buttons above!<br/>
-                From your readings, define Digital Literacy in no more than 15 words.
-                Can you master the art of being succinct?
-                <br/><br/>
-                <h4>Grading Summary</h4>
-                <Divider className={styles.divider}/>
-                <table style={{width: "100%"}}>
-                    <tbody className={styles.table}>
-                    <tr>
-                        <td>Participants</td>
-                        <td>10</td>
-                    </tr>
-                    <tr>
-                        <td>Submitted</td>
-                        <td>2</td>
-                    </tr>
-                    <tr>
-                        <td>Due date</td>
-                        <td>Thursday, 26 December 2019, 1:00 AM</td>
-                    </tr>
-                    <tr>
-                        <td>Time remaining</td>
-                        <td>76 days 15 hours</td>
-                    </tr>
-                    </tbody>
-                </table>
-
-                <br/><br/>
-                <h4>Student Submissions</h4>
-                <Divider className={styles.divider}/>
-                <Table dataSource={dataSource} columns={columns}/>
-            </div>
+            <br/><br/>
+            <h4>Student Submissions</h4>
+            <Divider className={styles.divider}/>
+            <Table dataSource={dataSource} columns={columns}/>
 
 
         </div>
