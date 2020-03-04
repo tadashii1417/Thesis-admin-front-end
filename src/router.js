@@ -8,7 +8,7 @@ import QuestionsBank from "./containers/QuestionsBank/index.js";
 import Announcement from "./components/Modules/Announcement/Announcement";
 import Article from "./components/Modules/Article/Article";
 import Forum from "./components/Modules/Forum/Forum";
-import AssignmentReport from "./components/Modules/Assignment/AssignmentReport";
+import AssignmentReport from "./components/Modules/Assignment/AssignmentSubmissions";
 import Assignment from "./components/Modules/Assignment/Assignment";
 import Video from "./components/Modules/Video/Video";
 import Resource from "./components/Modules/Resource/Resource";

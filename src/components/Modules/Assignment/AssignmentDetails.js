@@ -12,7 +12,7 @@ import {removeFile} from "../../../services/file_service";
 
 const {TabPane} = Tabs;
 const {confirm} = Modal;
-const AssignmentReport = React.lazy(() => import('./AssignmentReport'));
+const AssignmentSubmissions = React.lazy(() => import('./AssignmentSubmissions'));
 
 class AssignmentDetails extends Component {
     state = {
@@ -35,8 +35,8 @@ class AssignmentDetails extends Component {
     };
 
     removeAttachmentFile = async (id) => {
-        const {data} = this.props;
-        const {attachmentFiles} = data;
+        const {module} = this.props;
+        const {attachmentFiles} = module.instanceData;
         try {
             await removeFile(id);
             const newFiles = attachmentFiles.filter(file => file.id !== id);
@@ -54,8 +54,8 @@ class AssignmentDetails extends Component {
 
 
     render() {
-        const {data, visible, handleCloseEdit, handleOpenEdit, handleEditAssignment, handleAddAttachment} = this.props;
-
+        const {module, visible, handleCloseEdit, handleOpenEdit, handleEditAssignment, handleAddAttachment} = this.props;
+        const data = module.instanceData;
         return (
             <Tabs type={"card"}>
                 <TabPane tab={'Details'} key='detail'>
@@ -84,7 +84,7 @@ class AssignmentDetails extends Component {
                                     <div className={styles.fileContainer} key={file.id}>
                                         <Icon type={'delete'} className={styles.deleteFile}
                                               onClick={() => this.showDeleteConfirm(file)}/>
-                                        <Button onClick={(e) => downloadFile(file, e)} icon={"paper-clip"}>
+                                        <Button onClick={() => downloadFile(file)} icon={"paper-clip"}>
                                             {file.displayName}
                                         </Button>
                                     </div>
@@ -118,7 +118,7 @@ class AssignmentDetails extends Component {
 
                 <TabPane tab={'Submissions'} key='submission'>
                     <Suspense fallback={Loading}>
-                        <AssignmentReport/>
+                        <AssignmentSubmissions module={module}/>
                     </Suspense>
                 </TabPane>
             </Tabs>

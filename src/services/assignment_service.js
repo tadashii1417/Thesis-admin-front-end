@@ -33,3 +33,7 @@ export function addAssignmentFile(id, files) {
 
     return axios.post(`/api/assignments/${id}/attachments`, formData);
 }
+
+export function fetchSubmissions(id) {
+    return axios.get(`/api/assignments/${id}/submissions`);
+}

@@ -151,7 +151,7 @@ class Assignment extends Component {
                     {module.instanceData ?
                         (
                             <AssignmentDetails
-                                data={module.instanceData}
+                                module={module}
                                 visible={editModal}
                                 handleCloseEdit={this.closeEditModal}
                                 handleOpenEdit={this.openEditModal}
