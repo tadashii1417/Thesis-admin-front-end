@@ -1,5 +1,5 @@
-import React, {Component, Suspense} from "react";
-import {message, Spin, Result, Button, Modal, Breadcrumb, Tabs} from 'antd';
+import React, {Component} from "react";
+import {message, Spin, Result, Button, Modal, Breadcrumb} from 'antd';
 import {getModule} from "../../../services/module_service";
 import {httpErrorHandler} from "../../../utils/axios_util";
 import styles from './Assignment.module.css';

@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Divider, Table, Typography, Avatar, Button, Tag, Spin, message} from 'antd';
+import {Divider, Table, Avatar, Tag, Spin, message} from 'antd';
 
 import styles from './Assignment.module.css';
 import {defaultAvatar} from "../../../constants/dev_constant";

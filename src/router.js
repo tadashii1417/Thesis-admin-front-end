@@ -7,18 +7,16 @@ import CourseDetail from "./containers/CourseDetail/CourseDetail";
 import QuestionsBank from "./containers/QuestionsBank/index.js";
 import Announcement from "./components/Modules/Announcement/Announcement";
 import Article from "./components/Modules/Article/Article";
-import Forum from "./components/Modules/Forum/Forum";
-import AssignmentReport from "./components/Modules/Assignment/AssignmentSubmissions";
 import Assignment from "./components/Modules/Assignment/Assignment";
-import Video from "./components/Modules/Video/Video";
-import Resource from "./components/Modules/Resource/Resource";
+// import Forum from "./components/Modules/Forum/Forum";
+// import Video from "./components/Modules/Video/Video";
+// import Resource from "./components/Modules/Resource/Resource";
 import QuizEntrance from "./components/Modules/Quiz/QuizEntrance";
 import QuizEdit from "./components/Modules/Quiz/QuizQuestions";
 import Courses from "./containers/Courses/Courses";
 import Auth from "./containers/Auth";
 import Dashboard from "./containers/Dashboard";
 import NewCourse from "./containers/NewCourse/NewCourse";
-// import TestOnly from "./containers/Test";
 
 export default function (props) {
     const {isAuthenticated} = props;
@@ -40,7 +38,6 @@ export default function (props) {
                 <AdminRoute isAuthenticated={isAuthenticated} path="/courses/:slug/article/:moduleId" component={Article} exact/>
                 <AdminRoute isAuthenticated={isAuthenticated} path="/courses/:slug/assignment/:moduleId" component={Assignment} exact/>
 
-                <AdminRoute isAuthenticated={isAuthenticated} path="/course/assignment" component={AssignmentReport}/>
                 <AdminRoute isAuthenticated={isAuthenticated} path="/course/edit-question" component={QuizEdit} exact/>
                 <AdminRoute isAuthenticated={isAuthenticated} path="/questions" component={QuestionsBank} exact/>
             </AdminLayout>

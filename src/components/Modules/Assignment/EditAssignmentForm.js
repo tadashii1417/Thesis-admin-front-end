@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Button, DatePicker, Form, Icon, Upload} from "antd";
+import {Button, DatePicker, Form} from "antd";
 import {Editor} from 'doodle-editor';
 import config from "../../../config";
 import moment from "moment";
