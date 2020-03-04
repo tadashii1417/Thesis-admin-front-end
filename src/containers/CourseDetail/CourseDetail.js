@@ -48,17 +48,18 @@ export default class extends Component {
 
     handleUpdateCourse = async (patch) => {
         try {
+            message.loading({content: "Loading", key: 'update-course'});
             const {data} = await updateCourse(this.state.data.id, patch);
-            message.success("Course has been updated");
+            message.success({content: "Course has been updated", key: 'update-course'});
             this.setState({data: data});
         } catch (e) {
             httpErrorHandler(e, () => {
                 switch (e.code) {
                     case ServerErrors.INVALID_PATCH_DATA:
-                        message.error("Invalid input");
+                        message.error({content: "Invalid input", key: 'update-course'});
                         break;
                     default:
-                        message.error("Something went wrong");
+                        message.error({content: "Something went wrong", key: 'update-course'});
                 }
             })
         }
@@ -66,14 +67,15 @@ export default class extends Component {
 
     handleUpdateBanner = async (file) => {
         try {
+            message.loading({content: "Loading", key: 'update-banner'});
             const {data} = await updateCourseBanner(this.state.data.id, file);
-            message.success("Course banner has been updated");
+            message.success({content: "Course banner has been updated", key: 'update-banner'});
             this.setState({data: data});
         } catch (e) {
             httpErrorHandler(e, () => {
                 switch (e.code) {
                     default:
-                        message.error("Something went wrong");
+                        message.error({content: "Something went wrong", key: 'update-banner'});
                 }
             })
         }
@@ -139,7 +141,7 @@ export default class extends Component {
 
                             <Upload name="banner"
                                     onChange={info => {
-                                        info.file.status ="done";
+                                        info.file.status = "done";
                                     }}
                                     customRequest={options => {
                                         this.handleUpdateBanner(options.file);

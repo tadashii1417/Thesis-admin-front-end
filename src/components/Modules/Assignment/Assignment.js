@@ -9,7 +9,7 @@ import {Icon} from "react-icons-kit";
 import ModulesConfig from "../../Curriculum/ModulesConfig";
 import {ModuleType} from "../../../constants/module_constant";
 import AssignmentDetails from "./AssignmentDetails";
-import {createAssignment, updateAssignment} from "../../../services/assignment_service";
+import {addAssignmentFile, createAssignment, updateAssignment} from "../../../services/assignment_service";
 
 
 class Assignment extends Component {
@@ -90,6 +90,31 @@ class Assignment extends Component {
         }
     };
 
+    handleAddAttachment = async (upload) => {
+        const {module} = this.state;
+        try {
+            message.loading({content: "loading", key: 'add-file'});
+            const {data} = await addAssignmentFile(module.id, upload.fileList);
+            this.handleUpdateFileList(data);
+            message.success({content: "Files added", key: 'add-file'});
+        } catch (e) {
+            httpErrorHandler(e, () => {
+                switch (e.code) {
+                    default:
+                        message.error({content: "Something went wrong", key: 'add-file'})
+                }
+            })
+        }
+    };
+
+    handleUpdateFileList = (files) => {
+        const {module} = this.state;
+        let updatedModule = {...module};
+        updatedModule.instanceData = {...module.instanceData};
+        updatedModule.instanceData.attachmentFiles = files;
+        this.setState({module: updatedModule});
+    };
+
     render() {
         const {module, loading, addModal, editModal} = this.state;
 
@@ -131,6 +156,8 @@ class Assignment extends Component {
                                 handleCloseEdit={this.closeEditModal}
                                 handleOpenEdit={this.openEditModal}
                                 handleEditAssignment={this.handleEditAssignment}
+                                handleUpdateFileList={this.handleUpdateFileList}
+                                handleAddAttachment={this.handleAddAttachment}
                             />
                         ) :
                         (

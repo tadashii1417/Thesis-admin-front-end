@@ -24,3 +24,12 @@ export function createAssignment(moduleId, values) {
 export function updateAssignment(moduleId, patch) {
     return axios.patch('/api/assignments/' + moduleId, patch);
 }
+
+export function addAssignmentFile(id, files) {
+    const formData = new FormData();
+    files.forEach((file) => {
+        formData.append('attachmentFiles', file.originFileObj);
+    });
+
+    return axios.post(`/api/assignments/${id}/attachments`, formData);
+}

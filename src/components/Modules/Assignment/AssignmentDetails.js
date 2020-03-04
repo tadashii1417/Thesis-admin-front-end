@@ -1,5 +1,5 @@
 import React, {Component, Suspense} from "react";
-import {Button, Divider, Modal, Tabs, Tag} from "antd";
+import {Button, Divider, Icon, message, Modal, Tabs, Upload} from "antd";
 import styles from "./Assignment.module.css";
 import Loading from "../../Loading/Loading";
 import {EditorContent} from "doodle-editor";
@@ -7,14 +7,54 @@ import moment from "moment";
 import config from "../../../config";
 import {downloadFile} from "../../../utils/file_util";
 import EditAssignmentForm from "./EditAssignmentForm";
+import {httpErrorHandler} from "../../../utils/axios_util";
+import {removeFile} from "../../../services/file_service";
 
 const {TabPane} = Tabs;
-
+const {confirm} = Modal;
 const AssignmentReport = React.lazy(() => import('./AssignmentReport'));
 
 class AssignmentDetails extends Component {
+    state = {
+        addFile: []
+    };
+
+    showDeleteConfirm = (file) => {
+        confirm({
+            title: `Are you sure to delete this file ?`,
+            okText: 'Yes',
+            okType: 'danger',
+            cancelText: 'No',
+            onOk: () => {
+                this.removeAttachmentFile(file.id);
+            },
+            onCancel() {
+                console.log('Cancel');
+            },
+        });
+    };
+
+    removeAttachmentFile = async (id) => {
+        const {data} = this.props;
+        const {attachmentFiles} = data;
+        try {
+            await removeFile(id);
+            const newFiles = attachmentFiles.filter(file => file.id !== id);
+            this.props.handleUpdateFileList(newFiles);
+            message.success('Attachment file has been removed')
+        } catch (e) {
+            httpErrorHandler(e, () => {
+                switch (e.code) {
+                    default:
+                        message.error("Something went wrong")
+                }
+            })
+        }
+    };
+
+
     render() {
-        const {data, visible, handleCloseEdit, handleOpenEdit, handleEditAssignment} = this.props;
+        const {data, visible, handleCloseEdit, handleOpenEdit, handleEditAssignment, handleAddAttachment} = this.props;
 
         return (
             <Tabs type={"card"}>
@@ -42,12 +82,24 @@ class AssignmentDetails extends Component {
                             {data.attachmentFiles.map(file => {
                                 return (
                                     <div className={styles.fileContainer} key={file.id}>
+                                        <Icon type={'delete'} className={styles.deleteFile}
+                                              onClick={() => this.showDeleteConfirm(file)}/>
                                         <Button onClick={(e) => downloadFile(file, e)} icon={"paper-clip"}>
                                             {file.displayName}
                                         </Button>
                                     </div>
                                 );
                             })}
+                            <Upload
+                                multiple={false}
+                                beforeUpload={() => false}
+                                onChange={handleAddAttachment}
+                                fileList={this.state.addFile}
+                                showUploadList={true}>
+                                <Button type={"dashed"} icon={'plus'} style={{color: '#40a9ff', marginLeft: '40px'}}>
+                                    Add file
+                                </Button>
+                            </Upload>
                         </div>
 
                         <div className={styles.editButton}>

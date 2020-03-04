@@ -35,10 +35,22 @@
     margin-bottom: 20px;
 }
 
+/*File area*/
 .fileContainer {
     margin: 7px;
 }
 
+.deleteFile{
+    visibility: hidden;
+    color: #eb2f96;
+    padding: 7px;
+    margin-right: 3px;
+    cursor: pointer;
+}
+
+.fileContainer:hover .deleteFile {
+    visibility: visible;
+}
 
 .assignmentContent .ql-editor{
     min-height: 50px;
