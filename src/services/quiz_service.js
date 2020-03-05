@@ -21,9 +21,21 @@ export async function insertQuizQuestionByHand(moduleId, body) {
 }
 
 export async function updateQuizQuestion(id, body) {
-    return axios.put('/api/quizzes/questions/'+ id, body);
+    return axios.put('/api/quizzes/questions/' + id, body);
 }
 
 export async function deleteQuizQuestion(id) {
-    return axios.delete('/api/quizzes/questions/'+ id);
+    return axios.delete('/api/quizzes/questions/' + id);
+}
+
+export async function fetchQuizResult(id) {
+    return axios.get(`/api/quizzes/${id}/result`);
+}
+
+export async function fetchStudentAttempts(learnerId, moduleId) {
+    return axios.get(`/api/attempts?learnerUserId=${learnerId}&quizModuleId=${moduleId}`);
+}
+
+export async function fetchSpecificQuizAttempt(attemptId) {
+    return axios.get(`/api/attempts/${attemptId}`);
 }

@@ -12,10 +12,9 @@ import {QuizDto} from "../../../dtos/quiz_dto";
 import Loading from "../../Loading/Loading";
 import {ModuleType} from "../../../constants/module_constant";
 import ServerErrors from "../../../constants/server_error_constant";
-import QuizResult from "./QuizResult";
 
 const QuizQuestions = React.lazy(() => import('./QuizQuestions'));
-const QuizResults = React.lazy(()=> import('./QuizResult'));
+const QuizResult = React.lazy(()=> import('./QuizResult'));
 
 const {TabPane} = Tabs;
 

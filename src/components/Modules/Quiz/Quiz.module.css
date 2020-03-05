@@ -3,6 +3,7 @@
     margin: 0 auto;
     font-size: 15px;
     line-height: 22px;
+    min-height: 50vh;
 }
 
 .quizContainer > h4 {
@@ -69,4 +70,13 @@
     width: 100%;
     text-align: center;
     margin: 20px;
+}
+
+.breadcrumb {
+    color: #2e6da4;
+    padding: 15px 0;
+}
+
+.breadcrumb i {
+    margin-right: 8px;
 }
