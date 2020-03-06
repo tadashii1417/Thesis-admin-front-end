@@ -2,3 +2,41 @@
     text-align: left !important;
     padding-left: 15px !important;
 }
+
+.ant-tabs-left-content {
+    padding-left: 15px !important;
+}
+
+/************************* RESPONSIVE ***************************/
+
+/* Extra small devices (portrait phones, less than 576px)*/
+@media (max-width: 575.98px) {
+}
+
+/*Small devices (landscape phones, less than 768px)*/
+@media (max-width: 767.98px) {
+    .ant-tabs-left-bar {
+        width: 100%;
+        border-left: 1px solid #e8e8e8;
+        border-top: 1px solid #e8e8e8;
+    }
+    .ant-tabs-left-content {
+        padding-top: 20px;
+        border-top: 1px solid #e8e8e8;
+        padding-left: 5px !important;
+    }
+    .adminContent {
+        padding: 15px !important;
+        margin: 10px !important;
+    }
+}
+
+/*Medium devices (tablets, less than 992px)*/
+@media (max-width: 991.98px) {
+
+}
+
+/*Large devices (desktops, less than 1200px)*/
+@media (max-width: 1199.98px) {
+
+}

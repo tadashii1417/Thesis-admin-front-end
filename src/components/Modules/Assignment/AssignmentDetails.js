@@ -79,7 +79,7 @@ class AssignmentDetails extends Component {
                         <div>
                             <h4>Attachment Files</h4>
                             <Divider className={styles.divider}/>
-                            {data.attachmentFiles.map(file => {
+                            {data.attachmentFiles ? data.attachmentFiles.map(file => {
                                 return (
                                     <div className={styles.fileContainer} key={file.id}>
                                         <Icon type={'delete'} className={styles.deleteFile}
@@ -89,7 +89,7 @@ class AssignmentDetails extends Component {
                                         </Button>
                                     </div>
                                 );
-                            })}
+                            }) : ""}
                             <Upload
                                 multiple={false}
                                 beforeUpload={() => false}

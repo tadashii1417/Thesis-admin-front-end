@@ -3,6 +3,7 @@ import Route from './router';
 import {finishLoadingApp, getMe, startLoadingApp} from "./store/actions";
 import {connect} from "react-redux";
 import "./App.css";
+import {Spin} from "antd";
 
 class App extends Component {
     async componentDidMount() {
@@ -16,7 +17,7 @@ class App extends Component {
         const {isAuthenticated, isAppLoading} = this.props;
 
         if (isAppLoading) {
-            return <div>Loading ....</div>;
+            return <Spin size={'large'}/>;
         }
 
         return <Route isAuthenticated={isAuthenticated}/>;

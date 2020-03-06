@@ -154,16 +154,6 @@ export default class extends Component {
                                       handleNewCategory={this.handleNewCategory}/>
                     </div>
 
-                    <Modal visible={this.state.editModal}
-                           footer={null}
-                           bodyStyle={{padding: '0 24px 12px 24px'}}
-                           onCancel={this.handlerCancel}
-                           title="Edit Category !">
-                        <EditCategory categories={categories}
-                                      handleEditCategory={this.handleEditCategory}
-                                      data={this.state.selected}/>
-                    </Modal>
-
                     <div className={styles.right}>
                         <div className={styles.addTitle}>Current Categories</div>
                         <Table columns={this.columns}
@@ -171,7 +161,18 @@ export default class extends Component {
                                childrenColumnName={"subcategories"}
                                rowKey={"id"}/>
                     </div>
+                    <p style={{clear: 'both'}}/>
                 </div>
+
+                <Modal visible={this.state.editModal}
+                       footer={null}
+                       bodyStyle={{padding: '0 24px 12px 24px'}}
+                       onCancel={this.handlerCancel}
+                       title="Edit Category !">
+                    <EditCategory categories={categories}
+                                  handleEditCategory={this.handleEditCategory}
+                                  data={this.state.selected}/>
+                </Modal>
             </div>
         );
     }

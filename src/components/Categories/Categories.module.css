@@ -1,10 +1,11 @@
 .container {
-    display: flex;
+    width: 100%;
     color: #23282d;
 }
 
 .left {
-    flex: 40%;
+    float: left;
+    width: 40%;
     padding: 0 15px;
 }
 
@@ -18,6 +19,39 @@
 }
 
 .right {
-    flex: 60%;
+    float: left;
+    width: 60%;
     padding: 0 10px;
 }
+/************************* RESPONSIVE ***************************/
+
+/* Extra small devices (portrait phones, less than 576px)*/
+@media (max-width: 575.98px) {
+    .left {
+        width: 100%;
+    }
+    .right{
+        width: 100%;
+    }
+}
+
+ /*Small devices (landscape phones, less than 768px)*/
+@media (max-width: 767.98px) {
+    .left {
+        width: 100%;
+    }
+    .right{
+        width: 100%;
+    }
+}
+
+ /*Medium devices (tablets, less than 992px)*/
+@media (max-width: 991.98px) {
+
+}
+
+ /*Large devices (desktops, less than 1200px)*/
+@media (max-width: 1199.98px) {
+
+}
+

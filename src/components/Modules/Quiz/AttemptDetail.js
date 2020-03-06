@@ -16,9 +16,31 @@ class AttemptDetail extends Component {
 
     async componentDidMount() {
         const {attemptId} = this.props.match.params;
-        console.log('attempId', attemptId);
         try {
             const {data} = await fetchSpecificQuizAttempt(attemptId);
+            this.setState({data: data, loading: false});
+        } catch (e) {
+            httpErrorHandler(e, () => {
+                switch (e.code) {
+                    default:
+                        message.error("Something went wrong");
+                }
+            })
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        const newId = this.props.match.params.attemptId;
+        const oldId = prevProps.match.params.attemptId;
+        if (newId !== oldId) {
+            this.updateAttemptDetail(newId);
+        }
+    }
+
+    async updateAttemptDetail(id) {
+        this.setState({loading: true});
+        try {
+            const {data} = await fetchSpecificQuizAttempt(id);
             this.setState({data: data, loading: false});
         } catch (e) {
             httpErrorHandler(e, () => {
@@ -35,7 +57,7 @@ class AttemptDetail extends Component {
         const {questions} = data;
         console.log(data);
         if (loading) {
-            return <Spin/>
+            return <Spin size={"large"} style={{marginLeft: '30%', width: '40%'}}/>
         }
 
         return (
