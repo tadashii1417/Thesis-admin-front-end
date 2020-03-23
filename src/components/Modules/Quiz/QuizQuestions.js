@@ -55,9 +55,13 @@ export default class extends Component {
     };
 
     addQuestionHandler = async (values, action) => {
+        let key = "add-question";
+
         try {
+            message.loading({content: "Loading", key});
+
             const {data} = await insertQuizQuestionByHand(this.props.moduleId, values);
-            message.success("New question has been inserted.");
+            message.success({content: "New question has been inserted.", key });
             let newList = [...this.state.questions];
             newList.push(data);
             this.setState({questions: newList, addModal: false});
@@ -65,22 +69,24 @@ export default class extends Component {
             httpErrorHandler(e, () => {
                 switch (e.code) {
                     case (ServerErrors.INVALID_FRACTION_SINGLE_ANSWER):
-                        message.error("Single choice must have one option with fraction 1 and others 0");
+                        message.error({content: "Single choice must have one option with fraction 1 and others 0", key});
                         break;
                     case (ServerErrors.INVALID_FRACTION_SUM):
-                        message.error("Sum of all options fraction must be 1");
+                        message.error({content: "Sum of all options fraction must be 1", key});
                         break;
                     default:
-                        message.error("Something went wrong");
+                        message.error({content: "Something went wrong", key });
                 }
             })
         }
     };
 
     editQuestionHandler = async (id, values) => {
+        const key = "edit-question";
         try{
+            message.loading({content: "Loading", key});
             const {data} = await updateQuizQuestion(id, values);
-            message.success("Question has been updated.");
+            message.success({content: "Question has been updated.", key});
             const updatedQuestions = [...this.state.questions];
             let index = updatedQuestions.findIndex(obj => obj.id === id);
             updatedQuestions[index] = data;
@@ -89,13 +95,13 @@ export default class extends Component {
             httpErrorHandler(e, ()=>{
                 switch (e.code) {
                     case (ServerErrors.INVALID_FRACTION_SINGLE_ANSWER):
-                        message.error("Single choice must have one option with fraction 1 and others 0");
+                        message.error({content: "Single choice must have one option with fraction 1 and others 0", key});
                         break;
                     case (ServerErrors.INVALID_FRACTION_SUM):
-                        message.error("Sum of all options fraction must be 1");
+                        message.error({content: "Sum of all options fraction must be 1", key});
                         break;
                     default:
-                        message.error("Something went wrong");
+                        message.error({content: "Something went wrong", key });
                 }
             })
         }

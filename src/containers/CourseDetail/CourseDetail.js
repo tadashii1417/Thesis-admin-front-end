@@ -47,18 +47,17 @@ export default class extends Component {
 
     handleUpdateCourse = async (patch) => {
         try {
-            message.loading({content: "Loading", key: 'update-course'});
             const {data} = await updateCourse(this.state.data.id, patch);
-            message.success({content: "Course has been updated", key: 'update-course'});
+            message.success("Course has been updated");
             this.setState({data: data});
         } catch (e) {
             httpErrorHandler(e, () => {
                 switch (e.code) {
                     case ServerErrors.INVALID_PATCH_DATA:
-                        message.error({content: "Invalid input", key: 'update-course'});
+                        message.error("Invalid input");
                         break;
                     default:
-                        message.error({content: "Something went wrong", key: 'update-course'});
+                        message.error("Something went wrong");
                 }
             })
         }
@@ -66,15 +65,14 @@ export default class extends Component {
 
     handleUpdateBanner = async (file) => {
         try {
-            message.loading({content: "Loading", key: 'update-banner'});
             const {data} = await updateCourseBanner(this.state.data.id, file);
-            message.success({content: "Course banner has been updated", key: 'update-banner'});
+            message.success("Course banner has been updated");
             this.setState({data: data});
         } catch (e) {
             httpErrorHandler(e, () => {
                 switch (e.code) {
                     default:
-                        message.error({content: "Something went wrong", key: 'update-banner'});
+                        message.error("Something went wrong");
                 }
             })
         }
@@ -111,7 +109,7 @@ export default class extends Component {
 
                 </div>
                 <div className={"adminContent"} style={{paddingLeft: '10px'}}>
-                    <Tabs defaultActiveKey="1" tabPosition={"left"}>
+                    <Tabs defaultActiveKey="3" tabPosition={"left"}>
                         <TabPane
                             tab={<span>
                                 <Icon type="home" theme={"twoTone"}

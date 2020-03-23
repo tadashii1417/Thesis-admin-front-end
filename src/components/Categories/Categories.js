@@ -67,19 +67,21 @@ export default class extends Component {
     };
 
     handleNewCategory = async (body) => {
+        const key = "new-category";
         try {
+            message.loading({content: "Loading", key});
             await createNewCategory(body);
             const {data} = await fetchCategories();
-            message.success("New category has been created");
+            message.success({content: "New category has been created", key});
             this.setState({categories: data});
         } catch (e) {
             httpErrorHandler(e, () => {
                 switch (e.code) {
                     case ServerErrors.SLUG_ALREADY_EXISTS:
-                        message.error("Slug already exist");
+                        message.error({content: "Slug already exist", key});
                         break;
                     default:
-                        message.error("Title already exist");
+                        message.error({content: "Title already exist", key });
                 }
             })
         }
@@ -88,22 +90,25 @@ export default class extends Component {
     handleEditCategory = async (patch) => {
         const {selected} = this.state;
         const {id} = selected;
+        const key = "edit-category";
+
         try {
+            message.loading({content: "Loading", key});
             await updateCategory(id, patch);
             const {data} = await fetchCategories();
-            message.success("Category has been updated");
+            message.success({content: "Category has been updated", key });
             this.setState({categories: data, editModal: false});
         } catch (e) {
             httpErrorHandler(e, () => {
                 switch (e.code) {
                     case ServerErrors.CATEGORY_NOT_FOUND:
-                        message.error("Category not found");
+                        message.error({content: "Category not found", key });
                         break;
                     case ServerErrors.SLUG_ALREADY_EXISTS:
-                        message.error("Slug already exist");
+                        message.error({content: "Slug already exist", key });
                         break;
                     default:
-                        message.error("Title already exist");
+                        message.error({content: "Title already exist", key });
                 }
             })
         }

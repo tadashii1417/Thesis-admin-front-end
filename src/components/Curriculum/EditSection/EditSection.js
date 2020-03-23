@@ -21,19 +21,19 @@ class EditSectionBasic extends React.Component {
                         createPatch(patch, key, values[key]);
                     }
                 }
+                let key = "update-section";
 
                 try{
                     const {data} = await updateSection(this.props.data.id, patch);
                     this.props.data.title = data.title;
                     this.props.data.description = data.description;
-                    message.success("Section has been updated");
+                    message.success({content: "Section has been updated", key });
                     this.props.closeModal();
                 }catch (e) {
-                    console.log(e);
                     httpErrorHandler(e, ()=>{
                        switch (e.code) {
                            default:
-                               message.error("Something went wrong");
+                               message.error({content: "Something went wrong", key });
                        }
                     });
                 }

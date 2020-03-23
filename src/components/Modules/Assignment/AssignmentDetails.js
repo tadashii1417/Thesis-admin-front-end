@@ -37,16 +37,19 @@ class AssignmentDetails extends Component {
     removeAttachmentFile = async (id) => {
         const {module} = this.props;
         const {attachmentFiles} = module.instanceData;
+        const key = "remove-file";
         try {
+            message.loading({content: "Loading", key});
+
             await removeFile(id);
             const newFiles = attachmentFiles.filter(file => file.id !== id);
             this.props.handleUpdateFileList(newFiles);
-            message.success('Attachment file has been removed')
+            message.success({content: 'Attachment file has been removed', key})
         } catch (e) {
             httpErrorHandler(e, () => {
                 switch (e.code) {
                     default:
-                        message.error("Something went wrong")
+                        message.error({content: "Something went wrong", key})
                 }
             })
         }

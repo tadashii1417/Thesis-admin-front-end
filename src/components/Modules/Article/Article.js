@@ -24,8 +24,9 @@ class Article extends Component {
         const {params} = this.props.match;
         try {
             const {data} = await getModule(params.moduleId);
-            const {instanceData: {content: {html}}} = data;
-            this.setState({module: data, loading: false, content: html});
+            const {instanceData: {content}} = data;
+
+            this.setState({module: data, loading: false, content: content});
         } catch (e) {
             httpErrorHandler(e, () => {
                 switch (e.code) {
@@ -43,19 +44,23 @@ class Article extends Component {
     handleUpdate = async (e) => {
         e.preventDefault();
         const {module, content, touched} = this.state;
-        if (touched){
-            if (content !== null && content !== ""){
-                try{
+        if (touched) {
+            let key = "update-article";
+
+            if (content !== null && content !== "") {
+                try {
                     let patch = [];
                     createPatch(patch, 'content/html', content);
+
+                    message.loading({content: "Loading", key});
                     await updateArticle(module.id, patch);
-                    message.success("Content has been saved !");
+                    message.success({content: "Content has been saved !", key});
                     this.setState({touched: false})
-                }catch (e) {
+                } catch (e) {
                     httpErrorHandler(e, () => {
                         switch (e.code) {
                             default:
-                                message.error("Something went wrong");
+                                message.error({content: "Something went wrong", key});
                         }
                     })
                 }
@@ -113,7 +118,9 @@ class Article extends Component {
                                         onChange={this.handleContentChange}/>
                             </Form.Item>
                             {
-                                touched ? <div style={{textAlign: 'right', color: '#cf1322'}}>Content has not been saved yet !!!</div>:""
+                                touched ?
+                                    <div style={{textAlign: 'right', color: '#cf1322'}}>Content has not been saved yet
+                                        !!!</div> : ""
                             }
 
                             <Form.Item>

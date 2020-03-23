@@ -86,6 +86,7 @@ export default class extends Component {
 
     handleEditModule = async (patch) => {
         const {selectedModule, modules} = this.state;
+        let key = "update-module";
         try {
             const {data} = await updateModule(selectedModule.id, patch);
             data.instanceData = selectedModule.instanceData;

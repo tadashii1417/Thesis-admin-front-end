@@ -92,16 +92,18 @@ class Assignment extends Component {
 
     handleAddAttachment = async (upload) => {
         const {module} = this.state;
+        const key = "add-file";
+
         try {
-            message.loading({content: "loading", key: 'add-file'});
+            message.loading({content: "Loading", key});
             const {data} = await addAssignmentFile(module.id, upload.fileList);
             this.handleUpdateFileList(data);
-            message.success({content: "Files added", key: 'add-file'});
+            message.success({content: "File added !", key});
         } catch (e) {
             httpErrorHandler(e, () => {
                 switch (e.code) {
                     default:
-                        message.error({content: "Something went wrong", key: 'add-file'})
+                        message.error({content: "Something went wrong", key})
                 }
             })
         }
