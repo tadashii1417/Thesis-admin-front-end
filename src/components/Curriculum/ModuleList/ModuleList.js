@@ -88,18 +88,19 @@ export default class extends Component {
         const {selectedModule, modules} = this.state;
         let key = "update-module";
         try {
+            message.loading({content: "Loading", key});
             const {data} = await updateModule(selectedModule.id, patch);
             data.instanceData = selectedModule.instanceData;
             let newModules = [...modules];
             let index = newModules.findIndex(module => module.id === selectedModule.id);
             newModules[index] = data;
             this.setState({modules: newModules, editModal: false});
-            message.success("Module has been updated");
+            message.success({content: "Module has been updated", key});
         } catch (e) {
             httpErrorHandler(e, () => {
                 switch (e.code) {
                     default:
-                        message.error("Something went wrong")
+                        message.error({content: "Something went wrong", key});
                 }
             })
         }

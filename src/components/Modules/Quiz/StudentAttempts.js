@@ -1,12 +1,11 @@
 import React, {Component} from "react";
 import {Route, withRouter} from "react-router";
-import {Breadcrumb, Icon, message, Spin, Table} from "antd";
+import {message, Spin, Table} from "antd";
 import moment from "moment";
 import config from "../../../config";
 import {Link} from "react-router-dom";
 import {fetchStudentAttempts} from "../../../services/quiz_service";
 import {httpErrorHandler} from "../../../utils/axios_util";
-import styles from "./Quiz.module.css";
 import AttemptDetail from "./AttemptDetail";
 
 
