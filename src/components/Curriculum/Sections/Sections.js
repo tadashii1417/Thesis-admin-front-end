@@ -5,15 +5,10 @@ import styles from './Sections.module.css';
 import {
     sortableHandle,
 } from 'react-sortable-hoc';
-import NewModule from "../AddModule/AddModule";
 import ModuleList from "../ModuleList/ModuleList";
 import {httpErrorHandler} from "../../../utils/axios_util";
-import {createNewModule} from "../../../services/module_service";
-import {createNewQuiz} from "../../../services/quiz_service";
-import {ModuleType} from '../../../constants/module_constant';
 import EditSection from "../EditSection/EditSection";
 import {deleteSection} from "../../../services/section_service";
-import {createNewArticle} from "../../../services/article_service";
 
 const {confirm} = Modal;
 
@@ -72,7 +67,8 @@ class Sections extends Component {
             <Collapsible trigger={
                 <div className={styles.collapseHead}>
 
-                    {value.order !== null ? <DragHandle/> : ""}
+                    {/*{value.order !== null ? <DragHandle/> : ""}*/}
+                    <DragHandle/>
                     <h4 style={{display: 'inline-block'}}>
                         Section {sections.findIndex(ele => ele.id === value.id)} : {value.title}
                     </h4>

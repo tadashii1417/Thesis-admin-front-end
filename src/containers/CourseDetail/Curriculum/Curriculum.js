@@ -2,10 +2,11 @@ import React, {Component} from 'react';
 import {sortableContainer, sortableElement} from 'react-sortable-hoc';
 import arrayMove from 'array-move';
 import axios from '../../../axios-config';
-import {Button, Divider, message, Modal, Spin} from "antd";
+import {Button, Divider, message, Modal, Spin, Tooltip} from "antd";
 import NewSection from "../../../components/Curriculum/NewSection/NewSection";
 import Section from "../../../components/Curriculum/Sections/Sections";
 import {httpErrorHandler} from "../../../utils/axios_util";
+import {updateSection} from "../../../services/section_service";
 
 // TODO: Lazy loading component
 // TODO: Save sort order
@@ -18,6 +19,7 @@ class Curriculum extends Component {
     state = {
         newModal: false,
         loading: true,
+        orderChange: false,
         sectionList: []
     };
 
@@ -41,7 +43,8 @@ class Curriculum extends Component {
         let newSessions = [...this.state.sectionList];
         newSessions = arrayMove(newSessions, oldIndex, newIndex);
         this.setState({
-            sectionList: newSessions
+            sectionList: newSessions,
+            orderChange: true
         });
         console.log("Section sort", this.state.sectionList);
     };
@@ -92,6 +95,37 @@ class Curriculum extends Component {
         this.setState({sectionList});
     };
 
+    handleOrderChange = () => {
+        const {sectionList} = this.state;
+        const key = "update-section-order";
+        message.loading({content: "Loading", key});
+
+        sectionList.forEach(async (section, index) => {
+            if (section.order && section.order !== index) {
+                const patch = [{
+                    op: "replace",
+                    path: "/order",
+                    value: index
+                }];
+
+                try {
+                    await updateSection(section.id, patch);
+                } catch (e) {
+                    httpErrorHandler(e, () => {
+                        switch (e.code) {
+                            default:
+                                message.error({content: "Something went wrong", key});
+                                return;
+                        }
+                    })
+                }
+            }
+        });
+
+        message.success({content: "Sections order has been saved !", key});
+        this.setState({orderChange: false})
+    };
+
     render() {
         const {loading} = this.state;
         if (loading) {
@@ -103,7 +137,14 @@ class Curriculum extends Component {
 
                 <div style={{display: 'flex', justifyContent: 'space-between'}}>
                     <h4>Course curriculum</h4>
-                    <Button type={'primary'} icon={'save'}>Save</Button>
+                    {
+                        this.state.orderChange ?
+                            <Tooltip title={"Sections order hasn't been saved ! Click here to update."}>
+                                <Button icon={'exclamation-circle'} type={'danger'} ghost
+                                        onClick={this.handleOrderChange}>Update order</Button>
+                            </Tooltip> : ""
+                    }
+
                 </div>
                 <Divider style={{margin: '12px 0 24px'}}/>
 
@@ -111,7 +152,8 @@ class Curriculum extends Component {
                     onSortEnd={this.onSortEnd} useDragHandle>
                     {
                         this.state.sectionList.map((value, index) => (
-                            <this.SortableItem key={`item-${value.id}`} index={index} value={value}/>
+                            <this.SortableItem key={`item-${value.id}`} index={index} value={value}
+                                               disabled={!value.order}/>
                         ))
                     }
                 </SortableContainer>

@@ -55,3 +55,22 @@
   margin-right: 10px;
 }
 
+.moduleActions {
+    display: flex;
+    justify-content: flex-end;
+    align-content: center;
+    align-self: center;
+}
+
+.orderAlert {
+    font-size: 20px;
+    display: flex;
+    align-self: center;
+    color: #ff4d4f;
+    cursor: pointer;
+    padding: 3px;
+}
+
+.orderAlert:hover {
+    background-color: #fafafa;
+}

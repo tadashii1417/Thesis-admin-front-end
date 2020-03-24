@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {Icon} from "react-icons-kit";
-import {Dropdown, Button, Menu, Icon as AntIcon, Modal, message} from "antd";
+import {Dropdown, Button, Menu, Icon as AntIcon, Modal, message, Tooltip} from "antd";
 import {sortableContainer, sortableElement, sortableHandle} from "react-sortable-hoc";
 import arrayMove from "array-move";
 import styles from "./ModuleList.module.css";
@@ -12,7 +12,6 @@ import EditModule from "../EditModule/EditModule";
 import {httpErrorHandler} from "../../../utils/axios_util";
 import {createNewModule, deleteModule, updateModule} from "../../../services/module_service";
 import NewModule from "../AddModule/AddModule";
-import Collapsible from "react-collapsible";
 import {ModuleType} from "../../../constants/module_constant";
 import {createNewQuiz} from "../../../services/quiz_service";
 import {createNewArticle} from "../../../services/article_service";
@@ -33,6 +32,7 @@ export default class extends Component {
         modules: this.props.value.modules,
         editModal: false,
         isAddModule: false,
+        orderChange: false,
         selectedModule: {}
     };
 
@@ -182,11 +182,41 @@ export default class extends Component {
     };
 
     onSortEnd = ({oldIndex, newIndex}) => {
-        console.log("previous", this.state.modules);
         this.setState(({modules}) => ({
-            modules: arrayMove(modules, oldIndex, newIndex)
+            modules: arrayMove(modules, oldIndex, newIndex),
+            orderChange: true
         }));
-        console.log("updated section", this.state.modules);
+    };
+
+    handleOrderChange = () => {
+        const {modules} = this.state;
+        const key = "update-order";
+        message.loading({content: "Loading", key});
+
+        modules.forEach(async (module, index) => {
+            if (module.order !== index) {
+                const patch = [{
+                    op: "replace",
+                    path: "/order",
+                    value: index
+                }];
+
+                try {
+                    await updateModule(module.id, patch);
+                } catch (e) {
+                    httpErrorHandler(e, () => {
+                        switch (e.code) {
+                            default:
+                                message.error({content: "Something went wrong", key});
+                                return;
+                        }
+                    })
+                }
+            }
+        });
+
+        message.success({content: "Modules order has been saved !", key});
+        this.setState({orderChange: false})
     };
 
     render() {
@@ -205,7 +235,14 @@ export default class extends Component {
                 </SortableContainer>
 
 
-                <div style={{display: "flex", justifyContent: "flex-end"}}>
+                <div className={styles.moduleActions}>
+                    {
+                        this.state.orderChange ?
+                            <Tooltip title={"Modules order hasn't been saved ! Click here to update."}>
+                                <AntIcon type={'exclamation-circle'} className={styles.orderAlert}
+                                         onClick={this.handleOrderChange}/>
+                            </Tooltip> : ""
+                    }
                     <Button type={"link"} icon={"plus"}
                             onClick={this.openAddModule}
                             style={{border: '1px solid', margin: '10px'}}>
