@@ -25,48 +25,7 @@ const DragHandle = sortableHandle(() =>
 
 class Sections extends Component {
     state = {
-        isAddModule: false,
         editModal: false,
-    };
-
-    handleCancel = () => {
-        this.setState({isAddModule: false});
-    };
-
-    handleOK = () => {
-        this.setState({isAddModule: true})
-    };
-
-    handleNewModule = async (values) => {
-        try {
-            const {id} = this.props.value;
-            const {modules} = this.props.value;
-
-            const {data} = await createNewModule(values, modules, id);
-
-            switch (data.type) {
-                case ModuleType.QUIZ:
-                    await createNewQuiz(data.id);
-                    break;
-                case ModuleType.ARTICLE:
-                    await createNewArticle(data.id);
-                    break;
-                default:
-                    break;
-            }
-
-            this.props.value.modules.push(data);
-
-            message.success("New module has been created");
-            this.setState({isAddModule: false});
-        } catch (e) {
-            httpErrorHandler(e, () => {
-                switch (e.code) {
-                    default:
-                        message.error("Something went wrong");
-                }
-            })
-        }
     };
 
     openEditSectionModal = (e) => {
@@ -135,24 +94,7 @@ class Sections extends Component {
                 </div>
             }>
 
-                <ModuleList course={course} modules={value.modules}/>
-
-                <div style={{display: "flex", justifyContent: "flex-end"}}>
-                    <Button type={"link"} icon={"plus"}
-                            onClick={this.handleOK}
-                            style={{border: '1px solid', margin: '10px'}}>
-                        Add new module
-                    </Button>
-                </div>
-
-                <Modal title={"Add New Module"}
-                       visible={this.state.isAddModule}
-                       onCancel={this.handleCancel}
-                       bodyStyle={{padding: "12px 24px"}}
-                       footer={null}>
-                    <NewModule handleNewModule={this.handleNewModule}/>
-                </Modal>
-
+                <ModuleList course={course} value={value}/>
 
                 <Modal title={"Edit Sections"}
                        visible={this.state.editModal}

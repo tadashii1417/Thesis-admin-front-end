@@ -4,28 +4,39 @@ import {createPatch} from "../../../utils/patch_util";
 import {CurriculumPreviewableModuleType} from "../../../constants/module_constant";
 
 class EditModuleBasic extends React.Component {
+    state = {
+        data: this.props.data
+    };
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        const nextProps = this.props;
+        if (prevProps.data.id !== nextProps.data.id) {
+            this.setState({data: this.props.data})
+        }
+    }
+
     handleSubmit = e => {
         e.preventDefault();
-        const {isFieldTouched, validateFields} = this.props.form;
+        const {isFieldTouched, validateFields, resetFields} = this.props.form;
         const {handleEditModule} = this.props;
         let patch = [];
 
         validateFields((err, values) => {
             if (!err) {
-                console.log(values);
                 for (let key of Object.keys(values)) {
                     if (isFieldTouched(key)) {
                         createPatch(patch, key, values[key]);
                     }
                 }
                 handleEditModule(patch);
+                resetFields();
             }
         });
     };
 
     render() {
         const {getFieldDecorator} = this.props.form;
-        const {data} = this.props;
+        const {data} = this.state;
 
         const formItemLayout = {
             labelCol: {
@@ -81,7 +92,7 @@ class EditModuleBasic extends React.Component {
                             })(
                                 <Checkbox/>
                             )}
-                        </Form.Item>: null
+                        </Form.Item> : null
                 }
 
 

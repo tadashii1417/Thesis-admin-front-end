@@ -25,6 +25,7 @@ class Curriculum extends Component {
         try {
             const {courseData} = this.props;
             const {data} = await axios.get('/api/courses/' + courseData.id + '/sections');
+            console.log("Initial", data.sectionList);
             this.setState({sectionList: data.sectionList, loading: false})
         } catch (e) {
             httpErrorHandler(e, () => {
@@ -42,6 +43,7 @@ class Curriculum extends Component {
         this.setState({
             sectionList: newSessions
         });
+        console.log("Section sort", this.state.sectionList);
     };
 
     SortableItem = sortableElement(({value}) => (
@@ -55,6 +57,7 @@ class Curriculum extends Component {
         const newSectionList = [...this.state.sectionList];
         const {courseData} = this.props;
         try {
+            value.order = newSectionList.length;
             const {data} = await axios.post('/api/courses/' + courseData.id + '/sections', value);
             newSectionList.push({
                 id: data.id,

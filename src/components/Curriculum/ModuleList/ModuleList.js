@@ -10,7 +10,12 @@ import {cog} from "react-icons-kit/iconic/cog";
 import {Link} from "react-router-dom";
 import EditModule from "../EditModule/EditModule";
 import {httpErrorHandler} from "../../../utils/axios_util";
-import {deleteModule, updateModule} from "../../../services/module_service";
+import {createNewModule, deleteModule, updateModule} from "../../../services/module_service";
+import NewModule from "../AddModule/AddModule";
+import Collapsible from "react-collapsible";
+import {ModuleType} from "../../../constants/module_constant";
+import {createNewQuiz} from "../../../services/quiz_service";
+import {createNewArticle} from "../../../services/article_service";
 
 const {confirm} = Modal;
 
@@ -25,8 +30,9 @@ const SortableContainer = sortableContainer(({children}) => {
 
 export default class extends Component {
     state = {
-        modules: this.props.modules,
+        modules: this.props.value.modules,
         editModal: false,
+        isAddModule: false,
         selectedModule: {}
     };
 
@@ -35,8 +41,16 @@ export default class extends Component {
     };
 
     openEditModule = (module) => {
-        console.log('click');
         this.setState({selectedModule: module, editModal: true});
+    };
+
+
+    closeAddModule = () => {
+        this.setState({isAddModule: false});
+    };
+
+    openAddModule = () => {
+        this.setState({isAddModule: true})
     };
 
     // TODO: add previewable, visibility icon to FE.
@@ -106,6 +120,38 @@ export default class extends Component {
         }
     };
 
+    handleNewModule = async (values) => {
+        try {
+            const {id} = this.props.value;
+            const {modules} = this.state;
+
+            const {data} = await createNewModule(values, modules, id);
+
+            switch (data.type) {
+                case ModuleType.QUIZ:
+                    await createNewQuiz(data.id);
+                    break;
+                case ModuleType.ARTICLE:
+                    await createNewArticle(data.id);
+                    break;
+                default:
+                    break;
+            }
+
+            const newModules = [...this.state.modules];
+            newModules.push(data);
+            message.success("New module has been created");
+            this.setState({modules: newModules, isAddModule: false});
+        } catch (e) {
+            httpErrorHandler(e, () => {
+                switch (e.code) {
+                    default:
+                        message.error("Something went wrong");
+                }
+            })
+        }
+    };
+
     showDeleteConfirm = (id) => {
         confirm({
             title: 'Are you sure delete this module?',
@@ -134,10 +180,13 @@ export default class extends Component {
             },
         });
     };
+
     onSortEnd = ({oldIndex, newIndex}) => {
+        console.log("previous", this.state.modules);
         this.setState(({modules}) => ({
             modules: arrayMove(modules, oldIndex, newIndex)
         }));
+        console.log("updated section", this.state.modules);
     };
 
     render() {
@@ -154,6 +203,23 @@ export default class extends Component {
                         />
                     ))}
                 </SortableContainer>
+
+
+                <div style={{display: "flex", justifyContent: "flex-end"}}>
+                    <Button type={"link"} icon={"plus"}
+                            onClick={this.openAddModule}
+                            style={{border: '1px solid', margin: '10px'}}>
+                        Add new module
+                    </Button>
+                </div>
+
+                <Modal title={"Add New Module"}
+                       visible={this.state.isAddModule}
+                       onCancel={this.closeAddModule}
+                       bodyStyle={{padding: "12px 24px"}}
+                       footer={null}>
+                    <NewModule handleNewModule={this.handleNewModule}/>
+                </Modal>
 
                 <Modal title={"Edit module"}
                        visible={this.state.editModal}
