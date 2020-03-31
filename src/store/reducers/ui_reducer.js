@@ -1,7 +1,7 @@
 import { ActionTypes } from "../../constants";
 
 const initialState = {
-    isAppLoading: undefined
+    isAppLoading: true
 };
 
 export default function(state = initialState, action) {

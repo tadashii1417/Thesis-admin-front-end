@@ -55,6 +55,8 @@ export default class extends Component {
 
     render() {
         const gutter = [16, {xs: 16, sm: 16, md: 24, lg: 32}];
+        const defaultImg = "https://yeah1network.com/img/image.jpeg";
+
         return (
             <div className={styles.container}>
                 <Title level={4}>Courses</Title>
@@ -88,7 +90,7 @@ export default class extends Component {
                                     cover={
                                         <Link to={"/courses/" + slug}>
                                             <img className={styles.courseImage} alt={name}
-                                                 src={banner ? banner.origin : "https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"}/>
+                                                 src={banner ? banner.origin : defaultImg}/>
                                         </Link>
                                     }>
                                     <div className={styles.courseTag}>

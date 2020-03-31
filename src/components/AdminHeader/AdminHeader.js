@@ -1,12 +1,12 @@
 import React, {Component} from "react";
 import {Layout, Menu, Icon, Dropdown, Avatar, Tooltip} from "antd";
 import styles from "./AdminHeader.module.css";
+import {Redirect} from "react-router";
 
 const {Header} = Layout;
 
 
 class AdminHeader extends Component {
-
     rightMenu = (
         <Menu className={styles.menu} selectedKeys={[]}>
             <Menu.Item key="userCenter">
@@ -30,8 +30,13 @@ class AdminHeader extends Component {
     );
     avatar = "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png";
 
-
     render() {
+        const {user} = this.props;
+        if (!user) {
+            return <Redirect to={'/login'}/>
+        }
+        const {firstName, lastName} = user;
+
         return (
             <Header className={styles.header}>
                 <span className={styles.trigger} onClick={this.props.toggle}>
@@ -53,7 +58,7 @@ class AdminHeader extends Component {
                     <Dropdown overlay={this.rightMenu}>
                         <div className={styles.dropdown}>
                             <Avatar src={this.avatar} className={styles.avatarImage}/>
-                            <span>Jack Ma</span>
+                            <span>{firstName + " " + lastName}</span>
                         </div>
                     </Dropdown>
                 </div>

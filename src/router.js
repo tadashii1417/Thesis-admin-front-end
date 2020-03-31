@@ -21,7 +21,6 @@ import TestOnly from './containers/Test';
 
 export default function (props) {
     const {isAuthenticated} = props;
-
     return (
         <Switch>
             <PublicRoute isAuthenticated={isAuthenticated} path="/login" component={Auth}/>
