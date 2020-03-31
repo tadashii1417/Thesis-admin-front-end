@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Table, Avatar, message, Row, Col, Card, Rate, Pagination} from "antd";
+import {message, Row, Col, Card, Rate, Pagination} from "antd";
 import Tag from "../Tag/Tag";
 import styles from './CoursesTable.module.css';
 import {Typography, Button, Divider, Input} from "antd";
@@ -54,6 +54,7 @@ export default class extends Component {
     };
 
     render() {
+        const gutter = [16, {xs: 16, sm: 16, md: 24, lg: 32}];
         return (
             <div className={styles.container}>
                 <Title level={4}>Courses</Title>
@@ -77,7 +78,7 @@ export default class extends Component {
                         <Pagination {...this.state.pagination} onChange={this.handlePageChange}/>
                     </div>
 
-                    <Row gutter={[16, {xs: 16, sm: 16, md: 24, lg: 32}]}>
+                    <Row gutter={gutter}>
                         {this.state.data.map(course => {
                             const {id, name, slug, type, instructors, visibility, banner, priceResult} = course;
                             return <Col key={id} sm={12} md={8} lg={8}>
@@ -85,7 +86,7 @@ export default class extends Component {
                                     size="small"
                                     className={styles.CourseCard}
                                     cover={
-                                        <Link to={"/courses/"+ slug}>
+                                        <Link to={"/courses/" + slug}>
                                             <img className={styles.courseImage} alt={name}
                                                  src={banner ? banner.origin : "https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"}/>
                                         </Link>
@@ -101,7 +102,7 @@ export default class extends Component {
 
                                     <div className={styles.courseInfo}>
                                         <div className={styles.courseName}>
-                                            <Link to={"/courses/"+ slug}>{name}</Link>
+                                            <Link to={"/courses/" + slug}>{name}</Link>
                                         </div>
                                         <div>Nguyễn Văn An</div>
 
@@ -122,7 +123,6 @@ export default class extends Component {
                                     </div>
                                 </Card>
                             </Col>
-
                         })}
                     </Row>
                 </div>
