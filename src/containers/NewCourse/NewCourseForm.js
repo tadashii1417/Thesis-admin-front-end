@@ -251,7 +251,7 @@ class NewCourseForm extends React.Component {
 
                 <Form.Item label={"Course image"}>
                     {getFieldDecorator('banner', {})(
-                        <Dragger multiple={"false"} listType={"image"}>
+                        <Dragger multiple={false} listType={"image"}>
                             <p className="ant-upload-drag-icon">
                                 <Icon type="inbox"/>
                             </p>

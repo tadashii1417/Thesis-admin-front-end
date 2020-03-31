@@ -1,3 +1,20 @@
+:root {
+    --primary-color: var(--antd-wave-shadow-color);
+    --secondary-color: #51c419;
+    --dangerous-color: crimson;
+    --safe-color: #0b6623;
+    --warning-color: #fef0db;
+    --grey-color: rgba(0, 0, 0, 0.65);
+    --light-grey-color: rgba(0, 0, 0, 0.45);
+    --header-height: 64px;
+    --contact-search-margin: 16px;
+    --header-border-height: 2px;
+    --message-composer-height: 45px;
+    --coursecard-space: 12px;
+    --coursecard-banner-width: 218px;
+    --coursecard-banner-height: 150px;
+}
+
 body {
     margin: 0;
     padding: 0;

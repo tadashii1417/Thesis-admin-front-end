@@ -88,7 +88,7 @@ class Sections extends Component {
                     </div>
 
                 </div>
-            }>
+            } open={true}>
 
                 <ModuleList course={course} value={value}/>
 

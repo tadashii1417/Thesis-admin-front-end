@@ -11,5 +11,119 @@
 
 .searchBox {
     width: 40%;
+}
+
+.courseContainer {
+    min-height: 60vh;
+    padding: 0 15px;
+}
+
+.CourseCard {
+    position: relative;
+    width: 100%;
+}
+
+.courseImage {
+    width: 100%;
+    object-fit: cover;
+    height: var(--coursecard-banner-height);
+    cursor: pointer;
+}
+
+.courseTag {
+    position: absolute;
+    top: 8px;
+    left: 0;
+}
+
+.courseTag > * {
+    margin-bottom: 0.25em;
+}
+
+.courseTag > *:last-child {
+    margin-bottom: 0;
+}
+
+.courseName {
+    padding: 5px 0;
+    font-weight: 700;
+    display: block;
+    display: -webkit-box;
+    max-width: 100%;
+    white-space: normal;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 1.15em;
+}
+
+.courseName > a {
+    color: unset;
+}
+
+
+.courseInfo > div:first-child {
+    margin-top: 0;
+}
+
+.courseInfo > div:last-child {
+    margin-bottom: 0;
+}
+
+.courseRating {
+    display: flex;
+    align-items: center;
+}
+
+.courseRating > *:not(:first-child) {
+    margin-left: 0.5em;
+}
+
+.priceContainer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.originalPrice {
+    text-decoration: line-through;
+}
+
+.salePrice {
+    text-align: right;
+    font-weight: 600;
+    font-size: 1.5em;
+    margin-left: 0.5em;
+}
+
+.pagination {
+    text-align: right;
+    margin: 15px;
+}
+
+/*// ******************* RESPONSIVE ************************/
+
+/* Extra small devices (portrait phones, less than 576px)*/
+@media (max-width: 575.98px) {
+    .courseImage{
+        height: 230px;
+    }
+}
+
+/*Small devices (landscape phones, less than 768px)*/
+@media (max-width: 767.98px) {
+    .courseImage{
+        height: 215px;
+    }
+}
+
+/*Medium devices (tablets, less than 992px)*/
+@media (max-width: 991.98px) {
+
+}
+
+/*Large devices (desktops, less than 1200px)*/
+@media (max-width: 1199.98px) {
 
 }

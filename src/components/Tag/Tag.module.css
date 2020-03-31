@@ -1,0 +1,28 @@
+.Tag {
+    font-weight: 700;
+    line-height: 2em;
+    height: 2em;
+    color: white;
+    background: var(--primary-color);
+    display: inline-block;
+    padding: 0 0.5em 0 0.5em;
+    position: relative;
+    font-size: 10px;
+    text-decoration: none;
+    border-radius: 3px 0 0 3px;
+    text-transform: uppercase;
+    margin-right: 2em;
+    z-index: 0;
+}
+
+.Tag::after {
+    background: var(--primary-color);
+    height: calc(2em / 1.4142);
+    position: absolute;
+    top: calc(2em * 0.155); /* (1-1/sqrt(2))/2 */
+    right: -0.7em;
+    transform: rotate(45deg);
+    content: "";
+    width: calc(2em / 1.4142);
+    z-index: -1;
+}

@@ -1,5 +1,6 @@
 import React, {Component} from "react";
-import {Table, Avatar, message} from "antd";
+import {Table, Avatar, message, Row, Col, Card, Rate, Pagination} from "antd";
+import Tag from "../Tag/Tag";
 import styles from './CoursesTable.module.css';
 import {Typography, Button, Divider, Input} from "antd";
 import {Link} from 'react-router-dom';
@@ -8,56 +9,6 @@ import axios from '../../axios-config';
 
 const {Title} = Typography;
 const {Search} = Input;
-
-const columns = [
-    {
-        title: "Banner",
-        dataIndex: "banner",
-        key: "banner",
-        render: (src) => {
-            if (src) {
-                return <Avatar shape="square" size={64} src={src['220x135']}/>
-            } else {
-                return <Avatar shape="square" size={64} icon={"file-image"}/>
-            }
-        }
-    },
-    {
-        title: "Name",
-        dataIndex: "name",
-        key: "name",
-        render: (text, row) => <Link
-            to={'/courses/' + row.slug}>
-            <span style={{fontWeight: '500', fontSize: '15px', padding: '3px'}}>{text}</span>
-        </Link>
-    },
-    {
-        title: "Type",
-        dataIndex: "type",
-        key: "type"
-    },
-    {
-        title: "Visibility",
-        dataIndex: "visibility",
-        key: "visibility"
-    },
-    {
-        title: "Price",
-        key: "price",
-        dataIndex: "priceResult",
-        render: res => (res.price.amount + " " + res.price.currency)
-    },
-    {
-        title: "Instructors",
-        dataIndex: "instructors",
-        key: "instructors",
-        render: items => (
-            <span>
-                {items.map(item => item)}
-            </span>
-        )
-    }
-];
 
 export default class extends Component {
     state = {
@@ -81,6 +32,7 @@ export default class extends Component {
                 data: data.items,
                 pagination
             });
+
         } catch (e) {
             httpErrorHandler(e, () => {
                 switch (e.code) {
@@ -92,14 +44,13 @@ export default class extends Component {
         }
     }
 
-    handleTableChange = (pagination) => {
+    handlePageChange = (page) => {
         const pager = {...this.state.pagination};
-        pager.current = pagination.current;
+        pager.current = page;
         this.setState({
             pagination: pager,
         });
-        console.log(pagination);
-        this.fetchCourses({page: pagination.current})
+        this.fetchCourses({page: page})
     };
 
     render() {
@@ -120,16 +71,61 @@ export default class extends Component {
                         enterButton
                     />
                 </div>
-                <Table
-                    columns={columns}
-                    dataSource={this.state.data}
-                    rowKey={record => record.id}
-                    // size={"small"}
-                    pagination={this.state.pagination}
-                    loading={this.state.loading}
-                    onChange={this.handleTableChange}
-                    style={{background: '#fff'}}
-                />
+
+                <div className={styles.courseContainer}>
+                    <div className={styles.pagination}>
+                        <Pagination {...this.state.pagination} onChange={this.handlePageChange}/>
+                    </div>
+
+                    <Row gutter={[16, {xs: 16, sm: 16, md: 24, lg: 32}]}>
+                        {this.state.data.map(course => {
+                            const {id, name, slug, type, instructors, visibility, banner, priceResult} = course;
+                            return <Col key={id} sm={12} md={8} lg={8}>
+                                <Card
+                                    size="small"
+                                    className={styles.CourseCard}
+                                    cover={
+                                        <Link to={"/courses/"+ slug}>
+                                            <img className={styles.courseImage} alt={name}
+                                                 src={banner ? banner.origin : "https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"}/>
+                                        </Link>
+                                    }>
+                                    <div className={styles.courseTag}>
+                                        <div>
+                                            <Tag value="offline"/>
+                                        </div>
+                                        <div>
+                                            <Tag value="remote"/>
+                                        </div>
+                                    </div>
+
+                                    <div className={styles.courseInfo}>
+                                        <div className={styles.courseName}>
+                                            <Link to={"/courses/"+ slug}>{name}</Link>
+                                        </div>
+                                        <div>Nguyễn Văn An</div>
+
+                                        <div className={styles.courseRating}>
+                                            <Rate defaultValue={4} disabled/>
+                                            <b>4.5</b>
+                                        </div>
+
+                                        <div className={styles.priceContainer}>
+                                            <div className={styles.originalPrice}>
+                                                {"10 000 VND"}
+                                            </div>
+                                            <div className={styles.salePrice}>
+                                                {"9 000 VND"}
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </Card>
+                            </Col>
+
+                        })}
+                    </Row>
+                </div>
             </div>
         );
     };
