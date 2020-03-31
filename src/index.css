@@ -74,7 +74,7 @@ code {
 }
 
 h4.ant-typography, .ant-typography h4 {
-    color: #f98012;
+    color: #f98012 !important;
     line-height: 20px;
     margin: 5px;
 }

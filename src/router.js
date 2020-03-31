@@ -1,23 +1,19 @@
 import React from "react";
-import {Route, Switch} from 'react-router-dom';
+import {Switch} from 'react-router-dom';
 import AdminLayout from "./containers/admin";
 import AdminRoute from "./routes/AdminRoute";
 import PublicRoute from "./routes/PublicRoute";
-import CourseDetail from "./containers/CourseDetail/CourseDetail";
-import QuestionsBank from "./containers/QuestionsBank/index.js";
-// import Announcement from "./components/Modules/Announcement/Announcement";
-import Article from "./components/Modules/Article/Article";
-import Assignment from "./components/Modules/Assignment/Assignment";
-// import Forum from "./components/Modules/Forum/Forum";
-// import Video from "./components/Modules/Video/Video";
-// import Resource from "./components/Modules/Resource/Resource";
-import QuizEntrance from "./components/Modules/Quiz/QuizEntrance";
-import Courses from "./containers/Courses/Courses";
 import Auth from "./containers/Auth";
-import Dashboard from "./containers/Dashboard";
-import NewCourse from "./containers/NewCourse/NewCourse";
+import Loading from "./components/Loading/Loading";
 
-import TestOnly from './containers/Test';
+const QuestionsBank = React.lazy(() => import("./containers/QuestionsBank/index.js"), {fallback: ''});
+const Courses = React.lazy(() => import("./containers/Courses/Courses"), {fallback: ''});
+const Dashboard = React.lazy(() => import("./containers/Dashboard"), {fallback: ''});
+const NewCourse = React.lazy(() => import("./containers/NewCourse/NewCourse"), {fallback: ''});
+const QuizEntrance = React.lazy(() => import("./components/Modules/Quiz/QuizEntrance"), {fallback: ''});
+const Article = React.lazy(() => import("./components/Modules/Article/Article"), {fallback: ''});
+const Assignment = React.lazy(() => import("./components/Modules/Assignment/Assignment"), {fallback: ''});
+const CourseDetail = React.lazy(() => import("./containers/CourseDetail/CourseDetail"), {fallback: ''});
 
 export default function (props) {
     const {isAuthenticated} = props;
@@ -25,39 +21,55 @@ export default function (props) {
         <Switch>
             <PublicRoute isAuthenticated={isAuthenticated} path="/login" component={Auth}/>
             <AdminLayout>
-                <Route path={'/test'} component={TestOnly}/>
+                <React.Suspense fallback={Loading}>
+                    <AdminRoute isAuthenticated={isAuthenticated}
+                                path="/new-course"
+                                component={NewCourse}/>
+                </React.Suspense>
 
-                <AdminRoute isAuthenticated={isAuthenticated}
-                            path="/new-course"
-                            component={NewCourse}/>
+                <React.Suspense fallback={Loading}>
+                    <AdminRoute isAuthenticated={isAuthenticated}
+                                path="/courses/:slug/quiz/:moduleId"
+                                component={QuizEntrance}/>
+                </React.Suspense>
 
-                <AdminRoute isAuthenticated={isAuthenticated}
-                            path="/courses/:slug/quiz/:moduleId"
-                            component={QuizEntrance}/>
+                <React.Suspense fallback={Loading}>
+                    <AdminRoute isAuthenticated={isAuthenticated}
+                                path="/courses/:slug/article/:moduleId"
+                                component={Article}/>
+                </React.Suspense>
 
-                <AdminRoute isAuthenticated={isAuthenticated}
-                            path="/courses/:slug/article/:moduleId"
-                            component={Article}/>
+                <React.Suspense fallback={Loading}>
+                    <AdminRoute isAuthenticated={isAuthenticated}
+                                path="/courses/:slug/assignment/:moduleId"
+                                component={Assignment}/>
+                </React.Suspense>
 
-                <AdminRoute isAuthenticated={isAuthenticated}
-                            path="/courses/:slug/assignment/:moduleId"
-                            component={Assignment}/>
 
-                <AdminRoute isAuthenticated={isAuthenticated}
-                            path="/courses/:slug"
-                            component={CourseDetail} exact/>
+                <React.Suspense fallback={Loading}>
+                    <AdminRoute isAuthenticated={isAuthenticated}
+                                path="/courses/:slug"
+                                component={CourseDetail} exact/>
+                </React.Suspense>
 
-                <AdminRoute isAuthenticated={isAuthenticated}
-                            path="/courses"
-                            component={Courses} exact/>
+                <React.Suspense fallback={Loading}>
+                    <AdminRoute isAuthenticated={isAuthenticated}
+                                path="/courses"
+                                component={Courses} exact/>
+                </React.Suspense>
 
-                <AdminRoute isAuthenticated={isAuthenticated}
-                            path="/questions"
-                            component={QuestionsBank}/>
+                <React.Suspense fallback={Loading}>
+                    <AdminRoute isAuthenticated={isAuthenticated}
+                                path="/questions"
+                                component={QuestionsBank}/>
+                </React.Suspense>
 
-                <AdminRoute isAuthenticated={isAuthenticated}
-                            path="/"
-                            component={Dashboard} exact/>
+                <React.Suspense fallback={Loading}>
+                    <AdminRoute isAuthenticated={isAuthenticated}
+                                path="/"
+                                component={Dashboard} exact/>
+                </React.Suspense>
+
             </AdminLayout>
         </Switch>
     );
