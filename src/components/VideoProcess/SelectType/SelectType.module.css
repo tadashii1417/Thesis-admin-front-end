@@ -1,0 +1,42 @@
+.radioStyle {
+    display: block;
+    line-height: 30px;
+}
+
+.optionTitle {
+    color: rgba(0, 0, 0, 0.95);
+    line-height: 25px;
+}
+
+.optionDescription {
+    margin-left: 25px;
+}
+
+
+.icon {
+    margin-right: 7px;
+    color: #00a0e9;
+}
+
+.embedLink {
+    margin-bottom: 15px;
+}
+
+.notes {
+}
+
+.left {
+    width: 10%;
+    float: left;
+    color: rgba(0, 0, 0, .85);
+}
+
+.right {
+    width: 80%;
+    float: left;
+    padding: 0 10px;
+}
+
+.clear {
+    clear: both;
+}

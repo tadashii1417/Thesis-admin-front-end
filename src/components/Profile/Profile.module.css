@@ -1,0 +1,54 @@
+.baseView {
+    display: flex;
+    padding-top: 12px;
+}
+
+.baseView .left {
+    min-width: 320px;
+    max-width: 448px;
+}
+
+.baseView .right {
+    flex: 1;
+    padding-left: 104px;
+}
+
+.right .button_view {
+    width: 144px;
+    text-align: center;
+}
+
+.right .avatar {
+    width: 144px;
+    height: 144px;
+    margin-bottom: 12px;
+    overflow: hidden;
+}
+
+.avatar img {
+    width: 100%;
+}
+
+.right .avatar_title {
+    height: 22px;
+    margin-bottom: 8px;
+    line-height: 22px;
+}
+
+@media screen and (max-width: 1200px) {
+    .baseView {
+        flex-direction: column-reverse;
+    }
+
+    .baseView .right {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        max-width: 448px;
+        padding: 20px;
+    }
+
+    .right .avatar_title {
+        display: none;
+    }
+}
