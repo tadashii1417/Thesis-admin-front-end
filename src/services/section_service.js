@@ -1,4 +1,4 @@
-import axios from '../axios-config';
+import axios from '../config/axios-config';
 
 export async function updateSection(id, patch) {
     return axios.patch('/api/sections/' + id, patch);

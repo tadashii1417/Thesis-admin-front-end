@@ -52,9 +52,11 @@ class Assignment extends Component {
     }
 
     handleNewAssignment = async (values) => {
+        console.log(values);
         const {module} = this.state;
         try {
             const {data} = await createAssignment(module.id, values);
+            console.log(data);
             let newModule = {...module};
             newModule.instanceData = data;
             this.setState({module: newModule, addModal: false});

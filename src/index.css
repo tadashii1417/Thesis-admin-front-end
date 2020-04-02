@@ -73,6 +73,14 @@ code {
     min-height: 80vh;
 }
 
+.ant-tabs .ant-tabs-left-bar .ant-tabs-tab {
+    text-align: left !important;
+}
+
+.ant-steps-item-process .ant-steps-item-title {
+    font-weight: 400 !important;
+}
+
 h4.ant-typography, .ant-typography h4 {
     color: #f98012 !important;
     line-height: 20px;

@@ -5,7 +5,7 @@ import styles from './CoursesTable.module.css';
 import {Typography, Button, Divider, Input} from "antd";
 import {Link} from 'react-router-dom';
 import {httpErrorHandler} from "../../utils/axios_util";
-import axios from '../../axios-config';
+import axios from '../../config/axios-config';
 
 const {Title} = Typography;
 const {Search} = Input;

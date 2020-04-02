@@ -1,4 +1,4 @@
-import axios from '../axios-config';
+import axios from '../config/axios-config';
 
 export async function fetchMe() {
     const {data} = await axios.get("/api/me");

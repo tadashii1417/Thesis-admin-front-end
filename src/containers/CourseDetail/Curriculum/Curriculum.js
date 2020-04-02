@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {sortableContainer, sortableElement} from 'react-sortable-hoc';
 import arrayMove from 'array-move';
-import axios from '../../../axios-config';
+import axios from '../../../config/axios-config';
 import {Button, Divider, message, Modal, Spin, Tooltip} from "antd";
 import NewSection from "../../../components/Curriculum/NewSection/NewSection";
 import Section from "../../../components/Curriculum/Sections/Sections";

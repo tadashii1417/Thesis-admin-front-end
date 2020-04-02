@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {getToken} from "./utils/storage_util";
+import {getToken} from "../utils/storage_util";
 
 const instance = axios.create({
     baseURL: '/',

@@ -2,6 +2,6 @@
 // import EditableTagGroup from "./DynamicTags";
 // import Pagination from "./Pagination";
 // import NestedRoute from "./NestedRoute";
-import DynamicMessage from "./DynamicMessage";
-
-export default DynamicMessage;
+// import DynamicMessage from "./DynamicMessage";
+import App from "./UploadProgress";
+export default App;

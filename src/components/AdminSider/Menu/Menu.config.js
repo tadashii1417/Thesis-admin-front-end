@@ -1,8 +1,15 @@
 export default [
     {
+        display: "Dashboard",
+        name: "dashboard",
+        icon: "dashboard",
+        path: "/",
+        routes: []
+    },
+    {
         display: "Doodle",
         name: "doodle",
-        icon: "user",
+        icon: "idcard",
         routes: [
             {
                 display: "Courses",
@@ -12,12 +19,12 @@ export default [
             {
                 name: "lessons",
                 display: "Lessons",
-                path: "/dashboard/updatesdfsdfskdfs",
+                path: "/dashboard",
             },
             {
                 name: "quizzes",
                 display: "Quizzes",
-                path: "/dashboarsdfdasfd/updates",
+                path: "/quizzes",
             },
             {
                 name: "questions",
@@ -27,22 +34,16 @@ export default [
             {
                 name: "statistics",
                 display: "Statistic",
-                path: "/sdfsddashboard/updates",
+                path: "/statistic",
             }
         ]
     },
+
     {
-        display: "Dashboard",
-        name: "dashboard",
-        icon: "dashboard",
-        path: "/",
-        routes: []
-    },
-    {
-        display: "Media",
-        name: "media",
-        icon: "folder-open",
-        path: "/media",
+        display: "Account Center",
+        name: "account-center",
+        icon: "user",
+        path: "/accounts",
         routes: []
     },
     {

@@ -1,4 +1,4 @@
-import axios from '../axios-config';
+import axios from '../config/axios-config';
 
 export function createAssignment(moduleId, values) {
     const {openAt, closeAt, intro, attachmentFiles} = values;
@@ -14,9 +14,12 @@ export function createAssignment(moduleId, values) {
 
     formData.append('intro', intro);
     formData.append('moduleId', moduleId);
-    attachmentFiles.fileList.forEach(item => {
-        formData.append('attachmentFiles', item.originFileObj);
-    });
+
+    if (attachmentFiles) {
+        attachmentFiles.fileList.forEach(item => {
+            formData.append('attachmentFiles', item.originFileObj);
+        });
+    }
 
     return axios.post('/api/assignments', formData);
 }

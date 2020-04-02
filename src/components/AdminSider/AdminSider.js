@@ -13,11 +13,10 @@ const adminSider = props => (
         collapsible
         collapsed={props.collapsed}
         breakpoint="md"
-        collapsedWidth='0'
         width={256}
         theme="dark"
-        className={styles.sider}
-    >
+        className={styles.sider}>
+
         <div className={styles.logo} id="logo">
             <Link to={"/"}>
                 <img src={logo} alt="logo"/>

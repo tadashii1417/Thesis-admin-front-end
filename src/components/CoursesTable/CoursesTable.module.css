@@ -107,14 +107,14 @@
 /* Extra small devices (portrait phones, less than 576px)*/
 @media (max-width: 575.98px) {
     .courseImage{
-        height: 230px;
+        height: 225px;
     }
 }
 
 /*Small devices (landscape phones, less than 768px)*/
 @media (max-width: 767.98px) {
     .courseImage{
-        height: 215px;
+        height: 200px;
     }
 }
 

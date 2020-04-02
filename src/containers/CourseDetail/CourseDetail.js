@@ -14,7 +14,7 @@ import styles from './CourseDetail.module.css';
 import Curriculum from "./Curriculum/Curriculum";
 import {Link} from "react-router-dom";
 import {httpErrorHandler} from "../../utils/axios_util";
-import axios from '../../axios-config';
+import axios from '../../config/axios-config';
 import CourseSettings from "../../components/CourseSettings/CourseSettings";
 import './CourseDetail.css';
 import {updateCourse, updateCourseBanner} from "../../services/course_service";
