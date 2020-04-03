@@ -100,7 +100,7 @@ class Article extends Component {
                 </div>
 
                 <div className="adminContent">
-                    <Steps current={current}>
+                    <Steps current={current} status={this.state.stepStatus}>
                         <Step key={"step-1"} title={"Select Type"} description={"Where is your video ?"}/>
                         <Step key={"step-2"} title={"Video Processing"} description={"Please wait ..."}
                               subTitle={this.state.progressing ? <Spin/> : ''}/>

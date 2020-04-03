@@ -14,6 +14,12 @@
 
 }
 
+.clearBtn {
+    background-color: #28a745 !important;
+    border-color: #28a745 !important;
+    margin: 0 10px;
+}
+
 .stepsContainer {
     margin: 50px 0;
     color: red;
@@ -25,6 +31,7 @@
     font-size: 30px;
     padding: 10px;
 }
+
 .actions {
     text-align: center;
 }
