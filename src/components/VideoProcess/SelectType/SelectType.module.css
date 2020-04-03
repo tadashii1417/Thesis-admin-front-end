@@ -1,4 +1,9 @@
+.radioBox {
+    width: 100%;
+}
+
 .radioStyle {
+    margin-left: 20px;
     display: block;
     line-height: 30px;
 }
@@ -13,12 +18,25 @@
 }
 
 
+.stepsContent {
+    margin-top: 16px;
+    border: 1px dashed #e9e9e9;
+    border-radius: 2px;
+    background-color: #fafafa;
+    min-height: 220px;
+    padding: 25px;
+    width: 100%;
+
+}
+
 .icon {
     margin-right: 7px;
     color: #00a0e9;
 }
 
 .embedLink {
+    width: 80%;
+    max-width: 600px;
     margin-bottom: 15px;
 }
 
@@ -39,4 +57,8 @@
 
 .clear {
     clear: both;
+}
+
+.nextButton {
+    padding-left: 30px;
 }

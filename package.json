@@ -4,6 +4,7 @@
   "private": true,
   "proxy": "http://localhost:5000",
   "dependencies": {
+    "@silvermine/videojs-quality-selector": "^1.2.3",
     "antd": "^3.24.0",
     "array-move": "^2.1.0",
     "axios": "^0.19.0",
@@ -17,6 +18,9 @@
     "less-loader": "^5.0.0",
     "mdbreact": "^4.21.0",
     "moment": "^2.24.0",
+    "prop-types": "^15.7.2",
+    "video.js": "^7.7.5",
+    "videojs-seek-buttons": "^1.5.0",
     "react": "^16.9.0",
     "react-app-rewired": "^2.1.0",
     "react-collapsible": "^2.6.0",
@@ -35,7 +39,7 @@
     "reqwest": "^2.0.5"
   },
   "scripts": {
-    "start": "react-app-rewired start",
+    "start": "export PORT=3001 && react-app-rewired start",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",
     "eject": "react-app-rewired eject"

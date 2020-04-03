@@ -19,15 +19,6 @@
 }
 
 
-.stepsContent {
-    margin-top: 16px;
-    border: 1px dashed #e9e9e9;
-    border-radius: 2px;
-    background-color: #fafafa;
-    min-height: 200px;
-    padding: 25px
-}
-
 .stepsAction {
     margin-top: 24px;
 }

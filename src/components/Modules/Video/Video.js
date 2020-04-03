@@ -8,7 +8,6 @@ import {ModuleType} from "../../../constants/module_constant";
 import {getModule} from "../../../services/module_service";
 import {httpErrorHandler} from "../../../utils/axios_util";
 import SelectType from "../../VideoProcess/SelectType/SelectType";
-import VideoInput from "../../VideoProcess/VideoInput/VideoInput";
 import VideoProcessing from "../../VideoProcess/VideoProcessing/VideoProcessing";
 import VideoFinished from "../../VideoProcess/VideoFinished/VideoFinished";
 
@@ -18,14 +17,20 @@ class Article extends Component {
     state = {
         loading: true,
         module: {},
-        current: 0
+        current: 0,
+        stepStatus: 'process',
+        progressing: false
     };
 
     async componentDidMount() {
         const {params} = this.props.match;
         try {
             const {data} = await getModule(params.moduleId);
-            this.setState({module: data, loading: false});
+            let current = this.state.current;
+            if (data.instanceData) {
+                current = 2;
+            }
+            this.setState({module: data, loading: false, current: current});
         } catch (e) {
             httpErrorHandler(e, () => {
                 switch (e.code) {
@@ -36,27 +41,19 @@ class Article extends Component {
         }
     }
 
-    steps = [
-        <SelectType/>,
-        <VideoInput/>,
-        <VideoProcessing/>,
-        <VideoFinished/>
-    ];
-
-    next = () => {
-        if (this.state.current === 3) {
-            return;
-        }
-        const current = this.state.current + 1;
-        this.setState({current});
+    setStepStatus = (val) => {
+        this.setState({stepStatus: val})
     };
 
-    prev = () => {
-        if (this.state.current === 0) {
+    setProgressing = (val) => {
+        this.setState({progressing: val});
+    };
+
+    setCurrent = (val) => {
+        if (val >= 3) {
             return;
         }
-        const current = this.state.current - 1;
-        this.setState({current});
+        this.setState({current: val});
     };
 
     render() {
@@ -64,8 +61,19 @@ class Article extends Component {
         if (loading) {
             return <Spin/>
         }
+
         const {match, location} = this.props;
         const query = new URLSearchParams(location.search);
+
+        const steps = [
+            <SelectType moduleId={this.state.module.id} setCurrent={this.setCurrent}/>,
+            <VideoProcessing
+                moduleId={this.state.module.id}
+                setStepStatus={this.setStepStatus}
+                setCurrent={this.setCurrent}
+                setProgressing={this.setProgressing}/>,
+            <VideoFinished moduleId={this.state.module.id}/>
+        ];
 
         return (
             <>
@@ -93,34 +101,13 @@ class Article extends Component {
 
                 <div className="adminContent">
                     <Steps current={current}>
-                        <Step key={"step-1"} title={"Select Type"}/>
-                        <Step key={"step-2"} title={"Inputs"} description={"Fill in the content"}/>
-                        <Step key={"step-3"} title={"VideoProcessing"} description={"Please wait"}/>
-                        <Step key={"step-4"} title={"Finished"} description={"View video"}/>
+                        <Step key={"step-1"} title={"Select Type"} description={"Where is your video ?"}/>
+                        <Step key={"step-2"} title={"Video Processing"} description={"Please wait ..."}
+                              subTitle={this.state.progressing ? <Spin/> : ''}/>
+                        <Step key={"step-3"} title={"Finished"} description={"Preview video"}/>
                     </Steps>
 
-                    <div className={styles.stepsContent}>{this.steps[current]}</div>
-
-                    <div className={styles.stepsAction}>
-
-                        {current < this.steps.length - 1 && (
-                            <Button type="primary" onClick={this.next}>
-                                Next
-                            </Button>
-                        )}
-
-                        {current === this.steps.length - 1 && (
-                            <Button type="primary">
-                                Done
-                            </Button>
-                        )}
-
-                        {current > 0 && (
-                            <Button style={{margin: 8}} onClick={this.prev}>
-                                Previous
-                            </Button>
-                        )}
-                    </div>
+                    <div>{steps[current]}</div>
                 </div>
 
             </>
