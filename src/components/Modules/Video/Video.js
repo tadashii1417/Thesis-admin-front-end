@@ -10,6 +10,7 @@ import {httpErrorHandler} from "../../../utils/axios_util";
 import SelectType from "../../VideoProcess/SelectType/SelectType";
 import VideoProcessing from "../../VideoProcess/VideoProcessing/VideoProcessing";
 import VideoFinished from "../../VideoProcess/VideoFinished/VideoFinished";
+import {getProgress} from "../../../services/video_service";
 
 const {Step} = Steps;
 
@@ -23,9 +24,10 @@ class Article extends Component {
     };
 
     async componentDidMount() {
-        const {params} = this.props.match;
+        const {params: {moduleId}} = this.props.match;
+
         try {
-            const {data} = await getModule(params.moduleId);
+            const {data} = await getModule(moduleId);
             let current = this.state.current;
             if (data.instanceData) {
                 current = 2;
@@ -38,6 +40,13 @@ class Article extends Component {
                         message.error("Something went wrong");
                 }
             });
+        }
+
+        try {
+            await getProgress(moduleId);
+            this.setState({current: 1});
+        } catch (e) {
+            console.log('No process');
         }
     }
 

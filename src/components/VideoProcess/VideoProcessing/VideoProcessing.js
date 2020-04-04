@@ -41,7 +41,7 @@ class VideoProcessing extends Component {
 
     terminateProcess = async () => {
         try {
-            const res = await terminateProcess(this.state.processId);
+            await terminateProcess(this.state.processId);
             message.info("Upload has been terminated.");
         } catch (e) {
             message.error("Fail to terminate process")
@@ -50,9 +50,13 @@ class VideoProcessing extends Component {
 
     deleteProcess = async () => {
         try {
-            const res = await deleteProcess(this.state.processId);
-            message.success("Process has been reverted and clean");
-            console.log(res);
+            await deleteProcess(this.state.processId);
+            const {finalStatus} = this.state;
+            if (finalStatus === VideoStatusType.TERMINATED || finalStatus === VideoStatusType.FAILED) {
+                this.props.setCurrent(0);
+                this.props.setStepStatus('process');
+            }
+            message.success("Process has been deleted.");
         } catch (e) {
             message.error("Fail to terminate process")
         }
@@ -156,8 +160,9 @@ class VideoProcessing extends Component {
 
 
                 {showDelete &&
-                <Tooltip title={"Clear previous actions to remove trash."}>
-                    <Button onClick={this.deleteProcess} type={"danger"} className={styles.clearBtn}><Icon type={"delete"}/> Clear</Button>
+                <Tooltip title={"Clear previous process and only show video next time."}>
+                    <Button onClick={this.deleteProcess} type={"danger"} className={styles.clearBtn}><Icon
+                        type={"delete"}/> Clear</Button>
                 </Tooltip>
                 }
 
