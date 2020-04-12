@@ -50,7 +50,7 @@ class Article extends Component {
             if (content !== null && content !== "") {
                 try {
                     let patch = [];
-                    createPatch(patch, 'content/html', content);
+                    createPatch(patch, 'content', content);
 
                     message.loading({content: "Loading", key});
                     await updateArticle(module.id, patch);

@@ -38,7 +38,6 @@ export default [
             }
         ]
     },
-
     {
         display: "Account Center",
         name: "account-center",
@@ -47,10 +46,10 @@ export default [
         routes: []
     },
     {
-        display: "Setting",
-        name: "setting",
-        icon: "setting",
-        path: "/",
+        display: "My profile",
+        name: "profile",
+        icon: "credit-card",
+        path: "/profile",
         routes: []
     },
     {

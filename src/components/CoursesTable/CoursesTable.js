@@ -24,7 +24,12 @@ export default class extends Component {
     async fetchCourses(params = {}) {
         this.setState({loading: true});
         try {
-            const {data} = await axios.get('/api/courses?page=' + params.page);
+            const res = await axios.get('/api/courses?page=' + params.page);
+            if (!res) {
+                message.info("No course found !");
+                return;
+            }
+            const {data} = res;
             const pagination = {...this.state.pagination};
             pagination.total = data.totalPageCount * 10;
             this.setState({

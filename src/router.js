@@ -16,8 +16,8 @@ const Article = React.lazy(() => import("./components/Modules/Article/Article"),
 const Assignment = React.lazy(() => import("./components/Modules/Assignment/Assignment"), {fallback: ''});
 const CourseDetail = React.lazy(() => import("./containers/CourseDetail/CourseDetail"), {fallback: ''});
 const Video = React.lazy(() => import("./components/Modules/Video"), {fallback: ''});
-const AccountCenters = React.lazy(() => import("./containers/Accounts/Accounts"));
-
+const MyProfile = React.lazy(() => import("./containers/MyProfile/MyProfile"));
+const AccountCenter = React.lazy(() => import('./containers/AccountCenter/AccountCenter'));
 
 export default function (props) {
     const {isAuthenticated} = props;
@@ -77,8 +77,14 @@ export default function (props) {
 
                 <React.Suspense fallback={Loading}>
                     <AdminRoute isAuthenticated={isAuthenticated}
+                                path="/profile"
+                                component={MyProfile} exact/>
+                </React.Suspense>
+
+                <React.Suspense fallback={Loading}>
+                    <AdminRoute isAuthenticated={isAuthenticated}
                                 path="/accounts"
-                                component={AccountCenters} exact/>
+                                component={AccountCenter} exact/>
                 </React.Suspense>
 
                 <React.Suspense fallback={Loading}>

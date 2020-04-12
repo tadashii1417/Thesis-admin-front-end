@@ -92,21 +92,6 @@ h4.ant-typography, .ant-typography h4 {
     text-align: left;
 }
 
-
-/*.ant-steps-item-finish > .ant-steps-item-container > .ant-steps-item-tail::after {*/
-/*    position: absolute;*/
-/*    top: 0;*/
-/*    right: 0;*/
-/*    bottom: 0;*/
-/*    left: 0;*/
-/*    background: #1890ff;*/
-/*    border-radius: 10px;*/
-/*    opacity: 0;*/
-/*    -webkit-animation: ant-progress-active 2.4s cubic-bezier(.23, 1, .32, 1) infinite;*/
-/*    animation: ant-progress-active 2.4s cubic-bezier(.23, 1, .32, 1) infinite;*/
-/*    content: '123';*/
-/*}*/
-
 /***************   EDITOR   ****************/
 .editor-class .ant-form-item-control {
     line-height: 0;

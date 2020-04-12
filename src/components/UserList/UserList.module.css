@@ -1,0 +1,14 @@
+.header {
+    padding: 15px;
+    display: flex;
+    flex-direction: row;
+}
+
+.tabTitle {
+    display: inline-block;
+    flex: 50%;
+}
+
+.searchBox {
+    flex: 50%
+}
