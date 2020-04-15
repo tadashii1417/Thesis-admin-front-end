@@ -18,6 +18,7 @@ const CourseDetail = React.lazy(() => import("./containers/CourseDetail/CourseDe
 const Video = React.lazy(() => import("./components/Modules/Video"), {fallback: ''});
 const MyProfile = React.lazy(() => import("./containers/MyProfile/MyProfile"));
 const AccountCenter = React.lazy(() => import('./containers/AccountCenter/AccountCenter'));
+const Livestream = React.lazy(() => import("./components/Modules/Livestream/Livestream"));
 
 export default function (props) {
     const {isAuthenticated} = props;
@@ -56,6 +57,11 @@ export default function (props) {
                                 component={Assignment}/>
                 </React.Suspense>
 
+                <React.Suspense fallback={Loading}>
+                    <AdminRoute isAuthenticated={isAuthenticated}
+                                path="/courses/:slug/livestream/:moduleId"
+                                component={Livestream}/>
+                </React.Suspense>
 
                 <React.Suspense fallback={Loading}>
                     <AdminRoute isAuthenticated={isAuthenticated}

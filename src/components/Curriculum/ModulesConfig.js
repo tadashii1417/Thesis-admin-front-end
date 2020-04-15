@@ -6,6 +6,7 @@ import {feed} from 'react-icons-kit/icomoon/feed';
 import {enter} from 'react-icons-kit/icomoon/enter';
 import {addressBook} from 'react-icons-kit/icomoon/addressBook';
 import {alarm} from 'react-icons-kit/icomoon/alarm';
+import {connection} from 'react-icons-kit/icomoon/connection'
 
 const ModulesConfig = {
     [ModuleType.VIDEO]: {
@@ -42,6 +43,11 @@ const ModulesConfig = {
         icon: enter,
         color: "#00707f",
         title: "Forum"
+    },
+    [ModuleType.LIVESTREAM]:{
+        icon: connection,
+        color: "#cf1322",
+        title: "Livestream"
     }
 };
 

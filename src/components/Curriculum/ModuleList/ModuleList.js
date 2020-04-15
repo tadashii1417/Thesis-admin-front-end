@@ -15,6 +15,7 @@ import NewModule from "../AddModule/AddModule";
 import {ModuleType} from "../../../constants/module_constant";
 import {createNewQuiz} from "../../../services/quiz_service";
 import {createNewArticle} from "../../../services/article_service";
+import {createLivestream} from "../../../services/livestream_service";
 
 const {confirm} = Modal;
 
@@ -133,6 +134,9 @@ export default class extends Component {
                     break;
                 case ModuleType.ARTICLE:
                     await createNewArticle(data.id);
+                    break;
+                case ModuleType.LIVESTREAM:
+                    await createLivestream(data.id, values.record);
                     break;
                 default:
                     break;

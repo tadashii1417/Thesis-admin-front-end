@@ -1,0 +1,38 @@
+.header {
+    background-color: #fff;
+    padding: 12px 24px 16px 24px;
+    color: rgba(0, 0, 0, .65);
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.heading {
+    display: flex;
+    align-items: center;
+    margin-top: 8px;
+    width: 100%;
+    overflow: hidden;
+    color: rgba(0, 0, 0, .85);
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 32px;
+    /*color: #f98012;*/
+}
+
+.container {
+    width: 90%;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.introImg {
+    height: 60vh;
+}
+
+.actionArea {
+    padding: 30px 0;
+}
+
+.actionArea > * {
+    margin: 0 10px;
+}
