@@ -1,14 +1,18 @@
 import React, {Component} from "react";
-import {Alert, Breadcrumb, Button, Form, message, Spin} from "antd";
+import {Breadcrumb, Button, message, Spin} from "antd";
 import styles from "./Livestream.module.css";
 import {Link} from "react-router-dom";
 import {Icon} from "react-icons-kit";
-import {Editor} from 'doodle-editor';
 import ModulesConfig from "../../Curriculum/ModulesConfig";
-import {ModuleType} from "../../../constants/module_constant";
+import {LivestreamStatus, ModuleType} from "../../../constants/module_constant";
 import {getModule} from "../../../services/module_service";
 import {httpErrorHandler} from "../../../utils/axios_util";
-import {endLivestream, joinLivestream, startLivestream} from "../../../services/livestream_service";
+import {
+    endLivestream,
+    getLivestreamPlayback,
+    joinLivestream,
+    startLivestream
+} from "../../../services/livestream_service";
 
 class Livestream extends Component {
     state = {
@@ -38,7 +42,8 @@ class Livestream extends Component {
             await startLivestream(module.id);
 
             let updatedModule = {...module};
-            updatedModule.instanceData = {...module.instanceData, started: true}
+            updatedModule.instanceData = {...module.instanceData, status: LivestreamStatus.RUNNING}
+            console.log(updatedModule);
             this.setState({module: updatedModule});
             message.success("Livestream has been started.");
         } catch (e) {
@@ -57,7 +62,7 @@ class Livestream extends Component {
             await endLivestream(module.id);
 
             let updatedModule = {...module};
-            updatedModule.instanceData = {...module.instanceData, ended: true}
+            updatedModule.instanceData = {...module.instanceData, status: LivestreamStatus.ENDED}
             this.setState({module: updatedModule});
             message.success("Livestream has been ended.");
         } catch (e) {
@@ -69,10 +74,26 @@ class Livestream extends Component {
             });
         }
     }
+
     joinLivestream = async () => {
         try {
             const {module} = this.state;
             const {data} = await joinLivestream(module.id);
+            window.open(data, "_blank");
+        } catch (e) {
+            httpErrorHandler(e, () => {
+                switch (e.code) {
+                    default:
+                        message.error("Something went wrong");
+                }
+            });
+        }
+    }
+
+    getLivestreamPlayback = async () => {
+        try {
+            const {module} = this.state;
+            const {data} = await getLivestreamPlayback(module.id);
             window.open(data, "_blank");
         } catch (e) {
             httpErrorHandler(e, () => {
@@ -89,7 +110,7 @@ class Livestream extends Component {
         if (loading) {
             return <Spin/>
         }
-        const {instanceData: {started, ended}} = module;
+        const {instanceData: {status}} = module;
 
         const {match, location} = this.props;
         const query = new URLSearchParams(location.search);
@@ -125,28 +146,34 @@ class Livestream extends Component {
                             <img src={introImg} alt={"introduction img"} className={styles.introImg}/>
                         </div>
                         <div className={styles.actionArea}>
-                            {!started && !ended && <Button
+                            {status === LivestreamStatus.CREATED && <Button
                                 type={"primary"}
                                 onClick={this.startLivestream}
                                 icon="forward">
                                 Start Livestream</Button>}
 
-                            {started && !ended && <Button
+                            {status === LivestreamStatus.RUNNING && <Button
                                 type={"danger"}
                                 onClick={this.endLivestream}
                                 icon="rollback">
                                 End livestream</Button>}
 
-                            {started && !ended && <Button
+                            {status === LivestreamStatus.RUNNING && <Button
                                 type={"primary"}
                                 onClick={this.joinLivestream}
                                 icon="login">
                                 Join livestream</Button>}
 
-                            {ended && <Button
+                            {status === LivestreamStatus.ENDED && <Button
                                 type={"ghost"}
                                 icon="close">
                                 This livestream is over</Button>}
+
+                            {status === LivestreamStatus.RECORDED && <Button
+                                type={"primary"}
+                                onClick={this.getLivestreamPlayback}
+                                icon="cloud-download">
+                                Get livestream record</Button>}
                         </div>
                     </div>
                 </div>

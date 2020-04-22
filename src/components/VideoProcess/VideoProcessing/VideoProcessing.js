@@ -107,6 +107,7 @@ class VideoProcessing extends Component {
                     break;
             }
         } catch (e) {
+            clearInterval(this.intervalId);
             message.error("Something went wrong when fetching progress");
         }
     };

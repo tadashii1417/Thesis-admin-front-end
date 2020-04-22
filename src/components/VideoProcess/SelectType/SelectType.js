@@ -89,6 +89,7 @@ const SelectType = (props) => {
                             multiple={false}
                             customRequest={uploadVideoFromLocal}
                             onChange={handleOnChangeUpload}
+                            showUploadList={false}
                             fileList={fileList}
                             defaultFileList={fileList}>
                             <Button>

@@ -24,3 +24,9 @@ export const CurriculumPreviewableModuleType = [
     ModuleType.VIDEO
 ];
 
+export const LivestreamStatus = {
+    CREATED: "created",
+    RUNNING: "running",
+    ENDED: "ended",
+    RECORDED: "recorded",
+};

@@ -13,8 +13,12 @@
 }
 
 .headerImage {
-    margin-top: 10px;
-    margin-right: 10px;
+    /*margin-top: 10px;*/
+    /*margin-right: 10px;*/
+}
+
+.headerImage > * {
+    margin: 10% 5px 10% 0;
 }
 
 .headerContainer img {

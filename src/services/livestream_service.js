@@ -16,3 +16,6 @@ export function joinLivestream(moduleId) {
     return axios.post(`/api/livestreams/${moduleId}/join`);
 }
 
+export function getLivestreamPlayback(moduleId) {
+    return axios.post(`/api/livestreams/${moduleId}/playback`);
+}
