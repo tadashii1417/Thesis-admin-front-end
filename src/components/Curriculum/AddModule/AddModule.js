@@ -4,9 +4,12 @@ import ModulesConfig from '../ModulesConfig';
 import {Button, Form, Input, Radio, Switch} from "antd";
 import {ModuleType} from "../../../constants/module_constant";
 
+const {TextArea} = Input;
+
 class NewModuleBasic extends React.Component {
     state = {
-        showLivestream: false
+        showLivestream: false,
+        forumIntro: false
     }
 
     handleSubmit = e => {
@@ -19,16 +22,21 @@ class NewModuleBasic extends React.Component {
     };
 
     handleChangeModuleType = (e) => {
-        if (e.target.value === ModuleType.LIVESTREAM) {
-            this.setState({showLivestream: true});
-        } else {
-            this.setState({showLivestream: false});
+        switch (e.target.value) {
+            case ModuleType.LIVESTREAM:
+                this.setState({showLivestream: true, forumIntro: false});
+                break;
+            case ModuleType.FORUM:
+                this.setState({showLivestream: false, forumIntro: true});
+                break;
+            default:
+                this.setState({showLivestream: false, forumIntro: false});
         }
     }
 
     render() {
         const {getFieldDecorator} = this.props.form;
-        const {showLivestream} = this.state;
+        const {showLivestream, forumIntro} = this.state;
         const radioStyle = {
             width: '100%',
             display: 'flex',
@@ -52,6 +60,16 @@ class NewModuleBasic extends React.Component {
             </Form.Item>);
         }
 
+        let forum = "";
+
+        if (forumIntro) {
+            forum = (<Form.Item label="Forum Introduction">
+                {getFieldDecorator('intro')(
+                    <TextArea/>
+                )}
+            </Form.Item>);
+        }
+
         return (
             <Form layout="vertical" onSubmit={this.handleSubmit}>
                 <Form.Item label="Module Title">
@@ -63,6 +81,7 @@ class NewModuleBasic extends React.Component {
                 </Form.Item>
 
                 {record}
+                {forum}
 
                 <Form.Item label="Module type:">
                     {getFieldDecorator('type', {

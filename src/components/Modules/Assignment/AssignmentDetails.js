@@ -5,7 +5,6 @@ import Loading from "../../Loading/Loading";
 import {EditorContent} from "doodle-editor";
 import moment from "moment";
 import config from "../../../config";
-import {downloadFile} from "../../../utils/file_util";
 import EditAssignmentForm from "./EditAssignmentForm";
 import {httpErrorHandler} from "../../../utils/axios_util";
 import {removeFile} from "../../../services/file_service";
@@ -87,7 +86,7 @@ class AssignmentDetails extends Component {
                                     <div className={styles.fileContainer} key={file.id}>
                                         <Icon type={'delete'} className={styles.deleteFile}
                                               onClick={() => this.showDeleteConfirm(file)}/>
-                                        <Button onClick={() => downloadFile(file)} icon={"paper-clip"}>
+                                        <Button onClick={() => window.open(file.url, '_blank')} icon={"paper-clip"}>
                                             {file.displayName}
                                         </Button>
                                     </div>

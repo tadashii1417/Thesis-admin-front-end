@@ -142,7 +142,7 @@ export default class extends Component {
                             <Breadcrumb.Item>{data.name}</Breadcrumb.Item>
                         </Breadcrumb>
                         <div className={styles.heading}>
-                            <DynamicIcon mIcon={this.courseIcon} style={{margin: '0 15px 0 5px'}}/>
+                            <DynamicIcon micon={this.courseIcon} style={{margin: '0 15px 0 5px'}}/>
                             {data.name}
                         </div>
                         <div className={styles.description}>

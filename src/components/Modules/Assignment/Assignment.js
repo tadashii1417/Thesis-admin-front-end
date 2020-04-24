@@ -40,6 +40,7 @@ class Assignment extends Component {
         const {params} = this.props.match;
         try {
             const {data} = await getModule(params.moduleId);
+            console.log('data', data);
             this.setState({module: data, loading: false});
         } catch (e) {
             httpErrorHandler(e, () => {

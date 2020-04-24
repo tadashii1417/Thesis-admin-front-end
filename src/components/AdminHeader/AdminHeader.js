@@ -44,12 +44,12 @@ class AdminHeader extends Component {
                 </span>
 
                 <div className={styles.right}>
-                    <Tooltip title="Help">
+                    <Tooltip title="Help" className={styles.help}>
                         <span>
                             <Icon type="question-circle" style={{fontSize: "18px"}}/>
                         </span>
                     </Tooltip>
-                    <Tooltip title="Search">
+                    <Tooltip title="Search" className={styles.search}>
                         <span>
                             <Icon type="search" style={{fontSize: "18px"}}/>
                         </span>

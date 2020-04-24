@@ -16,6 +16,7 @@ import {ModuleType} from "../../../constants/module_constant";
 import {createNewQuiz} from "../../../services/quiz_service";
 import {createNewArticle} from "../../../services/article_service";
 import {createLivestream} from "../../../services/livestream_service";
+import {createForum} from "../../../services/forum_service";
 
 const {confirm} = Modal;
 
@@ -137,6 +138,9 @@ export default class extends Component {
                     break;
                 case ModuleType.LIVESTREAM:
                     await createLivestream(data.id, values.record);
+                    break;
+                case ModuleType.FORUM:
+                    await createForum(data.id, values.intro);
                     break;
                 default:
                     break;
