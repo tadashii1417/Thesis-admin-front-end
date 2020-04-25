@@ -25,7 +25,9 @@ class Forum extends Component {
         const {params} = this.props.match;
         try {
             const {data} = await getModule(params.moduleId);
+            console.log(data);
             this.setState({module: data, loading: false});
+
             await this.fetchPosts({page: 1})
         } catch (e) {
             httpErrorHandler(e, () => {
@@ -70,8 +72,8 @@ class Forum extends Component {
             dataIndex: 'title',
             key: 'title',
             width: '40%',
-            render: post => <Link
-                to={this.props.location.pathname + '/post/1' + this.props.location.search}>
+            render: (post, row) => <Link
+                to={this.props.location.pathname + '/post/' + row.id + this.props.location.search}>
                 {post}</Link>
         },
         {
@@ -79,7 +81,7 @@ class Forum extends Component {
             dataIndex: 'author',
             key: 'author',
             width: '20%',
-            render: ({firstName, lastName}) => <span><AIcon type={'user'}/> {firstName+ " " + lastName}</span>
+            render: ({firstName, lastName}) => <span><AIcon type={'user'}/> {firstName + " " + lastName}</span>
         },
         {
             title: "Answer",

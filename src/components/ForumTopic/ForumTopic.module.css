@@ -53,7 +53,8 @@
 }
 
 .avatar {
-    width: 100px;
+    width: 70px;
+    margin-top: 10px;
     height: auto;
 }
 
@@ -66,7 +67,7 @@
 
 .time {
     color: rgba(0, 0, 0, 0.65);
-    padding: 5px 0;
+    padding-bottom: 5px;
     text-align: right;
     border-bottom: 1px solid rgba(0, 0, 0, 0.3);
 }
@@ -74,4 +75,12 @@
 .comment {
     font-size: 15px;
     padding: 10px;
+}
+
+.commentArea {
+    text-align: right;
+}
+
+.commentArea button {
+    margin: 10px;
 }

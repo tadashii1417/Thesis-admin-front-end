@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Avatar, Breadcrumb, Divider, Icon as AIcon, Table} from "antd";
+import {Avatar, Breadcrumb, Divider, Icon as AIcon, message, Input, Button, Result} from "antd";
 import {Link} from "react-router-dom";
 import {Icon} from "react-icons-kit";
 
@@ -7,9 +7,16 @@ import styles from './ForumTopic.module.css';
 import ModulesConfig from "../Curriculum/ModulesConfig";
 import {ModuleType} from "../../constants/module_constant";
 import {defaultAvatar} from "../../constants/dev_constant";
+import moment from "moment";
+import config from "../../config";
+import {addComment, getPostComments} from "../../services/forum_service";
+import {httpErrorHandler} from "../../utils/axios_util";
+
+const {TextArea} = Input;
 
 class ForumTopic extends Component {
     state = {
+        comment: "",
         loading: false,
         module: {
             title: "This is a sample forum",
@@ -17,21 +24,40 @@ class ForumTopic extends Component {
                 intro: "This is a sample introduction"
             }
         },
-        answers: [
-            {
-                content: "Cho minh hoi bai nay lam sao :v huhu",
-                author: "Nguyen van a",
-                authorUrl: defaultAvatar,
-                created: "Wednesday, 15 January 2020, 7:04 PM"
-            },
-            {
-                content: "Bai de vcl ma ko biet, ngu vl \n haha \n hu",
-                author: "Nguyen van a",
-                authorUrl: defaultAvatar,
-                created: "Wednesday, 15 January 2020, 7:04 PM"
-            }
-        ]
+        answers: []
     };
+
+    async componentDidMount() {
+        try {
+            const postId = this.props.match.params.postId;
+            const {data} = await getPostComments(postId);
+            this.setState({answers: data});
+        } catch (e) {
+            message.info("No answer found !");
+        }
+    }
+
+    setComment = (e) => {
+        this.setState({comment: e.target.value});
+    }
+
+    handleComment = async () => {
+        try {
+            const {match: {params: {postId}}} = this.props;
+            const {comment} = this.state;
+            const {data} = await addComment(postId, comment);
+            const oldAnswers = [...this.state.answers];
+            oldAnswers.push(data);
+            this.setState({comment: "", answers: oldAnswers});
+        } catch (e) {
+            httpErrorHandler(e, () => {
+                switch (e.code) {
+                    default:
+                        message.error("Something went wrong");
+                }
+            })
+        }
+    }
 
     render() {
         const {module, loading, answers} = this.state;
@@ -41,6 +67,31 @@ class ForumTopic extends Component {
         // }
         const {match, location} = this.props;
         const query = new URLSearchParams(location.search);
+
+        let comments = <Result
+            status="404"
+            title="No comment"
+        />;
+        if (answers.length) {
+            comments = answers.map(answer => (
+                <div className={styles.commentContainer}>
+                    <div className={styles.userInfo}>
+                        <Avatar src={defaultAvatar} className={styles.avatar}/>
+                        <div className={styles.authorName}>
+                            {answer.author.firstName + " " + answer.author.lastName}
+                        </div>
+                    </div>
+                    <div className={styles.userComment}>
+                        <div className={styles.time}>
+                            {moment(answer.createdAt, config.timeFormat).format('HH:mm:ss DD/MM/YYYY')}
+                        </div>
+                        <div className={styles.comment}>
+                            {answer.content}
+                        </div>
+                    </div>
+                </div>
+            ))
+        }
 
         return (
             <>
@@ -70,27 +121,18 @@ class ForumTopic extends Component {
                 </div>
 
                 <div className="adminContent">
+                    {comments}
 
-                    {answers.map(answer => (
-                        <div className={styles.commentContainer}>
-                            <div className={styles.userInfo}>
-                                <Avatar src={answer.authorUrl} className={styles.avatar}/>
-                                <div className={styles.authorName}>
-                                    {answer.author}
-                                </div>
-                            </div>
-                            <div className={styles.userComment}>
-                                <div className={styles.time}>
-                                    {answer.created}
-                                </div>
-                                <div className={styles.comment}>
-                                    {answer.content}
-                                </div>
-                            </div>
-                        </div>
-                    ))}
+                    <div className={styles.commentArea}>
+                        <TextArea rows={3}
+                                  placeholder={"Add comment here !"}
+                                  style={{backgroundColor: '#fafafa'}}
+                                  value={this.state.comment}
+                                  onChange={this.setComment}/>
+                        <Button type={"primary"} onClick={this.handleComment}>Add Comment</Button>
+                    </div>
+
                 </div>
-
             </>
         );
     }
