@@ -80,7 +80,7 @@
           <database value="doodle" />
           <type value="USER_PASSWORD" />
           <user value="postgres" />
-          <deprecated-pwd value="cG9yc2dyZXM=" />
+          <deprecated-pwd value="" />
         </database>
         <properties>
           <auto-commit value="false" />

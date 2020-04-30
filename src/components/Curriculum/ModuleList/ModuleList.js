@@ -90,6 +90,7 @@ export default class extends Component {
             </Link>
 
             <div style={{marginLeft: "auto"}}>
+                <AntIcon type={"eye"}/>
                 <Dropdown overlay={this.menu(value)}>
                     <Button>
                         <Icon icon={cog} size={13}/>

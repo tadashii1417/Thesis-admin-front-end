@@ -21,6 +21,8 @@ const AccountCenter = React.lazy(() => import('./containers/AccountCenter/Accoun
 const Livestream = React.lazy(() => import("./components/Modules/Livestream/Livestream"));
 const Forum = React.lazy(() => import('./components/Modules/Forum/Forum'));
 const ForumTopic = React.lazy(() => import('./components/ForumTopic/ForumTopic'));
+const Announcement = React.lazy(() => import('./components/Modules/Announcement/Announcement'));
+
 
 export default function (props) {
     const {isAuthenticated} = props;
@@ -77,6 +79,12 @@ export default function (props) {
                     <AdminRoute isAuthenticated={isAuthenticated}
                                 path="/courses/:slug/livestream/:moduleId"
                                 component={Livestream}/>
+                </React.Suspense>
+
+                <React.Suspense fallback={Loading}>
+                    <AdminRoute isAuthenticated={isAuthenticated}
+                                path="/courses/:slug/announcement/:moduleId"
+                                component={Announcement}/>
                 </React.Suspense>
 
                 <React.Suspense fallback={Loading}>

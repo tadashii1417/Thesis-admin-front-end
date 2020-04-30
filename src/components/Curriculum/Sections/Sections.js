@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import Collapsible from "react-collapsible";
-import {Button, Divider, Icon, Modal, message} from "antd";
+import {Button, Divider, Icon, Modal, message, Tooltip} from "antd";
 import styles from './Sections.module.css';
 import {
     sortableHandle,
@@ -67,13 +67,22 @@ class Sections extends Component {
             <Collapsible trigger={
                 <div className={styles.collapseHead}>
 
-                    {/*{value.order !== null ? <DragHandle/> : ""}*/}
                     <DragHandle/>
                     <h4 style={{display: 'inline-block'}}>
                         Section {sections.findIndex(ele => ele.id === value.id)} : {value.title}
                     </h4>
 
                     <div>
+                        {value.order == null &&
+                        <Tooltip title={"This section is only show to student who've enrolled the course."}>
+                            <Button>
+                                <Icon type={"info-circle"} theme="twoTone"/>
+                            </Button>
+                        </Tooltip>
+                        }
+
+                        <Divider type="vertical"/>
+
                         <Button onClick={this.openEditSectionModal}>
                             <Icon type={"edit"} theme="twoTone"/>
                         </Button>

@@ -14,7 +14,7 @@ import {getProgress} from "../../../services/video_service";
 
 const {Step} = Steps;
 
-class Article extends Component {
+class Video extends Component {
     state = {
         loading: true,
         module: {},
@@ -124,4 +124,4 @@ class Article extends Component {
     }
 }
 
-export default Article;
+export default Video;

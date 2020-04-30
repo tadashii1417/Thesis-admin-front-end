@@ -9,7 +9,6 @@ import {httpErrorHandler} from "../../../utils/axios_util";
 import {updateSection} from "../../../services/section_service";
 
 // TODO: Lazy loading component
-// TODO: Save sort order
 
 const SortableContainer = sortableContainer(({children}) => {
     return <div>{children}</div>;
@@ -46,7 +45,6 @@ class Curriculum extends Component {
             sectionList: newSessions,
             orderChange: true
         });
-        console.log("Section sort", this.state.sectionList);
     };
 
     SortableItem = sortableElement(({value}) => (
@@ -149,9 +147,19 @@ class Curriculum extends Component {
                 <Divider style={{margin: '12px 0 24px'}}/>
 
                 <SortableContainer
+                    onSortEnd={this.onSortEnd}>
+                    {
+                        this.state.sectionList.slice(0, 1).map((value, index) => (
+                            <this.SortableItem key={`item-${value.id}`} index={index} value={value}
+                                               disabled={!value.order}/>
+                        ))
+                    }
+                </SortableContainer>
+
+                <SortableContainer
                     onSortEnd={this.onSortEnd} useDragHandle>
                     {
-                        this.state.sectionList.map((value, index) => (
+                        this.state.sectionList.slice(1).map((value, index) => (
                             <this.SortableItem key={`item-${value.id}`} index={index} value={value}
                                                disabled={!value.order}/>
                         ))
@@ -161,7 +169,7 @@ class Curriculum extends Component {
                 <Button icon="plus" type={"primary"}
                         style={{float: "right", margin: "10px"}}
                         onClick={this.openNewSectionModal}>
-                    New session
+                    New section
                 </Button>
 
                 <Modal title={"Create New Sections"}
