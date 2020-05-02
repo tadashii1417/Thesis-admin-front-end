@@ -33,12 +33,10 @@ code {
 .adminContent {
     margin: 15px 24px 0 24px;
     padding: 15px 24px;
-    /*background: #F9F9F9;*/
     background: #fff;
     position: relative;
     border-radius: 2px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05), 0 2px 4px rgba(0, 0, 0, 0.15);
-    /*min-height: 85vh;*/
 }
 
 .Collapsible {

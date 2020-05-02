@@ -22,7 +22,7 @@ const Livestream = React.lazy(() => import("./components/Modules/Livestream/Live
 const Forum = React.lazy(() => import('./components/Modules/Forum/Forum'));
 const ForumTopic = React.lazy(() => import('./components/ForumTopic/ForumTopic'));
 const Announcement = React.lazy(() => import('./components/Modules/Announcement/Announcement'));
-
+const Resource = React.lazy(()=> import('./components/Modules/Resource/Resource'));
 
 export default function (props) {
     const {isAuthenticated} = props;
@@ -85,6 +85,12 @@ export default function (props) {
                     <AdminRoute isAuthenticated={isAuthenticated}
                                 path="/courses/:slug/announcement/:moduleId"
                                 component={Announcement}/>
+                </React.Suspense>
+
+                <React.Suspense fallback={Loading}>
+                    <AdminRoute isAuthenticated={isAuthenticated}
+                                path="/courses/:slug/resource/:moduleId"
+                                component={Resource}/>
                 </React.Suspense>
 
                 <React.Suspense fallback={Loading}>
