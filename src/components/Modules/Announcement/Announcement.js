@@ -1,17 +1,14 @@
 import React, {Component} from "react";
-import {Breadcrumb, Button, Checkbox, Form, Input, message, Spin} from "antd";
-import styles from "./Announcement.module.css";
-import {Link} from "react-router-dom";
-import {Icon} from "react-icons-kit";
-import ModulesConfig from "../../Curriculum/ModulesConfig";
+import {Form, message, Spin} from "antd";
 import {ModuleType} from "../../../constants/module_constant";
 import {getModule} from "../../../services/module_service";
 import {httpErrorHandler} from "../../../utils/axios_util";
 import {createPatch} from "../../../utils/patch_util";
 import {createAnnouncement, sendNotification, updateAnnouncement} from "../../../services/announcement_service";
+import AnnouncementForm from "../../Forms/AnnouncementForm/AnnouncementForm";
+import ModuleLayout from "../../ModuleLayout/ModuleLayout";
 
-
-class Announcement extends Component {
+class AnnouncementBasic extends Component {
     state = {
         loading: true,
         module: {}
@@ -21,14 +18,10 @@ class Announcement extends Component {
         const {params} = this.props.match;
         try {
             const {data} = await getModule(params.moduleId);
-            console.log(data);
             this.setState({module: data, loading: false});
         } catch (e) {
             httpErrorHandler(e, () => {
-                switch (e.code) {
-                    default:
-                        message.error("Something went wrong");
-                }
+                message.error("Something went wrong");
             });
         }
     }
@@ -60,10 +53,7 @@ class Announcement extends Component {
                 }
             } catch (e) {
                 httpErrorHandler(e, () => {
-                    switch (e.code) {
-                        default:
-                            message.error("Something went wrong");
-                    }
+                    message.error("Something went wrong");
                 })
             }
         })
@@ -71,74 +61,26 @@ class Announcement extends Component {
 
     render() {
         const {module, loading} = this.state;
-        if (loading) {
-            return <Spin/>
-        }
+        if (loading) return <Spin/>;
+
         const {getFieldDecorator} = this.props.form;
-        const {match, location: {state: {courseName}}} = this.props;
+        const {match: {params: {slug}}, location: {state: {courseName}}} = this.props;
 
         return (
-            <>
-                <div className={styles.header}>
-                    <Breadcrumb>
-                        <Breadcrumb.Item>
-                            <Link to={"/courses"}>Courses</Link>
-                        </Breadcrumb.Item>
-                        <Breadcrumb.Item>
-                            <Link to={"/courses/" + match.params.slug}>
-                                {courseName}
-                            </Link>
-                        </Breadcrumb.Item>
-                        <Breadcrumb.Item>{module.title}</Breadcrumb.Item>
-                    </Breadcrumb>
-                    <div className={styles.heading}>
-                        <Icon
-                            icon={ModulesConfig[ModuleType.ANNOUNCEMENT].icon}
-                            className={'circle-icon'}
-                            style={{color: ModulesConfig[ModuleType.ANNOUNCEMENT].color, marginRight: "20px"}}
-                        />
-                        {module.title}
-                    </div>
-                </div>
+            <ModuleLayout
+                module={module}
+                moduleType={ModuleType.ANNOUNCEMENT}
+                courseName={courseName}
+                slug={slug}>
 
-                <div className="adminContent">
-                    <div>
-                        <Form type={"vertical"} onSubmit={this.handleUpdate}>
-                            <Form.Item label={"Announcement"} className={'article'}>
-                                {
-                                    getFieldDecorator('content', {
-                                        required: true,
-                                        initialValue: module.instanceData ? module.instanceData.content : ""
-                                    })(
-                                        <Input.TextArea onChange={this.handleContentChange} rows={5}/>
-                                    )
-                                }
-                            </Form.Item>
-
-                            <Form.Item label={"Send email to students"}>
-                                {
-                                    getFieldDecorator('email', {
-                                        valuePropName: 'checked',
-                                        initialValue: true
-                                    })(<Checkbox/>
-                                    )
-                                }
-                            </Form.Item>
-
-                            <Form.Item>
-                                <Button type="primary" htmlType="submit">
-                                    Update
-                                </Button>
-                            </Form.Item>
-                        </Form>
-                    </div>
-                </div>
-
-            </>
+                <AnnouncementForm getFieldDecorator={getFieldDecorator}
+                                  handleUpdate={this.handleUpdate}
+                                  module={module}/>
+            </ModuleLayout>
         );
     }
 }
 
-const AnnouncementWrap = Form.create({name: 'announcement_form'})(Announcement);
+const Announcement = Form.create({name: 'announcement_form'})(AnnouncementBasic);
 
-export default AnnouncementWrap;
+export default Announcement;
