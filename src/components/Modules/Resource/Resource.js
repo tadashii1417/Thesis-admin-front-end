@@ -38,7 +38,7 @@ class Resource extends Component {
 
     createResource = async (file) => {
         try {
-            const {data} = await createResource(this.state.module.id, file);
+            await createResource(this.state.module.id, file);
             await this.fetchModule();
         } catch (e) {
             httpErrorHandler(e, () => {

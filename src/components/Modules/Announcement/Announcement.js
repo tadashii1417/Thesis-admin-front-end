@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Alert, Breadcrumb, Button, Checkbox, Form, Input, message, Spin} from "antd";
+import {Breadcrumb, Button, Checkbox, Form, Input, message, Spin} from "antd";
 import styles from "./Announcement.module.css";
 import {Link} from "react-router-dom";
 import {Icon} from "react-icons-kit";
@@ -8,7 +8,6 @@ import {ModuleType} from "../../../constants/module_constant";
 import {getModule} from "../../../services/module_service";
 import {httpErrorHandler} from "../../../utils/axios_util";
 import {createPatch} from "../../../utils/patch_util";
-import {updateArticle} from "../../../services/article_service";
 import {createAnnouncement, sendNotification, updateAnnouncement} from "../../../services/announcement_service";
 
 

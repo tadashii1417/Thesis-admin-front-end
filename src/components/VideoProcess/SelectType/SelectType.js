@@ -61,7 +61,7 @@ const SelectType = (props) => {
             return;
         }
         try {
-            const {data} = await setVideoUrl(embedUrl, moduleId);
+            await setVideoUrl(embedUrl, moduleId);
             setCurrent(2);
         } catch (e) {
             httpErrorHandler(e, () => {

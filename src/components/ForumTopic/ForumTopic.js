@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Avatar, Breadcrumb, Icon as AIcon, message, Input, Button, Spin} from "antd";
+import {Avatar, Breadcrumb, message, Input, Button, Spin} from "antd";
 import {Link} from "react-router-dom";
 import {Icon} from "react-icons-kit";
 
@@ -61,7 +61,6 @@ class ForumTopic extends Component {
 
         const {match: {params}, location} = this.props;
         const {state: {module, post, courseName}} = location;
-        const {instanceData: {intro}} = module;
 
         let comments = "";
 

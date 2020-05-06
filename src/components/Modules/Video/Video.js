@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Breadcrumb, message, Spin, Steps, Button} from "antd";
+import {Breadcrumb, message, Spin, Steps} from "antd";
 import styles from "./Video.module.css";
 import {Link} from "react-router-dom";
 import {Icon} from "react-icons-kit";

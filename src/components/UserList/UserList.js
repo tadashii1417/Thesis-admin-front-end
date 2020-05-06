@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import {Divider, Table, Tag, Input} from "antd";
 import styles from "./UserList.module.css";
+import {Link} from "react-router-dom";
 
 const {Search} = Input;
 
@@ -9,7 +10,7 @@ const columns = [
         title: 'Name',
         dataIndex: 'name',
         key: 'name',
-        render: text => <a>{text}</a>,
+        render: text => <Link to={'/'}>{text}</Link>,
     },
     {
         title: 'Age',
@@ -46,9 +47,9 @@ const columns = [
         key: 'action',
         render: (text, record) => (
             <span>
-        <a>Invite {record.name}</a>
+        <Link to={'/'}>Invite {record.name}</Link>
         <Divider type="vertical"/>
-        <a>Delete</a>
+        <Link to={'/'}>Delete</Link>
       </span>
         ),
     },

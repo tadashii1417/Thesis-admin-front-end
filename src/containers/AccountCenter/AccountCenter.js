@@ -1,8 +1,6 @@
 import React, {Component} from "react";
 import {Divider, Icon, Tabs} from "antd";
-import UserProfile from "../../components/Profile";
 import styles from './AccountCenter.module.css';
-import ChangePassword from "../../components/ChangePassword/ChangePassword";
 import UserList from "../../components/UserList/UserList";
 import NewAccount from "../../components/NewAccount/NewAccount";
 
