@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Avatar, Breadcrumb, Divider, Icon as AIcon, message, Input, Button, Result} from "antd";
+import {Avatar, Breadcrumb, Icon as AIcon, message, Input, Button, Spin} from "antd";
 import {Link} from "react-router-dom";
 import {Icon} from "react-icons-kit";
 
@@ -17,13 +17,7 @@ const {TextArea} = Input;
 class ForumTopic extends Component {
     state = {
         comment: "",
-        loading: false,
-        module: {
-            title: "This is a sample forum",
-            instanceData: {
-                intro: "This is a sample introduction"
-            }
-        },
+        loading: true,
         answers: []
     };
 
@@ -31,9 +25,9 @@ class ForumTopic extends Component {
         try {
             const postId = this.props.match.params.postId;
             const {data} = await getPostComments(postId);
-            this.setState({answers: data});
+            this.setState({answers: data, loading: false});
         } catch (e) {
-            message.info("No answer found !");
+            message.info("Fetch answer fail !");
         }
     }
 
@@ -60,33 +54,32 @@ class ForumTopic extends Component {
     }
 
     render() {
-        const {module, loading, answers} = this.state;
-        const {instanceData: {intro}} = module;
-        // if (loading) {
-        //     return <Spin/>
-        // }
-        const {match, location} = this.props;
-        const query = new URLSearchParams(location.search);
+        const {loading, answers} = this.state;
+        if (loading) {
+            return <Spin/>
+        }
 
-        let comments = <Result
-            status="404"
-            title="No comment"
-        />;
+        const {match: {params}, location} = this.props;
+        const {state: {module, post, courseName}} = location;
+        const {instanceData: {intro}} = module;
+
+        let comments = "";
+
         if (answers.length) {
-            comments = answers.map(answer => (
+            comments = answers.map(res => (
                 <div className={styles.commentContainer}>
                     <div className={styles.userInfo}>
                         <Avatar src={defaultAvatar} className={styles.avatar}/>
                         <div className={styles.authorName}>
-                            {answer.author.firstName + " " + answer.author.lastName}
+                            {res.author.firstName + " " + res.author.lastName}
                         </div>
                     </div>
                     <div className={styles.userComment}>
                         <div className={styles.time}>
-                            {moment(answer.createdAt, config.timeFormat).format('HH:mm:ss DD/MM/YYYY')}
+                            {moment(res.createdAt, config.timeFormat).format('HH:mm:ss DD/MM/YYYY')}
                         </div>
                         <div className={styles.comment}>
-                            {answer.content}
+                            {res.content}
                         </div>
                     </div>
                 </div>
@@ -101,28 +94,55 @@ class ForumTopic extends Component {
                             <Link to={"/courses"}>Courses</Link>
                         </Breadcrumb.Item>
                         <Breadcrumb.Item>
-                            <Link to={"/courses/" + match.params.slug}>
-                                {query.get('course')}
+                            <Link to={`/courses/${params.slug}`}>
+                                {courseName}
                             </Link>
                         </Breadcrumb.Item>
-                        <Breadcrumb.Item>{module.title}</Breadcrumb.Item>
+                        <Breadcrumb.Item>
+                            <Link to={
+                                {
+                                    pathname: `/courses/${params.slug}/forum/${params.moduleId}`,
+                                    state: {
+                                        courseName: courseName
+                                    }
+                                }}>
+                                {module.title}
+                            </Link>
+                        </Breadcrumb.Item>
+                        <Breadcrumb.Item>{post.title}</Breadcrumb.Item>
                     </Breadcrumb>
+
                     <div className={styles.heading}>
                         <Icon
                             icon={ModulesConfig[ModuleType.FORUM].icon}
                             className={'circle-icon'}
                             style={{color: ModulesConfig[ModuleType.FORUM].color, marginRight: "20px"}}
                         />
-                        {module.title}
+                        {post.title}
                     </div>
                     <div className={styles.description}>
-                        {intro}
+                        {post.content}
                     </div>
                 </div>
 
                 <div className="adminContent">
+                    <div className={styles.commentContainer}>
+                        <div className={styles.userInfo}>
+                            <Avatar src={defaultAvatar} className={styles.avatar}/>
+                            <div className={styles.authorName}>
+                                {post.author.firstName + " " + post.author.lastName}
+                            </div>
+                        </div>
+                        <div className={styles.userComment}>
+                            <div className={styles.time}>
+                                {moment(post.createdAt, config.timeFormat).format('HH:mm:ss DD/MM/YYYY')}
+                            </div>
+                            <div className={styles.comment}>
+                                {post.content}
+                            </div>
+                        </div>
+                    </div>
                     {comments}
-
                     <div className={styles.commentArea}>
                         <TextArea rows={3}
                                   placeholder={"Add comment here !"}

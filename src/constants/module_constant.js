@@ -20,7 +20,6 @@ export const ModuleType = {
 
 export const CurriculumPreviewableModuleType = [
     ModuleType.ARTICLE,
-    ModuleType.RESOURCE,
     ModuleType.VIDEO
 ];
 

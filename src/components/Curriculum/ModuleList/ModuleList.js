@@ -46,7 +46,6 @@ export default class extends Component {
         this.setState({selectedModule: module, editModal: true});
     };
 
-
     closeAddModule = () => {
         this.setState({isAddModule: false});
     };
@@ -83,7 +82,9 @@ export default class extends Component {
             <Link
                 to={{
                     pathname: "/courses/" + course.slug + '/' + value.type + '/' + value.id,
-                    search: "?course=" + course.name
+                    state: {
+                        courseName: course.name
+                    }
                 }}
                 className={styles.moduleTitle}>
                 <span>{value.title}</span>

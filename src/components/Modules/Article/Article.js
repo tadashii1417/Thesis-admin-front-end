@@ -74,8 +74,7 @@ class Article extends Component {
         if (loading) {
             return <Spin/>
         }
-        const {match, location} = this.props;
-        const query = new URLSearchParams(location.search);
+        const {match, location: {state: {courseName}}} = this.props;
 
         return (
             <>
@@ -86,7 +85,7 @@ class Article extends Component {
                         </Breadcrumb.Item>
                         <Breadcrumb.Item>
                             <Link to={"/courses/" + match.params.slug}>
-                                {query.get('course')}
+                                {courseName}
                             </Link>
                         </Breadcrumb.Item>
                         <Breadcrumb.Item>{module.title}</Breadcrumb.Item>

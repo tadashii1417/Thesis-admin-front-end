@@ -112,8 +112,8 @@ class Livestream extends Component {
         }
         const {instanceData: {status}} = module;
 
-        const {match, location} = this.props;
-        const query = new URLSearchParams(location.search);
+        const {match, location: {state: {courseName}}} = this.props;
+
         const introImg = "http://www.clipartbest.com/cliparts/9TR/Ljq/9TRLjq8Bc.gif";
 
         return (
@@ -125,7 +125,7 @@ class Livestream extends Component {
                         </Breadcrumb.Item>
                         <Breadcrumb.Item>
                             <Link to={"/courses/" + match.params.slug}>
-                                {query.get('course')}
+                                {courseName}
                             </Link>
                         </Breadcrumb.Item>
                         <Breadcrumb.Item>{module.title}</Breadcrumb.Item>

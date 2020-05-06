@@ -79,11 +79,10 @@ export default class extends Component {
             return <Spin/>
         }
 
-        const {match, location} = this.props;
+        const {match, location: {state: {courseName}}} = this.props;
+
         const {instanceData} = module;
         const quizSettingDto = QuizDto.toQuizSettingDto(instanceData);
-        const query = new URLSearchParams(location.search);
-
 
         return (
             <>
@@ -94,7 +93,7 @@ export default class extends Component {
                         </Breadcrumb.Item>
                         <Breadcrumb.Item>
                             <Link to={"/courses/" + match.params.slug}>
-                                {query.get('course')}
+                                {courseName}
                             </Link>
                         </Breadcrumb.Item>
                         <Breadcrumb.Item>{module.title}</Breadcrumb.Item>

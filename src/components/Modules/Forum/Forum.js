@@ -1,25 +1,57 @@
 import React, {Component} from "react";
-import {Breadcrumb, Icon as AIcon, Table, message, Spin} from "antd";
+import {Breadcrumb, Icon as AIcon, Table, message, Spin, Button, Modal} from "antd";
 import {Link} from "react-router-dom";
 import {Icon} from "react-icons-kit";
 import ModulesConfig from "../../Curriculum/ModulesConfig";
 import {ModuleType} from "../../../constants/module_constant";
-
 import styles from './Forum.module.css';
 import {getModule} from "../../../services/module_service";
 import {httpErrorHandler} from "../../../utils/axios_util";
-import {getForumPosts} from "../../../services/forum_service";
+import {createForumPosts, getForumPosts} from "../../../services/forum_service";
 import moment from "moment";
 import config from "../../../config";
+import NewForumPost from "../../NewForumPost/NewForumPost";
+import {connect} from 'react-redux';
+
+const mapStateToProps = (state) => ({
+    user: state.authReducer.user
+});
 
 class Forum extends Component {
     state = {
         loading: true,
         module: {},
         posts: [],
+        addPost: false,
         pagination: {},
         loadPosts: false
     };
+
+    onAddPostOk = () => {
+        this.setState({addPost: true});
+    }
+
+    onAddPostCancel = () => {
+        this.setState({addPost: false});
+    }
+
+    handleNewPost = async (title, content) => {
+        try {
+            const {data} = await createForumPosts(this.state.module.id, title, content);
+            data.author = this.props.user;
+            const newPosts = [...this.state.posts];
+            newPosts.push(data);
+            message.success("New posts added.");
+            this.setState({posts: newPosts, addPost: false});
+        } catch (e) {
+            httpErrorHandler(e, () => {
+                switch (e.code) {
+                    default:
+                        message.error("Something went wrong");
+                }
+            })
+        }
+    }
 
     async componentDidMount() {
         const {params} = this.props.match;
@@ -73,7 +105,10 @@ class Forum extends Component {
             key: 'title',
             width: '40%',
             render: (post, row) => <Link
-                to={this.props.location.pathname + '/post/' + row.id + this.props.location.search}>
+                to={{
+                    pathname: this.props.location.pathname + '/post/' + row.id + this.props.location.search,
+                    state: {module: this.state.module, post: row, courseName: this.props.location.state.courseName}
+                }}>
                 {post}</Link>
         },
         {
@@ -107,8 +142,7 @@ class Forum extends Component {
 
         const {instanceData: {intro}} = module;
 
-        const {match, location} = this.props;
-        const query = new URLSearchParams(location.search);
+        const {match, location: {state: {courseName}}} = this.props;
 
         return (
             <>
@@ -119,7 +153,7 @@ class Forum extends Component {
                         </Breadcrumb.Item>
                         <Breadcrumb.Item>
                             <Link to={"/courses/" + match.params.slug}>
-                                {query.get('course')}
+                                {courseName}
                             </Link>
                         </Breadcrumb.Item>
                         <Breadcrumb.Item>{module.title}</Breadcrumb.Item>
@@ -144,6 +178,16 @@ class Forum extends Component {
                            onChange={this.handleTableChange}
                            loading={this.state.loadPosts}
                            rowKey={'id'}/>
+
+                    <div>
+                        <Button type={"primary"} onClick={this.onAddPostOk}>Add Post</Button>
+                    </div>
+
+                    <Modal visible={this.state.addPost}
+                           onCancel={this.onAddPostCancel}
+                           footer={null}>
+                        <NewForumPost handleNewPost={this.handleNewPost}/>
+                    </Modal>
                 </div>
 
             </>
@@ -151,4 +195,4 @@ class Forum extends Component {
     }
 }
 
-export default Forum;
+export default connect(mapStateToProps, null)(Forum);
