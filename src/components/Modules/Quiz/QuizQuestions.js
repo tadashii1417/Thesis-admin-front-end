@@ -1,7 +1,6 @@
-import React, {Component} from "react";
+import React, {Component, Suspense} from "react";
 import {Button, Divider, Collapse, Icon, Result, Spin, message, Modal} from "antd";
 import styles from './Quiz.module.css';
-import QuestionDetail from "./Question/QuestionDetail";
 import {httpErrorHandler} from "../../../utils/axios_util";
 import {
     deleteQuizQuestion,
@@ -9,11 +8,14 @@ import {
     insertQuizQuestionByHand,
     updateQuizQuestion
 } from "../../../services/quiz_service";
-import NewQuestionForm from "./Question/NewQuestionForm";
-import ServerErrors from "../../../constants/server_error_constant";
+import {ServerErrors} from "../../../constants/server_error_constant";
+import Loading from "../../Loading/Loading";
 
 const {Panel} = Collapse;
 const {confirm} = Modal;
+
+const QuestionDetail = React.lazy(() => import("./Question/QuestionDetail"));
+const NewQuestionForm = React.lazy(() => import("./Question/NewQuestionForm"));
 
 export default class extends Component {
     state = {
@@ -37,12 +39,9 @@ export default class extends Component {
     }
 
     genExtra = (question) => {
-        return (
-            <React.Fragment>
-                <Button onClick={(e) => this.showDeleteConfirm(question.id, e) }>
-                    <Icon type={"delete"} theme={"twoTone"} twoToneColor={"#eb2f96"}/>
-                </Button>
-            </React.Fragment>
+        return (<Button onClick={(e) => this.showDeleteConfirm(question.id, e)}>
+                <Icon type={"delete"} theme={"twoTone"} twoToneColor={"#eb2f96"}/>
+            </Button>
         );
     };
 
@@ -59,9 +58,8 @@ export default class extends Component {
 
         try {
             message.loading({content: "Loading", key});
-
             const {data} = await insertQuizQuestionByHand(this.props.moduleId, values);
-            message.success({content: "New question has been inserted.", key });
+            message.success({content: "New question has been inserted.", key});
             let newList = [...this.state.questions];
             newList.push(data);
             this.setState({questions: newList, addModal: false});
@@ -69,13 +67,16 @@ export default class extends Component {
             httpErrorHandler(e, () => {
                 switch (e.code) {
                     case (ServerErrors.INVALID_FRACTION_SINGLE_ANSWER):
-                        message.error({content: "Single choice must have one option with fraction 1 and others 0", key});
+                        message.error({
+                            content: "Single choice must have one option with fraction 1 and others 0",
+                            key
+                        });
                         break;
                     case (ServerErrors.INVALID_FRACTION_SUM):
                         message.error({content: "Sum of all options fraction must be 1", key});
                         break;
                     default:
-                        message.error({content: "Something went wrong", key });
+                        message.error({content: "Something went wrong", key});
                 }
             })
         }
@@ -83,7 +84,7 @@ export default class extends Component {
 
     editQuestionHandler = async (id, values) => {
         const key = "edit-question";
-        try{
+        try {
             message.loading({content: "Loading", key});
             const {data} = await updateQuizQuestion(id, values);
             message.success({content: "Question has been updated.", key});
@@ -91,23 +92,26 @@ export default class extends Component {
             let index = updatedQuestions.findIndex(obj => obj.id === id);
             updatedQuestions[index] = data;
             this.setState({questions: updatedQuestions});
-        }catch (e) {
-            httpErrorHandler(e, ()=>{
+        } catch (e) {
+            httpErrorHandler(e, () => {
                 switch (e.code) {
                     case (ServerErrors.INVALID_FRACTION_SINGLE_ANSWER):
-                        message.error({content: "Single choice must have one option with fraction 1 and others 0", key});
+                        message.error({
+                            content: "Single choice must have one option with fraction 1 and others 0",
+                            key
+                        });
                         break;
                     case (ServerErrors.INVALID_FRACTION_SUM):
                         message.error({content: "Sum of all options fraction must be 1", key});
                         break;
                     default:
-                        message.error({content: "Something went wrong", key });
+                        message.error({content: "Something went wrong", key});
                 }
             })
         }
     };
 
-    showDeleteConfirm= (id, e) => {
+    showDeleteConfirm = (id, e) => {
         e.stopPropagation();
         confirm({
             title: 'Are you sure delete this question?',
@@ -125,14 +129,14 @@ export default class extends Component {
     };
 
     deleteQuestionHandler = async (id) => {
-        try{
+        try {
             await deleteQuizQuestion(id);
             message.success("Question has been deleted");
             let updatedQuestions = [...this.state.questions];
             updatedQuestions = updatedQuestions.filter(question => question.id !== id);
             this.setState({questions: updatedQuestions});
-        }catch (e) {
-            httpErrorHandler(e, ()=> {
+        } catch (e) {
+            httpErrorHandler(e, () => {
                 switch (e.code) {
                     default:
                         message.error("Something went wrong");
@@ -143,50 +147,45 @@ export default class extends Component {
 
     render() {
         const {loading} = this.state;
-        if (loading) {
-            return <Spin/>
-        }
+        if (loading) return <Spin/>;
 
         return (
-            <div>
+            <div className={styles.quizContainer}>
 
-                <div className={styles.quizContainer}>
-                    <h4>Question list</h4>
-                    <Divider className={styles.divider}/>
-                    {
-                        this.state.questions.length ? "" : <Result
-                            status="404"
-                            subTitle="There is no question yet, please add more !"
-                        />
-                    }
+                <h4>Question list</h4>
+                <Divider className={styles.divider}/>
 
+                {this.state.questions.length ?
                     <Collapse accordion>
                         {this.state.questions.map((item, index) => (
-                            <Panel key={item.id} header={"Question "+ (index + 1)} extra={this.genExtra(item)}>
-                                <QuestionDetail question={item} editQuestionHandler={this.editQuestionHandler}/>
+                            <Panel key={item.id} header={"Question " + (index + 1)} extra={this.genExtra(item)}>
+                                <Suspense fallback={<Loading/>}>
+                                    <QuestionDetail question={item} editQuestionHandler={this.editQuestionHandler}/>
+                                </Suspense>
                             </Panel>
                         ))}
-                    </Collapse>
+                    </Collapse> :
+                    <Result status="404" subTitle="There is no question yet, please add more !"/>
+                }
 
-                    <Divider/>
-
-                    <div>
-                        <Button onClick={this.handleAddModal} type={"primary"}>Add question</Button>
-                        <Divider type={"vertical"}/>
-                        <Button>Import from bank</Button>
-                    </div>
-
-                    <Modal title={"Add new question"}
-                           visible={this.state.addModal}
-                           onCancel={this.handleCancelAddModal}
-                           bodyStyle={{padding: "12px 20px"}}
-                           style={{top: 20}}
-                           width={'60%'}
-                           footer={null}>
-                        <NewQuestionForm addQuestionHandler={this.addQuestionHandler}/>
-                    </Modal>
-
+                <div className={styles.actionArea}>
+                    <Button onClick={this.handleAddModal} type={"primary"}>Add question</Button>
+                    <Divider type={"vertical"}/>
+                    <Button>Import from bank</Button>
                 </div>
+
+                <Modal title={"Add new question"}
+                       visible={this.state.addModal}
+                       onCancel={this.handleCancelAddModal}
+                       bodyStyle={{padding: "12px 20px"}}
+                       style={{top: 20}}
+                       width={'60%'}
+                       footer={null}>
+                    <Suspense fallback={null}>
+                        <NewQuestionForm addQuestionHandler={this.addQuestionHandler}/>
+                    </Suspense>
+                </Modal>
+
             </div>
 
         );

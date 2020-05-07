@@ -1,7 +1,7 @@
 import React from "react";
 import {Form, Icon, Input, Button, Checkbox, Spin, Alert, message} from 'antd';
 import {httpErrorHandler} from "../../utils/axios_util";
-import ServerErrors from "../../constants/server_error_constant";
+import {ServerErrors} from "../../constants/server_error_constant";
 import styles from './Auth.module.css';
 
 class LoginForm extends React.Component {

@@ -100,13 +100,11 @@ class QuizResult extends Component {
         const {loading, results} = this.state;
         const {moduleId} = this.props;
         const {url} = this.props.match;
-        if (loading) {
-            return <Spin/>
-        }
+        if (loading) return <Spin/>;
+
 
         return (
             <div className={styles.quizContainer}>
-
                 <Breadcrumb className={styles.breadcrumb}>
                     <Breadcrumb.Item>
                         <Link to={url + window.location.search} style={{color: '#2e6da4'}}>
@@ -123,17 +121,15 @@ class QuizResult extends Component {
                     <Route path={url + '/attempts/:learnerId'}
                            render={() => <StudentAttempts moduleId={moduleId}/>}/>
                     <Route path={url}
-                           render={() => <>
+                           render={() =>
                                <Table dataSource={results}
                                       columns={this.columns}
                                       size="middle"
                                       bordered
                                       rowKey={record => record.id}
                                       scroll={{x: 'calc(400px + 50%)'}}/>
-                           </>}/>
+                           }/>
                 </Switch>
-
-
             </div>
         );
     }

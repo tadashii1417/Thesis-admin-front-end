@@ -55,10 +55,7 @@ class AttemptDetail extends Component {
     render() {
         const {data, loading} = this.state;
         const {questions} = data;
-        console.log(data);
-        if (loading) {
-            return <Spin size={"large"} style={{marginLeft: '30%', width: '40%'}}/>
-        }
+        if (loading) return <Spin size={"large"} style={{marginLeft: '30%', width: '40%'}}/>;
 
         return (
             <div>

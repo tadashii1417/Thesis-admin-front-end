@@ -4,7 +4,7 @@ import {Icon, Typography, Divider, Table, Modal, Spin, message} from 'antd';
 import CategoryForm from './Form/CategoryForm';
 import {httpErrorHandler} from "../../utils/axios_util";
 import {createNewCategory, deleteCategory, fetchCategories, updateCategory} from "../../services/category_service";
-import ServerErrors from "../../constants/server_error_constant";
+import {ServerErrors} from "../../constants/server_error_constant";
 import EditCategory from "./Form/EditCategory";
 
 const {Title} = Typography;

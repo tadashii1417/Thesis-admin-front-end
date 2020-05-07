@@ -85,10 +85,7 @@ class StudentAttempts extends Component {
     render() {
         const {attempts, loading} = this.state;
         const {url} = this.props.match;
-        console.log(url);
-        if (loading) {
-            return <Spin/>
-        }
+        if (loading) return <Spin/>
 
         return (
             <>

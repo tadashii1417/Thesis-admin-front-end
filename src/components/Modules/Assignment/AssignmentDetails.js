@@ -122,7 +122,7 @@ class AssignmentDetails extends Component {
                 </TabPane>
 
                 <TabPane tab={'Submissions'} key='submission'>
-                    <Suspense fallback={Loading}>
+                    <Suspense fallback={<Loading/>}>
                         <AssignmentSubmissions module={module}/>
                     </Suspense>
                 </TabPane>

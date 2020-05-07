@@ -122,7 +122,7 @@ class Assignment extends Component {
                           slug={slug}>
 
                 {module.instanceData ?
-                    (<Suspense fallback={Loading}>
+                    (<Suspense fallback={<Loading/>}>
                             <AssignmentDetails
                                 module={module}
                                 visible={editModal}

@@ -87,9 +87,7 @@ class QuestionEditFormBasic extends React.Component {
                         rules: [{required: true, message: "Please fill in content"}],
                         valuePropName: 'initialContent',
                         initialValue: data.content
-                    })(
-                        <Editor/>
-                    )}
+                    })(<Editor/>)}
                 </Form.Item>
 
                 <Form.Item label={"Type"}>
@@ -107,15 +105,12 @@ class QuestionEditFormBasic extends React.Component {
                 <Form.Item label="Mark">
                     {getFieldDecorator('mark', {
                         initialValue: data.mark
-                    })(
-                        <InputNumber/>
-                    )}
+                    })(<InputNumber/>)}
                 </Form.Item>
 
                 <Form.Item label={'Options'} {...formItemLayout}>
                     {options}
                 </Form.Item>
-
 
                 <Form.Item {...formItemLayout} label={<span>&nbsp;&nbsp;</span>}>
                     <Button type="dashed" style={{width: '60%'}} onClick={this.addOption}>
@@ -134,9 +129,7 @@ class QuestionEditFormBasic extends React.Component {
                 </Form.Item>
             </Form>
         );
-
     }
-
 }
 
 const QuestionEditForm = Form.create({name: "question_edit_form"})(QuestionEditFormBasic);

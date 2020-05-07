@@ -1,9 +1,6 @@
 import React, {Component} from "react";
-import {Breadcrumb, Button, message, Spin} from "antd";
+import {Button, message, Spin} from "antd";
 import styles from "./Livestream.module.css";
-import {Link} from "react-router-dom";
-import {Icon} from "react-icons-kit";
-import ModulesConfig from "../../Curriculum/ModulesConfig";
 import {LivestreamStatus, ModuleType} from "../../../constants/module_constant";
 import {getModule} from "../../../services/module_service";
 import {httpErrorHandler} from "../../../utils/axios_util";
@@ -40,7 +37,6 @@ class Livestream extends Component {
         try {
             const {module} = this.state;
             await startLivestream(module.id);
-
             let updatedModule = {...module};
             updatedModule.instanceData = {...module.instanceData, status: LivestreamStatus.RUNNING}
             this.setState({module: updatedModule});
@@ -59,7 +55,6 @@ class Livestream extends Component {
         try {
             const {module} = this.state;
             await endLivestream(module.id);
-
             let updatedModule = {...module};
             updatedModule.instanceData = {...module.instanceData, status: LivestreamStatus.ENDED}
             this.setState({module: updatedModule});
@@ -118,11 +113,10 @@ class Livestream extends Component {
                 module={module}
                 courseName={courseName}
                 moduleType={ModuleType.LIVESTREAM}>
-                
+
                 <div className={styles.container}>
-                    <div>
-                        <img src={introImg} alt={"introduction img"} className={styles.introImg}/>
-                    </div>
+                    <div><img src={introImg} alt={"livestream introduction"} className={styles.introImg}/></div>
+
                     <div className={styles.actionArea}>
                         {status === LivestreamStatus.CREATED && <Button
                             type={"primary"}

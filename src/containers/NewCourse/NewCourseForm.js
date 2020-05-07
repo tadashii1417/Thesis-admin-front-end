@@ -4,7 +4,7 @@ import {
 import React from "react";
 import {httpErrorHandler} from "../../utils/axios_util";
 import {createCourse} from "../../services/course_service";
-import ServerErrors from "../../constants/server_error_constant";
+import {ServerErrors} from "../../constants/server_error_constant";
 import {withRouter} from "react-router";
 import {fetchCategories} from "../../services/category_service";
 

@@ -1,17 +1,15 @@
-import React, {Component} from "react";
+import React, {Component, Suspense} from "react";
 import styles from './Question.module.css';
 import {Button, Card, Collapse, Divider, Form, Icon, Input, InputNumber, Modal, Select} from "antd";
 import {QuestionType} from "../../../../constants/quiz_constant";
 import {EditorContent} from 'doodle-editor';
-import QuestionEditForm from "./QuestionEditForm";
 
+const QuestionEditForm = React.lazy(() => import("./QuestionEditForm"));
 const {Option} = Select;
 const {Panel} = Collapse;
 
 export default class extends Component {
-    state = {
-        editModal: false
-    };
+    state = {editModal: false};
 
     handleCancelEdit = () => {
         this.setState({editModal: false})
@@ -86,7 +84,10 @@ export default class extends Component {
                        style={{top: 20}}
                        width={'60%'}
                        footer={null}>
-                    <QuestionEditForm data={question} editQuestionHandler={this.props.editQuestionHandler} handleCancel={this.handleCancelEdit}/>
+                    <Suspense fallback={null}>
+                        <QuestionEditForm data={question} editQuestionHandler={this.props.editQuestionHandler}
+                                          handleCancel={this.handleCancelEdit}/>
+                    </Suspense>
                 </Modal>
             </div>
         );
