@@ -1,17 +1,15 @@
-import React, {Component} from "react";
-import {Breadcrumb, Icon as AIcon, Table, message, Spin, Button, Modal} from "antd";
+import React, {Component, Suspense} from "react";
+import {Icon as AIcon, Table, message, Spin, Button, Modal} from "antd";
 import {Link} from "react-router-dom";
-import {Icon} from "react-icons-kit";
-import ModulesConfig from "../../Curriculum/ModulesConfig";
 import {ModuleType} from "../../../constants/module_constant";
-import styles from './Forum.module.css';
 import {getModule} from "../../../services/module_service";
 import {httpErrorHandler} from "../../../utils/axios_util";
 import {createForumPosts, getForumPosts} from "../../../services/forum_service";
 import moment from "moment";
 import config from "../../../config";
-import NewForumPost from "../../NewForumPost/NewForumPost";
+import ModuleLayout from "../../ModuleLayout/ModuleLayout";
 
+const NewForumPost = React.lazy(() => import("../../NewForumPost/NewForumPost"));
 
 class Forum extends Component {
     state = {
@@ -53,7 +51,6 @@ class Forum extends Component {
         const {params} = this.props.match;
         try {
             const {data} = await getModule(params.moduleId);
-            console.log(data);
             this.setState({module: data, loading: false});
 
             await this.fetchPosts({page: 1})
@@ -102,7 +99,7 @@ class Forum extends Component {
             width: '40%',
             render: (post, row) => <Link
                 to={{
-                    pathname: this.props.location.pathname + '/post/' + row.id + this.props.location.search,
+                    pathname: this.props.location.pathname + '/post/' + row.id,
                     state: {module: this.state.module, post: row, courseName: this.props.location.state.courseName}
                 }}>
                 {post}</Link>
@@ -130,63 +127,39 @@ class Forum extends Component {
         }
     ];
 
+
     render() {
         const {module, loading} = this.state;
-        if (loading) {
-            return <Spin/>
-        }
+        if (loading) return <Spin/>;
 
         const {instanceData: {intro}} = module;
-
-        const {match, location: {state: {courseName}}} = this.props;
+        const {match: {params: {slug}}, location: {state: {courseName}}} = this.props;
 
         return (
-            <>
-                <div className={styles.header}>
-                    <Breadcrumb>
-                        <Breadcrumb.Item>
-                            <Link to={"/courses"}>Courses</Link>
-                        </Breadcrumb.Item>
-                        <Breadcrumb.Item>
-                            <Link to={"/courses/" + match.params.slug}>
-                                {courseName}
-                            </Link>
-                        </Breadcrumb.Item>
-                        <Breadcrumb.Item>{module.title}</Breadcrumb.Item>
-                    </Breadcrumb>
-                    <div className={styles.heading}>
-                        <Icon
-                            icon={ModulesConfig[ModuleType.FORUM].icon}
-                            className={'circle-icon'}
-                            style={{color: ModulesConfig[ModuleType.FORUM].color, marginRight: "20px"}}
-                        />
-                        {module.title}
-                    </div>
-                    <div className={styles.description}>
-                        {intro}
-                    </div>
-                </div>
+            <ModuleLayout slug={slug}
+                          courseName={courseName}
+                          moduleType={ModuleType.FORUM}
+                          module={module}
+                          moduleDescription={intro}>
 
-                <div className="adminContent">
-                    <Table columns={this.columns}
-                           dataSource={this.state.posts}
-                           pagination={this.state.pagination}
-                           onChange={this.handleTableChange}
-                           loading={this.state.loadPosts}
-                           rowKey={'id'}/>
+                <Table columns={this.columns}
+                       dataSource={this.state.posts}
+                       pagination={this.state.pagination}
+                       onChange={this.handleTableChange}
+                       loading={this.state.loadPosts}
+                       rowKey={'id'}/>
 
-                    <div>
-                        <Button type={"primary"} onClick={this.onAddPostOk}>Add Post</Button>
-                    </div>
+                <div><Button type={"primary"} onClick={this.onAddPostOk}>Add Post</Button></div>
 
-                    <Modal visible={this.state.addPost}
-                           onCancel={this.onAddPostCancel}
-                           footer={null}>
+                <Modal visible={this.state.addPost}
+                       onCancel={this.onAddPostCancel}
+                       footer={null}>
+                    <Suspense fallback={null}>
                         <NewForumPost handleNewPost={this.handleNewPost}/>
-                    </Modal>
-                </div>
+                    </Suspense>
+                </Modal>
 
-            </>
+            </ModuleLayout>
         );
     }
 }

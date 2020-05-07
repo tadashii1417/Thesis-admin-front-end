@@ -4,10 +4,16 @@ import CourseBreadcrumb from "../CourseBreadcrumb/CourseBreadcrumb";
 import {Icon} from "react-icons-kit";
 import ModulesConfig from "../Curriculum/ModulesConfig";
 
-export default function ({courseSlug, courseName, moduleTitle, moduleType, }) {
+export default function ({courseSlug, courseName, moduleTitle, moduleType, moduleDescription, moduleLink, postTitle}) {
     return (
         <div className={styles.header}>
-            <CourseBreadcrumb courseSlug={courseSlug} courseName={courseName} moduleTitle={moduleTitle}/>
+            <CourseBreadcrumb
+                courseSlug={courseSlug}
+                courseName={courseName}
+                moduleTitle={moduleTitle}
+                moduleLink={moduleLink}
+                postTitle={postTitle}
+            />
 
             <div className={styles.heading}>
                 <Icon
@@ -17,6 +23,7 @@ export default function ({courseSlug, courseName, moduleTitle, moduleType, }) {
                 />
                 {moduleTitle}
             </div>
+            {moduleDescription && <div className={styles.description}>{moduleDescription}</div>}
         </div>
     );
 }

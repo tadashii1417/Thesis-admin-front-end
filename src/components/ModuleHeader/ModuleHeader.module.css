@@ -18,3 +18,9 @@
     line-height: 32px;
     /*color: #f98012;*/
 }
+
+.description  {
+    padding: 7px 0 2px 0;
+    margin-left: 55px;
+    color: rgba(0, 0, 0, 0.75);
+}

@@ -1,16 +1,12 @@
 import React, {Component} from "react";
-import {Avatar, Breadcrumb, message, Input, Button, Spin} from "antd";
-import {Link} from "react-router-dom";
-import {Icon} from "react-icons-kit";
+import {message, Input, Button, Spin} from "antd";
 
 import styles from './ForumTopic.module.css';
-import ModulesConfig from "../Curriculum/ModulesConfig";
 import {ModuleType} from "../../constants/module_constant";
-import {defaultAvatar} from "../../constants/dev_constant";
-import moment from "moment";
-import config from "../../config";
 import {addComment, getPostComments} from "../../services/forum_service";
 import {httpErrorHandler} from "../../utils/axios_util";
+import ModuleLayout from "../ModuleLayout/ModuleLayout";
+import ForumComment from "../ForumComment/ForumComment";
 
 const {TextArea} = Input;
 
@@ -55,104 +51,36 @@ class ForumTopic extends Component {
 
     render() {
         const {loading, answers} = this.state;
-        if (loading) {
-            return <Spin/>
-        }
+        if (loading) return <Spin/>;
 
-        const {match: {params}, location} = this.props;
+        const {match: {params: {slug, moduleId}}, location} = this.props;
         const {state: {module, post, courseName}} = location;
 
-        let comments = "";
-
-        if (answers.length) {
-            comments = answers.map(res => (
-                <div className={styles.commentContainer}>
-                    <div className={styles.userInfo}>
-                        <Avatar src={defaultAvatar} className={styles.avatar}/>
-                        <div className={styles.authorName}>
-                            {res.author.firstName + " " + res.author.lastName}
-                        </div>
-                    </div>
-                    <div className={styles.userComment}>
-                        <div className={styles.time}>
-                            {moment(res.createdAt, config.timeFormat).format('HH:mm:ss DD/MM/YYYY')}
-                        </div>
-                        <div className={styles.comment}>
-                            {res.content}
-                        </div>
-                    </div>
-                </div>
-            ))
-        }
-
         return (
-            <>
-                <div className={styles.header}>
-                    <Breadcrumb>
-                        <Breadcrumb.Item>
-                            <Link to={"/courses"}>Courses</Link>
-                        </Breadcrumb.Item>
-                        <Breadcrumb.Item>
-                            <Link to={`/courses/${params.slug}`}>
-                                {courseName}
-                            </Link>
-                        </Breadcrumb.Item>
-                        <Breadcrumb.Item>
-                            <Link to={
-                                {
-                                    pathname: `/courses/${params.slug}/forum/${params.moduleId}`,
-                                    state: {
-                                        courseName: courseName
-                                    }
-                                }}>
-                                {module.title}
-                            </Link>
-                        </Breadcrumb.Item>
-                        <Breadcrumb.Item>{post.title}</Breadcrumb.Item>
-                    </Breadcrumb>
+            <ModuleLayout slug={slug}
+                          moduleType={ModuleType.FORUM}
+                          module={module} courseName={courseName}
+                          postTitle={post.title}
+                          moduleLink={{
+                              pathname: `/courses/${slug}/forum/${moduleId}`,
+                              state: {courseName: courseName}
+                          }}>
 
-                    <div className={styles.heading}>
-                        <Icon
-                            icon={ModulesConfig[ModuleType.FORUM].icon}
-                            className={'circle-icon'}
-                            style={{color: ModulesConfig[ModuleType.FORUM].color, marginRight: "20px"}}
-                        />
-                        {post.title}
-                    </div>
-                    <div className={styles.description}>
-                        {post.content}
-                    </div>
+                <ForumComment response={post}/>
+                {answers.length && answers.map(res => (
+                    <ForumComment response={res}/>
+                ))}
+
+                <div className={styles.commentArea}>
+                    <TextArea rows={3}
+                              placeholder={"Add comment here !"}
+                              style={{backgroundColor: '#fafafa'}}
+                              value={this.state.comment}
+                              onChange={this.setComment}/>
+                    <Button type={"primary"} onClick={this.handleComment}>Add Comment</Button>
                 </div>
 
-                <div className="adminContent">
-                    <div className={styles.commentContainer}>
-                        <div className={styles.userInfo}>
-                            <Avatar src={defaultAvatar} className={styles.avatar}/>
-                            <div className={styles.authorName}>
-                                {post.author.firstName + " " + post.author.lastName}
-                            </div>
-                        </div>
-                        <div className={styles.userComment}>
-                            <div className={styles.time}>
-                                {moment(post.createdAt, config.timeFormat).format('HH:mm:ss DD/MM/YYYY')}
-                            </div>
-                            <div className={styles.comment}>
-                                {post.content}
-                            </div>
-                        </div>
-                    </div>
-                    {comments}
-                    <div className={styles.commentArea}>
-                        <TextArea rows={3}
-                                  placeholder={"Add comment here !"}
-                                  style={{backgroundColor: '#fafafa'}}
-                                  value={this.state.comment}
-                                  onChange={this.setComment}/>
-                        <Button type={"primary"} onClick={this.handleComment}>Add Comment</Button>
-                    </div>
-
-                </div>
-            </>
+            </ModuleLayout>
         );
     }
 }
