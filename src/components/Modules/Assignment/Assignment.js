@@ -1,16 +1,14 @@
-import React, {Component} from "react";
-import {message, Spin, Result, Button, Modal, Breadcrumb} from 'antd';
+import React, {Component, Suspense} from "react";
+import {message, Spin, Result, Button, Modal} from 'antd';
 import {getModule} from "../../../services/module_service";
 import {httpErrorHandler} from "../../../utils/axios_util";
-import styles from './Assignment.module.css';
-import NewAssignmentForm from "./NewAssignmentForm";
-import {Link} from "react-router-dom";
-import {Icon} from "react-icons-kit";
-import ModulesConfig from "../../Curriculum/ModulesConfig";
 import {ModuleType} from "../../../constants/module_constant";
-import AssignmentDetails from "./AssignmentDetails";
 import {addAssignmentFile, createAssignment, updateAssignment} from "../../../services/assignment_service";
+import ModuleLayout from "../../ModuleLayout/ModuleLayout";
+import Loading from "../../Loading/Loading";
 
+const NewAssignmentForm = React.lazy(() => import('./NewAssignmentForm'));
+const AssignmentDetails = React.lazy(() => import('./AssignmentDetails'));
 
 class Assignment extends Component {
     state = {
@@ -23,15 +21,12 @@ class Assignment extends Component {
     openAddModal = () => {
         this.setState({addModal: true})
     };
-
     closeAddModal = () => {
         this.setState({addModal: false})
     };
-
     openEditModal = () => {
         this.setState({editModal: true})
     };
-
     closeEditModal = () => {
         this.setState({editModal: false})
     };
@@ -40,24 +35,18 @@ class Assignment extends Component {
         const {params} = this.props.match;
         try {
             const {data} = await getModule(params.moduleId);
-            console.log('data', data);
             this.setState({module: data, loading: false});
         } catch (e) {
             httpErrorHandler(e, () => {
-                switch (e.code) {
-                    default:
-                        message.error("Something went wrong");
-                }
+                message.error("Something went wrong");
             });
         }
     }
 
     handleNewAssignment = async (values) => {
-        console.log(values);
         const {module} = this.state;
         try {
             const {data} = await createAssignment(module.id, values);
-            console.log(data);
             let newModule = {...module};
             newModule.instanceData = data;
             this.setState({module: newModule, addModal: false});
@@ -122,38 +111,18 @@ class Assignment extends Component {
 
     render() {
         const {module, loading, addModal, editModal} = this.state;
+        if (loading) return <Spin/>;
 
-        if (loading) {
-            return <Spin/>
-        }
-        const {match, location: {state: {courseName}}} = this.props;
+        const {match: {params: {slug}}, location: {state: {courseName}}} = this.props;
 
         return (
-            <>
-                <div className={styles.header}>
-                    <Breadcrumb>
-                        <Breadcrumb.Item>
-                            <Link to={"/courses"}>Courses</Link>
-                        </Breadcrumb.Item>
-                        <Breadcrumb.Item>
-                            <Link to={"/courses/" + match.params.slug}>
-                                {courseName}
-                            </Link>
-                        </Breadcrumb.Item>
-                        <Breadcrumb.Item>{module.title}</Breadcrumb.Item>
-                    </Breadcrumb>
-                    <div className={styles.heading}>
-                        <Icon
-                            icon={ModulesConfig[ModuleType.ASSIGNMENT].icon}
-                            className={'circle-icon'}
-                            style={{color: ModulesConfig[ModuleType.ASSIGNMENT].color, marginRight: "20px"}}
-                        />
-                        {module.title}
-                    </div>
-                </div>
-                <div className="adminContent">
-                    {module.instanceData ?
-                        (
+            <ModuleLayout module={module}
+                          moduleType={ModuleType.ASSIGNMENT}
+                          courseName={courseName}
+                          slug={slug}>
+
+                {module.instanceData ?
+                    (<Suspense fallback={Loading}>
                             <AssignmentDetails
                                 module={module}
                                 visible={editModal}
@@ -163,23 +132,24 @@ class Assignment extends Component {
                                 handleUpdateFileList={this.handleUpdateFileList}
                                 handleAddAttachment={this.handleAddAttachment}
                             />
-                        ) :
-                        (
-                            <Result status="404" title="404" subTitle="This is no content yet."
-                                    extra={<Button type={"primary"} onClick={this.openAddModal}> Edit
-                                        content </Button>}/>
-                        )}
+                        </Suspense>
+                    ) :
+                    (<Result status="404" title="404"
+                             subTitle="This is no content yet."
+                             extra={<Button type={"primary"} onClick={this.openAddModal}>
+                                 Edit content </Button>}/>)
+                }
 
-
-                    <Modal visible={addModal}
-                           title={"Edit assignment"}
-                           width={'60%'}
-                           onCancel={this.closeAddModal} footer={null}>
+                <Modal visible={addModal}
+                       title={"Edit assignment"}
+                       width={'60%'}
+                       onCancel={this.closeAddModal} footer={null}>
+                    <Suspense fallback={null}>
                         <NewAssignmentForm handleNewAssignment={this.handleNewAssignment}/>
-                    </Modal>
-                </div>
+                    </Suspense>
+                </Modal>
 
-            </>
+            </ModuleLayout>
         );
     }
 

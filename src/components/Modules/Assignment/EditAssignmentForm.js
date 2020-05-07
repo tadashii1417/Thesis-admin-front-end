@@ -55,18 +55,6 @@ class AssignmentFormBasic extends Component {
                     )}
                 </Form.Item>
 
-                {/*<Form.Item label="Files">*/}
-                {/*    {getFieldDecorator('attachmentFiles', {})(*/}
-                {/*        <Upload.Dragger name="files" multiple={true}>*/}
-                {/*            <p className="ant-upload-drag-icon">*/}
-                {/*                <Icon type="inbox"/>*/}
-                {/*            </p>*/}
-                {/*            <p className="ant-upload-text">Click or drag file to this area to upload</p>*/}
-                {/*            <p className="ant-upload-hint">Support for a single or bulk upload.</p>*/}
-                {/*        </Upload.Dragger>*/}
-                {/*    )}*/}
-                {/*</Form.Item>*/}
-
                 <Form.Item wrapperCol={{span: 12, offset: 5}}>
                     <Button type="primary" htmlType="submit">
                         Update

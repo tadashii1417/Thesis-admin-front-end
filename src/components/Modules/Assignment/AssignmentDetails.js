@@ -5,13 +5,14 @@ import Loading from "../../Loading/Loading";
 import {EditorContent} from "doodle-editor";
 import moment from "moment";
 import config from "../../../config";
-import EditAssignmentForm from "./EditAssignmentForm";
 import {httpErrorHandler} from "../../../utils/axios_util";
 import {removeFile} from "../../../services/file_service";
 
 const {TabPane} = Tabs;
 const {confirm} = Modal;
+
 const AssignmentSubmissions = React.lazy(() => import('./AssignmentSubmissions'));
+const EditAssignmentForm = React.lazy(() => import('./EditAssignmentForm'));
 
 class AssignmentDetails extends Component {
     state = {
@@ -113,7 +114,9 @@ class AssignmentDetails extends Component {
                                title={"Edit assignment"}
                                width={'60%'}
                                onCancel={handleCloseEdit} footer={null}>
-                            <EditAssignmentForm handleEditAssignment={handleEditAssignment} data={data}/>
+                            <Suspense fallback={null}>
+                                <EditAssignmentForm handleEditAssignment={handleEditAssignment} data={data}/>
+                            </Suspense>
                         </Modal>
                     </div>
                 </TabPane>

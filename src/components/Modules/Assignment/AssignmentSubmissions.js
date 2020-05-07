@@ -58,9 +58,7 @@ class AssignmentSubmissions extends Component {
 
     render() {
         const {loading, submissions} = this.state;
-        if (loading) {
-            return <Spin/>
-        }
+        if (loading) return <Spin/>
 
         return (
             <div className={styles.assignmentContent}>

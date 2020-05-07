@@ -2,7 +2,6 @@ import React, {Component} from "react";
 import CoursesTable from "../../components/CoursesTable/CoursesTable";
 import Categories from "../../components/Categories/Categories";
 import CourseTags from "../../components/CourseTags/CourseTags";
-// import styles from './Courses.module.css';
 import { Tabs } from 'antd';
 
 const { TabPane } = Tabs;

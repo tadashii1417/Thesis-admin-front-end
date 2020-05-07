@@ -1,15 +1,13 @@
 import React, {Component} from "react";
-import {Alert, Breadcrumb, Button, Form, message, Spin} from "antd";
+import {message, Spin} from "antd";
 import styles from "./Article.module.css";
-import {Link} from "react-router-dom";
-import {Icon} from "react-icons-kit";
-import {Editor} from 'doodle-editor';
-import ModulesConfig from "../../Curriculum/ModulesConfig";
 import {ModuleType} from "../../../constants/module_constant";
 import {getModule} from "../../../services/module_service";
 import {httpErrorHandler} from "../../../utils/axios_util";
 import {createPatch} from "../../../utils/patch_util";
 import {updateArticle} from "../../../services/article_service";
+import ModuleLayout from "../../ModuleLayout/ModuleLayout";
+import ArticleForm from "../../Forms/ArticleForm/ArticleForm";
 
 
 class Article extends Component {
@@ -25,14 +23,10 @@ class Article extends Component {
         try {
             const {data} = await getModule(params.moduleId);
             const {instanceData: {content}} = data;
-
             this.setState({module: data, loading: false, content: content});
         } catch (e) {
             httpErrorHandler(e, () => {
-                switch (e.code) {
-                    default:
-                        message.error("Something went wrong");
-                }
+                message.error("Something went wrong");
             });
         }
     }
@@ -47,7 +41,7 @@ class Article extends Component {
         if (touched) {
             let key = "update-article";
 
-            if (content !== null && content !== "") {
+            if (content != null && content !== "") {
                 try {
                     let patch = [];
                     createPatch(patch, 'content', content);
@@ -58,84 +52,33 @@ class Article extends Component {
                     this.setState({touched: false})
                 } catch (e) {
                     httpErrorHandler(e, () => {
-                        switch (e.code) {
-                            default:
-                                message.error({content: "Something went wrong", key});
-                        }
+                        message.error({content: "Something went wrong", key});
                     })
                 }
             }
         }
-        console.log(this.state.content);
     };
 
     render() {
         const {content, touched, module, loading} = this.state;
-        if (loading) {
-            return <Spin/>
-        }
-        const {match, location: {state: {courseName}}} = this.props;
+        if (loading) return <Spin/>
+        const {match: {params: {slug}}, location: {state: {courseName}}} = this.props;
 
         return (
-            <>
-                <div className={styles.header}>
-                    <Breadcrumb>
-                        <Breadcrumb.Item>
-                            <Link to={"/courses"}>Courses</Link>
-                        </Breadcrumb.Item>
-                        <Breadcrumb.Item>
-                            <Link to={"/courses/" + match.params.slug}>
-                                {courseName}
-                            </Link>
-                        </Breadcrumb.Item>
-                        <Breadcrumb.Item>{module.title}</Breadcrumb.Item>
-                    </Breadcrumb>
-                    <div className={styles.heading}>
-                        <Icon
-                            icon={ModulesConfig[ModuleType.ARTICLE].icon}
-                            className={'circle-icon'}
-                            style={{color: ModulesConfig[ModuleType.ARTICLE].color, marginRight: "20px"}}
-                        />
-                        {module.title}
-                    </div>
+            <ModuleLayout
+                slug={slug}
+                courseName={courseName}
+                moduleType={ModuleType.ARTICLE}
+                module={module}>
+
+                <div className={styles.articleContainer}>
+                    <ArticleForm handleUpdate={this.handleUpdate}
+                                 handleContentChange={this.handleContentChange}
+                                 content={content}
+                                 touched={touched}/>
                 </div>
 
-                <div className="adminContent">
-                    <div className={styles.articleContainer}>
-                        {module.visibility === "private" ?
-                            <Alert
-                                message={"This module is unpublished"}
-                                type="info"
-                                style={{margin: '10px 0 20px 0'}}
-                                showIcon
-                                closable
-                            /> : ""
-                        }
-                        <Form type={"vertical"} onSubmit={this.handleUpdate}>
-                            <Form.Item className={'article'}>
-                                <Editor initialContent={content}
-                                        onChange={this.handleContentChange}/>
-                            </Form.Item>
-                            {
-                                touched ?
-                                    <div style={{textAlign: 'right', color: '#cf1322'}}>Content has not been saved yet
-                                        !!!</div> : ""
-                            }
-
-                            <Form.Item>
-                                <i>Supported function can be found <a href={'https://katex.org/docs/supported.html'}
-                                                                      target={'_blank'}>here</a></i>
-                            </Form.Item>
-                            <Form.Item>
-                                <Button type="primary" htmlType="submit">
-                                    Update
-                                </Button>
-                            </Form.Item>
-                        </Form>
-                    </div>
-                </div>
-
-            </>
+            </ModuleLayout>
         );
     }
 }

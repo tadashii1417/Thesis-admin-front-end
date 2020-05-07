@@ -11,11 +11,7 @@ import {createForumPosts, getForumPosts} from "../../../services/forum_service";
 import moment from "moment";
 import config from "../../../config";
 import NewForumPost from "../../NewForumPost/NewForumPost";
-import {connect} from 'react-redux';
 
-const mapStateToProps = (state) => ({
-    user: state.authReducer.user
-});
 
 class Forum extends Component {
     state = {
@@ -195,4 +191,4 @@ class Forum extends Component {
     }
 }
 
-export default connect(mapStateToProps, null)(Forum);
+export default Forum;

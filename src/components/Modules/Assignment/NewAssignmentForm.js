@@ -28,17 +28,13 @@ class AssignmentFormBasic extends Component {
                 <Form.Item label="Open at">
                     {getFieldDecorator('openAt', {
                         initialValue: null
-                    })(
-                        <DatePicker showTime placeholder="Select Time" format={config.timeFormat}/>
-                    )}
+                    })(<DatePicker showTime placeholder="Select Time" format={config.timeFormat}/>)}
                 </Form.Item>
 
                 <Form.Item label="Close at">
                     {getFieldDecorator('closeAt', {
                         initialValue: null
-                    })(
-                        <DatePicker showTime placeholder="Select Time" format={config.timeFormat}/>
-                    )}
+                    })(<DatePicker showTime placeholder="Select Time" format={config.timeFormat}/>)}
                 </Form.Item>
 
                 <Form.Item label="Files">

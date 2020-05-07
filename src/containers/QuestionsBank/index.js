@@ -5,7 +5,7 @@ import QuestionCategories from "./QuestionCategories/QuestionCategories";
 
 const {TabPane} = Tabs;
 
-class Courses extends Component {
+class QuestionBank extends Component {
     render() {
         return (
             <div className="adminContent">
@@ -22,4 +22,4 @@ class Courses extends Component {
     }
 }
 
-export default Courses;
+export default QuestionBank;
