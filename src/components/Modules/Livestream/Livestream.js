@@ -13,6 +13,7 @@ import {
     joinLivestream,
     startLivestream
 } from "../../../services/livestream_service";
+import ModuleLayout from "../../ModuleLayout/ModuleLayout";
 
 class Livestream extends Component {
     state = {
@@ -25,7 +26,6 @@ class Livestream extends Component {
         try {
             const {data} = await getModule(params.moduleId);
             this.setState({module: data, loading: false});
-            console.log(this.state.module);
         } catch (e) {
             httpErrorHandler(e, () => {
                 switch (e.code) {
@@ -43,7 +43,6 @@ class Livestream extends Component {
 
             let updatedModule = {...module};
             updatedModule.instanceData = {...module.instanceData, status: LivestreamStatus.RUNNING}
-            console.log(updatedModule);
             this.setState({module: updatedModule});
             message.success("Livestream has been started.");
         } catch (e) {
@@ -107,78 +106,55 @@ class Livestream extends Component {
 
     render() {
         const {module, loading} = this.state;
-        if (loading) {
-            return <Spin/>
-        }
+        if (loading) return <Spin/>
+
         const {instanceData: {status}} = module;
-
-        const {match, location: {state: {courseName}}} = this.props;
-
+        const {match: {params: {slug}}, location: {state: {courseName}}} = this.props;
         const introImg = "http://www.clipartbest.com/cliparts/9TR/Ljq/9TRLjq8Bc.gif";
 
         return (
-            <>
-                <div className={styles.header}>
-                    <Breadcrumb>
-                        <Breadcrumb.Item>
-                            <Link to={"/courses"}>Courses</Link>
-                        </Breadcrumb.Item>
-                        <Breadcrumb.Item>
-                            <Link to={"/courses/" + match.params.slug}>
-                                {courseName}
-                            </Link>
-                        </Breadcrumb.Item>
-                        <Breadcrumb.Item>{module.title}</Breadcrumb.Item>
-                    </Breadcrumb>
-                    <div className={styles.heading}>
-                        <Icon
-                            icon={ModulesConfig[ModuleType.LIVESTREAM].icon}
-                            className={'circle-icon'}
-                            style={{color: ModulesConfig[ModuleType.LIVESTREAM].color, marginRight: "20px"}}
-                        />
-                        {module.title}
+            <ModuleLayout
+                slug={slug}
+                module={module}
+                courseName={courseName}
+                moduleType={ModuleType.LIVESTREAM}>
+                
+                <div className={styles.container}>
+                    <div>
+                        <img src={introImg} alt={"introduction img"} className={styles.introImg}/>
+                    </div>
+                    <div className={styles.actionArea}>
+                        {status === LivestreamStatus.CREATED && <Button
+                            type={"primary"}
+                            onClick={this.startLivestream}
+                            icon="forward">
+                            Start Livestream</Button>}
+
+                        {status === LivestreamStatus.RUNNING && <Button
+                            type={"danger"}
+                            onClick={this.endLivestream}
+                            icon="rollback">
+                            End livestream</Button>}
+
+                        {status === LivestreamStatus.RUNNING && <Button
+                            type={"primary"}
+                            onClick={this.joinLivestream}
+                            icon="login">
+                            Join livestream</Button>}
+
+                        {status === LivestreamStatus.ENDED && <Button
+                            type={"ghost"}
+                            icon="close">
+                            This livestream is over</Button>}
+
+                        {status === LivestreamStatus.RECORDED && <Button
+                            type={"primary"}
+                            onClick={this.getLivestreamPlayback}
+                            icon="cloud-download">
+                            Get livestream record</Button>}
                     </div>
                 </div>
-
-                <div className="adminContent">
-                    <div className={styles.container}>
-                        <div>
-                            <img src={introImg} alt={"introduction img"} className={styles.introImg}/>
-                        </div>
-                        <div className={styles.actionArea}>
-                            {status === LivestreamStatus.CREATED && <Button
-                                type={"primary"}
-                                onClick={this.startLivestream}
-                                icon="forward">
-                                Start Livestream</Button>}
-
-                            {status === LivestreamStatus.RUNNING && <Button
-                                type={"danger"}
-                                onClick={this.endLivestream}
-                                icon="rollback">
-                                End livestream</Button>}
-
-                            {status === LivestreamStatus.RUNNING && <Button
-                                type={"primary"}
-                                onClick={this.joinLivestream}
-                                icon="login">
-                                Join livestream</Button>}
-
-                            {status === LivestreamStatus.ENDED && <Button
-                                type={"ghost"}
-                                icon="close">
-                                This livestream is over</Button>}
-
-                            {status === LivestreamStatus.RECORDED && <Button
-                                type={"primary"}
-                                onClick={this.getLivestreamPlayback}
-                                icon="cloud-download">
-                                Get livestream record</Button>}
-                        </div>
-                    </div>
-                </div>
-
-            </>
+            </ModuleLayout>
         );
     }
 }
