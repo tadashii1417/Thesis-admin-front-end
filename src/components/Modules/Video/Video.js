@@ -1,9 +1,5 @@
 import React, {Component} from "react";
-import {Breadcrumb, message, Spin, Steps} from "antd";
-import styles from "./Video.module.css";
-import {Link} from "react-router-dom";
-import {Icon} from "react-icons-kit";
-import ModulesConfig from "../../Curriculum/ModulesConfig";
+import {message, Spin, Steps} from "antd";
 import {ModuleType} from "../../../constants/module_constant";
 import {getModule} from "../../../services/module_service";
 import {httpErrorHandler} from "../../../utils/axios_util";
@@ -11,6 +7,7 @@ import SelectType from "../../VideoProcess/SelectType/SelectType";
 import VideoProcessing from "../../VideoProcess/VideoProcessing/VideoProcessing";
 import VideoFinished from "../../VideoProcess/VideoFinished/VideoFinished";
 import {getProgress} from "../../../services/video_service";
+import ModuleLayout from "../../ModuleLayout/ModuleLayout";
 
 const {Step} = Steps;
 
@@ -29,9 +26,7 @@ class Video extends Component {
         try {
             const {data} = await getModule(moduleId);
             let current = this.state.current;
-            if (data.instanceData) {
-                current = 2;
-            }
+            if (data.instanceData) current = 2;
             this.setState({module: data, loading: false, current: current});
         } catch (e) {
             httpErrorHandler(e, () => {
@@ -59,19 +54,15 @@ class Video extends Component {
     };
 
     setCurrent = (val) => {
-        if (val >= 3) {
-            return;
-        }
+        if (val >= 3) return;
         this.setState({current: val});
     };
 
     render() {
         const {module, loading, current} = this.state;
-        if (loading) {
-            return <Spin/>
-        }
+        if (loading) return <Spin/>;
 
-        const {match, location: {state: {courseName}}} = this.props;
+        const {match: {params: {slug}}, location: {state: {courseName}}} = this.props;
 
         const steps = [
             <SelectType moduleId={this.state.module.id} setCurrent={this.setCurrent}/>,
@@ -84,41 +75,18 @@ class Video extends Component {
         ];
 
         return (
-            <>
-                <div className={styles.header}>
-                    <Breadcrumb>
-                        <Breadcrumb.Item>
-                            <Link to={"/courses"}>Courses</Link>
-                        </Breadcrumb.Item>
-                        <Breadcrumb.Item>
-                            <Link to={"/courses/" + match.params.slug}>
-                                {courseName}
-                            </Link>
-                        </Breadcrumb.Item>
-                        <Breadcrumb.Item>{module.title}</Breadcrumb.Item>
-                    </Breadcrumb>
-                    <div className={styles.heading}>
-                        <Icon
-                            icon={ModulesConfig[ModuleType.VIDEO].icon}
-                            className={'circle-icon'}
-                            style={{color: ModulesConfig[ModuleType.VIDEO].color, marginRight: "20px"}}
-                        />
-                        {module.title}
-                    </div>
-                </div>
+            <ModuleLayout moduleType={ModuleType.VIDEO} slug={slug} courseName={courseName} module={module}>
 
-                <div className="adminContent">
-                    <Steps current={current} status={this.state.stepStatus}>
-                        <Step key={"step-1"} title={"Select Type"} description={"Where is your video ?"}/>
-                        <Step key={"step-2"} title={"Video Processing"} description={"Please wait ..."}
-                              subTitle={this.state.progressing ? <Spin/> : ''}/>
-                        <Step key={"step-3"} title={"Finished"} description={"Preview video"}/>
-                    </Steps>
+                <Steps current={current} status={this.state.stepStatus}>
+                    <Step key={"step-1"} title={"Select Type"} description={"Where is your video ?"}/>
+                    <Step key={"step-2"} title={"Video Processing"} description={"Please wait ..."}
+                          subTitle={this.state.progressing ? <Spin/> : ''}/>
+                    <Step key={"step-3"} title={"Finished"} description={"Preview video"}/>
+                </Steps>
 
-                    <div>{steps[current]}</div>
-                </div>
+                <div>{steps[current]}</div>
 
-            </>
+            </ModuleLayout>
         );
     }
 }

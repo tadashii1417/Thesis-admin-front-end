@@ -8,6 +8,7 @@ import {ModuleType} from "../../../constants/module_constant";
 import {getModule} from "../../../services/module_service";
 import {httpErrorHandler} from "../../../utils/axios_util";
 import {createResource} from "../../../services/resource_service";
+import ModuleLayout from "../../ModuleLayout/ModuleLayout";
 
 const {Dragger} = Upload;
 
@@ -28,10 +29,7 @@ class Resource extends Component {
             this.setState({module: data, loading: false});
         } catch (e) {
             httpErrorHandler(e, () => {
-                switch (e.code) {
-                    default:
-                        message.error("Something went wrong");
-                }
+                message.error("Something went wrong");
             });
         }
     }
@@ -52,76 +50,44 @@ class Resource extends Component {
 
     render() {
         const {module, loading} = this.state;
-        if (loading) {
-            return <Spin/>
-        }
+        if (loading) return <Spin/>;
 
-        const {match, location: {state: {courseName}}} = this.props;
+        const {match: {params: {slug}}, location: {state: {courseName}}} = this.props;
 
         return (
-            <>
-                <div className={styles.header}>
-                    <Breadcrumb>
-                        <Breadcrumb.Item>
-                            <Link to={"/courses"}>Courses</Link>
-                        </Breadcrumb.Item>
-                        <Breadcrumb.Item>
-                            <Link to={"/courses/" + match.params.slug}>
-                                {courseName}
-                            </Link>
-                        </Breadcrumb.Item>
-                        <Breadcrumb.Item>{module.title}</Breadcrumb.Item>
-                    </Breadcrumb>
-                    <div className={styles.heading}>
-                        <Icon
-                            icon={ModulesConfig[ModuleType.RESOURCE].icon}
-                            className={'circle-icon'}
-                            style={{color: ModulesConfig[ModuleType.RESOURCE].color, marginRight: "20px"}}
-                        />
-                        {module.title}
-                    </div>
-                </div>
+            <ModuleLayout module={module} courseName={courseName} slug={slug} moduleType={ModuleType.RESOURCE}>
+                {module.instanceData ?
+                        <>
+                            <h4><AntIcon type="double-right" className={styles.icon}/>
+                                Your uploaded file
+                            </h4>
+                            <Divider/>
+                            <div className={styles.files}>
+                                <Button onClick={() => window.open(module.instanceData.url, '_blank')}
+                                        icon={"paper-clip"}>
+                                    {module.instanceData.displayName}
+                                </Button>
+                            </div>
+                        </>
+                        :
+                        <>
+                            <h4><AntIcon type="double-right" className={styles.icon}/>
+                                Select file to upload
+                            </h4>
+                            <Divider/>
 
-                <div className="adminContent">
-                    {
-                        module.instanceData ?
-                            <>
-                                <h4>
-                                    <AntIcon type="double-right" className={styles.icon}/>
-                                    Your uploaded file
-                                </h4>
-                                <Divider/>
-                                <div className={styles.files}>
-                                    <Button onClick={() => window.open(module.instanceData.url, '_blank')} icon={"paper-clip"}>
-                                        {module.instanceData.displayName}
-                                    </Button>
-                                </div>
-                            </>
-                            :
-                            <>
-                                <h4>
-                                    <AntIcon type="double-right" className={styles.icon}/>
-                                    Select file to upload
-                                </h4>
-                                <Divider/>
-                                <div className={styles.dragger}>
-                                    <Dragger
-                                        customRequest={(req) => {
-                                            this.createResource(req.file);
-                                        }}>
-                                        <p className="ant-upload-drag-icon">
-                                            <AntIcon type="inbox"/>
-                                        </p>
-                                        <p className="ant-upload-text">Click or drag file to this area to upload</p>
-                                        <p className="ant-upload-hint">
-                                            Support for a single upload only !
-                                        </p>
-                                    </Dragger>
-                                </div>
-                            </>
-                    }
-                </div>
-            </>
+                            <div className={styles.dragger}>
+                                <Dragger
+                                    customRequest={(req) => {this.createResource(req.file);
+                                    }}>
+                                    <p className="ant-upload-drag-icon"><AntIcon type="inbox"/></p>
+                                    <p className="ant-upload-text">Click or drag file to this area to upload</p>
+                                    <p className="ant-upload-hint">Support for a single upload only !</p>
+                                </Dragger>
+                            </div>
+                        </>
+                }
+            </ModuleLayout>
         );
     }
 }

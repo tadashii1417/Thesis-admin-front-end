@@ -72,15 +72,19 @@ class VideoProcessing extends Component {
             switch (status.type) {
                 case VideoStatusType.UPLOADED:
                     break;
+
                 case VideoStatusType.STREAMIZING:
                     this.setState({current: 1});
                     break;
+
                 case VideoStatusType.SAVING:
                     this.setState({current: 2});
                     break;
+
                 case VideoStatusType.SETTING:
                     this.setState({current: 3});
                     break;
+
                 case VideoStatusType.FINISHED:
                     clearInterval(this.intervalId);
                     this.setState({current: 4, finalStatus: VideoStatusType.FINISHED});
@@ -88,14 +92,15 @@ class VideoProcessing extends Component {
                     setStepStatus('finish');
                     this.setState({showDelete: true, processStatus: 'finish'});
                     break;
+
                 case VideoStatusType.FAILED:
                     clearInterval(this.intervalId);
                     this.setState({current: 4, finalStatus: VideoStatusType.FAILED});
                     setProgressing(false);
                     setStepStatus('error');
                     this.setState({showDelete: true, processStatus: 'error'});
-
                     break;
+
                 case VideoStatusType.TERMINATED:
                     clearInterval(this.intervalId);
                     this.setState({current: 4, finalStatus: VideoStatusType.TERMINATED});
@@ -103,6 +108,7 @@ class VideoProcessing extends Component {
                     setProgressing(false);
                     this.setState({showDelete: true, processStatus: 'error'});
                     break;
+
                 default:
                     break;
             }
@@ -126,24 +132,20 @@ class VideoProcessing extends Component {
                 <div>
                     <Steps progressDot current={current} status={processStatus}>
 
-                        <Step
-                            description="Video file has been uploaded"
+                        <Step description="Video file has been uploaded"
                             title={<span><Icon type={"forward"} className={styles.progressIcon}/>Uploaded</span>}/>
 
                         <Step description="Create small files"
                               title={<span><Icon type={"scissor"} className={styles.progressIcon}/>Streamizing</span>}/>
 
-                        <Step
-                            description="Upload file pieces to video server"
+                        <Step description="Upload file pieces to video server"
                             title={<span><Icon type={"vertical-align-bottom"}
                                                className={styles.progressIcon}/>Saving</span>}/>
 
-                        <Step
-                            description="Generate video URL"
+                        <Step description="Generate video URL"
                             title={<span><Icon type={"experiment"} className={styles.progressIcon}/>Setting</span>}/>
 
-                        <Step
-                            description={this.messageMapping[finalStatus].description}
+                        <Step description={this.messageMapping[finalStatus].description}
                             title={<span>
                                 <Icon type={"alert"}
                                       className={styles.progressIcon}/>{this.messageMapping[finalStatus].title}</span>}/>
@@ -153,12 +155,12 @@ class VideoProcessing extends Component {
             </div>
 
             <div className={styles.actions}>
+
                 {current < 4 &&
                 <Tooltip title={"This action will terminate video process and revert all previous actions."}>
                     <Button type={"danger"} onClick={this.terminateProcess}>Terminate</Button>
                 </Tooltip>
                 }
-
 
                 {showDelete &&
                 <Tooltip title={"Clear previous process and only show video next time."}>
@@ -172,10 +174,9 @@ class VideoProcessing extends Component {
                     <Button type="primary" onClick={() => setCurrent(2)}>Finish</Button>
                 </Tooltip>
                 }
+
             </div>
-
         </div>
-
     }
 }
 
