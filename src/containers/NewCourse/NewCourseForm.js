@@ -89,15 +89,12 @@ class NewCourseForm extends React.Component {
     };
 
     createCategoryTreeNode = (categories) => {
-        if (categories === undefined) {
-            return;
-        } else {
-            return categories.map(child => (
-                <TreeNode key={child.id} title={child.title} value={child.id}>
-                    {this.createCategoryTreeNode(child.subcategories)}
-                </TreeNode>
-            ));
-        }
+        if (categories === undefined) return;
+        return categories.map(child => (
+            <TreeNode key={child.id} title={child.title} value={child.id}>
+                {this.createCategoryTreeNode(child.subcategories)}
+            </TreeNode>
+        ));
     };
 
     render() {

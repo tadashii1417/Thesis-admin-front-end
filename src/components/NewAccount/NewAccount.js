@@ -1,13 +1,20 @@
 import React from "react";
-import {Button, Form, Input} from "antd";
+import {Button, Form, Input, message, Select} from "antd";
 import styles from './NewAccount.module.css';
+import {UserType} from "../../constants/user_contant";
+import {createUser} from "../../services/user_service";
 
 class NewAccountBasic extends React.Component {
     handleSubmit = e => {
         e.preventDefault();
-        this.props.form.validateFields((err, values) => {
+        this.props.form.validateFields(async (err, values) => {
             if (!err) {
-                this.props.handleNewModule(values);
+                try {
+                    const {data} = await createUser(values);
+                    message.success("New user has been created.");
+                } catch (e) {
+                    message.error("Something went wrong");
+                }
             }
         });
     };
@@ -27,30 +34,40 @@ class NewAccountBasic extends React.Component {
         return (
             <div className={styles.container}>
                 <Form {...formItemLayout} layout={"vertical"} onSubmit={this.handleSubmit}>
-                    <Form.Item label="Old password">
-                        {getFieldDecorator('old-password', {
+                    <Form.Item label="Username">
+                        {getFieldDecorator('username', {
                             rules: [{required: true, message: "Please input old password"}]
-                        })(
-                            <Input/>
-                        )}
+                        })(<Input/>)}
                     </Form.Item>
 
-                    <Form.Item label="New password">
-                        {getFieldDecorator('new-password', {
-                            rules: [{required: true, message: "Please input new password"}]
-                        })(
-                            <Input/>
-                        )}
+
+                    <Form.Item label="User type">
+                        {getFieldDecorator('type', {
+                            rules: [{required: true, message: "Please select type."}]
+                        })(<Select style={{width: '50%'}}>
+                            <Select.Option value={UserType.STAFF}>Staff</Select.Option>
+                            <Select.Option value={UserType.LEARNER}>Leaner</Select.Option>
+                            <Select.Option value={UserType.INSTRUCTOR}>Instructor</Select.Option>
+                        </Select>)}
                     </Form.Item>
 
-                    <Form.Item label="Re-enter password">
-                        {getFieldDecorator('re-password', {
+                    <Form.Item label="Email">
+                        {getFieldDecorator('email', {
                             rules: [{required: true, message: "Please re-type new password"}]
-                        })(
-                            <Input/>
-                        )}
+                        })(<Input/>)}
                     </Form.Item>
 
+                    <Form.Item label="First name">
+                        {getFieldDecorator('firstName', {
+                            rules: []
+                        })(<Input/>)}
+                    </Form.Item>
+
+                    <Form.Item label="Last name">
+                        {getFieldDecorator('lastName', {
+                            rules: []
+                        })(<Input/>)}
+                    </Form.Item>
 
                     <Form.Item style={{textAlign: 'center'}}>
                         <Button type="primary" htmlType="submit">

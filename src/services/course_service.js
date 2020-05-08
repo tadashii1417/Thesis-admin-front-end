@@ -36,3 +36,7 @@ export async function updateCourseBanner(id, file) {
     formData.append('banner', file);
     return axios.patch('/api/courses/' + id + '/banner', formData);
 }
+
+export function getCourseEnrollments(courseId) {
+    return axios.get(`/api/courses/${courseId}/enrollments`);
+}
