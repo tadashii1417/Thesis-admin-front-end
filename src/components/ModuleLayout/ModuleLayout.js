@@ -1,30 +1,62 @@
-import React from "react";
+import React, {Component, Suspense} from "react";
 import ModuleHeader from "../ModuleHeader/ModuleHeader";
-import {Alert} from "antd";
+import {Alert, Modal} from "antd";
 
-export default function ({children, module, slug, courseName, moduleType, moduleLink, moduleDescription, postTitle}) {
-    return (
-        <React.Fragment>
-            <ModuleHeader moduleTitle={module.title}
-                          courseSlug={slug}
-                          courseName={courseName}
-                          moduleDescription={moduleDescription}
-                          moduleLink={moduleLink}
-                          postTitle={postTitle}
-                          moduleType={moduleType}/>
+const EditModule = React.lazy(() => import('../Curriculum/EditModule/EditModule'));
+
+export default class ModuleLayout extends Component {
+    state = {
+        editModule: false
+    }
+
+    closeEditModule = () => {
+        this.setState({editModal: false});
+    };
+
+    openEditModule = () => {
+        this.setState({editModal: true});
+    };
+
+    render() {
+        const {
+            children,
+            module, slug, courseName, moduleType, moduleLink,
+            moduleDescription, postTitle, handleEditModule
+        } = this.props;
+
+        return (
+            <React.Fragment>
+                <ModuleHeader moduleTitle={module.title}
+                              courseSlug={slug}
+                              courseName={courseName}
+                              moduleDescription={moduleDescription}
+                              moduleLink={moduleLink}
+                              postTitle={postTitle}
+                              openEditModule={this.openEditModule}
+                              moduleType={moduleType}/>
 
 
-            <div className="adminContent">
+                <div className="adminContent">
 
-                {module.visibility === "private" && <Alert
-                    message={"This module is unpublished"}
-                    type="info"
-                    style={{margin: '10px 0 20px 0'}}
-                    showIcon
-                    closable/>}
+                    {module.visibility === "private" && <Alert
+                        message={"This module is unpublished"}
+                        type="info"
+                        style={{margin: '10px 0 20px 0'}}
+                        showIcon
+                        closable/>}
 
-                {children}
-            </div>
-        </React.Fragment>
-    );
+                    {children}
+                </div>
+
+                <Modal title={"Edit module"}
+                       visible={this.state.editModal}
+                       onCancel={this.closeEditModule}
+                       footer={null}>
+                    <Suspense fallback={null}>
+                        <EditModule data={module} handleEditModule={handleEditModule}/>
+                    </Suspense>
+                </Modal>
+            </React.Fragment>
+        );
+    }
 }

@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {message, Spin} from "antd";
 import styles from "./Article.module.css";
 import {ModuleType} from "../../../constants/module_constant";
-import {getModule} from "../../../services/module_service";
+import {getModule, updateModule} from "../../../services/module_service";
 import {httpErrorHandler} from "../../../utils/axios_util";
 import {createPatch} from "../../../utils/patch_util";
 import {updateArticle} from "../../../services/article_service";
@@ -15,7 +15,23 @@ class Article extends Component {
         loading: true,
         module: {},
         content: "",
-        touched: false
+        touched: false,
+    };
+
+    handleEditModule = async (patch) => {
+        const {module} = this.state;
+        let key = "update-module";
+        try {
+            message.loading({content: "Loading", key});
+            const {data} = await updateModule(module.id, patch);
+            data.instanceData = module.instanceData;
+            this.setState({module: data});
+            message.success({content: "Module has been updated", key});
+        } catch (e) {
+            httpErrorHandler(e, () => {
+                message.error({content: "Something went wrong", key});
+            })
+        }
     };
 
     async componentDidMount() {
@@ -69,6 +85,7 @@ class Article extends Component {
                 slug={slug}
                 courseName={courseName}
                 moduleType={ModuleType.ARTICLE}
+                handleEditModule={this.handleEditModule}
                 module={module}>
 
                 <div className={styles.articleContainer}>
