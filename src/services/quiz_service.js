@@ -33,7 +33,7 @@ export async function fetchQuizResult(id) {
 }
 
 export async function fetchStudentAttempts(learnerId, moduleId) {
-    return axios.get(`/api/attempts?learnerUserId=${learnerId}&quizModuleId=${moduleId}`);
+    return axios.get(`/api/attempts?learnerUserId=${learnerId}&moduleId=${moduleId}`);
 }
 
 export async function fetchSpecificQuizAttempt(attemptId) {

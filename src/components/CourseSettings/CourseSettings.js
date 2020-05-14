@@ -177,7 +177,7 @@ class CourseSettingsBasic extends React.Component {
 
                 <Form.Item
                     label={"Course Category"}>
-                    {getFieldDecorator('category', {
+                    {getFieldDecorator('categoryId', {
                         rules: [],
                         initialValue: data.categoryId
                     })(

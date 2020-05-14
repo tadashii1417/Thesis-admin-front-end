@@ -15,14 +15,14 @@ export default function ({children, module, slug, courseName, moduleType, module
 
 
             <div className="adminContent">
-                {module.visibility === "private" &&
-                <Alert
+
+                {module.visibility === "private" && <Alert
                     message={"This module is unpublished"}
                     type="info"
                     style={{margin: '10px 0 20px 0'}}
                     showIcon
-                    closable
-                />}
+                    closable/>}
+
                 {children}
             </div>
         </React.Fragment>

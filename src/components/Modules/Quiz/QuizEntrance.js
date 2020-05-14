@@ -74,8 +74,8 @@ export default class extends Component {
         const {module, loading} = this.state;
         if (loading) return <Spin/>;
 
-        const {match: {params: {slug}}, location: {state: {courseName}}} = this.props;
-
+        const {match: {params: {slug}}, location: {state}} = this.props;
+        const courseName = state ? state.courseName : "Course name";
         const {instanceData} = module;
         const quizSettingDto = QuizDto.toQuizSettingDto(instanceData);
 

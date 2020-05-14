@@ -67,9 +67,9 @@ class ForumTopic extends Component {
                           }}>
 
                 <ForumComment response={post}/>
-                {answers.length && answers.map(res => (
+                {answers.length ? answers.map(res => (
                     <ForumComment response={res}/>
-                ))}
+                )): ""}
 
                 <div className={styles.commentArea}>
                     <TextArea rows={3}

@@ -1,8 +1,11 @@
 import axios from 'axios';
 import {getToken} from "../utils/storage_util";
 
+// const proxy = 'http://10.130.48.178';
+const proxy = 'http://localhost';
+
 const instance = axios.create({
-    baseURL: '/',
+    baseURL: `${proxy}:5000/`,
     timeout: 7500
 });
 
@@ -16,6 +19,7 @@ instance.interceptors.response.use(
         return response.data;
     },
     function (error) {
+        console.log(error);
         if (!error.response) {
             const error = new Error("No internet connection");
             return Promise.reject(error);

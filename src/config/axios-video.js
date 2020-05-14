@@ -1,8 +1,11 @@
 import axios from 'axios';
 import {getToken} from "../utils/storage_util";
 
+// const proxy = 'http://10.130.48.178';
+const proxy = 'http://localhost';
+
 const instance = axios.create({
-    baseURL: 'http://localhost:4000',
+    baseURL: `${proxy}:4000/`,
     timeout: 7500
 });
 

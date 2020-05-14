@@ -54,7 +54,6 @@ export default class extends Component {
         this.setState({isAddModule: true})
     };
 
-    // TODO: add previewable, visibility icon to FE.
     menu = (module) => (
         <Menu>
             <Menu.Item onClick={() => this.openEditModule(module)}>
@@ -91,7 +90,9 @@ export default class extends Component {
             </Link>
 
             <div style={{marginLeft: "auto"}}>
-                <AntIcon type={"eye"}/>
+                {value.visibility === "private" && <AntIcon type={"eye-invisible" +
+                "" +
+                ""} style={{padding: '0 10px'}}/>}
                 <Dropdown overlay={this.menu(value)}>
                     <Button>
                         <Icon icon={cog} size={13}/>
@@ -246,8 +247,7 @@ export default class extends Component {
 
 
                 <div className={styles.moduleActions}>
-                    {
-                        this.state.orderChange ?
+                    {this.state.orderChange ?
                             <Tooltip title={"Modules order hasn't been saved ! Click here to update."}>
                                 <AntIcon type={'exclamation-circle'} className={styles.orderAlert}
                                          onClick={this.handleOrderChange}/>

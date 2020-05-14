@@ -8,8 +8,9 @@
 
 .heading {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    margin-top: 8px;
+    margin-top: 10px;
     width: 100%;
     overflow: hidden;
     color: rgba(0, 0, 0, .85);
@@ -17,6 +18,10 @@
     font-size: 20px;
     line-height: 32px;
     /*color: #f98012;*/
+}
+
+.headingText {
+    display: flex;
 }
 
 .description  {

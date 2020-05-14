@@ -20,23 +20,19 @@ class ForumPost extends Component {
         return (
             <Form layout={"vertical"} onSubmit={this.handleSubmit}>
                 <FormItem label={"Title"}>
-                    {
-                        getFieldDecorator('title', {
-                            rules: [{
-                                required: true
-                            }]
-                        })(<Input/>)
-                    }
+                    {getFieldDecorator('title', {
+                        rules: [{
+                            required: true
+                        }]
+                    })(<Input/>)}
                 </FormItem>
 
                 <FormItem label={"Content"}>
-                    {
-                        getFieldDecorator('content', {
-                            rules: [{
-                                required: true
-                            }]
-                        })(<Input.TextArea rows={4}/>)
-                    }
+                    {getFieldDecorator('content', {
+                        rules: [{
+                            required: true
+                        }]
+                    })(<Input.TextArea rows={4}/>)}
                 </FormItem>
 
                 <FormItem>

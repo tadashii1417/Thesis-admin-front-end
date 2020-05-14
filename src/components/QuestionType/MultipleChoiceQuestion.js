@@ -5,6 +5,7 @@ import {Checkbox, Col, Icon, Row} from "antd";
 
 export default function (props) {
     const {data, index} = props;
+    console.log(data);
     const {content, choices, mark, answer, attemptMark} = data;
     const answers = choices.filter(choice => choice.fraction !== 0);
 
@@ -28,7 +29,7 @@ export default function (props) {
                         {
                             choices.map(choice =>
                                 <Col xm={24} sm={12} md={8} key={choice.id}>
-                                    <Checkbox checked={choice.id === answer} className={styles.optionContainer}>
+                                    <Checkbox checked={answer && answer.includes(choice.id)} className={styles.optionContainer}>
                                         <EditorContent content={choice.content} className={styles.option}/>
                                         {choice.id === answer ? (
                                             answers.filter(ans => ans.id === answer).length ?

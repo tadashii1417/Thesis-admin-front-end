@@ -102,7 +102,6 @@ class QuizResult extends Component {
         const {url} = this.props.match;
         if (loading) return <Spin/>;
 
-
         return (
             <div className={styles.quizContainer}>
                 <Breadcrumb className={styles.breadcrumb}>

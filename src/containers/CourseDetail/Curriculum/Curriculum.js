@@ -26,7 +26,6 @@ class Curriculum extends Component {
         try {
             const {courseData} = this.props;
             const {data} = await axios.get('/api/courses/' + courseData.id + '/sections');
-            console.log("Initial", data.sectionList);
             this.setState({sectionList: data.sectionList, loading: false})
         } catch (e) {
             httpErrorHandler(e, () => {
@@ -40,7 +39,7 @@ class Curriculum extends Component {
 
     onSortEnd = ({oldIndex, newIndex}) => {
         let newSessions = [...this.state.sectionList];
-        newSessions = arrayMove(newSessions, oldIndex, newIndex);
+        newSessions = arrayMove(newSessions, oldIndex + 1, newIndex + 1);
         this.setState({
             sectionList: newSessions,
             orderChange: true
@@ -126,22 +125,19 @@ class Curriculum extends Component {
 
     render() {
         const {loading} = this.state;
-        if (loading) {
-            return <Spin/>
-        }
+        if (loading) return <Spin/>;
 
         return (
             <React.Fragment>
 
                 <div style={{display: 'flex', justifyContent: 'space-between'}}>
                     <h4>Course curriculum</h4>
-                    {
-                        this.state.orderChange ?
-                            <Tooltip title={"Sections order hasn't been saved ! Click here to update."}>
-                                <Button icon={'exclamation-circle'} type={'danger'} ghost
-                                        onClick={this.handleOrderChange}>Update order</Button>
-                            </Tooltip> : ""
-                    }
+
+                    {this.state.orderChange &&
+                    <Tooltip title={"Sections order hasn't been saved ! Click here to update."}>
+                        <Button icon={'exclamation-circle'} type={'danger'} ghost
+                                onClick={this.handleOrderChange}>Update order</Button>
+                    </Tooltip>}
 
                 </div>
                 <Divider style={{margin: '12px 0 24px'}}/>

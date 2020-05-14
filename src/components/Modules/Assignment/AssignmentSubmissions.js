@@ -49,10 +49,9 @@ class AssignmentSubmissions extends Component {
             title: 'Submission files',
             dataIndex: 'files',
             key: 'files',
-            render: files =>
-                (files.map(file => <Tag color="#108ee9" style={{cursor: 'pointer'}}
-                                        onClick={() => downloadFile(file)}>
-                    {file.displayName}</Tag>))
+            render: files => (files.map(file => <a href={file.url} download={file.displayName}>
+                <Tag color="#108ee9" style={{cursor: 'pointer', margin: '2px'}}>{file.displayName}</Tag>
+            </a>))
         },
     ];
 

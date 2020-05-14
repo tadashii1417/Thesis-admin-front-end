@@ -1,9 +1,20 @@
 import React from "react";
-import {Button, Checkbox, Form, Input} from "antd";
+import {Button, Form, Input, Switch} from "antd";
 
 export default function ({getFieldDecorator, handleUpdate, module}) {
+    const formItemLayout = {
+        labelCol: {
+            xs: {span: 24},
+            sm: {span: 6},
+        },
+        wrapperCol: {
+            xs: {span: 24},
+            sm: {span: 12},
+        },
+    };
+
     return (
-        <Form type={"vertical"} onSubmit={handleUpdate}>
+        <Form layout={"vertical"} onSubmit={handleUpdate}>
             <Form.Item label={"Announcement"} className={'article'}>
                 {getFieldDecorator('content', {
                     required: true,
@@ -12,11 +23,11 @@ export default function ({getFieldDecorator, handleUpdate, module}) {
                 }
             </Form.Item>
 
-            <Form.Item label={"Send email to students"}>
+            <Form.Item label={"Send email to students"} {...formItemLayout}>
                 {getFieldDecorator('email', {
                     valuePropName: 'checked',
                     initialValue: true
-                })(<Checkbox/>)
+                })(<Switch/>)
                 }
             </Form.Item>
 

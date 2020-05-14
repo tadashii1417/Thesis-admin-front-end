@@ -32,8 +32,8 @@ export default function (props) {
                            subNumber={12}>
                     <img
                         alt={"total sale"}
-                        src={"https://i.pinimg.com/originals/61/41/e7/6141e701c93cb9522fa121d3a3d0fd94.jpg"}
-                        style={{objectFit: "cover", width: "100%", height: "100%"}}
+                        src={"https://st2.depositphotos.com/5266903/8132/v/950/depositphotos_81321144-stock-illustration-sales-flat-soft-blue-colors.jpg"}
+                        style={{objectFit: "cover", width: "80%", height: "100%"}}
                     />
                 </ChartCard>
             </Col>
@@ -45,7 +45,7 @@ export default function (props) {
                            subNumber={123}>
                     <img
                         alt={"total student"}
-                        src={"https://webstockreview.net/images/conversation-clipart-grouping-2.png"}
+                        src={"https://img.icons8.com/bubbles/2x/student-male.png"}
                         style={{objectFit: "cover", width: "80%", height: "100%", marginLeft: "10%"}}
                     />
                 </ChartCard>
@@ -58,8 +58,8 @@ export default function (props) {
                            subNumber={123}>
                     <img
                         alt={"total course"}
-                        src={"https://pngimage.net/wp-content/uploads/2018/06/%D1%83%D0%BF%D1%80%D0%B0%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5-png-5.png"}
-                        style={{objectFit: "cover", width: "100%", height: "100%"}}
+                        src={"https://cdn4.iconfinder.com/data/icons/got-idea-vol-2/128/education_program-512.png"}
+                        style={{objectFit: "cover", width: "90%", height: "100%"}}
                     />
                 </ChartCard>
             </Col>
