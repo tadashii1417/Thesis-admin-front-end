@@ -1,7 +1,4 @@
-.commentArea {
-    text-align: right;
-}
-
-.commentArea button {
-    margin: 10px;
+.commentArea > button {
+    align-self: center;
+    margin: 15px 0;
 }

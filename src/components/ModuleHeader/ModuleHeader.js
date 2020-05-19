@@ -5,7 +5,7 @@ import {Icon} from "react-icons-kit";
 import ModulesConfig from "../Curriculum/ModulesConfig";
 import {Button} from "antd";
 
-export default function ({courseSlug, courseName, moduleTitle, moduleType, moduleDescription, moduleLink, postTitle, openEditModule}) {
+export default function ({courseSlug, courseName, moduleTitle, moduleType, moduleDescription, moduleLink, postTitle, openEditModule, showEdit}) {
     return (
         <div className={styles.header}>
             <CourseBreadcrumb
@@ -24,7 +24,7 @@ export default function ({courseSlug, courseName, moduleTitle, moduleType, modul
                         style={{color: ModulesConfig[moduleType].color, marginRight: "20px"}}/>
                     {moduleTitle}
                 </div>
-                <Button icon={'setting'} onClick={openEditModule}>Edit</Button>
+                {!showEdit && <Button icon={'setting'} onClick={openEditModule}>Edit</Button>}
             </div>
             {moduleDescription && <div className={styles.description}>{moduleDescription}</div>}
         </div>

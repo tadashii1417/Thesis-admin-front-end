@@ -4,6 +4,7 @@ import {Avatar} from "antd";
 import {defaultAvatar} from "../../constants/dev_constant";
 import moment from "moment";
 import config from "../../config";
+import {EditorContent} from "doodle-editor";
 
 export default function ({response}) {
     return (
@@ -19,7 +20,7 @@ export default function ({response}) {
                     {moment(response.createdAt, config.timeFormat).format('HH:mm:ss DD/MM/YYYY')}
                 </div>
                 <div className={styles.comment}>
-                    {response.content}
+                    <EditorContent content={response.content}/>
                 </div>
             </div>
         </div>

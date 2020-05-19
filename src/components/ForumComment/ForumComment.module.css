@@ -3,7 +3,7 @@
     display: flex;
     margin-bottom: 10px;
     color: #15191d;
-    background: #ebeced;
+    background: #f1f1f3;
     border-top-color: #cbcdd0;
     border-right-color: #c3c6c9;
     border-bottom-color: #b5b9bd;
@@ -15,7 +15,7 @@
     flex: 10%;
     float: left;
     text-align: center;
-    background-color: lightgrey;
+    background-color: #e3e2e2;
     border-radius: 4px;
 }
 
@@ -35,13 +35,14 @@
     padding: 10px 0;
     font-size: 15px;
     line-height: 1.2;
-    color: #2e6da4;
+    color: #1d3e5c;
 }
 
 .time {
     color: rgba(0, 0, 0, 0.65);
     padding-bottom: 5px;
     text-align: right;
+    font-size: 13px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.3);
 }
 

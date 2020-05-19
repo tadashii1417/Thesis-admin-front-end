@@ -7,8 +7,7 @@ import {addComment, getPostComments} from "../../services/forum_service";
 import {httpErrorHandler} from "../../utils/axios_util";
 import ModuleLayout from "../ModuleLayout/ModuleLayout";
 import ForumComment from "../ForumComment/ForumComment";
-
-const {TextArea} = Input;
+import {Editor} from "doodle-editor";
 
 class ForumTopic extends Component {
     state = {
@@ -27,8 +26,8 @@ class ForumTopic extends Component {
         }
     }
 
-    setComment = (e) => {
-        this.setState({comment: e.target.value});
+    setComment = (value) => {
+        this.setState({comment: value});
     }
 
     handleComment = async () => {
@@ -61,6 +60,7 @@ class ForumTopic extends Component {
                           moduleType={ModuleType.FORUM}
                           module={module} courseName={courseName}
                           postTitle={post.title}
+                          showEdit={true}
                           moduleLink={{
                               pathname: `/courses/${slug}/forum/${moduleId}`,
                               state: {courseName: courseName}
@@ -69,14 +69,10 @@ class ForumTopic extends Component {
                 <ForumComment response={post}/>
                 {answers.length ? answers.map(res => (
                     <ForumComment response={res}/>
-                )): ""}
+                )) : ""}
 
                 <div className={styles.commentArea}>
-                    <TextArea rows={3}
-                              placeholder={"Add comment here !"}
-                              style={{backgroundColor: '#fafafa'}}
-                              value={this.state.comment}
-                              onChange={this.setComment}/>
+                    <Editor value={this.state.comment} onChange={this.setComment}/>
                     <Button type={"primary"} onClick={this.handleComment}>Add Comment</Button>
                 </div>
 

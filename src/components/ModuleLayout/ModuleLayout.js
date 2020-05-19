@@ -19,7 +19,7 @@ export default class ModuleLayout extends Component {
 
     render() {
         const {
-            children,
+            children, showEdit,
             module, slug, courseName, moduleType, moduleLink,
             moduleDescription, postTitle, handleEditModule
         } = this.props;
@@ -34,6 +34,7 @@ export default class ModuleLayout extends Component {
                               postTitle={postTitle}
                               openEditModule={this.openEditModule}
                               closeEditModule={this.closeEditModule}
+                              showEdit={showEdit}
                               moduleType={moduleType}/>
 
 
