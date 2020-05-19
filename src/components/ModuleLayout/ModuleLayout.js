@@ -33,6 +33,7 @@ export default class ModuleLayout extends Component {
                               moduleLink={moduleLink}
                               postTitle={postTitle}
                               openEditModule={this.openEditModule}
+                              closeEditModule={this.closeEditModule}
                               moduleType={moduleType}/>
 
 
@@ -53,7 +54,8 @@ export default class ModuleLayout extends Component {
                        onCancel={this.closeEditModule}
                        footer={null}>
                     <Suspense fallback={null}>
-                        <EditModule data={module} handleEditModule={handleEditModule}/>
+                        <EditModule data={module} handleEditModule={handleEditModule}
+                                    closeEditModule={this.closeEditModule}/>
                     </Suspense>
                 </Modal>
             </React.Fragment>

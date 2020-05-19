@@ -1,6 +1,6 @@
 import React, {Component, Suspense} from "react";
 import {message, Spin, Result, Button, Modal} from 'antd';
-import {getModule} from "../../../services/module_service";
+import {getModule, updateModule} from "../../../services/module_service";
 import {httpErrorHandler} from "../../../utils/axios_util";
 import {ModuleType} from "../../../constants/module_constant";
 import {addAssignmentFile, createAssignment, updateAssignment} from "../../../services/assignment_service";
@@ -42,6 +42,22 @@ class Assignment extends Component {
             });
         }
     }
+
+    handleEditModule = async (patch) => {
+        const {module} = this.state;
+        let key = "update-module";
+        try {
+            message.loading({content: "Loading", key});
+            const {data} = await updateModule(module.id, patch);
+            data.instanceData = module.instanceData;
+            this.setState({module: data});
+            message.success({content: "Module has been updated", key});
+        } catch (e) {
+            httpErrorHandler(e, () => {
+                message.error({content: "Something went wrong", key});
+            })
+        }
+    };
 
     handleNewAssignment = async (values) => {
         const {module} = this.state;
@@ -119,6 +135,7 @@ class Assignment extends Component {
             <ModuleLayout module={module}
                           moduleType={ModuleType.ASSIGNMENT}
                           courseName={courseName}
+                          handleEditModule={this.handleEditModule}
                           slug={slug}>
 
                 {module.instanceData ?

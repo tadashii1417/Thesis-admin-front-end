@@ -8,7 +8,6 @@ import axios from '../../config/axios-config';
 import CourseSettings from "../../components/CourseSettings/CourseSettings";
 import './CourseDetail.css';
 import {updateCourse, updateCourseBanner} from "../../services/course_service";
-import {ServerErrors} from "../../constants/server_error_constant";
 import DynamicIcon from "../../components/DynamicIcon/DynamicIcon";
 import courseIcon from "../../components/CourseIcon/CourseIcon";
 import CourseEnrollments from "../../components/CourseEnrollments/CourseEnrollments";

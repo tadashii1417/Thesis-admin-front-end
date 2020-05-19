@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {Button, message, Spin} from "antd";
 import styles from "./Livestream.module.css";
 import {LivestreamStatus, ModuleType} from "../../../constants/module_constant";
-import {getModule} from "../../../services/module_service";
+import {getModule, updateModule} from "../../../services/module_service";
 import {httpErrorHandler} from "../../../utils/axios_util";
 import {
     endLivestream,
@@ -32,6 +32,22 @@ class Livestream extends Component {
             });
         }
     }
+
+    handleEditModule = async (patch) => {
+        const {module} = this.state;
+        let key = "update-module";
+        try {
+            message.loading({content: "Loading", key});
+            const {data} = await updateModule(module.id, patch);
+            data.instanceData = module.instanceData;
+            this.setState({module: data});
+            message.success({content: "Module has been updated", key});
+        } catch (e) {
+            httpErrorHandler(e, () => {
+                message.error({content: "Something went wrong", key});
+            })
+        }
+    };
 
     startLivestream = async () => {
         try {
@@ -112,6 +128,7 @@ class Livestream extends Component {
                 slug={slug}
                 module={module}
                 courseName={courseName}
+                handleEditModule={this.handleEditModule}
                 moduleType={ModuleType.LIVESTREAM}>
 
                 <div className={styles.container}>

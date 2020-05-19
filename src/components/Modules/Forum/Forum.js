@@ -2,7 +2,7 @@ import React, {Component, Suspense} from "react";
 import {Icon as AIcon, Table, message, Spin, Button, Modal} from "antd";
 import {Link} from "react-router-dom";
 import {ModuleType} from "../../../constants/module_constant";
-import {getModule} from "../../../services/module_service";
+import {getModule, updateModule} from "../../../services/module_service";
 import {httpErrorHandler} from "../../../utils/axios_util";
 import {createForumPosts, getForumPosts} from "../../../services/forum_service";
 import moment from "moment";
@@ -63,6 +63,22 @@ class Forum extends Component {
             });
         }
     }
+
+    handleEditModule = async (patch) => {
+        const {module} = this.state;
+        let key = "update-module";
+        try {
+            message.loading({content: "Loading", key});
+            const {data} = await updateModule(module.id, patch);
+            data.instanceData = module.instanceData;
+            this.setState({module: data});
+            message.success({content: "Module has been updated", key});
+        } catch (e) {
+            httpErrorHandler(e, () => {
+                message.error({content: "Something went wrong", key});
+            })
+        }
+    };
 
     fetchPosts = async (params = {}) => {
         try {
@@ -140,6 +156,7 @@ class Forum extends Component {
                           courseName={courseName}
                           moduleType={ModuleType.FORUM}
                           module={module}
+                          handleEditModule={this.handleEditModule}
                           moduleDescription={intro}>
 
                 <Table columns={this.columns}

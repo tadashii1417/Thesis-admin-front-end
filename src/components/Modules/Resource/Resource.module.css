@@ -24,10 +24,22 @@
     color: #00a0e9;
 }
 
-.dragger {
-    height: 250px;
+.deleteFile{
+    color: #eb2f96;
+    padding: 7px;
+    margin-right: 3px;
+    cursor: pointer;
 }
 
 .files {
     height: 250px;
+}
+
+.draggerArea {
+    margin: 20px 0;
+}
+
+.uploadBtn {
+    text-align: center;
+    margin: 10px 0;
 }

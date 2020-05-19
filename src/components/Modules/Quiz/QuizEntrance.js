@@ -1,6 +1,6 @@
 import React, {Component, Suspense} from "react";
 import {message, Modal, Spin, Tabs} from "antd";
-import {getModule} from "../../../services/module_service";
+import {getModule, updateModule} from "../../../services/module_service";
 import {httpErrorHandler} from "../../../utils/axios_util";
 import {updateQuizConfig} from "../../../services/quiz_service";
 import {QuizDto} from "../../../dtos/quiz_dto";
@@ -36,6 +36,22 @@ export default class extends Component {
             });
         }
     }
+
+    handleEditModule = async (patch) => {
+        const {module} = this.state;
+        let key = "update-module";
+        try {
+            message.loading({content: "Loading", key});
+            const {data} = await updateModule(module.id, patch);
+            data.instanceData = module.instanceData;
+            this.setState({module: data});
+            message.success({content: "Module has been updated", key});
+        } catch (e) {
+            httpErrorHandler(e, () => {
+                message.error({content: "Something went wrong", key});
+            })
+        }
+    };
 
     closeSettingModal = () => {
         this.setState({openModal: false});
@@ -80,7 +96,11 @@ export default class extends Component {
         const quizSettingDto = QuizDto.toQuizSettingDto(instanceData);
 
         return (
-            <ModuleLayout slug={slug} moduleType={ModuleType.QUIZ} courseName={courseName} module={module}>
+            <ModuleLayout slug={slug}
+                          moduleType={ModuleType.QUIZ}
+                          courseName={courseName}
+                          handleEditModule={this.handleEditModule}
+                          module={module}>
                 <Tabs type={"card"}>
                     <TabPane key={"setting"} tab={<span>Settings</span>}>
                         <Suspense fallback={<Loading/>}>

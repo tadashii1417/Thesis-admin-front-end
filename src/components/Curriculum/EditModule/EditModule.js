@@ -18,7 +18,7 @@ class EditModuleBasic extends React.Component {
     handleSubmit = e => {
         e.preventDefault();
         const {isFieldTouched, validateFields, resetFields} = this.props.form;
-        const {handleEditModule} = this.props;
+        const {handleEditModule, closeEditModule} = this.props;
         let patch = [];
 
         validateFields((err, values) => {
@@ -29,7 +29,11 @@ class EditModuleBasic extends React.Component {
                     }
                 }
                 handleEditModule(patch);
-                resetFields();
+                if (closeEditModule) {
+                    closeEditModule();
+                } else {
+                    resetFields();
+                }
             }
         });
     };
@@ -54,9 +58,7 @@ class EditModuleBasic extends React.Component {
                     {getFieldDecorator('title', {
                         rules: [{required: true, message: "Please input module title"}],
                         initialValue: data.title
-                    })(
-                        <Input/>
-                    )}
+                    })(<Input/>)}
                 </Form.Item>
 
                 <Form.Item
@@ -79,22 +81,19 @@ class EditModuleBasic extends React.Component {
                     )}
                 </Form.Item>
 
-                {
-                    CurriculumPreviewableModuleType.includes(data.type) ?
-                        <Form.Item
-                            label={<span> Previewable
+                {CurriculumPreviewableModuleType.includes(data.type) &&
+                <Form.Item
+                    label={<span> Previewable
                         <Tooltip title={"Allow students who didn't enroll the course to view this module or not ?"}>
                             <Icon type="info-circle" style={{marginLeft: '5px'}}/>
                         </Tooltip> </span>}>
-                            {getFieldDecorator('previewable', {
-                                valuePropName: 'checked',
-                                initialValue: data.previewable
-                            })(
-                                <Checkbox/>
-                            )}
-                        </Form.Item> : null
-                }
-
+                    {getFieldDecorator('previewable', {
+                        valuePropName: 'checked',
+                        initialValue: data.previewable
+                    })(
+                        <Checkbox/>
+                    )}
+                </Form.Item>}
 
                 <Form.Item label={<span>&nbsp;</span>}>
                     <Button type="primary" htmlType="submit">

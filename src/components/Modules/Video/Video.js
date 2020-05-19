@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {message, Spin, Steps} from "antd";
 import {ModuleType} from "../../../constants/module_constant";
-import {getModule} from "../../../services/module_service";
+import {getModule, updateModule} from "../../../services/module_service";
 import {httpErrorHandler} from "../../../utils/axios_util";
 import SelectType from "../../VideoProcess/SelectType/SelectType";
 import VideoProcessing from "../../VideoProcess/VideoProcessing/VideoProcessing";
@@ -45,6 +45,22 @@ class Video extends Component {
         }
     }
 
+    handleEditModule = async (patch) => {
+        const {module} = this.state;
+        let key = "update-module";
+        try {
+            message.loading({content: "Loading", key});
+            const {data} = await updateModule(module.id, patch);
+            data.instanceData = module.instanceData;
+            this.setState({module: data});
+            message.success({content: "Module has been updated", key});
+        } catch (e) {
+            httpErrorHandler(e, () => {
+                message.error({content: "Something went wrong", key});
+            })
+        }
+    };
+
     setStepStatus = (val) => {
         this.setState({stepStatus: val})
     };
@@ -75,7 +91,11 @@ class Video extends Component {
         ];
 
         return (
-            <ModuleLayout moduleType={ModuleType.VIDEO} slug={slug} courseName={courseName} module={module}>
+            <ModuleLayout moduleType={ModuleType.VIDEO}
+                          slug={slug}
+                          courseName={courseName}
+                          handleEditModule={this.handleEditModule}
+                          module={module}>
 
                 <Steps current={current} status={this.state.stepStatus}>
                     <Step key={"step-1"} title={"Select Type"} description={"Where is your video ?"}/>

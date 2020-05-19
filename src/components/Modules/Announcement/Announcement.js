@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {Form, message, Spin} from "antd";
 import {ModuleType} from "../../../constants/module_constant";
-import {getModule} from "../../../services/module_service";
+import {getModule, updateModule} from "../../../services/module_service";
 import {httpErrorHandler} from "../../../utils/axios_util";
 import {createPatch} from "../../../utils/patch_util";
 import {createAnnouncement, sendNotification, updateAnnouncement} from "../../../services/announcement_service";
@@ -25,6 +25,22 @@ class AnnouncementBasic extends Component {
             });
         }
     }
+
+    handleEditModule = async (patch) => {
+        const {module} = this.state;
+        let key = "update-module";
+        try {
+            message.loading({content: "Loading", key});
+            const {data} = await updateModule(module.id, patch);
+            data.instanceData = module.instanceData;
+            this.setState({module: data});
+            message.success({content: "Module has been updated", key});
+        } catch (e) {
+            httpErrorHandler(e, () => {
+                message.error({content: "Something went wrong", key});
+            })
+        }
+    };
 
     handleUpdate = (e) => {
         e.preventDefault();
@@ -71,6 +87,7 @@ class AnnouncementBasic extends Component {
                 module={module}
                 moduleType={ModuleType.ANNOUNCEMENT}
                 courseName={courseName}
+                handleEditModule={this.handleEditModule}
                 slug={slug}>
 
                 <AnnouncementForm getFieldDecorator={getFieldDecorator}

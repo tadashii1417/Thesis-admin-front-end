@@ -3,7 +3,6 @@ import {Divider, Table, Avatar, Tag, Spin, message} from 'antd';
 
 import styles from './Assignment.module.css';
 import {defaultAvatar} from "../../../constants/dev_constant";
-import {downloadFile} from "../../../utils/file_util";
 import {httpErrorHandler} from "../../../utils/axios_util";
 import {fetchSubmissions} from "../../../services/assignment_service";
 
