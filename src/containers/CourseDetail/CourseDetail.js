@@ -11,6 +11,7 @@ import {updateCourse, updateCourseBanner} from "../../services/course_service";
 import DynamicIcon from "../../components/DynamicIcon/DynamicIcon";
 import courseIcon from "../../components/CourseIcon/CourseIcon";
 import CourseEnrollments from "../../components/CourseEnrollments/CourseEnrollments";
+import MyCalendar from "../../components/Calendar/Calendar";
 
 // TODO: Create lazy loading for tab panel
 
@@ -121,6 +122,13 @@ export default class extends Component {
                                              style={{marginRight: '10px'}}/>Enrollments</span>}
                             key="enrollments">
                             <CourseEnrollments courseId={data.id}/>
+                        </TabPane>
+
+                        <TabPane
+                            tab={<span><Icon type="calendar" theme={"twoTone"}
+                                             style={{marginRight: '10px'}}/>My Calendar</span>}
+                            key="calendar">
+                            <MyCalendar courseId={data.id}/>
                         </TabPane>
 
                         <TabPane

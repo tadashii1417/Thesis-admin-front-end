@@ -18,7 +18,6 @@ class LoginForm extends React.Component {
                         await this.props.loginUser(values.username, values.password);
                         this.props.history.push('/');
                     } catch (e) {
-                        console.log(e);
                         httpErrorHandler(e, () => {
                             switch (e.code) {
                                 case ServerErrors.INCORRECT_USERNAME_PASSWORD:

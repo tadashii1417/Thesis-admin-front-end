@@ -165,6 +165,11 @@ h4.ant-typography, .ant-typography h4 {
     margin-left: 1px;
 }
 
+/************** CALENDAR ****************/
+.react-calendar {
+    width: 100%;
+}
+
 /*// ******************* RESPONSIVE ************************/
 
 /* Extra small devices (portrait phones, less than 576px)*/

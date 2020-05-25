@@ -23,7 +23,12 @@
     <autoscroll-to-editor value="false" />
     <autoscroll-from-editor value="true" />
     <show-object-properties value="true" />
-    <loaded-nodes />
+    <loaded-nodes>
+      <connection connection-id="9df5c02f-2c0e-490e-92c7-0770d81da29a">
+        <schema name="pg_catalog" object-types="function" />
+        <schema name="public" object-types="index, constraint, view, dataset trigger, table, function, column, sequence" />
+      </connection>
+    </loaded-nodes>
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="a8f634df-2363-4c70-a1f1-f4f957ca07d0">
@@ -44,6 +49,8 @@
     <filter-actions connection-id="9df5c02f-2c0e-490e-92c7-0770d81da29a" dataset="public.quizChoice" active-filter-id="EMPTY_FILTER" />
     <filter-actions connection-id="9df5c02f-2c0e-490e-92c7-0770d81da29a" dataset="public.enrollment" active-filter-id="EMPTY_FILTER" />
     <filter-actions connection-id="9df5c02f-2c0e-490e-92c7-0770d81da29a" dataset="public.learner" active-filter-id="EMPTY_FILTER" />
+    <filter-actions connection-id="9df5c02f-2c0e-490e-92c7-0770d81da29a" dataset="public.hasRole" active-filter-id="EMPTY_FILTER" />
+    <filter-actions connection-id="9df5c02f-2c0e-490e-92c7-0770d81da29a" dataset="public.role" active-filter-id="EMPTY_FILTER" />
     <filter-actions connection-id="9df5c02f-2c0e-490e-92c7-0770d81da29a" dataset="public.user" active-filter-id="EMPTY_FILTER" />
     <filter-actions connection-id="9df5c02f-2c0e-490e-92c7-0770d81da29a" dataset="public.quizQuestion" active-filter-id="EMPTY_FILTER" />
     <filter-actions connection-id="a8f634df-2363-4c70-a1f1-f4f957ca07d0" dataset="public.quizChoice" active-filter-id="EMPTY_FILTER" />

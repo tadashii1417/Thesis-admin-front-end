@@ -3,5 +3,7 @@
 // import Pagination from "./Pagination";
 // import NestedRoute from "./NestedRoute";
 // import DynamicMessage from "./DynamicMessage";
-import App from "./UploadProgress";
-export default App;
+// import App from "./UploadProgress";
+import Calendar from "./Calendar";
+
+export default Calendar;
