@@ -4,6 +4,7 @@ export default [
         name: "dashboard",
         icon: "dashboard",
         path: "/",
+        onlyAdmin: true,
         routes: []
     },
     {
@@ -41,6 +42,7 @@ export default [
     {
         display: "Account Center",
         name: "account-center",
+        onlyAdmin: true,
         icon: "user",
         path: "/accounts",
         routes: []

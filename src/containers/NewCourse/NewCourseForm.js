@@ -34,7 +34,6 @@ class NewCourseForm extends React.Component {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll(async (err, values) => {
             if (!err) {
-                console.log('Received values of categoryForm: ', values);
                 try {
                     await createCourse(values);
                     message.success("Create course successfully .");

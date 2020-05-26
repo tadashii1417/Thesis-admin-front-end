@@ -36,19 +36,19 @@ class MyCalendar extends Component {
         const {subtype, moduleTitle, moduleId, courseId, courseName, moduleType} = instanceData;
         switch (subtype) {
             case ModuleEventSubtype.LIVESTREAM_START:
-                text = "Bắt đầu lúc";
+                text = "bắt đầu lúc";
                 break;
             case ModuleEventSubtype.QUIZ_OPEN:
-                text = "Bắt đầu lúc";
+                text = "bắt đầu lúc";
                 break;
             case ModuleEventSubtype.QUIZ_CLOSE:
-                text = "Kết thúc lúc";
+                text = "kết thúc lúc";
                 break;
             case ModuleEventSubtype.ASSIGNMENT_OPEN:
-                text = "Kết thúc lúc";
+                text = "kết thúc lúc";
                 break;
             case ModuleEventSubtype.ASSIGNMENT_CLOSE:
-                text = "Bắt đầu lúc";
+                text = "kắt đầu lúc";
                 break;
             default:
                 return null;

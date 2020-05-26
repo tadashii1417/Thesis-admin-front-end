@@ -25,8 +25,7 @@
     <show-object-properties value="true" />
     <loaded-nodes>
       <connection connection-id="9df5c02f-2c0e-490e-92c7-0770d81da29a">
-        <schema name="pg_catalog" object-types="function" />
-        <schema name="public" object-types="index, constraint, view, dataset trigger, table, function, column, sequence" />
+        <schema name="public" object-types="view, table" />
       </connection>
     </loaded-nodes>
   </component>
@@ -51,6 +50,11 @@
     <filter-actions connection-id="9df5c02f-2c0e-490e-92c7-0770d81da29a" dataset="public.learner" active-filter-id="EMPTY_FILTER" />
     <filter-actions connection-id="9df5c02f-2c0e-490e-92c7-0770d81da29a" dataset="public.hasRole" active-filter-id="EMPTY_FILTER" />
     <filter-actions connection-id="9df5c02f-2c0e-490e-92c7-0770d81da29a" dataset="public.role" active-filter-id="EMPTY_FILTER" />
+    <filter-actions connection-id="9df5c02f-2c0e-490e-92c7-0770d81da29a" dataset="public.teaches" active-filter-id="">
+      <filter id="d9eba538-4a2f-447b-be4e-4faa19f80947" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND">
+        <condition column="courseId" operator="=" value="" active="true" />
+      </filter>
+    </filter-actions>
     <filter-actions connection-id="9df5c02f-2c0e-490e-92c7-0770d81da29a" dataset="public.user" active-filter-id="EMPTY_FILTER" />
     <filter-actions connection-id="9df5c02f-2c0e-490e-92c7-0770d81da29a" dataset="public.quizQuestion" active-filter-id="EMPTY_FILTER" />
     <filter-actions connection-id="a8f634df-2363-4c70-a1f1-f4f957ca07d0" dataset="public.quizChoice" active-filter-id="EMPTY_FILTER" />

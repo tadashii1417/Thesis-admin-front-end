@@ -5,6 +5,7 @@ import {getCourseEnrollments} from "../../services/course_service";
 import moment from "moment";
 import config from "../../config";
 import {updateEnrollment} from "../../services/enrollment_service";
+import {httpErrorHandler} from "../../utils/axios_util";
 
 class CourseEnrollments extends Component {
     state = {
@@ -17,7 +18,12 @@ class CourseEnrollments extends Component {
             const {data} = await getCourseEnrollments(this.props.courseId);
             this.setState({enrollments: data, loading: false});
         } catch (e) {
-            message.error("Fetch enrollments failed");
+            httpErrorHandler(e, () => {
+                switch (e.code) {
+                    default:
+                        message.error("Fetch enrollments failed");
+                }
+            })
         }
     }
 

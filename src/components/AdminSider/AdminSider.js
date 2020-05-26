@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./AdminSider.module.css";
 import {Layout} from "antd";
 import logo from "../../assets/logo.svg";
-import AdminMenu from "./Menu/Menu";
+import AdminMenu from "./Menu/";
 import {Link} from "react-router-dom";
 
 const {Sider} = Layout;

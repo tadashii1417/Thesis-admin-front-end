@@ -5,7 +5,6 @@ import {Checkbox, Col, Icon, Row} from "antd";
 
 export default function (props) {
     const {data, index} = props;
-    console.log(data);
     const {content, choices, mark, answer, attemptMark} = data;
     const answers = choices.filter(choice => choice.fraction !== 0);
 

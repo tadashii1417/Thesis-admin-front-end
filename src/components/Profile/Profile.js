@@ -31,7 +31,6 @@ class Profile extends Component {
         const {
             form: {getFieldDecorator}, user: {email, firstName, lastName}
         } = this.props;
-        console.log(email, firstName, lastName);
 
         return (
             <div className={styles.baseView}>

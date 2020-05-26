@@ -1,11 +1,14 @@
 import React from "react";
 import {Route, Switch} from 'react-router-dom';
 import AdminLayout from "./containers/admin";
-import AdminRoute from "./routes/AdminRoute";
-import PublicRoute from "./routes/PublicRoute";
+import SecureRoute from "./routes/SecureRoute/";
 import Auth from "./containers/Auth";
 import Loading from "./components/Loading/Loading";
 import TestOnly from "./containers/Test";
+import NotFound from "./components/PageResult/NotFound";
+import Unauthorized from "./components/PageResult/Unauthorized";
+import {Redirect} from "react-router";
+import {RoleType} from "./constants/role_constant";
 
 const QuestionsBank = React.lazy(() => import("./containers/QuestionsBank"));
 const Courses = React.lazy(() => import("./containers/Courses/Courses"));
@@ -22,114 +25,116 @@ const Livestream = React.lazy(() => import("./components/Modules/Livestream/Live
 const Forum = React.lazy(() => import("./components/Modules/Forum"));
 const ForumTopic = React.lazy(() => import('./components/ForumTopic/ForumTopic'));
 const Announcement = React.lazy(() => import('./components/Modules/Announcement/Announcement'));
-const Resource = React.lazy(()=> import('./components/Modules/Resource/Resource'));
+const Resource = React.lazy(() => import('./components/Modules/Resource/Resource'));
 
 export default function (props) {
-    const {isAuthenticated} = props;
     return (
         <Switch>
-            <PublicRoute isAuthenticated={isAuthenticated} path="/login" component={Auth}/>
-            <Route path={"/test"} component={TestOnly}/>
+            <Route path="/login" component={Auth}/>
+            <Route path="/test" component={TestOnly}/>
+
             <AdminLayout>
+                <Route path="/unauthorized" component={Unauthorized}/>
+
                 <React.Suspense fallback={Loading}>
-                    <AdminRoute isAuthenticated={isAuthenticated}
-                                path="/new-course"
-                                component={NewCourse}/>
+                    <SecureRoute path="/new-course"
+                                 allowed={[RoleType.ADMIN]}
+                                 component={NewCourse}/>
                 </React.Suspense>
 
                 <React.Suspense fallback={Loading}>
-                    <AdminRoute isAuthenticated={isAuthenticated}
-                                path="/courses/:slug/quiz/:moduleId"
-                                component={QuizEntrance}/>
+                    <SecureRoute path="/courses/:slug/quiz/:moduleId"
+                                 allowed={[RoleType.ADMIN, RoleType.INSTRUCTOR]}
+                                 component={QuizEntrance}/>
                 </React.Suspense>
 
                 <React.Suspense fallback={Loading}>
-                    <AdminRoute isAuthenticated={isAuthenticated}
-                                path="/courses/:slug/article/:moduleId"
-                                component={Article}/>
+                    <SecureRoute path="/courses/:slug/article/:moduleId"
+                                 allowed={[RoleType.ADMIN, RoleType.INSTRUCTOR]}
+                                 component={Article}/>
                 </React.Suspense>
 
                 <React.Suspense fallback={Loading}>
-                    <AdminRoute isAuthenticated={isAuthenticated}
-                                path="/courses/:slug/video/:moduleId"
-                                component={Video}/>
+                    <SecureRoute path="/courses/:slug/video/:moduleId"
+                                 allowed={[RoleType.ADMIN, RoleType.INSTRUCTOR]}
+                                 component={Video}/>
                 </React.Suspense>
 
                 <React.Suspense fallback={Loading}>
-                    <AdminRoute isAuthenticated={isAuthenticated}
-                                path="/courses/:slug/assignment/:moduleId"
-                                component={Assignment}/>
+                    <SecureRoute path="/courses/:slug/assignment/:moduleId"
+                                 allowed={[RoleType.ADMIN, RoleType.INSTRUCTOR]}
+                                 component={Assignment}/>
                 </React.Suspense>
 
                 <React.Suspense fallback={Loading}>
-                    <AdminRoute isAuthenticated={isAuthenticated}
-                                path="/courses/:slug/forum/:moduleId/post/:postId"
-                                exact
-                                component={ForumTopic}/>
+                    <SecureRoute path="/courses/:slug/forum/:moduleId/post/:postId" exact
+                                 allowed={[RoleType.ADMIN, RoleType.INSTRUCTOR]}
+                                 component={ForumTopic}/>
                 </React.Suspense>
 
                 <React.Suspense fallback={Loading}>
-                    <AdminRoute isAuthenticated={isAuthenticated}
-                                path="/courses/:slug/forum/:moduleId"
-                                exact
-                                component={Forum}/>
+                    <SecureRoute path="/courses/:slug/forum/:moduleId" exact
+                                 allowed={[RoleType.ADMIN, RoleType.INSTRUCTOR]}
+                                 component={Forum}/>
                 </React.Suspense>
 
                 <React.Suspense fallback={Loading}>
-                    <AdminRoute isAuthenticated={isAuthenticated}
-                                path="/courses/:slug/livestream/:moduleId"
-                                component={Livestream}/>
+                    <SecureRoute
+                        path="/courses/:slug/livestream/:moduleId"
+                        allowed={[RoleType.ADMIN, RoleType.INSTRUCTOR]}
+                        component={Livestream}/>
                 </React.Suspense>
 
                 <React.Suspense fallback={Loading}>
-                    <AdminRoute isAuthenticated={isAuthenticated}
-                                path="/courses/:slug/announcement/:moduleId"
-                                component={Announcement}/>
+                    <SecureRoute path="/courses/:slug/announcement/:moduleId"
+                                 allowed={[RoleType.ADMIN, RoleType.INSTRUCTOR]}
+                                 component={Announcement}/>
                 </React.Suspense>
 
                 <React.Suspense fallback={Loading}>
-                    <AdminRoute isAuthenticated={isAuthenticated}
-                                path="/courses/:slug/resource/:moduleId"
-                                component={Resource}/>
+                    <SecureRoute path="/courses/:slug/resource/:moduleId"
+                                 allowed={[RoleType.ADMIN, RoleType.INSTRUCTOR]}
+                                 component={Resource}/>
                 </React.Suspense>
 
                 <React.Suspense fallback={Loading}>
-                    <AdminRoute isAuthenticated={isAuthenticated}
-                                path="/courses/:slug"
-                                component={CourseDetail} exact/>
+                    <SecureRoute path="/courses/:slug"
+                                 allowed={[RoleType.ADMIN, RoleType.INSTRUCTOR]}
+                                 component={CourseDetail} exact/>
                 </React.Suspense>
 
                 <React.Suspense fallback={Loading}>
-                    <AdminRoute isAuthenticated={isAuthenticated}
-                                path="/courses"
-                                component={Courses} exact/>
+                    <SecureRoute path="/courses"
+                                 allowed={[RoleType.ADMIN, RoleType.INSTRUCTOR]}
+                                 component={Courses} exact/>
                 </React.Suspense>
 
                 <React.Suspense fallback={Loading}>
-                    <AdminRoute isAuthenticated={isAuthenticated}
-                                path="/questions"
-                                component={QuestionsBank}/>
+                    <SecureRoute path="/questions"
+                                 allowed={[RoleType.ADMIN, RoleType.INSTRUCTOR]}
+                                 component={QuestionsBank}/>
                 </React.Suspense>
 
                 <React.Suspense fallback={Loading}>
-                    <AdminRoute isAuthenticated={isAuthenticated}
-                                path="/profile"
-                                component={MyProfile} exact/>
+                    <SecureRoute path="/profile"
+                                 allowed={[RoleType.ADMIN, RoleType.INSTRUCTOR]}
+                                 component={MyProfile} exact/>
                 </React.Suspense>
 
                 <React.Suspense fallback={Loading}>
-                    <AdminRoute isAuthenticated={isAuthenticated}
-                                path="/accounts"
-                                component={AccountCenter} exact/>
+                    <SecureRoute path="/accounts"
+                                 allowed={[RoleType.ADMIN]}
+                                 component={AccountCenter} exact/>
                 </React.Suspense>
 
                 <React.Suspense fallback={Loading}>
-                    <AdminRoute isAuthenticated={isAuthenticated}
-                                path="/"
-                                component={Dashboard} exact/>
+                    <SecureRoute path="/"
+                                 allowed={[RoleType.ADMIN]}
+                                 component={Dashboard} exact/>
                 </React.Suspense>
 
             </AdminLayout>
+
         </Switch>
     );
 }

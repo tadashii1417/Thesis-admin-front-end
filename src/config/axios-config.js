@@ -19,7 +19,6 @@ instance.interceptors.response.use(
         return response.data;
     },
     function (error) {
-        console.log(error);
         if (!error.response) {
             const error = new Error("No internet connection");
             return Promise.reject(error);

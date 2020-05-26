@@ -16,10 +16,7 @@ class App extends Component {
     render() {
         const {isAuthenticated, isAppLoading} = this.props;
 
-        if (isAppLoading) {
-            return <Spin size={'large'}/>;
-        }
-
+        if (isAppLoading) return <Spin size={'large'}/>;
         return <Route isAuthenticated={isAuthenticated}/>;
     }
 }

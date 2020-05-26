@@ -2,7 +2,7 @@ import {ActionTypes} from '../../constants';
 import {newAction} from "../../utils/action_util";
 import {clearToken, setToken} from "../../utils/storage_util";
 import {login, fetchMe} from "../../services/auth_service";
-import {isAdmin} from "../../utils/permision_util";
+import {checkAccessibility} from "../../utils/permision_util";
 
 
 export function getMe() {
@@ -11,7 +11,7 @@ export function getMe() {
             const {user, accessToken} = await fetchMe();
             const {roles} = user;
 
-            if (isAdmin(roles)) {
+            if (checkAccessibility(roles)) {
                 setToken(accessToken);
                 dispatch(newAction(ActionTypes.GET_ME_SUCCESS, user));
             } else {
@@ -28,7 +28,7 @@ export function loginUser(email, password) {
         const {user, accessToken} = await login(email, password);
         const {roles} = user;
 
-        if (isAdmin(roles)) {
+        if (checkAccessibility(roles)) {
             setToken(accessToken);
             dispatch(newAction(ActionTypes.LOGIN, user));
         } else {

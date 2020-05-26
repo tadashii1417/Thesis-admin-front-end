@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import {connect} from "react-redux";
 import {Card, Upload, Button, Tabs, Icon, Breadcrumb, message, Spin, Result, Avatar} from 'antd';
 import styles from './CourseDetail.module.css';
 import Curriculum from "./Curriculum/Curriculum";
@@ -12,12 +13,13 @@ import DynamicIcon from "../../components/DynamicIcon/DynamicIcon";
 import courseIcon from "../../components/CourseIcon/CourseIcon";
 import CourseEnrollments from "../../components/CourseEnrollments/CourseEnrollments";
 import MyCalendar from "../../components/Calendar/Calendar";
+import {checkIsAdmin} from "../../utils/permision_util";
 
 // TODO: Create lazy loading for tab panel
 
 const {TabPane} = Tabs;
 
-export default class extends Component {
+class CourseDetail extends Component {
     state = {
         data: null,
         loading: true
@@ -72,6 +74,8 @@ export default class extends Component {
     render() {
         const {data, loading} = this.state;
         if (loading) return <Spin/>;
+        const {user} = this.props;
+        const isAdmin = checkIsAdmin(user.roles);
 
         return (
             <React.Fragment>
@@ -102,6 +106,7 @@ export default class extends Component {
                 </div>
                 <div className={"adminContent"} style={{paddingLeft: '10px'}}>
                     <Tabs defaultActiveKey="3" tabPosition={"left"}>
+                        {isAdmin &&
                         <TabPane
                             tab={<span>
                                 <Icon type="home" theme={"twoTone"}
@@ -109,7 +114,7 @@ export default class extends Component {
                             </span>}
                             key="1">
                             <CourseSettings data={data} handleUpdateCourse={this.handleUpdateCourse}/>
-                        </TabPane>
+                        </TabPane>}
 
                         <TabPane
                             tab={<span><Icon type="database" theme={"twoTone"} style={{marginRight: '10px'}}/>Course Curriculum</span>}
@@ -117,12 +122,12 @@ export default class extends Component {
                             <Curriculum courseData={data}/>
                         </TabPane>
 
-                        <TabPane
+                        {isAdmin && <TabPane
                             tab={<span><Icon type="snippets" theme={"twoTone"}
                                              style={{marginRight: '10px'}}/>Enrollments</span>}
                             key="enrollments">
                             <CourseEnrollments courseId={data.id}/>
-                        </TabPane>
+                        </TabPane>}
 
                         <TabPane
                             tab={<span><Icon type="calendar" theme={"twoTone"}
@@ -131,7 +136,7 @@ export default class extends Component {
                             <MyCalendar courseId={data.id}/>
                         </TabPane>
 
-                        <TabPane
+                        {isAdmin && <TabPane
                             tab={<span>
                                 <Icon type="picture" theme={"twoTone"} style={{marginRight: '10px'}}/>Course Banner Image</span>}
                             key="4">
@@ -151,10 +156,12 @@ export default class extends Component {
                                     <Icon type="upload"/> Click to update
                                 </Button>
                             </Upload>
-                        </TabPane>
+                        </TabPane>}
 
+                        {isAdmin &&
                         <TabPane key="5"
-                                 tab={<span><Icon type="sound" theme={"twoTone"} style={{marginRight: '10px'}}/>Promotional Video</span>}>
+                                 tab={<span><Icon type="sound" theme={"twoTone"}
+                                                  style={{marginRight: '10px'}}/>Promotional Video</span>}>
                             <h4>Promotional video</h4>
                             {data.promoVideoUrl ?
                                 (<Card size="small"
@@ -162,7 +169,7 @@ export default class extends Component {
                                        cover={<iframe title="promotional video" src={data.promoVideoUrl} width="560"
                                                       height="349"/>}/>
                                 ) : (<Result status="404" title="404" subTitle="No promotional video found."/>)}
-                        </TabPane>
+                        </TabPane>}
 
                     </Tabs>
                 </div>
@@ -170,3 +177,9 @@ export default class extends Component {
         );
     }
 }
+
+const mapStateToProps = state => ({
+    user: state.authReducer.user
+})
+
+export default connect(mapStateToProps)(CourseDetail);

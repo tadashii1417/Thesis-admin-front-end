@@ -13,7 +13,6 @@ class CategoryForm extends Component {
                 if(values.parentId === undefined){
                     delete values.parentId;
                 }
-                console.log(values);
                 this.props.handleNewCategory(values);
             }
         });

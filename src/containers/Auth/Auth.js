@@ -16,7 +16,7 @@ class LoginForm extends React.Component {
                     this.setState({loading: true});
                     try {
                         await this.props.loginUser(values.username, values.password);
-                        this.props.history.push('/');
+                        this.props.history.push('/courses');
                     } catch (e) {
                         httpErrorHandler(e, () => {
                             switch (e.code) {

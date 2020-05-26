@@ -10,6 +10,12 @@ export function httpErrorHandler(error, customHandler) {
         message.error("Internal server error");
         return;
     }
+
+    if (error.status === 403) {
+        message.error("Your are not allowed to do this action !");
+        return;
+    }
+
     if (error.status === 413) {
         message.error("Content size is too large ! Please replace with smaller one.");
         return;

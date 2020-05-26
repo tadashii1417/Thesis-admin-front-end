@@ -99,19 +99,14 @@ export default class extends Component {
                                         </Link>
                                     }>
                                     <div className={styles.courseTag}>
-                                        <div>
-                                            <Tag value="offline"/>
-                                        </div>
-                                        <div>
-                                            <Tag value="remote"/>
-                                        </div>
+                                        <div><Tag value="offline"/></div>
+                                        <div><Tag value="remote"/></div>
                                     </div>
 
                                     <div className={styles.courseInfo}>
-                                        <div className={styles.courseName}>
-                                            <Link to={"/courses/" + slug}>{name}</Link>
-                                        </div>
-                                        <div>Nguyễn Văn An</div>
+                                        <div className={styles.courseName}><Link to={"/courses/" + slug}>{name}</Link></div>
+
+                                        <div>{instructors.map(i => i.firstName)}</div>
 
                                         <div className={styles.courseRating}>
                                             <Rate defaultValue={4} disabled/>
@@ -119,12 +114,8 @@ export default class extends Component {
                                         </div>
 
                                         <div className={styles.priceContainer}>
-                                            <div className={styles.originalPrice}>
-                                                {"10 000 VND"}
-                                            </div>
-                                            <div className={styles.salePrice}>
-                                                {"9 000 VND"}
-                                            </div>
+                                            <div className={styles.originalPrice}>{"10 000 VND"}</div>
+                                            <div className={styles.salePrice}>{"9 000 VND"}</div>
                                         </div>
 
                                     </div>
