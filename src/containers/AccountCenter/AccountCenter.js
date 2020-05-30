@@ -14,7 +14,7 @@ class AccountCenter extends Component {
                     <UserList/>
                 </TabPane>
 
-                <TabPane tab={<span><Icon type="key"/> Add new user</span>} key="2">
+                <TabPane tab={<span><Icon type="key"/> Create Account</span>} key="2">
                     <h3 className={styles.tabTitle}>Create new account</h3>
                     <Divider/>
                     <NewAccount/>

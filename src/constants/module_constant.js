@@ -6,6 +6,7 @@ const RESOURCE = "resource";
 const ASSIGNMENT = "assignment";
 const ANNOUNCEMENT = "announcement";
 const LIVESTREAM = "livestream";
+const SURVEY = "survey";
 
 export const ModuleType = {
     QUIZ,
@@ -15,7 +16,8 @@ export const ModuleType = {
     RESOURCE,
     ASSIGNMENT,
     ANNOUNCEMENT,
-    LIVESTREAM
+    LIVESTREAM,
+    SURVEY
 };
 
 export const CurriculumPreviewableModuleType = [

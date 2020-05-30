@@ -35,6 +35,11 @@
     line-height: 22px;
 }
 
+.usernameArea {
+    max-width: 400px;
+    display: flex;
+}
+
 @media screen and (max-width: 1200px) {
     .baseView {
         flex-direction: column-reverse;

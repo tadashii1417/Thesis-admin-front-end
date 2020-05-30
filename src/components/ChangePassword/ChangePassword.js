@@ -1,13 +1,37 @@
 import React from "react";
-import {Button, Form, Input} from "antd";
+import {Button, Form, Icon, Input, message, Tooltip} from "antd";
 import styles from './ChangePassword.module.css';
+import {updatePassword} from "../../services/me_service";
+import {httpErrorHandler} from "../../utils/axios_util";
+import {ServerErrors} from "../../constants/server_error_constant";
 
 class ChangePasswordBasic extends React.Component {
     handleSubmit = e => {
         e.preventDefault();
-        this.props.form.validateFields((err, values) => {
+        this.props.form.validateFields(async (err, values) => {
             if (!err) {
-                this.props.handleNewModule(values);
+                if (values.newPassword !== values.reNewPassword) {
+                    message.error("New password not match !");
+                    return;
+                }
+
+                try {
+                    await updatePassword(values.newPassword, values.reNewPassword);
+                    message.success("Update password successful");
+                } catch (e) {
+                    httpErrorHandler(e, () => {
+                        switch (e.code) {
+                            case ServerErrors.PASSWORD_NOT_MATCH:
+                                message.error("Password not match");
+                                break;
+                            case ServerErrors.INVALID_UPDATE_PASSWORD_DATA:
+                                message.error("New password not satisfy all constraint.");
+                                break;
+                            default:
+                                message.error("Change password failed");
+                        }
+                    })
+                }
             }
         });
     };
@@ -26,31 +50,32 @@ class ChangePasswordBasic extends React.Component {
         };
         return (
             <div className={styles.container}>
-                <Form {...formItemLayout} layout={"vertical"} onSubmit={this.handleSubmit}>
+                <Form {...formItemLayout} layout={"vertical"} onSubmit={this.handleSubmit} hideRequiredMark>
+
                     <Form.Item label="Old password">
-                        {getFieldDecorator('old-password', {
+                        {getFieldDecorator('oldPassword', {
                             rules: [{required: true, message: "Please input old password"}]
-                        })(
-                            <Input/>
-                        )}
+                        })(<Input/>)}
                     </Form.Item>
 
-                    <Form.Item label="New password">
-                        {getFieldDecorator('new-password', {
+                    <Form.Item label={<Tooltip title={<ul>
+                        <li>Password must have 8-32 characters</li>
+                        <li>Password must contain 1 uppercase letter.</li>
+                        <li>Password must contain 1 number or special character.</li>
+                    </ul>}>
+                        New password
+                        <span style={{padding: '0 3px'}}><Icon type="question-circle"/></span>
+                    </Tooltip>}>
+                        {getFieldDecorator('newPassword', {
                             rules: [{required: true, message: "Please input new password"}]
-                        })(
-                            <Input/>
-                        )}
+                        })(<Input/>)}
                     </Form.Item>
 
                     <Form.Item label="Re-enter password">
-                        {getFieldDecorator('re-password', {
+                        {getFieldDecorator('reNewPassword', {
                             rules: [{required: true, message: "Please re-type new password"}]
-                        })(
-                            <Input/>
-                        )}
+                        })(<Input/>)}
                     </Form.Item>
-
 
                     <Form.Item style={{textAlign: 'center'}}>
                         <Button type="primary" htmlType="submit">

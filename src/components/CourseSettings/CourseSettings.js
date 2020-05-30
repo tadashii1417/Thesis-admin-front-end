@@ -18,15 +18,6 @@ const {TextArea} = Input;
 const {Option} = Select;
 const {TreeNode} = TreeSelect;
 
-const tags = ['css', 'html', 'javascript', 'web', 'python', 'socket'];
-const teachers = ['tadashii1417', 'hieu123', 'hao123'];
-
-const tagOptions = tags.map((tag) => (
-    <Option key={tag}>{tag}</Option>
-));
-const teacherOptions = teachers.map((teacher) => (
-    <Option key={teacher}>{teacher}</Option>
-));
 
 class CourseSettingsBasic extends React.Component {
     state = {
@@ -84,15 +75,12 @@ class CourseSettingsBasic extends React.Component {
     };
 
     createCategoryTreeNode = (categories) => {
-        if (categories === undefined) {
-            return;
-        } else {
-            return categories.map(child => (
-                <TreeNode key={child.id} title={child.title} value={child.id}>
-                    {this.createCategoryTreeNode(child.subcategories)}
-                </TreeNode>
-            ));
-        }
+        if (categories === undefined) return;
+        return categories.map(child => (
+            <TreeNode key={child.id} title={child.title} value={child.id}>
+                {this.createCategoryTreeNode(child.subcategories)}
+            </TreeNode>
+        ));
     };
 
 
@@ -221,22 +209,6 @@ class CourseSettingsBasic extends React.Component {
                                 Invisible
                             </Radio>
                         </Radio.Group>
-                    )}
-                </Form.Item>
-
-                <Form.Item label={"Course Tags"}>
-                    {getFieldDecorator('tags', {
-                        rules: []
-                    })(
-                        <Select mode="tags" style={{width: '80%'}}>{tagOptions}</Select>
-                    )}
-                </Form.Item>
-
-                <Form.Item label={"Course Teachers"}>
-                    {getFieldDecorator('teacher', {
-                        rules: []
-                    })(
-                        <Select mode="tags" style={{width: '80%'}}>{teacherOptions}</Select>
                     )}
                 </Form.Item>
 

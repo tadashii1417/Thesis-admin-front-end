@@ -13,16 +13,6 @@ const {Option} = Select;
 const {Dragger} = Upload;
 const {TreeNode} = TreeSelect;
 
-const tags = ['css', 'html', 'javascript', 'web', 'python', 'socket'];
-const teachers = ['teacher1', 'teacher2', 'teacher3'];
-
-const tagOptions = tags.map((tag) => (
-    <Option key={tag}>{tag}</Option>
-));
-const teacherOptions = teachers.map((teacher) => (
-    <Option key={teacher}>{teacher}</Option>
-));
-
 let id = 1;
 
 class NewCourseForm extends React.Component {
@@ -207,22 +197,6 @@ class NewCourseForm extends React.Component {
                                 Invisible
                             </Radio>
                         </Radio.Group>
-                    )}
-                </Form.Item>
-
-                <Form.Item label={"Course Tags"}>
-                    {getFieldDecorator('tags', {
-                        rules: []
-                    })(
-                        <Select mode="tags" style={{width: '80%'}}>{tagOptions}</Select>
-                    )}
-                </Form.Item>
-
-                <Form.Item label={"Course Teachers"}>
-                    {getFieldDecorator('teacher', {
-                        rules: []
-                    })(
-                        <Select mode="tags" style={{width: '80%'}}>{teacherOptions}</Select>
                     )}
                 </Form.Item>
 

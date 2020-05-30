@@ -1,0 +1,14 @@
+.searchBox {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.searchBox button {
+    margin-left: 10px;
+}
+
+.spin {
+    margin-right: 10px;
+    font-size: 20px;
+}

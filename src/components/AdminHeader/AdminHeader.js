@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import {Layout, Menu, Icon, Dropdown, Avatar, Tooltip} from "antd";
 import styles from "./AdminHeader.module.css";
 import {Redirect} from "react-router";
+import {defaultAvatar} from "../../constants/dev_constant";
 
 const {Header} = Layout;
 
@@ -28,14 +29,13 @@ class AdminHeader extends Component {
             </Menu.Item>
         </Menu>
     );
-    avatar = "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png";
 
     render() {
         const {user} = this.props;
         if (!user) {
             return <Redirect to={'/login'}/>
         }
-        const {firstName, lastName} = user;
+        const {firstName, lastName, avatar} = user;
 
         return (
             <Header className={styles.header}>
@@ -57,7 +57,7 @@ class AdminHeader extends Component {
 
                     <Dropdown overlay={this.rightMenu}>
                         <div className={styles.dropdown}>
-                            <Avatar src={this.avatar} className={styles.avatarImage}/>
+                            <Avatar src={avatar ? avatar['100x100'] : defaultAvatar} className={styles.avatarImage}/>
                             <span>{firstName + " " + lastName}</span>
                         </div>
                     </Dropdown>

@@ -16,7 +16,7 @@ class MyProfile extends Component {
                     <UserProfile/>
                 </TabPane>
 
-                <TabPane tab={<span><Icon type="key"/> Change Password</span>} key="2">
+                <TabPane tab={<span><Icon type="key"/> Update Password</span>} key="2">
                     <h3 className={styles.tabTitle}>Update password</h3>
                     <Divider/>
                     <ChangePassword/>

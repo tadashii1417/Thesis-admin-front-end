@@ -14,6 +14,7 @@ import courseIcon from "../../components/CourseIcon/CourseIcon";
 import CourseEnrollments from "../../components/CourseEnrollments/CourseEnrollments";
 import MyCalendar from "../../components/Calendar/Calendar";
 import {checkIsAdmin} from "../../utils/permision_util";
+import CourseInstructors from "../../components/CourseInstructors/CourseInstructors";
 
 // TODO: Create lazy loading for tab panel
 
@@ -105,29 +106,32 @@ class CourseDetail extends Component {
 
                 </div>
                 <div className={"adminContent"} style={{paddingLeft: '10px'}}>
-                    <Tabs defaultActiveKey="3" tabPosition={"left"}>
+                    <Tabs defaultActiveKey="curriculum" tabPosition={"left"}>
                         {isAdmin &&
                         <TabPane
                             tab={<span>
                                 <Icon type="home" theme={"twoTone"}
                                       style={{marginRight: '10px'}}/>Basic Information
                             </span>}
-                            key="1">
+                            key="setting">
                             <CourseSettings data={data} handleUpdateCourse={this.handleUpdateCourse}/>
+                        </TabPane>}
+
+                        {isAdmin &&
+                        <TabPane
+                            tab={<span>
+                                <Icon type="home" theme={"twoTone"}
+                                      style={{marginRight: '10px'}}/>Manage Instructors
+                            </span>}
+                            key="instructor">
+                            <CourseInstructors courseId={data.id} instructors={data.instructors}/>
                         </TabPane>}
 
                         <TabPane
                             tab={<span><Icon type="database" theme={"twoTone"} style={{marginRight: '10px'}}/>Course Curriculum</span>}
-                            key="3">
+                            key="curriculum">
                             <Curriculum courseData={data}/>
                         </TabPane>
-
-                        {isAdmin && <TabPane
-                            tab={<span><Icon type="snippets" theme={"twoTone"}
-                                             style={{marginRight: '10px'}}/>Enrollments</span>}
-                            key="enrollments">
-                            <CourseEnrollments courseId={data.id}/>
-                        </TabPane>}
 
                         <TabPane
                             tab={<span><Icon type="calendar" theme={"twoTone"}
@@ -137,9 +141,16 @@ class CourseDetail extends Component {
                         </TabPane>
 
                         {isAdmin && <TabPane
+                            tab={<span><Icon type="snippets" theme={"twoTone"}
+                                             style={{marginRight: '10px'}}/>Enrollments</span>}
+                            key="enrollments">
+                            <CourseEnrollments courseId={data.id}/>
+                        </TabPane>}
+
+                        {isAdmin && <TabPane
                             tab={<span>
                                 <Icon type="picture" theme={"twoTone"} style={{marginRight: '10px'}}/>Course Banner Image</span>}
-                            key="4">
+                            key="banner">
                             <h4>Course banner image</h4>
                             {data.banner ?
                                 (<img className={styles.imgBanner} alt="example" src={data.banner.origin}/>) :
@@ -159,7 +170,7 @@ class CourseDetail extends Component {
                         </TabPane>}
 
                         {isAdmin &&
-                        <TabPane key="5"
+                        <TabPane key="videoUrl"
                                  tab={<span><Icon type="sound" theme={"twoTone"}
                                                   style={{marginRight: '10px'}}/>Promotional Video</span>}>
                             <h4>Promotional video</h4>

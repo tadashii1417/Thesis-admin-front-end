@@ -3,17 +3,32 @@ import {Button, Form, Input, message, Select} from "antd";
 import styles from './NewAccount.module.css';
 import {UserType} from "../../constants/user_contant";
 import {createUser} from "../../services/user_service";
+import {httpErrorHandler} from "../../utils/axios_util";
+import {ServerErrors} from "../../constants/server_error_constant";
 
 class NewAccountBasic extends React.Component {
     handleSubmit = e => {
         e.preventDefault();
         this.props.form.validateFields(async (err, values) => {
             if (!err) {
+                const key = "create-user";
+                message.loading({content: "Loading ...", key});
                 try {
-                    const {data} = await createUser(values);
-                    message.success("New user has been created.");
+                    await createUser(values);
+                    message.success({content: "New user has been created.", key});
                 } catch (e) {
-                    message.error("Something went wrong");
+                    httpErrorHandler(e, () => {
+                        switch (e.code) {
+                            case ServerErrors.USERNAME_ALREADY_EXISTS:
+                                message.error({content: "Username already exists", key});
+                                break;
+                            case ServerErrors.EMAIL_ALREADY_EXISTS:
+                                message.error({content: "Email already exists", key});
+                                break;
+                            default:
+                                message.error({content: "Something went wrong", key});
+                        }
+                    })
                 }
             }
         });
