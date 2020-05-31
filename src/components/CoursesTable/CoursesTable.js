@@ -5,7 +5,7 @@ import styles from './CoursesTable.module.css';
 import {Typography, Button, Divider, Input} from "antd";
 import {Link} from 'react-router-dom';
 import {httpErrorHandler} from "../../utils/axios_util";
-import axios from '../../config/axios-config';
+import {getCourseForInstructor, getCoursesForAdmin} from "../../services/course_service";
 
 const {Title} = Typography;
 const {Search} = Input;
@@ -24,19 +24,19 @@ export default class extends Component {
     async fetchCourses(params = {}) {
         this.setState({loading: true});
         try {
-            const res = await axios.get('/api/courses?page=' + params.page);
-            if (!res) {
-                message.info("No course found !");
-                return;
+            if (this.props.isAdmin) {
+                const {data} = await getCoursesForAdmin(params.page);
+                const pagination = {...this.state.pagination};
+                pagination.total = data.totalPageCount * 10;
+                this.setState({
+                    loading: false,
+                    data: data.items,
+                    pagination
+                });
+            } else {
+                const {data} = await getCourseForInstructor();
+                this.setState({data: data})
             }
-            const {data} = res;
-            const pagination = {...this.state.pagination};
-            pagination.total = data.totalPageCount * 10;
-            this.setState({
-                loading: false,
-                data: data.items,
-                pagination
-            });
 
         } catch (e) {
             httpErrorHandler(e, () => {
@@ -104,9 +104,10 @@ export default class extends Component {
                                     </div>
 
                                     <div className={styles.courseInfo}>
-                                        <div className={styles.courseName}><Link to={"/courses/" + slug}>{name}</Link></div>
+                                        <div className={styles.courseName}><Link to={"/courses/" + slug}>{name}</Link>
+                                        </div>
 
-                                        <div>{instructors.map(i => i.firstName)}</div>
+                                        <div>{instructors && instructors.map(i => i.firstName)}</div>
 
                                         <div className={styles.courseRating}>
                                             <Rate defaultValue={4} disabled/>

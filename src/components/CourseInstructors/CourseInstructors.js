@@ -62,7 +62,10 @@ class CourseInstructors extends Component {
 
         try {
             message.loading({content: "Loading", key});
-            await addCourseInstructor(this.props.courseId, parseInt(selectedUser));
+            const {data} = await addCourseInstructor(this.props.courseId, parseInt(selectedUser));
+            const updatedInstructors = [...this.state.instructors];
+            updatedInstructors.push(data);
+            this.setState({instructors: updatedInstructors});
             message.success({content: "Instructors has been added", key});
         } catch (e) {
             httpErrorHandler(e, () => {
@@ -113,7 +116,7 @@ class CourseInstructors extends Component {
 
         const children = searchResult.map(
             user => (<Option key={user.id} value={`${user.id}`}>
-                {user.firstName + user.lastName}
+                {user.email}
             </Option>));
 
         return (

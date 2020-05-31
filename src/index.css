@@ -115,7 +115,7 @@ h4.ant-typography, .ant-typography h4 {
 
 
 .login-form {
-    max-width: 400px;
+    width: 400px;
     padding: 30px;
     border-radius: 10px;
     margin: 0 auto;

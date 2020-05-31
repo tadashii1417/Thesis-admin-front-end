@@ -23,6 +23,6 @@ export function forgotPassword(source, email) {
     return axios.post('/api/me/password/forgot', {source, email});
 }
 
-export function resetPassword(email, sig, deadline) {
-    return axios.post(`/api/me/password/reset?email=${email}&sig=${sig}&deadline=${deadline}`);
+export function resetPassword(email, sig, deadline, {newPassword}) {
+    return axios.post(`/api/me/password/reset?email=${email}&sig=${sig}&deadline=${deadline}`, {newPassword});
 }

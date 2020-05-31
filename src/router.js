@@ -5,13 +5,13 @@ import SecureRoute from "./routes/SecureRoute/";
 import Auth from "./containers/Auth";
 import Loading from "./components/Loading/Loading";
 import TestOnly from "./containers/Test";
-import NotFound from "./components/PageResult/NotFound";
 import Unauthorized from "./components/PageResult/Unauthorized";
-import {Redirect} from "react-router";
 import {RoleType} from "./constants/role_constant";
+import ForgotPassword from "./components/ForgotPassword/ForgotPassword";
+import ResetPassword from "./components/ResetPassword/ResetPassword";
 
 const QuestionsBank = React.lazy(() => import("./containers/QuestionsBank"));
-const Courses = React.lazy(() => import("./containers/Courses/Courses"));
+const Courses = React.lazy(() => import("./containers/Courses/"));
 const Dashboard = React.lazy(() => import("./containers/Dashboard"));
 const NewCourse = React.lazy(() => import("./containers/NewCourse/NewCourse"));
 const QuizEntrance = React.lazy(() => import("./components/Modules/Quiz/QuizEntrance"));
@@ -31,6 +31,8 @@ export default function (props) {
     return (
         <Switch>
             <Route path="/login" component={Auth}/>
+            <Route path="/forgot-password" component={ForgotPassword}/>
+            <Route path="/reset-password" component={ResetPassword}/>
             <Route path="/test" component={TestOnly}/>
 
             <AdminLayout>

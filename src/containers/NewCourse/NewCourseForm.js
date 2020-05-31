@@ -1,5 +1,5 @@
 import {
-    Button, Divider, Form, Icon, Input, InputNumber, message, Radio, Select, Tooltip, TreeSelect, Upload
+    Button, Divider, Form, Icon, Input, InputNumber, message, Radio, Select, TreeSelect, Upload
 } from "antd";
 import React from "react";
 import {httpErrorHandler} from "../../utils/axios_util";
@@ -142,25 +142,11 @@ class NewCourseForm extends React.Component {
                     )}
                 </Form.Item>
 
-                <Form.Item label={
-                    <span>
-                    Course slug <Tooltip title={"Course short name for URL"}>
-                        <Icon type="info-circle-o" style={{marginLeft: 4}}/>
-                    </Tooltip>
-                    </span>}>
-                    {getFieldDecorator('slug', {
-                        rules: [{required: true, message: 'Please input course slug.'}]
-                    })(
-                        <Input/>
-                    )}
-                </Form.Item>
-
                 <Form.Item
                     label={"Course Category"}>
                     {getFieldDecorator('categoryId', {
                         rules: []
-                    })(
-                        <TreeSelect style={{width: '80%'}}>
+                    })(<TreeSelect style={{width: '80%'}}>
                             {this.createCategoryTreeNode(categories)}
                         </TreeSelect>
                     )}

@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {Link} from "react-router-dom";
-import {Button, Divider, message, AutoComplete, Spin, Table, Icon, Input} from "antd";
+import {Button, Divider, message, AutoComplete, Spin, Table, Icon} from "antd";
 import {getCourseEnrollments} from "../../services/course_service";
 import moment from "moment";
 import config from "../../config";
@@ -111,7 +111,12 @@ class CourseEnrollments extends Component {
             key: 'email',
         },
         {
-            title: 'At',
+            title: 'Last login',
+            dataIndex: 'learner.lastLogin',
+            key: 'lastLogin'
+        },
+        {
+            title: 'Since',
             dataIndex: 'since',
             key: 'since',
             render: text => (moment(text, config.timeFormat).format('HH:mm:ss DD/MM/YYYY'))

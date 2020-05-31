@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {message, Input, Button, Spin} from "antd";
+import {message, Button, Spin} from "antd";
 
 import styles from './ForumTopic.module.css';
 import {ModuleType} from "../../constants/module_constant";

@@ -1,11 +1,17 @@
 import axios from '../config/axios-config';
 
+export function getCoursesForAdmin(page) {
+    return axios.get('/api/courses?page=' + page);
+}
+
+export function getCourseForInstructor() {
+    return axios.get('/api/me/teaching-courses');
+}
 
 export async function createCourse(values) {
     const formData = new FormData();
 
     formData.append('name', values.name);
-    formData.append('slug', values.slug);
     formData.append('type', values.type);
     formData.append('price', values.price);
     formData.append('listPrice', values.listPrice);
