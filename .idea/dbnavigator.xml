@@ -25,7 +25,7 @@
     <show-object-properties value="true" />
     <loaded-nodes>
       <connection connection-id="9df5c02f-2c0e-490e-92c7-0770d81da29a">
-        <schema name="public" object-types="view, table" />
+        <schema name="public" object-types="index, column, view, sequence, table, function, dataset trigger, constraint" />
       </connection>
     </loaded-nodes>
   </component>
@@ -46,6 +46,7 @@
   </component>
   <component name="DBNavigator.Project.DatasetFilterManager">
     <filter-actions connection-id="9df5c02f-2c0e-490e-92c7-0770d81da29a" dataset="public.quizChoice" active-filter-id="EMPTY_FILTER" />
+    <filter-actions connection-id="9df5c02f-2c0e-490e-92c7-0770d81da29a" dataset="public.surveyQuestion" active-filter-id="EMPTY_FILTER" />
     <filter-actions connection-id="9df5c02f-2c0e-490e-92c7-0770d81da29a" dataset="public.enrollment" active-filter-id="EMPTY_FILTER" />
     <filter-actions connection-id="9df5c02f-2c0e-490e-92c7-0770d81da29a" dataset="public.learner" active-filter-id="EMPTY_FILTER" />
     <filter-actions connection-id="9df5c02f-2c0e-490e-92c7-0770d81da29a" dataset="public.hasRole" active-filter-id="EMPTY_FILTER" />

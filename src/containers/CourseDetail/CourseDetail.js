@@ -140,12 +140,12 @@ class CourseDetail extends Component {
                             <MyCalendar courseId={data.id}/>
                         </TabPane>
 
-                        {isAdmin && <TabPane
+                        <TabPane
                             tab={<span><Icon type="snippets" theme={"twoTone"}
                                              style={{marginRight: '10px'}}/>Enrollments</span>}
                             key="enrollments">
                             <CourseEnrollments courseId={data.id}/>
-                        </TabPane>}
+                        </TabPane>
 
                         {isAdmin && <TabPane
                             tab={<span>

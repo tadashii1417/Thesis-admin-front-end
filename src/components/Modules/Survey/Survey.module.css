@@ -1,0 +1,15 @@
+.surveyHeader {
+    width: 50%;
+    display: flex;
+    margin-left: auto;
+    justify-content: space-around;
+}
+
+.surveyLevel {
+    padding: 1em;
+}
+
+.addQuestion {
+    margin-top: 30px;
+    text-align: center;
+}
