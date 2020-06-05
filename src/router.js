@@ -27,6 +27,7 @@ const Forum = React.lazy(() => import("./components/Modules/Forum"));
 const ForumTopic = React.lazy(() => import('./components/ForumTopic/ForumTopic'));
 const Announcement = React.lazy(() => import('./components/Modules/Announcement/Announcement'));
 const Resource = React.lazy(() => import('./components/Modules/Resource/Resource'));
+const SemesterPage = React.lazy(() => import('./containers/Semester/SemesterPage'));
 
 export default function (props) {
     return (
@@ -134,6 +135,12 @@ export default function (props) {
                     <SecureRoute path="/accounts"
                                  allowed={[RoleType.ADMIN]}
                                  component={AccountCenter} exact/>
+                </React.Suspense>
+
+                <React.Suspense fallback={Loading}>
+                    <SecureRoute path="/semesters"
+                                 allowed={[RoleType.ADMIN]}
+                                 component={SemesterPage} exact/>
                 </React.Suspense>
 
                 <React.Suspense fallback={Loading}>

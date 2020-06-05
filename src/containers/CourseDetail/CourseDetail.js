@@ -99,8 +99,8 @@ class CourseDetail extends Component {
                     </div>
                     <div className={styles.headerImage}>
                         {data.banner ?
-                            <Avatar shape={"square"} size={120} src={data.banner.origin}/> :
-                            <Avatar shape="square" size={120} icon={"file-image"}/>
+                            <Avatar shape={"square"} size={100} src={data.banner.origin}/> :
+                            <Avatar shape="square" size={100} icon={"file-image"}/>
                         }
                     </div>
 
@@ -133,12 +133,12 @@ class CourseDetail extends Component {
                             <Curriculum courseData={data}/>
                         </TabPane>
 
-                        <TabPane
+                        {!isAdmin &&<TabPane
                             tab={<span><Icon type="calendar" theme={"twoTone"}
                                              style={{marginRight: '10px'}}/>My Calendar</span>}
                             key="calendar">
                             <MyCalendar courseId={data.id}/>
-                        </TabPane>
+                        </TabPane>}
 
                         <TabPane
                             tab={<span><Icon type="snippets" theme={"twoTone"}

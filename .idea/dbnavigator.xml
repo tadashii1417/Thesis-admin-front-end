@@ -25,7 +25,7 @@
     <show-object-properties value="true" />
     <loaded-nodes>
       <connection connection-id="9df5c02f-2c0e-490e-92c7-0770d81da29a">
-        <schema name="public" object-types="index, column, view, sequence, table, function, dataset trigger, constraint" />
+        <schema name="public" object-types="view, dataset trigger, function, sequence, table, constraint, index, column" />
       </connection>
     </loaded-nodes>
   </component>
@@ -38,7 +38,9 @@
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
-    <open-files />
+    <open-files>
+      <object connection-id="9df5c02f-2c0e-490e-92c7-0770d81da29a" object-ref="schemas/public/tables/course" />
+    </open-files>
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
     <connection id="a8f634df-2363-4c70-a1f1-f4f957ca07d0" />
@@ -46,6 +48,7 @@
   </component>
   <component name="DBNavigator.Project.DatasetFilterManager">
     <filter-actions connection-id="9df5c02f-2c0e-490e-92c7-0770d81da29a" dataset="public.quizChoice" active-filter-id="EMPTY_FILTER" />
+    <filter-actions connection-id="9df5c02f-2c0e-490e-92c7-0770d81da29a" dataset="public.course" active-filter-id="EMPTY_FILTER" />
     <filter-actions connection-id="9df5c02f-2c0e-490e-92c7-0770d81da29a" dataset="public.surveyQuestion" active-filter-id="EMPTY_FILTER" />
     <filter-actions connection-id="9df5c02f-2c0e-490e-92c7-0770d81da29a" dataset="public.enrollment" active-filter-id="EMPTY_FILTER" />
     <filter-actions connection-id="9df5c02f-2c0e-490e-92c7-0770d81da29a" dataset="public.learner" active-filter-id="EMPTY_FILTER" />

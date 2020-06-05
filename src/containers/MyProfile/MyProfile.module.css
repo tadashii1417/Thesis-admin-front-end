@@ -1,12 +1,30 @@
 .tabTitle {
-    padding: 15px 15px 0 15px;
+    padding: 15px;
 }
 
-.container {
-    margin: 15px 24px 0 24px;
-    padding: 15px 24px 15px 0;
-    background: #fff;
-    position: relative;
-    border-radius: 2px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05), 0 2px 4px rgba(0, 0, 0, 0.15);
+.header {
+    background-color: #fff;
+    width: 100%;
+    padding: 12px 24px 16px 24px;
+    color: rgba(0,0,0,.65);
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.heading {
+    margin-top: 8px;
+    width: 100%;
+    overflow: hidden;
+    color: rgba(0,0,0,.85);
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 32px;
+}
+
+.description{
+    padding-top: 12px;
+}
+
+.mainForm {
+    margin: 24px 24px 0;
 }

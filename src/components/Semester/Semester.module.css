@@ -1,0 +1,20 @@
+.newSemester {
+    text-align: left;
+    padding: 15px 0;
+}
+
+.semester {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 15px;
+    background-color: #e6f7ff;
+    border: 1px solid #91d5ff;
+    color: rgba(0, 0, 0, 0.85);
+    margin: 10px 0;
+    font-size: 14px;
+    line-height: 1.5;
+    font-feature-settings: 'tnum', "tnum";
+    position: relative;
+    word-wrap: break-word;
+    border-radius: 4px;
+}

@@ -1,6 +1,6 @@
 .searchBox {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
 }
 
@@ -11,4 +11,9 @@
 .spin {
     margin-right: 10px;
     font-size: 20px;
+}
+
+.statistic {
+    text-align: right;
+    padding-top: 10px;
 }

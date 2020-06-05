@@ -1,5 +1,5 @@
 import {
-    Button, Divider, Form, Icon, Input, InputNumber, message, Radio, Select, TreeSelect, Upload
+    Button, Divider, Form, Icon, Input, InputNumber, message, Radio, Select, Tooltip, TreeSelect, Upload
 } from "antd";
 import React from "react";
 import {httpErrorHandler} from "../../utils/axios_util";
@@ -184,6 +184,13 @@ class NewCourseForm extends React.Component {
                             </Radio>
                         </Radio.Group>
                     )}
+                </Form.Item>
+
+                <Form.Item label={<span> Course estimate time
+                    <Tooltip title={"Total estimate time in hours"}>
+                        <Icon type="info-circle-o" style={{marginLeft: 4}}/>
+                    </Tooltip></span>}>
+                    {getFieldDecorator('amountOfTime', {})(<InputNumber min={0}/>)}
                 </Form.Item>
 
                 <h3>Course Descriptions</h3>

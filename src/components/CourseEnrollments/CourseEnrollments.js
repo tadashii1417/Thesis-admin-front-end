@@ -151,17 +151,19 @@ class CourseEnrollments extends Component {
                 <h4>Course Enrollments</h4>
 
                 <div className={styles.searchBox}>
-                    {searchLoading && <Icon type="loading" className={styles.spin}/>}
-                    <AutoComplete onSearch={this.handleSearch}
-                                  placeholder="search user here ..."
-                                  optionLabelProp={'display'}
-                                  onSelect={this.handleSelectOption}>
-                        {children}
-                    </AutoComplete>
+                    <div className={styles.statistic}><i>Total: {this.state.enrollments.length} enrollments.</i></div>
+                    <div>
+                        {searchLoading && <Icon type="loading" className={styles.spin}/>}
+                        <AutoComplete onSearch={this.handleSearch}
+                                      placeholder="search user here ..."
+                                      optionLabelProp={'display'}
+                                      onSelect={this.handleSelectOption}>
+                            {children}
+                        </AutoComplete>
 
-                    <Button type={"primary"} icon={"form"} onClick={this.handleAddEnrollment}> Enroll </Button>
+                        <Button type={"primary"} icon={"form"} onClick={this.handleAddEnrollment}> Enroll </Button>
+                    </div>
                 </div>
-
                 <Divider/>
                 <Table columns={this.columns} dataSource={enrollments} rowKey={"id"}/>
             </div>

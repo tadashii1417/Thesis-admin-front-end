@@ -13,6 +13,7 @@ import React from "react";
 import {fetchCategories} from "../../services/category_service";
 import {httpErrorHandler} from "../../utils/axios_util";
 import {createPatch} from "../../utils/patch_util";
+import {getAllSemesters} from "../../services/semester_service";
 
 const {TextArea} = Input;
 const {Option} = Select;
@@ -21,13 +22,16 @@ const {TreeNode} = TreeSelect;
 
 class CourseSettingsBasic extends React.Component {
     state = {
-        categories: []
+        categories: [],
+        semesters: []
     };
 
     async componentDidMount() {
         try {
-            const {data} = await fetchCategories();
-            this.setState({categories: data});
+            const {data: categories} = await fetchCategories();
+            const {data: semesters} = await getAllSemesters();
+
+            this.setState({categories: categories, semesters: semesters});
         } catch (e) {
             httpErrorHandler(e, () => {
                 switch (e.code) {
@@ -118,21 +122,15 @@ class CourseSettingsBasic extends React.Component {
                 {getFieldDecorator(`learningOutcomes[${k}]`, {
                     validateTrigger: ['onChange', 'onBlur'],
                     initialValue: data.learningOutcomes[k],
-                    rules: [
-                        {
-                            required: true,
-                            message: "Please input learning outcome or delete this field.",
-                        },
-                    ],
-                })(
-                    <Input placeholder="learning outcome" style={{width: '60%', marginRight: 8}}/>)}
-                {keys.length > 1 ? (
-                    <Icon
-                        className="dynamic-delete-button"
-                        type="minus-circle-o"
-                        onClick={() => this.removeOutcome(k)}
-                    />
-                ) : null}
+                    rules: [{required: true, message: "Please input learning outcome or delete this field.",},],
+                })(<Input placeholder="learning outcome" style={{width: '60%', marginRight: 8}}/>)}
+
+                {keys.length > 1 && (
+                    <Icon className="dynamic-delete-button"
+                          type="minus-circle-o"
+                          onClick={() => this.removeOutcome(k)}/>
+                )}
+
             </Form.Item>
         ));
 
@@ -140,27 +138,22 @@ class CourseSettingsBasic extends React.Component {
             <Form {...formItemLayout}>
                 <h4>General Setting</h4>
                 <Divider style={{margin: '12px 0 24px'}}/>
+
                 <Form.Item label={"Course full name"}>
                     {getFieldDecorator('name', {
                         initialValue: data.name,
                         rules: [{required: true, message: 'Please input new course name'}]
-                    })(
-                        <Input/>
-                    )}
+                    })(<Input/>)}
                 </Form.Item>
 
-                <Form.Item label={
-                    <span>
-                    Course slug <Tooltip title={"Course short name for URL"}>
+                <Form.Item label={<span> Course slug
+                    <Tooltip title={"Course short name for URL"}>
                         <Icon type="info-circle-o" style={{marginLeft: 4}}/>
-                    </Tooltip>
-                    </span>}>
+                    </Tooltip></span>}>
                     {getFieldDecorator('slug', {
                         initialValue: data.slug,
                         rules: [{required: true, message: 'Please input course slug.'}]
-                    })(
-                        <Input/>
-                    )}
+                    })(<Input/>)}
                 </Form.Item>
 
                 <Form.Item
@@ -168,11 +161,20 @@ class CourseSettingsBasic extends React.Component {
                     {getFieldDecorator('categoryId', {
                         rules: [],
                         initialValue: data.categoryId
-                    })(
-                        <TreeSelect style={{width: '80%'}}>
-                            {this.createCategoryTreeNode(categories)}
-                        </TreeSelect>
-                    )}
+                    })(<TreeSelect style={{width: '80%'}}>
+                        {this.createCategoryTreeNode(categories)}
+                    </TreeSelect>)}
+                </Form.Item>
+
+                <Form.Item
+                    label={"Course Semester"}>
+                    {getFieldDecorator('semesterId', {
+                        rules: [],
+                        initialValue: data.semester && data.semester.id
+                    })(<Select style={{width: '80%'}}>
+                        {this.state.semesters.map(m =>
+                            <Select.Option key={m.id} value={m.id}>{m.name}</Select.Option>)}
+                    </Select>)}
                 </Form.Item>
 
                 <Form.Item label="Course Type">
@@ -190,6 +192,7 @@ class CourseSettingsBasic extends React.Component {
                         initialValue: data.priceResult.price.amount
                     })(<InputNumber/>)}
                 </Form.Item>
+
                 <Form.Item label="List Price">
                     {getFieldDecorator('listPrice', {
                         initialValue: data.priceResult.listPrice.amount
@@ -212,6 +215,15 @@ class CourseSettingsBasic extends React.Component {
                     )}
                 </Form.Item>
 
+                <Form.Item label={<span> Course estimate time
+                    <Tooltip title={"Total estimate time in hours"}>
+                        <Icon type="info-circle-o" style={{marginLeft: 4}}/>
+                    </Tooltip></span>}>
+                    {getFieldDecorator('amountOfTime', {
+                        initialValue: data.amountOfTime,
+                    })(<InputNumber min={0}/>)}
+                </Form.Item>
+
                 <h4>Course Descriptions</h4>
                 <Divider style={{margin: '12px 0 24px'}}/>
 
@@ -219,29 +231,24 @@ class CourseSettingsBasic extends React.Component {
                     {getFieldDecorator('description', {
                         initialValue: data.description,
                         rules: [{required: true, message: "Please input course description"}]
-                    })(
-                        <TextArea style={{height: '100px'}}/>
-                    )}
+                    })(<TextArea style={{height: '100px'}}/>)}
                 </Form.Item>
 
                 <Form.Item label={"Course requirements"}>
                     {getFieldDecorator('requirements', {
                         initialValue: data.requirements,
                         rules: [{required: true, message: "Please input course requirement"}]
-                    })(
-                        <TextArea style={{height: '75px'}}/>
-                    )}
+                    })(<TextArea style={{height: '75px'}}/>)}
                 </Form.Item>
 
                 <Form.Item label={"Course promotional video"}>
                     {getFieldDecorator('promoVideoUrl', {
                         initialValue: data.promoVideoUrl,
-                    })(
-                        <Input/>
-                    )}
+                    })(<Input/>)}
                 </Form.Item>
 
                 {learningOutcomes}
+
                 <Form.Item {...formItemLayoutWithOutLabel}>
                     <Button type="dashed" onClick={this.addOutcome} style={{width: '60%'}}>
                         <Icon type="plus"/> Add learning outcome

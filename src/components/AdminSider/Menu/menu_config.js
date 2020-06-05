@@ -26,18 +26,16 @@ export default [
                 name: "quizzes",
                 display: "Quizzes",
                 path: "/quizzes",
-            },
-            {
-                name: "questions",
-                display: "Questions",
-                path: "/questions",
-            },
-            {
-                name: "statistics",
-                display: "Statistic",
-                path: "/statistic",
             }
         ]
+    },
+    {
+        display: "Semester",
+        name: "semester",
+        onlyAdmin: true,
+        icon: "appstore",
+        path: "/semesters",
+        routes: []
     },
     {
         display: "Account Center",

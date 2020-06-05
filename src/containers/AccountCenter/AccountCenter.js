@@ -1,26 +1,49 @@
 import React, {Component} from "react";
-import {Divider, Icon, Tabs} from "antd";
+import {Breadcrumb, Card, Divider, Icon, Tabs} from "antd";
 import styles from './AccountCenter.module.css';
 import UserList from "../../components/UserList/UserList";
 import NewAccount from "../../components/NewAccount/NewAccount";
+import {Link} from "react-router-dom";
 
 const {TabPane} = Tabs;
 
 class AccountCenter extends Component {
     render() {
-        return <div className={styles.container}>
-            <Tabs defaultActiveKey="1" tabPosition={"left"}>
-                <TabPane tab={<span><Icon type="usergroup-add"/> Manage Users</span>} key="1">
-                    <UserList/>
-                </TabPane>
+        return (
+            <React.Fragment>
+                <div className={styles.header}>
+                    <Breadcrumb>
+                        <Breadcrumb.Item>
+                            <Link to={"/"}>
+                                <Icon type="home"/>
+                            </Link>
+                        </Breadcrumb.Item>
+                        <Breadcrumb.Item>Account Center</Breadcrumb.Item>
+                    </Breadcrumb>
+                    <div className={styles.heading}>
+                        Manage Accounts
+                    </div>
+                    <div className={styles.description}>
+                        This page allow admin to manage accounts of the application.
+                    </div>
+                </div>
 
-                <TabPane tab={<span><Icon type="key"/> Create Account</span>} key="2">
-                    <h3 className={styles.tabTitle}>Create new account</h3>
-                    <Divider/>
-                    <NewAccount/>
-                </TabPane>
-            </Tabs>
-        </div>
+                <div className={styles.mainForm}>
+                    <Card bordered={false}>
+                        <Tabs defaultActiveKey="1">
+                            <TabPane tab={<span><Icon type="usergroup-add"/> Manage Accounts</span>} key="1">
+                                <UserList/>
+                            </TabPane>
+
+                            <TabPane tab={<span><Icon type="key"/> Create New Account</span>} key="2">
+                                <h3 className={styles.tabTitle}>Create new account</h3>
+                                <Divider/>
+                                <NewAccount/>
+                            </TabPane>
+                        </Tabs>
+                    </Card>
+                </div>
+            </React.Fragment>)
     }
 }
 
