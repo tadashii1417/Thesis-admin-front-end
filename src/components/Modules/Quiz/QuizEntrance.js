@@ -91,7 +91,7 @@ export default class extends Component {
         if (loading) return <Spin/>;
 
         const {match: {params: {slug}}, location: {state}} = this.props;
-        const courseName = state ? state.courseName : "Course name";
+        const courseName = state ? state.courseName : "Course";
         const {instanceData} = module;
         const quizSettingDto = QuizDto.toQuizSettingDto(instanceData);
 
@@ -116,7 +116,7 @@ export default class extends Component {
 
                     <TabPane key={"attempts"} tab={<span> Results</span>}>
                         <Suspense fallback={null}>
-                            <QuizResult moduleId={module.id}/>
+                            <QuizResult moduleId={module.id} courseName={courseName}/>
                         </Suspense>
                     </TabPane>
                 </Tabs>

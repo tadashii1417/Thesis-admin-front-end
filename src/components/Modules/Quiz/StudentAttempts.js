@@ -74,7 +74,11 @@ class StudentAttempts extends Component {
             render: (_, row) => {
                 const {url} = this.props.match;
                 return (
-                    <Link to={url + '/detail/' + row.id + window.location.search}>
+                    <Link to={{
+                        pathname: url + '/detail/' + row.id, state: {
+                            courseName: this.props.courseName
+                        }
+                    }}>
                         View detail
                     </Link>
                 );

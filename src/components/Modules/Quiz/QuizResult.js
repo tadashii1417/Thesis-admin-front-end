@@ -98,7 +98,7 @@ class QuizResult extends Component {
 
     render() {
         const {loading, results} = this.state;
-        const {moduleId} = this.props;
+        const {moduleId, courseName} = this.props;
         const {url} = this.props.match;
         if (loading) return <Spin/>;
 
@@ -116,9 +116,13 @@ class QuizResult extends Component {
                     </Breadcrumb.Item>
                 </Breadcrumb>
 
+                <div style={{textAlign: 'right'}}>
+                    <i>Total: {results.length} students.</i>
+                </div>
+
                 <Switch>
                     <Route path={url + '/attempts/:learnerId'}
-                           render={() => <StudentAttempts moduleId={moduleId}/>}/>
+                           render={() => <StudentAttempts moduleId={moduleId} courseName={courseName}/>}/>
                     <Route path={url}
                            render={() =>
                                <Table dataSource={results}
