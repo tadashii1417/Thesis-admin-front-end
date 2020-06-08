@@ -19,7 +19,7 @@ export class QuizDto {
 
         quizDto.description = data.description;
         quizDto.gradingPolicy = QuizDto.fromGradingPolicyToText(data.gradingPolicy);
-        quizDto.shuffleAnswer = data.shuffleAnswer ? "True" : "False";
+        quizDto.shuffleQuestions = data.shuffleQuestions ? "True" : "False";
         quizDto.duration = data.duration || ".";
         quizDto.passThreshold = data.passThreshold;
         quizDto.numAttempt = data.numAttempt || ".";

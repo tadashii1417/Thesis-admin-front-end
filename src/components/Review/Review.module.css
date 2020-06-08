@@ -1,0 +1,29 @@
+.reviewContainer {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 10px 0;
+}
+
+.authorDetail{
+    margin-left: 10px;
+}
+
+.authorContainer {
+    flex: 30%;
+    display: flex;
+}
+
+.author {
+    color: rgba(0, 0, 0, .85);
+    padding: 3px 0;
+}
+
+.feedbackContainer {
+    flex: 70%;
+    display: flex;
+    flex-direction: column;
+}
+
+.content {
+    margin-top: 15px;
+}

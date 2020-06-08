@@ -15,6 +15,7 @@ import CourseEnrollments from "../../components/CourseEnrollments/CourseEnrollme
 import MyCalendar from "../../components/Calendar/Calendar";
 import {checkIsAdmin} from "../../utils/permision_util";
 import CourseInstructors from "../../components/CourseInstructors/CourseInstructors";
+import CourseFeedback from "../../components/CourseFeedback/CourseFeedback";
 
 // TODO: Create lazy loading for tab panel
 
@@ -133,7 +134,7 @@ class CourseDetail extends Component {
                             <Curriculum courseData={data}/>
                         </TabPane>
 
-                        {!isAdmin &&<TabPane
+                        {!isAdmin && <TabPane
                             tab={<span><Icon type="calendar" theme={"twoTone"}
                                              style={{marginRight: '10px'}}/>My Calendar</span>}
                             key="calendar">
@@ -145,6 +146,12 @@ class CourseDetail extends Component {
                                              style={{marginRight: '10px'}}/>Enrollments</span>}
                             key="enrollments">
                             <CourseEnrollments courseId={data.id}/>
+                        </TabPane>
+
+                        <TabPane tab={<span><Icon type="diff" theme={"twoTone"}
+                                                  style={{marginRight: '10px'}}/>Course Reviews</span>}
+                                 key="review">
+                            <CourseFeedback courseId={data.id}/>
                         </TabPane>
 
                         {isAdmin && <TabPane

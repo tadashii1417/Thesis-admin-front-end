@@ -18,7 +18,7 @@ export default function ({quizSettingDto, openSettingModal}) {
                 <div className={styles.fields}>
                     <div>Grading policy</div>
                     <div>Pass threshold</div>
-                    <div>Shuffle answer</div>
+                    <div>Shuffle questions</div>
                     <div>Duration</div>
                     <div>Open day</div>
                     <div>Close day</div>
@@ -27,7 +27,7 @@ export default function ({quizSettingDto, openSettingModal}) {
                 <div className={styles.values}>
                     <div>{quizSettingDto.gradingPolicy}</div>
                     <div>{quizSettingDto.passThreshold}</div>
-                    <div>{quizSettingDto.shuffleAnswer}</div>
+                    <div>{quizSettingDto.shuffleQuestions}</div>
                     <div>{quizSettingDto.duration} seconds</div>
                     <div>{quizSettingDto.openAt}</div>
                     <div>{quizSettingDto.closeAt}</div>

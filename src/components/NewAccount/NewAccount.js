@@ -55,6 +55,11 @@ class NewAccountBasic extends React.Component {
                         })(<Input/>)}
                     </Form.Item>
 
+                    <Form.Item label="Email">
+                        {getFieldDecorator('email', {
+                            rules: [{required: true, message: "Please re-type new password"}]
+                        })(<Input/>)}
+                    </Form.Item>
 
                     <Form.Item label="User type">
                         {getFieldDecorator('type', {
@@ -66,27 +71,21 @@ class NewAccountBasic extends React.Component {
                         </Select>)}
                     </Form.Item>
 
-                    <Form.Item label="Email">
-                        {getFieldDecorator('email', {
-                            rules: [{required: true, message: "Please re-type new password"}]
-                        })(<Input/>)}
-                    </Form.Item>
-
                     <Form.Item label="First name">
                         {getFieldDecorator('firstName', {
                             rules: []
-                        })(<Input/>)}
+                        })(<Input style={{width: '50%'}}/>)}
                     </Form.Item>
 
                     <Form.Item label="Last name">
                         {getFieldDecorator('lastName', {
                             rules: []
-                        })(<Input/>)}
+                        })(<Input style={{width: '50%'}}/>)}
                     </Form.Item>
 
                     <Form.Item style={{textAlign: 'center'}}>
                         <Button type="primary" htmlType="submit">
-                            Create
+                            Create account
                         </Button>
                     </Form.Item>
 

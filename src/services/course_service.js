@@ -46,3 +46,7 @@ export async function updateCourseBanner(id, file) {
 export function getCourseEnrollments(courseId) {
     return axios.get(`/api/courses/${courseId}/enrollments`);
 }
+
+export function getCourseFeedback(courseId, page) {
+    return axios.get(`/api/courses/${courseId}/feedbacks?page=${page}`);
+}

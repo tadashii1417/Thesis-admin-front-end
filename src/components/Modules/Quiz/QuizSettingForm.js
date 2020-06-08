@@ -86,10 +86,10 @@ class QuizSettingBasic extends React.Component {
                     })(<Slider min={0} max={1} step={0.1}/>)}
                 </Form.Item>
 
-                <Form.Item label="Shuffle answer">
-                    {getFieldDecorator('shuffleAnswer', {
+                <Form.Item label="Shuffle questions">
+                    {getFieldDecorator('shuffleQuestions', {
                         valuePropName: 'checked',
-                        initialValue: data.shuffleAnswer
+                        initialValue: data.shuffleQuestions
                     })(<Checkbox/>)}
                 </Form.Item>
 
