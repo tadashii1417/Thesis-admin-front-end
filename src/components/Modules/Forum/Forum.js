@@ -8,6 +8,7 @@ import {createForumPosts, getForumPosts} from "../../../services/forum_service";
 import moment from "moment";
 import config from "../../../config";
 import ModuleLayout from "../../ModuleLayout/ModuleLayout";
+import {DEFAULT_PAGE_SIZE, DEFAULT_PAGINATION} from "../../../constants/dev_constant";
 
 const NewForumPost = React.lazy(() => import("../../NewForumPost/NewForumPost"));
 
@@ -17,7 +18,7 @@ class Forum extends Component {
         module: {},
         posts: [],
         addPost: false,
-        pagination: {},
+        pagination: DEFAULT_PAGINATION,
         loadPosts: false
     };
 
@@ -53,7 +54,7 @@ class Forum extends Component {
             const {data} = await getModule(params.moduleId);
             this.setState({module: data, loading: false});
 
-            await this.fetchPosts({page: 1})
+            await this.fetchPosts({page: 1, pageSize: DEFAULT_PAGE_SIZE});
         } catch (e) {
             httpErrorHandler(e, () => {
                 switch (e.code) {
@@ -84,9 +85,9 @@ class Forum extends Component {
         try {
             this.setState({loadingPosts: true});
             const {module} = this.state;
-            const {data} = await getForumPosts(module.id, params.page);
+            const {data} = await getForumPosts(module.id, params.page, params.pageSize);
             const pagination = {...this.state.pagination};
-            pagination.total = data.totalPageCount * 10;
+            pagination.total = data.totalItemCount;
             this.setState({
                 loadingPosts: false,
                 posts: data.items,
@@ -98,13 +99,14 @@ class Forum extends Component {
         }
     }
 
-    handleTableChange = (pagination) => {
+    handleTableChange = ({current, pageSize}) => {
         const pager = {...this.state.pagination};
-        pager.current = pagination.current;
-        this.setState({
-            pagination: pager,
-        });
-        this.fetchPosts({page: pagination.current})
+        pager.current = current;
+        pager.pageSize = pageSize;
+        this.setState({pagination: pager});
+
+        if (pager.pageSize !== pageSize) current = 1;
+        this.fetchPosts({page: current, pageSize: pageSize})
     };
 
     columns = [

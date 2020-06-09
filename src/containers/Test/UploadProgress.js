@@ -32,7 +32,6 @@ const App = () => {
             );
 
             onSuccess("Ok");
-            console.log("server res: ", res);
         } catch (err) {
             onError({ err });
         }

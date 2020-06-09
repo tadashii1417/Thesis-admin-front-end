@@ -1,7 +1,8 @@
 import axios from '../config/axios-config';
+import {DEFAULT_PAGE_SIZE} from "../constants/dev_constant";
 
-export function getCoursesForAdmin(page) {
-    return axios.get('/api/courses?page=' + page);
+export function getCoursesForAdmin(page = 1, pageSize = DEFAULT_PAGE_SIZE) {
+    return axios.get(`/api/courses?pageSize=${pageSize}&page=${page}`);
 }
 
 export function getCourseForInstructor() {
@@ -47,6 +48,6 @@ export function getCourseEnrollments(courseId) {
     return axios.get(`/api/courses/${courseId}/enrollments`);
 }
 
-export function getCourseFeedback(courseId, page) {
-    return axios.get(`/api/courses/${courseId}/feedbacks?page=${page}`);
+export function getCourseFeedback(courseId, page = 1, pageSize = DEFAULT_PAGE_SIZE) {
+    return axios.get(`/api/courses/${courseId}/feedbacks?page=${page}&pageSize=${pageSize}`);
 }

@@ -91,7 +91,7 @@ class CourseDetail extends Component {
                             <Breadcrumb.Item>{data.name}</Breadcrumb.Item>
                         </Breadcrumb>
                         <div className={styles.heading}>
-                            <DynamicIcon micon={courseIcon()} style={{margin: '0 15px 0 5px'}}/>
+                            <DynamicIcon icon={courseIcon()} style={{margin: '0 15px 0 5px'}}/>
                             {data.name}
                         </div>
                         <div className={styles.description}>
@@ -121,7 +121,7 @@ class CourseDetail extends Component {
                         {isAdmin &&
                         <TabPane
                             tab={<span>
-                                <Icon type="home" theme={"twoTone"}
+                                <Icon type="idcard" theme={"twoTone"}
                                       style={{marginRight: '10px'}}/>Manage Instructors
                             </span>}
                             key="instructor">

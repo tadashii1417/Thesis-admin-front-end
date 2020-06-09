@@ -21,7 +21,6 @@ class CourseInstructors extends Component {
     }
 
     removeInstructor = async (instructorId) => {
-        console.log(instructorId);
         try {
             const {courseId} = this.props;
             await removeCourseInstructor(courseId, instructorId);
@@ -51,7 +50,6 @@ class CourseInstructors extends Component {
     }
 
     handleSelectOption = (e) => {
-        console.log("e receive", e);
         this.setState({selectedUser: e});
     }
 

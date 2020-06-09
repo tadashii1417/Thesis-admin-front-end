@@ -6,6 +6,7 @@ import {Typography, Button, Divider, Input} from "antd";
 import {Link} from 'react-router-dom';
 import {httpErrorHandler} from "../../utils/axios_util";
 import {getCourseForInstructor, getCoursesForAdmin} from "../../services/course_service";
+import {DEFAULT_PAGE_SIZE, DEFAULT_PAGINATION} from "../../constants/dev_constant";
 
 const {Title} = Typography;
 const {Search} = Input;
@@ -13,21 +14,21 @@ const {Search} = Input;
 export default class extends Component {
     state = {
         data: [],
-        pagination: {},
+        pagination: DEFAULT_PAGINATION,
         loading: false
     };
 
     componentDidMount() {
-        this.fetchCourses({page: 1});
+        this.fetchCourses({page: 1, pageSize: DEFAULT_PAGE_SIZE});
     }
 
     async fetchCourses(params = {}) {
         this.setState({loading: true});
         try {
             if (this.props.isAdmin) {
-                const {data} = await getCoursesForAdmin(params.page);
+                const {data} = await getCoursesForAdmin(params.page, params.pageSize);
                 const pagination = {...this.state.pagination};
-                pagination.total = data.totalPageCount * 10;
+                pagination.total = data.totalItemCount;
                 this.setState({
                     loading: false,
                     data: data.items,
@@ -37,7 +38,6 @@ export default class extends Component {
                 const {data} = await getCourseForInstructor();
                 this.setState({data: data})
             }
-
         } catch (e) {
             httpErrorHandler(e, () => {
                 switch (e.code) {
@@ -49,14 +49,20 @@ export default class extends Component {
         }
     }
 
-    handlePageChange = (page) => {
+    handlePageChange = (page, pageSize) => {
         const pager = {...this.state.pagination};
         pager.current = page;
-        this.setState({
-            pagination: pager,
-        });
-        this.fetchCourses({page: page})
+        this.setState({pagination: pager});
+        this.fetchCourses({page: page, pageSize: pageSize})
     };
+
+    handlePageSizeChange = (current, pageSize) => {
+        const pager = {...this.state.pagination};
+        pager.current = 1;
+        pager.pageSize = pageSize;
+        this.setState({pagination: pager});
+        this.fetchCourses({page: 1, pageSize: pageSize});
+    }
 
     render() {
         const gutter = [16, {xs: 16, sm: 16, md: 24, lg: 32}];
@@ -82,13 +88,15 @@ export default class extends Component {
 
                 <div className={styles.courseContainer}>
                     <div className={styles.pagination}>
-                        <Pagination {...this.state.pagination} onChange={this.handlePageChange}/>
+                        <Pagination {...this.state.pagination}
+                                    onShowSizeChange={this.handlePageSizeChange}
+                                    onChange={this.handlePageChange}/>
                     </div>
 
                     <Row gutter={gutter}>
                         {this.state.data.map(course => {
                             const {id, name, slug, type, instructors, visibility, banner, priceResult} = course;
-                            return <Col key={id} sm={12} md={8} lg={8}>
+                            return <Col key={id} sm={12} md={12} lg={8}>
                                 <Card
                                     size="small"
                                     className={styles.CourseCard}
