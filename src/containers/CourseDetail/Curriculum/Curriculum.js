@@ -2,11 +2,12 @@ import React, {Component} from 'react';
 import {sortableContainer, sortableElement} from 'react-sortable-hoc';
 import arrayMove from 'array-move';
 import axios from '../../../config/axios-config';
-import {Button, Divider, message, Modal, Spin, Tooltip} from "antd";
+import {Button, Divider, message, Modal, Tooltip} from "antd";
 import NewSection from "../../../components/Curriculum/NewSection/NewSection";
 import Section from "../../../components/Curriculum/Sections/Sections";
 import {httpErrorHandler} from "../../../utils/axios_util";
 import {updateSection} from "../../../services/section_service";
+import Loading from "../../../components/Loading/Loading";
 
 // TODO: Lazy loading component
 
@@ -125,7 +126,7 @@ class Curriculum extends Component {
 
     render() {
         const {loading} = this.state;
-        if (loading) return <Spin/>;
+        if (loading) return <Loading/>;
 
         return (
             <React.Fragment>

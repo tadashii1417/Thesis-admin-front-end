@@ -1,9 +1,10 @@
 import React, {Component} from "react";
-import {Alert, Button, Divider, Icon, message, Modal, Spin} from "antd";
+import {Alert, Button, Divider, Icon, message, Modal} from "antd";
 import {createNewSemester, deleteSemester, getAllSemesters, updateSemester} from "../../services/semester_service";
 import styles from './Semester.module.css';
 import SemesterForm from "./SemesterForm";
 import EditSemesterForm from "./EditSemesterForm";
+import Loading from "../Loading/Loading";
 
 class SemesterDetail extends Component {
     state = {
@@ -19,10 +20,6 @@ class SemesterDetail extends Component {
     };
     closeNewSemester = () => {
         this.setState({newSemester: false})
-    };
-
-    openEditSemester = () => {
-        this.setState({editSemester: true})
     };
 
     closeEditSemester = () => {
@@ -78,7 +75,7 @@ class SemesterDetail extends Component {
 
     render() {
         const {loading, semesters} = this.state;
-        if (loading) return <Spin/>;
+        if (loading) return <Loading/>;
         let displaySemesters = <Alert
             message="There is no semesters"
             description="Please create new semester to manage."

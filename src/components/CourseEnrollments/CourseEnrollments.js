@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {Link} from "react-router-dom";
-import {Button, Divider, message, AutoComplete, Spin, Table, Icon} from "antd";
+import {Button, Divider, message, AutoComplete, Table, Icon} from "antd";
 import {getCourseEnrollments} from "../../services/course_service";
 import moment from "moment";
 import config from "../../config";
@@ -9,6 +9,7 @@ import {httpErrorHandler} from "../../utils/axios_util";
 import styles from './CourseEnrollments.module.css';
 import {searchUser} from "../../services/user_service";
 import {ServerErrors} from "../../constants/server_error_constant";
+import Loading from "../Loading/Loading";
 
 const {Option} = AutoComplete;
 
@@ -135,7 +136,7 @@ class CourseEnrollments extends Component {
 
     render() {
         const {enrollments, loading, searchLoading, searchResult} = this.state;
-        if (loading) return <Spin/>;
+        if (loading) return <Loading/>;
 
         const children = searchResult.map(
             user => {

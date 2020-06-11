@@ -1,8 +1,9 @@
 import React, {Component} from "react";
-import {Divider, message, Pagination, Spin} from "antd";
+import {Divider, message, Pagination} from "antd";
 import {getCourseFeedback} from "../../services/course_service";
 import Review from "../Review/Review";
 import {DEFAULT_PAGE_SIZE, DEFAULT_PAGINATION} from "../../constants/dev_constant";
+import Loading from "../Loading/Loading";
 
 class CourseFeedback extends Component {
     state = {
@@ -48,7 +49,7 @@ class CourseFeedback extends Component {
 
     render() {
         const {feedback, loading} = this.state;
-        if (loading) return <Spin/>;
+        if (loading) return <Loading/>;
 
         return (
             <>

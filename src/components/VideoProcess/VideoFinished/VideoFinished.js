@@ -1,10 +1,11 @@
 import React, {Component} from "react";
-import {message, Spin} from "antd";
+import {message} from "antd";
 import {getModule} from "../../../services/module_service";
 import {httpErrorHandler} from "../../../utils/axios_util";
 import {isHlsVideo} from "../../../utils/video_util";
 import HlsPlayer from "../../HlsPlayer/HlsPlayer";
 import styles from './VideoFinished.module.css';
+import Loading from "../../Loading/Loading";
 
 class VideoFinished extends Component {
     state = {
@@ -29,9 +30,8 @@ class VideoFinished extends Component {
 
     render() {
         const {loading, module: {instanceData}} = this.state;
-        if (loading) {
-            return <Spin/>
-        }
+        if (loading) return <Loading/>;
+
 
         if (!instanceData) {
             return "No video";

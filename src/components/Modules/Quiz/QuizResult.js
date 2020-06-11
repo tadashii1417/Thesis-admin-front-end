@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Table, Avatar, Spin, message, Button, Icon, Breadcrumb, Tag} from 'antd';
+import {Table, Avatar, message, Button, Icon, Breadcrumb, Tag} from 'antd';
 import {defaultAvatar} from "../../../constants/dev_constant";
 import {httpErrorHandler} from "../../../utils/axios_util";
 import styles from './Quiz.module.css';
@@ -9,6 +9,7 @@ import {fetchQuizResult} from "../../../services/quiz_service";
 import {Route, Switch, withRouter} from "react-router";
 import StudentAttempts from "./StudentAttempts";
 import {Link} from "react-router-dom";
+import Loading from "../../Loading/Loading";
 
 
 class QuizResult extends Component {
@@ -100,7 +101,7 @@ class QuizResult extends Component {
         const {loading, results} = this.state;
         const {moduleId, courseName} = this.props;
         const {url} = this.props.match;
-        if (loading) return <Spin/>;
+        if (loading) return <Loading/>;
 
         return (
             <div className={styles.quizContainer}>

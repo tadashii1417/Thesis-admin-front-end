@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Form, message, Spin} from "antd";
+import {Form, message} from "antd";
 import {ModuleType} from "../../../constants/module_constant";
 import {getModule, updateModule} from "../../../services/module_service";
 import {httpErrorHandler} from "../../../utils/axios_util";
@@ -7,6 +7,7 @@ import {createPatch} from "../../../utils/patch_util";
 import {createAnnouncement, sendNotification, updateAnnouncement} from "../../../services/announcement_service";
 import AnnouncementForm from "../../Forms/AnnouncementForm/AnnouncementForm";
 import ModuleLayout from "../../ModuleLayout/ModuleLayout";
+import Loading from "../../Loading/Loading";
 
 class AnnouncementBasic extends Component {
     state = {
@@ -77,7 +78,7 @@ class AnnouncementBasic extends Component {
 
     render() {
         const {module, loading} = this.state;
-        if (loading) return <Spin/>;
+        if (loading) return <Loading/>;
 
         const {getFieldDecorator} = this.props.form;
         const {match: {params: {slug}}, location: {state: {courseName}}} = this.props;

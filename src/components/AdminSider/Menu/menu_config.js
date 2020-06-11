@@ -38,6 +38,14 @@ export default [
         routes: []
     },
     {
+        display: "Departments",
+        name: "department",
+        onlyAdmin: true,
+        icon: "bank",
+        path: "/departments",
+        routes: []
+    },
+    {
         display: "Account Center",
         name: "account-center",
         onlyAdmin: true,

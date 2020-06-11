@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
 import ReactCalendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import {Icon as AIcon, Popover, message, Spin, Divider} from "antd";
+import {Icon as AIcon, Popover, message, Divider} from "antd";
 import styles from './Calendar.module.css';
 import {formatEventGroupKey} from "../../utils/date_util";
 import {getModuleEvents} from "../../services/event_service";
 import {ModuleEventSubtype} from "../../constants/event_constant";
 import moment from "moment";
+import Loading from "../Loading/Loading";
 
 class MyCalendar extends Component {
     state = {
@@ -33,7 +34,7 @@ class MyCalendar extends Component {
 
         let text = null;
         const {startAt} = e;
-        const {subtype, moduleTitle, moduleId, courseId, courseName, moduleType} = instanceData;
+        const {subtype, moduleTitle, courseName} = instanceData;
         switch (subtype) {
             case ModuleEventSubtype.LIVESTREAM_START:
                 text = "bắt đầu lúc";
@@ -93,7 +94,7 @@ class MyCalendar extends Component {
 
 
     render() {
-        if (this.state.loading) return <Spin/>;
+        if (this.state.loading) return <Loading/>;
 
         return (
             <div>

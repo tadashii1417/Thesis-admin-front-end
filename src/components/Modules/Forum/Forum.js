@@ -1,5 +1,5 @@
 import React, {Component, Suspense} from "react";
-import {Icon as AIcon, Table, message, Spin, Button, Modal} from "antd";
+import {Icon as AIcon, Table, message, Button, Modal} from "antd";
 import {Link} from "react-router-dom";
 import {ModuleType} from "../../../constants/module_constant";
 import {getModule, updateModule} from "../../../services/module_service";
@@ -9,6 +9,7 @@ import moment from "moment";
 import config from "../../../config";
 import ModuleLayout from "../../ModuleLayout/ModuleLayout";
 import {DEFAULT_PAGE_SIZE, DEFAULT_PAGINATION} from "../../../constants/dev_constant";
+import Loading from "../../Loading/Loading";
 
 const NewForumPost = React.lazy(() => import("../../NewForumPost/NewForumPost"));
 
@@ -148,7 +149,7 @@ class Forum extends Component {
 
     render() {
         const {module, loading} = this.state;
-        if (loading) return <Spin/>;
+        if (loading) return <Loading/>;
 
         const {instanceData: {intro}} = module;
         const {match: {params: {slug}}, location: {state: {courseName}}} = this.props;

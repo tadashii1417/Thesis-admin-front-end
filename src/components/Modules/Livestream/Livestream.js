@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Button, message, Spin} from "antd";
+import {Button, message} from "antd";
 import styles from "./Livestream.module.css";
 import {LivestreamStatus, ModuleType} from "../../../constants/module_constant";
 import {getModule, updateModule} from "../../../services/module_service";
@@ -11,6 +11,7 @@ import {
     startLivestream
 } from "../../../services/livestream_service";
 import ModuleLayout from "../../ModuleLayout/ModuleLayout";
+import Loading from "../../Loading/Loading";
 
 class Livestream extends Component {
     state = {
@@ -117,7 +118,7 @@ class Livestream extends Component {
 
     render() {
         const {module, loading} = this.state;
-        if (loading) return <Spin/>
+        if (loading) return <Loading/>;
 
         const {instanceData: {status}} = module;
         const {match: {params: {slug}}, location: {state: {courseName}}} = this.props;

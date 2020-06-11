@@ -95,7 +95,7 @@ export default class extends Component {
 
                     <Row gutter={gutter}>
                         {this.state.data.map(course => {
-                            const {id, name, slug, type, instructors, visibility, banner, priceResult} = course;
+                            const {id, name, slug, instructors, banner} = course;
                             return <Col key={id} sm={12} md={12} lg={8}>
                                 <Card
                                     size="small"

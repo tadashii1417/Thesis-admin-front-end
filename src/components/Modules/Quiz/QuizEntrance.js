@@ -1,5 +1,5 @@
 import React, {Component, Suspense} from "react";
-import {message, Modal, Spin, Tabs} from "antd";
+import {message, Modal, Tabs} from "antd";
 import {getModule, updateModule} from "../../../services/module_service";
 import {httpErrorHandler} from "../../../utils/axios_util";
 import {updateQuizConfig} from "../../../services/quiz_service";
@@ -88,7 +88,7 @@ export default class extends Component {
 
     render() {
         const {module, loading} = this.state;
-        if (loading) return <Spin/>;
+        if (loading) return <Loading/>;
 
         const {match: {params: {slug}}, location: {state}} = this.props;
         const courseName = state ? state.courseName : "Course";

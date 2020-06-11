@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import AuthContainer from "../../components/AuthContainer/AuthContainer";
 import {Button, Divider, Form, Icon, Input, message, Select} from "antd";
-import {Link, Redirect} from "react-router-dom";
+import {Link} from "react-router-dom";
 import queryString from 'query-string';
 import {resetPassword} from "../../services/me_service";
 import {httpErrorHandler} from "../../utils/axios_util";

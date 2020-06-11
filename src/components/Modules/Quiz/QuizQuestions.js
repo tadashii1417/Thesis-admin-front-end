@@ -1,5 +1,5 @@
 import React, {Component, Suspense} from "react";
-import {Button, Divider, Collapse, Icon, Result, Spin, message, Modal} from "antd";
+import {Button, Divider, Collapse, Icon, Result, message, Modal} from "antd";
 import styles from './Quiz.module.css';
 import {httpErrorHandler} from "../../../utils/axios_util";
 import {
@@ -147,7 +147,7 @@ export default class extends Component {
 
     render() {
         const {loading} = this.state;
-        if (loading) return <Spin/>;
+        if (loading) return <Loading/>;
 
         return (
             <div className={styles.quizContainer}>

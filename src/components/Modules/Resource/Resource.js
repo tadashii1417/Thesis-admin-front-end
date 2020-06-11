@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Upload, Icon as AntIcon, message, Spin, Divider, Button, Icon, Modal} from "antd";
+import {Upload, Icon as AntIcon, message, Divider, Button, Icon, Modal} from "antd";
 import styles from "./Resource.module.css";
 import {ModuleType} from "../../../constants/module_constant";
 import {getModule, updateModule} from "../../../services/module_service";
@@ -7,6 +7,7 @@ import {httpErrorHandler} from "../../../utils/axios_util";
 import {createResource} from "../../../services/resource_service";
 import ModuleLayout from "../../ModuleLayout/ModuleLayout";
 import {removeFile} from "../../../services/file_service";
+import Loading from "../../Loading/Loading";
 
 const {Dragger} = Upload;
 const {confirm} = Modal;
@@ -114,7 +115,7 @@ class Resource extends Component {
 
     render() {
         const {module, loading} = this.state;
-        if (loading) return <Spin/>;
+        if (loading) return <Loading/>;
 
         const {match: {params: {slug}}, location: {state: {courseName}}} = this.props;
 

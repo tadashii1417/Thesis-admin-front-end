@@ -1,5 +1,5 @@
 import React, {Component, Suspense} from "react";
-import {message, Spin, Result, Button, Modal} from 'antd';
+import {message, Result, Button, Modal} from 'antd';
 import {getModule, updateModule} from "../../../services/module_service";
 import {httpErrorHandler} from "../../../utils/axios_util";
 import {ModuleType} from "../../../constants/module_constant";
@@ -127,7 +127,7 @@ class Assignment extends Component {
 
     render() {
         const {module, loading, addModal, editModal} = this.state;
-        if (loading) return <Spin/>;
+        if (loading) return <Loading/>;
 
         const {match: {params: {slug}}, location: {state: {courseName}}} = this.props;
 

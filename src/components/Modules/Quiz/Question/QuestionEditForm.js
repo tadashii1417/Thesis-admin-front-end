@@ -2,12 +2,13 @@ import React from "react";
 import {
     Button,
     Form,
-    Select, InputNumber, Icon, Spin, Divider
+    Select, InputNumber, Icon, Divider
 } from "antd";
 import {QuestionType} from "../../../../constants/quiz_constant";
 import ChoiceForm from "../../../Choice/ChoiceForm";
 import {removeNullId, removeUndefined} from "../../../../utils/dev_util";
 import {Editor} from 'doodle-editor';
+import Loading from "../../../Loading/Loading";
 
 const {Option} = Select;
 
@@ -52,9 +53,7 @@ class QuestionEditFormBasic extends React.Component {
     };
 
     render() {
-        if (this.state.loading) {
-            return <Spin/>
-        }
+        if (this.state.loading) return <Loading/>;
         const {data} = this.props;
 
         const formItemLayout = {

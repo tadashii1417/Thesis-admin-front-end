@@ -1,10 +1,11 @@
 import React, {Component} from "react";
-import {Divider, Table, Avatar, Tag, Spin, message} from 'antd';
+import {Divider, Table, Avatar, Tag, message} from 'antd';
 
 import styles from './Assignment.module.css';
 import {defaultAvatar} from "../../../constants/dev_constant";
 import {httpErrorHandler} from "../../../utils/axios_util";
 import {fetchSubmissions} from "../../../services/assignment_service";
+import Loading from "../../Loading/Loading";
 
 class AssignmentSubmissions extends Component {
     state = {
@@ -56,7 +57,7 @@ class AssignmentSubmissions extends Component {
 
     render() {
         const {loading, submissions} = this.state;
-        if (loading) return <Spin/>
+        if (loading) return <Loading/>;
 
         return (
             <div className={styles.assignmentContent}>

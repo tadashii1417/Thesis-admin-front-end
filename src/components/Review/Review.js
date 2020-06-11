@@ -1,5 +1,5 @@
 import React from "react";
-import {Comment, Avatar} from "antd";
+import {Avatar} from "antd";
 import styles from "./Review.module.css";
 import Rating from 'react-rating';
 import {DEFAULT_SMALL_AVATAR} from "../../constants/dev_constant";

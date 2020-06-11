@@ -8,6 +8,7 @@ import VideoProcessing from "../../VideoProcess/VideoProcessing/VideoProcessing"
 import VideoFinished from "../../VideoProcess/VideoFinished/VideoFinished";
 import {getProgress} from "../../../services/video_service";
 import ModuleLayout from "../../ModuleLayout/ModuleLayout";
+import Loading from "../../Loading/Loading";
 
 const {Step} = Steps;
 
@@ -76,7 +77,7 @@ class Video extends Component {
 
     render() {
         const {module, loading, current} = this.state;
-        if (loading) return <Spin/>;
+        if (loading) return <Loading/>;
 
         const {match: {params: {slug}}, location: {state: {courseName}}} = this.props;
 

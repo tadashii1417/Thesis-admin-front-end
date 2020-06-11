@@ -1,0 +1,12 @@
+.spin {
+    margin-right: 10px;
+    font-size: 20px;
+}
+
+.searchBox {
+    text-align: right;
+}
+
+.searchBox button {
+    margin-left: 10px;
+}

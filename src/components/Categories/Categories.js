@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
 import styles from './Categories.module.css';
-import {Icon, Typography, Divider, Table, Modal, Spin, message} from 'antd';
+import {Icon, Typography, Divider, Table, Modal, message} from 'antd';
 import CategoryForm from './Form/CategoryForm';
 import {httpErrorHandler} from "../../utils/axios_util";
 import {createNewCategory, deleteCategory, fetchCategories, updateCategory} from "../../services/category_service";
 import {ServerErrors} from "../../constants/server_error_constant";
 import EditCategory from "./Form/EditCategory";
+import Loading from "../Loading/Loading";
 
 const {Title} = Typography;
 const {confirm} = Modal;
@@ -141,9 +142,8 @@ export default class extends Component {
     };
 
     render() {
-        if (this.state.loading) {
-            return <Spin/>
-        }
+        if (this.state.loading) return <Loading/>;
+
 
         const {categories} = this.state;
 

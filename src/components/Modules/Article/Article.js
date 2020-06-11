@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {message, Spin} from "antd";
+import {message} from "antd";
 import styles from "./Article.module.css";
 import {ModuleType} from "../../../constants/module_constant";
 import {getModule, updateModule} from "../../../services/module_service";
@@ -8,6 +8,7 @@ import {createPatch} from "../../../utils/patch_util";
 import {updateArticle} from "../../../services/article_service";
 import ModuleLayout from "../../ModuleLayout/ModuleLayout";
 import ArticleForm from "../../Forms/ArticleForm/ArticleForm";
+import Loading from "../../Loading/Loading";
 
 
 class Article extends Component {
@@ -77,7 +78,7 @@ class Article extends Component {
 
     render() {
         const {content, touched, module, loading} = this.state;
-        if (loading) return <Spin/>
+        if (loading) return <Loading/>;
         const {match: {params: {slug}}, location: {state: {courseName}}} = this.props;
 
         return (

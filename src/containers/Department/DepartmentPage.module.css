@@ -1,0 +1,26 @@
+.header {
+    background-color: #fff;
+    width: 100%;
+    padding: 12px 24px 16px 24px;
+    color: rgba(0,0,0,.65);
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.heading {
+    margin-top: 8px;
+    width: 100%;
+    overflow: hidden;
+    color: rgba(0,0,0,.85);
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 32px;
+}
+
+.description{
+    padding-top: 12px;
+}
+
+.mainForm {
+    margin: 24px 24px 0;
+}

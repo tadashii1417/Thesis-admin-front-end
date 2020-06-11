@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {Card, Upload, Button, Tabs, Icon, Breadcrumb, message, Spin, Result, Avatar} from 'antd';
+import {Card, Upload, Button, Tabs, Icon, Breadcrumb, message, Result, Avatar} from 'antd';
 import styles from './CourseDetail.module.css';
 import Curriculum from "./Curriculum/Curriculum";
 import {Link} from "react-router-dom";
@@ -16,6 +16,7 @@ import MyCalendar from "../../components/Calendar/Calendar";
 import {checkIsAdmin} from "../../utils/permision_util";
 import CourseInstructors from "../../components/CourseInstructors/CourseInstructors";
 import CourseFeedback from "../../components/CourseFeedback/CourseFeedback";
+import Loading from "../../components/Loading/Loading";
 
 // TODO: Create lazy loading for tab panel
 
@@ -75,7 +76,7 @@ class CourseDetail extends Component {
 
     render() {
         const {data, loading} = this.state;
-        if (loading) return <Spin/>;
+        if (loading) return <Loading/>;
         const {user} = this.props;
         const isAdmin = checkIsAdmin(user.roles);
 

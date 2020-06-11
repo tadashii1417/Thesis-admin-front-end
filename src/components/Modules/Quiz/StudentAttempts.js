@@ -1,12 +1,13 @@
 import React, {Component} from "react";
 import {Route, withRouter} from "react-router";
-import {message, Spin, Table} from "antd";
+import {message, Table} from "antd";
 import moment from "moment";
 import config from "../../../config";
 import {Link} from "react-router-dom";
 import {fetchStudentAttempts} from "../../../services/quiz_service";
 import {httpErrorHandler} from "../../../utils/axios_util";
 import AttemptDetail from "./AttemptDetail";
+import Loading from "../../Loading/Loading";
 
 
 class StudentAttempts extends Component {
@@ -89,7 +90,7 @@ class StudentAttempts extends Component {
     render() {
         const {attempts, loading} = this.state;
         const {url} = this.props.match;
-        if (loading) return <Spin/>
+        if (loading) return <Loading/>;
 
         return (
             <>

@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {message, Button, Spin} from "antd";
+import {message, Button} from "antd";
 
 import styles from './ForumTopic.module.css';
 import {ModuleType} from "../../constants/module_constant";
@@ -8,6 +8,7 @@ import {httpErrorHandler} from "../../utils/axios_util";
 import ModuleLayout from "../ModuleLayout/ModuleLayout";
 import ForumComment from "../ForumComment/ForumComment";
 import {Editor} from "doodle-editor";
+import Loading from "../Loading/Loading";
 
 class ForumTopic extends Component {
     state = {
@@ -50,7 +51,7 @@ class ForumTopic extends Component {
 
     render() {
         const {loading, answers} = this.state;
-        if (loading) return <Spin/>;
+        if (loading) return <Loading/>;
 
         const {match: {params: {slug, moduleId}}, location} = this.props;
         const {state: {module, post, courseName}} = location;

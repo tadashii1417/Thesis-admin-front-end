@@ -1,11 +1,9 @@
 import React, {Component} from "react";
-import {Breadcrumb, Card, Divider, Icon, Tabs} from "antd";
+import {Breadcrumb, Card, Icon, Tabs} from "antd";
 import UserProfile from "../../components/Profile";
 import styles from './MyProfile.module.css';
 import ChangePassword from "../../components/ChangePassword/ChangePassword";
 import {Link} from "react-router-dom";
-import UserList from "../../components/UserList/UserList";
-import NewAccount from "../../components/NewAccount/NewAccount";
 
 const {TabPane} = Tabs;
 

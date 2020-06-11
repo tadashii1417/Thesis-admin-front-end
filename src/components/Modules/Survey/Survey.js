@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Button, message, Modal, Result, Spin} from "antd";
+import {Button, message, Modal, Result} from "antd";
 import styles from "./Survey.module.css";
 import {ModuleType} from "../../../constants/module_constant";
 import {getModule, updateModule} from "../../../services/module_service";
@@ -16,6 +16,7 @@ import SurveyLevelQuestion from "../../SurveyLevelQuestion/SurveyLevelQuestion";
 import SurveyTextQuestion from "../../SurveyTextQuestion/SurveyTextQuestion";
 import NewSurveyQuestion from "./NewSurveyQuestionForm";
 import EditSurveyQuestion from "./EditSurveyQuestionForm";
+import Loading from "../../Loading/Loading";
 
 const {confirm} = Modal;
 
@@ -147,7 +148,7 @@ class Survey extends Component {
 
     render() {
         const {module, loading, questions} = this.state;
-        if (loading) return <Spin/>;
+        if (loading) return <Loading/>;
         const {match: {params: {slug}}, location: {state: {courseName}}} = this.props;
 
         return (
