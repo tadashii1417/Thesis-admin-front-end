@@ -85,7 +85,7 @@ class SemesterDetail extends Component {
 
         if (semesters.length > 0) {
             displaySemesters = <div>
-                {semesters.map(m => <div className={styles.semester}>
+                {semesters.map(m => <div className={styles.semester} key={m.id}>
                     {m.name}
                     <div>
                         <Icon type={"edit"} theme="twoTone"

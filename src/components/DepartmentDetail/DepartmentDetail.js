@@ -143,7 +143,8 @@ class DepartmentDetail extends Component {
                           expandIcon={({isActive}) => <Icon type="caret-right" rotate={isActive ? 90 : 0}/>}>
                     {
                         departments.map(p =>
-                            <Panel key={p.id} header={p.name}
+                            <Panel key={p.id}
+                                   header={<b>{p.name}</b>}
                                    extra={genPanelExtraTool(p)}
                                    style={customPanelStyle}>
                                 <Suspense fallback={"loading ..."}>

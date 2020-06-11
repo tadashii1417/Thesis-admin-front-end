@@ -19,6 +19,9 @@ class NewAccountBasic extends React.Component {
                 } catch (e) {
                     httpErrorHandler(e, () => {
                         switch (e.code) {
+                            case ServerErrors.INVALID_SIGNUP_DATA:
+                                message.error({content: "Signup data not satisfy all constraints.", key});
+                                break;
                             case ServerErrors.USERNAME_ALREADY_EXISTS:
                                 message.error({content: "Username already exists", key});
                                 break;

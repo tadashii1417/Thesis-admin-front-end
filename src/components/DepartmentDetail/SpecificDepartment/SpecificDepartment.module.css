@@ -10,3 +10,8 @@
 .searchBox button {
     margin-left: 10px;
 }
+
+.staffHeading {
+    display: flex;
+    justify-content: space-between;
+}
