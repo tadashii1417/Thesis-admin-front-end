@@ -10,6 +10,7 @@ import styles from './CourseEnrollments.module.css';
 import {searchUser} from "../../services/user_service";
 import {ServerErrors} from "../../constants/server_error_constant";
 import Loading from "../Loading/Loading";
+import {getDisplayName} from "../../utils/string_util";
 
 const {Option} = AutoComplete;
 
@@ -101,10 +102,11 @@ class CourseEnrollments extends Component {
 
     columns = [
         {
-            title: 'Username',
-            dataIndex: 'learner.username',
+            title: 'Fullname',
             key: 'name',
-            render: text => <Link to={'/'}>{text}</Link>,
+            render: (_, row) => {
+                return <Link to={'/'}>{getDisplayName(row.learner)}</Link>
+            },
         },
         {
             title: 'Email',

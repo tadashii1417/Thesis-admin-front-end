@@ -1,0 +1,20 @@
+.container {
+    border: 1px solid #dee2e6 !important;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+}
+
+.answersContainer {
+    height: 250px;
+    overflow-y: scroll;
+}
+
+.answer {
+    background-color: #dee2e6;
+    margin: 10px;
+    padding: 10px;
+}
+
+.icon {
+    margin-right: 5px;
+}

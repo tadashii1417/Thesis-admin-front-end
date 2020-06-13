@@ -5,7 +5,7 @@ const proxy = 'http://10.130.48.178';
 // const proxy = 'http://localhost';
 
 const instance = axios.create({
-    baseURL: `${proxy}:4000/`,
+    baseURL: `${proxy}:8000/`,
     timeout: 7500
 });
 

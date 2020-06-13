@@ -82,7 +82,8 @@ export default class extends Component {
                 to={{
                     pathname: "/courses/" + course.slug + '/' + value.type + '/' + value.id,
                     state: {
-                        courseName: course.name
+                        courseName: course.name,
+                        courseId: course.id
                     }
                 }}
                 className={styles.moduleTitle}>

@@ -15,7 +15,7 @@ const Dashboard = React.lazy(() => import("./containers/Dashboard"));
 const NewCourse = React.lazy(() => import("./containers/NewCourse/NewCourse"));
 const QuizEntrance = React.lazy(() => import("./components/Modules/Quiz/QuizEntrance"));
 const Article = React.lazy(() => import("./components/Modules/Article/Article"));
-const Survey = React.lazy(() => import("./components/Modules/Survey/Survey"));
+const Survey = React.lazy(() => import("./components/Modules/Survey/SurveyQuestion"));
 const Assignment = React.lazy(() => import("./components/Modules/Assignment/Assignment"));
 const CourseDetail = React.lazy(() => import("./containers/CourseDetail/CourseDetail"));
 const Video = React.lazy(() => import("./components/Modules/Video"));

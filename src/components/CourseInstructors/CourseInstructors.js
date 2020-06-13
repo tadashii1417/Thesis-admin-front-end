@@ -1,11 +1,13 @@
 import React, {Component} from "react";
 import {Link} from "react-router-dom";
-import {Button, Divider, message, AutoComplete, Table, Icon} from "antd";
+import {Button, Divider, message, AutoComplete, Table, Icon, Tooltip, Popconfirm} from "antd";
 import {httpErrorHandler} from "../../utils/axios_util";
 import {searchUser} from "../../services/user_service";
 import styles from './CourseInstructors.module.css';
-import {addCourseInstructor, removeCourseInstructor} from "../../services/instructor_service";
+import {addCourseInstructor, removeCourseInstructor, updateCourseInstructor} from "../../services/instructor_service";
 import {ServerErrors} from "../../constants/server_error_constant";
+import {getDisplayName} from "../../utils/string_util";
+import {createPatch} from "../../utils/patch_util";
 
 const {Option} = AutoComplete;
 
@@ -81,6 +83,28 @@ class CourseInstructors extends Component {
         }
     }
 
+    updateCourseInstructor = async (field, row) => {
+        try {
+            const patch = [];
+            let updatedValue;
+            if (field === 'visible') {
+                updatedValue = !row.visible;
+            } else {
+                updatedValue = row.status === 'active' ? 'inactive' : 'active';
+            }
+            createPatch(patch, field, updatedValue);
+            await updateCourseInstructor(this.props.courseId, row.id, patch);
+
+            const updatedInstructors = [...this.state.instructors];
+            const index = updatedInstructors.findIndex(i => i.id === row.id);
+            updatedInstructors[index][field] = updatedValue;
+            this.setState({instructors: updatedInstructors});
+            message.success("Update course instructor successful");
+        } catch (e) {
+            message.error("Something went wrong");
+        }
+    }
+
     columns = [
         {
             title: 'Username',
@@ -96,15 +120,46 @@ class CourseInstructors extends Component {
         {
             title: 'Full name',
             key: 'fullname',
-            render: (_, row) => <span>{row.lastName + row.firstName}</span>
+            render: (_, row) => <span>{getDisplayName(row)}</span>
         },
         {
-            title: 'Action',
+            title: 'Actions',
             key: 'action',
             render: (_, row) => {
-                return <Button type="danger" onClick={() => this.removeInstructor(row.id)}>
-                    <Icon type="delete"/>
-                </Button>
+                const btnType = row.status === 'active' ? 'primary' : 'default';
+                const display = row.status === 'active' ? 'Active' : 'Inactive';
+                const visibleIcon = row.visible ? 'eye' : 'eye-invisible';
+
+                return (
+                    <>
+                        <Tooltip title="Does this teacher still teach this course ?">
+                            <Button type={btnType}
+                                    onClick={() => this.updateCourseInstructor('status', row)}>{display}
+                            </Button>
+                        </Tooltip>
+                        <Divider type="vertical"/>
+
+                        <Tooltip title="Show this instructor in pages or not">
+                            <Button onClick={() => this.updateCourseInstructor('visible', row)}>
+                                <Icon type={visibleIcon}/>
+                            </Button>
+                        </Tooltip>
+
+                        <Divider type="vertical"/>
+
+                        <Popconfirm
+                            title="Are you sure delete this instructors?"
+                            onConfirm={() => this.removeInstructor(row.id)}
+                            onCancel={() => console.log('cancel')}
+                            okText="Yes"
+                            cancelText="No">
+                            <Button>
+                                <Icon type="delete"/>
+                            </Button>
+                        </Popconfirm>
+
+                    </>
+                )
             }
         }
     ];

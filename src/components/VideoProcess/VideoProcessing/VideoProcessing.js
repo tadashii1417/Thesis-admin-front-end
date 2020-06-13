@@ -3,6 +3,7 @@ import {Button, Icon, message, Steps, Tooltip} from "antd";
 import styles from './VideoProcessing.module.css';
 import {deleteProcess, getProgress, terminateProcess} from "../../../services/video_service";
 import {VideoStatusType} from "../../../constants/video_contant";
+import config from "../../../config";
 
 const {Step} = Steps;
 
@@ -21,7 +22,7 @@ class VideoProcessing extends Component {
     async componentDidMount() {
         this.props.setProgressing(true);
         await this.fetchProgress();
-        this.intervalId = setInterval(this.fetchProgress, 1000);
+        this.intervalId = setInterval(this.fetchProgress, config.videoFetchInterval);
     }
 
     messageMapping = {

@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Button, message, Modal, Result} from "antd";
+import {Button, Icon, message, Modal, Result, Tabs} from "antd";
 import styles from "./Survey.module.css";
 import {ModuleType} from "../../../constants/module_constant";
 import {getModule, updateModule} from "../../../services/module_service";
@@ -17,10 +17,11 @@ import SurveyTextQuestion from "../../SurveyTextQuestion/SurveyTextQuestion";
 import NewSurveyQuestion from "./NewSurveyQuestionForm";
 import EditSurveyQuestion from "./EditSurveyQuestionForm";
 import Loading from "../../Loading/Loading";
+import SurveyResult from "./SurveyResult";
 
 const {confirm} = Modal;
 
-class Survey extends Component {
+class SurveyQuestion extends Component {
     state = {
         loading: true,
         newQuestion: false,
@@ -149,7 +150,8 @@ class Survey extends Component {
     render() {
         const {module, loading, questions} = this.state;
         if (loading) return <Loading/>;
-        const {match: {params: {slug}}, location: {state: {courseName}}} = this.props;
+        console.log(this.props.location.state);
+        const {match: {params: {slug}}, location: {state: {courseName, courseId}}} = this.props;
 
         return (
             <ModuleLayout
@@ -158,30 +160,37 @@ class Survey extends Component {
                 moduleType={ModuleType.ARTICLE}
                 handleEditModule={this.handleEditModule}
                 module={module}>
+                <Tabs type="card">
+                    <Tabs.TabPane key="questions" tab={<span><Icon type="question-circle"/>Manage questions</span>}>
+                        {questions.length === 0 &&
+                        <Result
+                            status="404"
+                            title="404"
+                            subTitle="This is no survey questions"/>
+                        }
 
-                {questions.length === 0 &&
-                <Result
-                    status="404"
-                    title="404"
-                    subTitle="This is no survey questions"/>
-                }
+                        {questions.length > 0 && questions[0].type === "level" && this.renderLevelQuestionHeader()}
+                        {questions.map((question, i) => (
+                            (question.type === SurveyQuestionType.LEVEL)
+                                ? <SurveyLevelQuestion question={question} index={i} key={question.id}
+                                                       setSelectedQuestion={this.setSelectedQuestion}
+                                                       openEditModal={this.openEditQuestionModal}
+                                                       handleDelete={this.showDeleteConfirm}/>
+                                : <SurveyTextQuestion question={question} index={i} key={question.id}
+                                                      setSelectedQuestion={this.setSelectedQuestion}
+                                                      openEditModal={this.openEditQuestionModal}
+                                                      handleDelete={this.showDeleteConfirm}/>
+                        ))}
 
-                {questions.length > 0 && questions[0].type === "level" && this.renderLevelQuestionHeader()}
-                {questions.map((question, i) => (
-                    (question.type === SurveyQuestionType.LEVEL)
-                        ? <SurveyLevelQuestion question={question} index={i} key={question.id}
-                                               setSelectedQuestion={this.setSelectedQuestion}
-                                               openEditModal={this.openEditQuestionModal}
-                                               handleDelete={this.showDeleteConfirm}/>
-                        : <SurveyTextQuestion question={question} index={i} key={question.id}
-                                              setSelectedQuestion={this.setSelectedQuestion}
-                                              openEditModal={this.openEditQuestionModal}
-                                              handleDelete={this.showDeleteConfirm}/>
-                ))}
+                        <div className={styles.addQuestion}>
+                            <Button type={"primary"} onClick={this.openNewQuestionModal}>Add question</Button>
+                        </div>
 
-                <div className={styles.addQuestion}>
-                    <Button type={"primary"} onClick={this.openNewQuestionModal}>Add question</Button>
-                </div>
+                    </Tabs.TabPane>
+                    <Tabs.TabPane key="result" tab={<span> <Icon type="bar-chart"/>Survey result</span>}>
+                        <SurveyResult courseId={courseId}/>
+                    </Tabs.TabPane>
+                </Tabs>
 
                 <Modal title={"New survey question"}
                        visible={this.state.newQuestion}
@@ -204,4 +213,4 @@ class Survey extends Component {
     }
 }
 
-export default Survey;
+export default SurveyQuestion;

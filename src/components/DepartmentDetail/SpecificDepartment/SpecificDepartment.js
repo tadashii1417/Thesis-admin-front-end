@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Icon, message, AutoComplete, Button, Alert, Modal, Card, Avatar, Row, Col} from "antd";
+import {Icon, message, AutoComplete, Button, Modal, Card, Avatar, Row, Col} from "antd";
 import {
     addUserToDepartment,
     getSpecificDepartment,
@@ -10,6 +10,8 @@ import {getUser, searchUser} from "../../../services/user_service";
 import Loading from "../../Loading/Loading";
 import {DEFAULT_SMALL_AVATAR} from "../../../constants/dev_constant";
 import {getDisplayName} from "../../../utils/string_util";
+import {httpErrorHandler} from "../../../utils/axios_util";
+import {ServerErrors} from "../../../constants/server_error_constant";
 
 const {Option} = AutoComplete;
 const {Meta} = Card;
@@ -63,7 +65,15 @@ class SpecificDepartment extends Component {
             console.log(updatedDepartment);
             message.success("New user has been added to department");
         } catch (e) {
-            message.error("Something went wrong");
+            httpErrorHandler(e, () => {
+                switch (e.code) {
+                    case ServerErrors.INVALID_USER_TYPE:
+                        message.error("This user type is not allowed");
+                        break;
+                    default:
+                        message.error("Something went wrong");
+                }
+            })
         }
         console.log(this.state.selectedUser);
     }

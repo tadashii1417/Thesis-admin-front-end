@@ -1,0 +1,32 @@
+.container {
+    border: 1px solid #dee2e6 !important;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+}
+
+.colContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.colContainer > *,
+.percentContainer > *,
+.totalContainer > * {
+    padding: 5px 0;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.percentContainer:last-child {
+    border: none;
+    color: red;
+}
+
+.totalContainer {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.totalContainer > * {
+    text-align: center;
+}
