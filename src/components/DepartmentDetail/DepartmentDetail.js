@@ -101,7 +101,6 @@ class DepartmentDetail extends Component {
         });
     };
 
-
     render() {
         const {loading, departments} = this.state;
         if (loading) return <Loading/>;

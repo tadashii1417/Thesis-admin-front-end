@@ -1,0 +1,27 @@
+.header {
+    padding: 15px;
+    display: flex;
+    flex-direction: row;
+}
+
+.tabTitle {
+    display: inline-block;
+    flex: 50%;
+}
+
+.searchBox {
+    flex: 50%
+}
+
+.permissionHeading {
+    display: flex;
+    justify-content: space-between;
+}
+
+.newRole {
+    margin: 20px 0;
+}
+
+.addPermission{
+    text-align: right;
+}

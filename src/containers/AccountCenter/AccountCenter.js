@@ -4,6 +4,7 @@ import styles from './AccountCenter.module.css';
 import UserList from "../../components/UserList/UserList";
 import NewAccount from "../../components/NewAccount/NewAccount";
 import {Link} from "react-router-dom";
+import RolesPage from "../Roles/RolesPage";
 
 const {TabPane} = Tabs;
 
@@ -35,7 +36,11 @@ class AccountCenter extends Component {
                                 <UserList/>
                             </TabPane>
 
-                            <TabPane tab={<span><Icon type="key"/> Create New Account</span>} key="2">
+                            <TabPane tab={<span><Icon type="user"/> Manage Roles</span>} key="2">
+                                <RolesPage/>
+                            </TabPane>
+
+                            <TabPane tab={<span><Icon type="key"/> Create New Account</span>} key="3">
                                 <h3 className={styles.tabTitle}>Create new account</h3>
                                 <Divider/>
                                 <NewAccount/>

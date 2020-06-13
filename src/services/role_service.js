@@ -8,8 +8,8 @@ export function getSpecificRole(roleId) {
     return axios.get('/api/roles/' + roleId);
 }
 
-export function createRole(name, description) {
-    return axios.post('/api/roles', {name, description});
+export function createRole(values) {
+    return axios.post('/api/roles', values);
 }
 
 export function updateRole(roleId, patch) {
