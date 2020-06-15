@@ -7,6 +7,7 @@ import {Link} from 'react-router-dom';
 import {httpErrorHandler} from "../../utils/axios_util";
 import {getCourseForInstructor, getCoursesForAdmin} from "../../services/course_service";
 import {DEFAULT_PAGE_SIZE, DEFAULT_PAGINATION} from "../../constants/dev_constant";
+import {CourseType} from "../../constants/course_constant";
 
 const {Title} = Typography;
 const {Search} = Input;
@@ -95,7 +96,7 @@ export default class extends Component {
 
                     <Row gutter={gutter}>
                         {this.state.data.map(course => {
-                            const {id, name, slug, instructors, banner} = course;
+                            const {id, name, slug, instructors, banner, type} = course;
                             return <Col key={id} sm={12} md={12} lg={8}>
                                 <Card
                                     size="small"
@@ -107,8 +108,10 @@ export default class extends Component {
                                         </Link>
                                     }>
                                     <div className={styles.courseTag}>
-                                        <div><Tag value="offline"/></div>
-                                        <div><Tag value="remote"/></div>
+                                        {type === CourseType.OFFLINE ?
+                                            <div><Tag value="offline"/></div> :
+                                            <div><Tag value="online"/></div>
+                                        }
                                     </div>
 
                                     <div className={styles.courseInfo}>

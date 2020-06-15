@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Button, message} from "antd";
+import {Button, message, Result} from "antd";
 import styles from "./Livestream.module.css";
 import {LivestreamStatus, ModuleType} from "../../../constants/module_constant";
 import {getModule, updateModule} from "../../../services/module_service";
@@ -122,7 +122,6 @@ class Livestream extends Component {
 
         const {instanceData: {status}} = module;
         const {match: {params: {slug}}, location: {state: {courseName}}} = this.props;
-        const introImg = "http://www.clipartbest.com/cliparts/9TR/Ljq/9TRLjq8Bc.gif";
 
         return (
             <ModuleLayout
@@ -133,7 +132,10 @@ class Livestream extends Component {
                 moduleType={ModuleType.LIVESTREAM}>
 
                 <div className={styles.container}>
-                    <div><img src={introImg} alt={"livestream introduction"} className={styles.introImg}/></div>
+                    <Result
+                        status="403"
+                        title="There is no conference."
+                    />
 
                     <div className={styles.actionArea}>
                         {status === LivestreamStatus.CREATED && <Button

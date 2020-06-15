@@ -1,6 +1,6 @@
 export const EventType = {
     MODULE: 0,
-    TIMETABLE: 2
+    TIMETABLE: 1
 };
 
 export const ModuleEventSubtype = {

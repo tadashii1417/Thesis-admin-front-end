@@ -5,7 +5,7 @@ import {Icon as AIcon, Popover, message, Divider} from "antd";
 import styles from './Calendar.module.css';
 import {formatEventGroupKey} from "../../utils/date_util";
 import {getModuleEvents} from "../../services/event_service";
-import {ModuleEventSubtype} from "../../constants/event_constant";
+import {EventType, ModuleEventSubtype} from "../../constants/event_constant";
 import moment from "moment";
 import Loading from "../Loading/Loading";
 
@@ -29,12 +29,23 @@ class MyCalendar extends Component {
     }
 
     renderEvent = (e) => {
-        const {instanceData} = e;
+        console.log("event", e);
+
+        const {instanceData, startAt} = e;
         if (!instanceData) return null;
+        const {subtype, moduleTitle, courseName, startTime, endTime} = instanceData;
+
+        if (e.type === EventType.TIMETABLE) {
+            return (
+                <div className={styles.eventContainer}>
+                <span>
+                    Lớp học offline diễn ra vào lúc <b>{startTime}</b> và kết thúc lúc <b>{endTime}</b>.
+                </span>
+                </div>
+            );
+        }
 
         let text = null;
-        const {startAt} = e;
-        const {subtype, moduleTitle, courseName} = instanceData;
         switch (subtype) {
             case ModuleEventSubtype.LIVESTREAM_START:
                 text = "bắt đầu lúc";
@@ -56,15 +67,11 @@ class MyCalendar extends Component {
         }
 
         return (
-            // <Link to={`/learn/${courseId}/lectures/${moduleId}`}>
             <div className={styles.eventContainer}>
-                {/*<Icon icon={ModulesConfig[moduleType].icon} size={16}*/}
-                {/*      style={{color: ModulesConfig[moduleType].color}}/>*/}
                 <span>
-                        <b>{moduleTitle}</b> trong <b>{courseName}</b> {text} <b>{moment(startAt).format("HH:mm")}</b>
-                    </span>
+                    <b>{moduleTitle}</b> trong <b>{courseName}</b> {text} <b>{moment(startAt).format("HH:mm")}</b>
+                </span>
             </div>
-            // </Link>
         );
     }
 

@@ -1,7 +1,7 @@
 import axios from '../config/axios-config';
 
-export function createLivestream(moduleId, record = false) {
-    return axios.post('/api/livestreams', {moduleId, record});
+export function createLivestream(moduleId, record = false, expectedStartAt) {
+    return axios.post('/api/livestreams', {moduleId, record, expectedStartAt});
 }
 
 export function startLivestream(moduleId) {

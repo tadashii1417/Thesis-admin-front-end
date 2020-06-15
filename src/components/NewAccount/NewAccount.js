@@ -5,8 +5,24 @@ import {UserType} from "../../constants/user_contant";
 import {createUser} from "../../services/user_service";
 import {httpErrorHandler} from "../../utils/axios_util";
 import {ServerErrors} from "../../constants/server_error_constant";
+import Loading from "../Loading/Loading";
+import {getRoles} from "../../services/role_service";
 
 class NewAccountBasic extends React.Component {
+    state = {
+        loading: true,
+        roles: []
+    }
+
+    async componentDidMount() {
+        try {
+            const {data} = await getRoles();
+            this.setState({roles: data, loading: false});
+        } catch (e) {
+            message.error("Fetch roles failed");
+        }
+    }
+
     handleSubmit = e => {
         e.preventDefault();
         this.props.form.validateFields(async (err, values) => {
@@ -38,6 +54,9 @@ class NewAccountBasic extends React.Component {
     };
 
     render() {
+        const {loading, roles} = this.state;
+        if (loading) return <Loading/>;
+
         const {getFieldDecorator} = this.props.form;
         const formItemLayout = {
             labelCol: {
@@ -68,9 +87,7 @@ class NewAccountBasic extends React.Component {
                         {getFieldDecorator('type', {
                             rules: [{required: true, message: "Please select type."}]
                         })(<Select style={{width: '50%'}}>
-                            <Select.Option value={UserType.STAFF}>Staff</Select.Option>
-                            <Select.Option value={UserType.LEARNER}>Leaner</Select.Option>
-                            <Select.Option value={UserType.INSTRUCTOR}>Instructor</Select.Option>
+                            {roles.map(role => <Select.Option value={role.name}>{role.name}</Select.Option>)}
                         </Select>)}
                     </Form.Item>
 

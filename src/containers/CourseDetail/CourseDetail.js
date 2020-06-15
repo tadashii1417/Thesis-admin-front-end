@@ -135,7 +135,7 @@ class CourseDetail extends Component {
                             <Curriculum courseData={data}/>
                         </TabPane>
 
-                        {!isAdmin && <TabPane
+                        {<TabPane
                             tab={<span><Icon type="calendar" theme={"twoTone"}
                                              style={{marginRight: '10px'}}/>My Calendar</span>}
                             key="calendar">

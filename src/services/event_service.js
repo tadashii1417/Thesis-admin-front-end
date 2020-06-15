@@ -13,10 +13,8 @@ export function getModuleEvents(date) {
     const sundayOfFirstDayInMonth = moment(lastDayInMonth).endOf("isoWeek");
 
     const query = {
-        type: EventType.MODULE,
-        startFrom: mondayOfFirstDayInMonth.valueOf(),
-        startTo: sundayOfFirstDayInMonth.valueOf(),
-        groupByDay: true
+        from: mondayOfFirstDayInMonth.valueOf(),
+        to: sundayOfFirstDayInMonth.valueOf()
     };
 
     return axios.get(`/api/events?${queryStringFromObject(query)}`);

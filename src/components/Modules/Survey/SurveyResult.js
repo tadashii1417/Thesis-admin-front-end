@@ -31,7 +31,6 @@ class SurveyResult extends Component {
     }
 
     getSurveyStatistic = async () => {
-        console.log(this.state.taskId);
         if (!this.state.taskId) return;
 
         try {
@@ -79,11 +78,26 @@ class SurveyResult extends Component {
                 showIcon
             />
         }
-        console.log(this.state.data);
         const result = JSON.parse(data.result);
+        console.log('result', result);
+        if (result.conductorCount === '0') {
+            return <Alert
+                message="No one finish the survey yet."
+                description="Please comeback later"
+                type="info"
+                showIcon
+            />
+        }
 
         return (
             <div>
+                <Alert
+                    message="Overall Result."
+                    description={'There is ' + result.conductorCount + ' / ' + result.learnerCount + ' students finish the survey'}
+                    type="info"
+                    showIcon
+                />
+
                 {Object.keys(result.questions).map((key, index) => {
                     if (result.questions[key].type === SurveyQuestionType.LEVEL) {
                         return <LevelQuestionResult index={index + 1} question={result.questions[key]} key={key}/>;

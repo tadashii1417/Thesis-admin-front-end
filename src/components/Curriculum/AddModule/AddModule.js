@@ -1,8 +1,10 @@
 import React from "react";
 import {Icon} from 'react-icons-kit';
 import ModulesConfig from '../ModulesConfig';
-import {Button, Form, Input, Radio, Switch} from "antd";
+import {Button, DatePicker, Form, Input, Radio, Switch} from "antd";
 import {ModuleType} from "../../../constants/module_constant";
+import moment from "moment";
+import config from "../../../config";
 
 const {TextArea} = Input;
 
@@ -50,14 +52,22 @@ class NewModuleBasic extends React.Component {
 
         let record = "";
         if (showLivestream) {
-            record = (<Form.Item label="Allow recording">
-                {getFieldDecorator('record', {
-                    valuePropName: 'checked',
-                    initialValue: true,
-                })(
-                    <Switch/>
-                )}
-            </Form.Item>);
+            record = (
+                <>
+                    <Form.Item label="Allow recording">
+                        {getFieldDecorator('record', {
+                            valuePropName: 'checked',
+                            initialValue: true,
+                        })(<Switch/>)}
+                    </Form.Item>
+
+                    <Form.Item label="Expect start time">
+                        {getFieldDecorator('expectedStartAt', {
+                            rules: [{required: true, message: "Please select expected start time."}]
+                        })(<DatePicker showTime placeholder="Select Start Time" format={config.timeFormat}/>)}
+                    </Form.Item>
+                </>
+            );
         }
 
         let forum = "";
@@ -75,9 +85,7 @@ class NewModuleBasic extends React.Component {
                 <Form.Item label="Module Title">
                     {getFieldDecorator('title', {
                         rules: [{required: true, message: "Please input module title"}]
-                    })(
-                        <Input/>
-                    )}
+                    })(<Input/>)}
                 </Form.Item>
 
                 {record}
@@ -102,6 +110,7 @@ class NewModuleBasic extends React.Component {
                         </Radio.Group>
                     )}
                 </Form.Item>
+
                 <Form.Item style={{textAlign: 'center'}}>
                     <Button type="primary" htmlType="submit">
                         Create

@@ -1,11 +1,11 @@
 import {
-    Button,
+    Button, DatePicker,
     Divider,
     Form,
     Icon,
     Input,
     InputNumber, message, Radio,
-    Select,
+    Select, TimePicker,
     Tooltip,
     TreeSelect
 } from "antd";
@@ -14,6 +14,11 @@ import {fetchCategories} from "../../services/category_service";
 import {httpErrorHandler} from "../../utils/axios_util";
 import {createPatch} from "../../utils/patch_util";
 import {getAllSemesters} from "../../services/semester_service";
+import {CourseType} from "../../constants/course_constant";
+import {WeekdaysMapping} from "../../constants/weekdays_contant";
+import {convertNumbersToWeekday} from "../../utils/course_util";
+import moment from "moment";
+import config from "../../config";
 
 const {TextArea} = Input;
 const {Option} = Select;
@@ -51,7 +56,11 @@ class CourseSettingsBasic extends React.Component {
             if (!err) {
                 for (let key of Object.keys(values)) {
                     if (isFieldTouched(key)) {
-                        createPatch(patch, key, values[key]);
+                        if (key === 'startTime' || key === 'endTime') {
+                            createPatch(patch, key, values[key].format('HH:mm'));
+                        } else {
+                            createPatch(patch, key, values[key]);
+                        }
                     }
                 }
                 this.props.handleUpdateCourse(patch);
@@ -182,8 +191,8 @@ class CourseSettingsBasic extends React.Component {
                         rules: [],
                         initialValue: data.type
                     })(<Select style={{width: '50%'}}>
-                        <Option value="offline">Offline</Option>
-                        <Option value="online">Online</Option>
+                        <Option value={CourseType.OFFLINE}>Offline</Option>
+                        <Option value={CourseType.ONLINE}>Online</Option>
                     </Select>)}
                 </Form.Item>
 
@@ -223,6 +232,52 @@ class CourseSettingsBasic extends React.Component {
                         initialValue: data.amountOfTime,
                     })(<InputNumber min={0}/>)}
                 </Form.Item>
+
+                {data.type === CourseType.OFFLINE &&
+                <Form.Item label="Course weekdays">
+                    {getFieldDecorator('weekdays', {
+                        initialValue: convertNumbersToWeekday(data.weekdays)
+                    })(
+                        <Select mode="multiple">
+                            {Object.keys(WeekdaysMapping).map(key => (
+                                <Option key={key}>{WeekdaysMapping[key]}</Option>
+                            ))}
+                        </Select>
+                    )}
+                </Form.Item>
+                }
+
+                {data.type === CourseType.OFFLINE &&
+                <Form.Item label="Start At">
+                    {getFieldDecorator('startAt', {
+                        initialValue: data.startAt ? moment(data.startAt, config.timeFormat) : null
+                    })(<DatePicker/>)}
+                </Form.Item>
+                }
+
+                {data.type === CourseType.OFFLINE &&
+                <Form.Item label="End At">
+                    {getFieldDecorator('endAt', {
+                        initialValue: data.endAt ? moment(data.endAt, config.timeFormat) : null
+                    })(<DatePicker/>)}
+                </Form.Item>
+                }
+
+                {data.type === CourseType.OFFLINE &&
+                <Form.Item label="Start Time">
+                    {getFieldDecorator('startTime', {
+                        initialValue: data.startTime ? moment(data.startTime, 'HH:mm') : null
+                    })(<TimePicker/>)}
+                </Form.Item>
+                }
+
+                {data.type === CourseType.OFFLINE &&
+                <Form.Item label="End Time">
+                    {getFieldDecorator('endTime', {
+                        initialValue: data.endTime ? moment(data.endTime, 'HH:mm') : null
+                    })(<TimePicker/>)}
+                </Form.Item>
+                }
 
                 <h4>Course Descriptions</h4>
                 <Divider style={{margin: '12px 0 24px'}}/>
