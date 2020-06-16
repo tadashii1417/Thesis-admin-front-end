@@ -31,3 +31,7 @@ export function deletePermissionFromRole(roleId, permissionId) {
 export function getPermissions() {
     return axios.get('/api/permissions');
 }
+
+export function addRoleToUser(userId, roleId) {
+    return axios.post(`/api/roles/${roleId}/users/${userId}`);
+}

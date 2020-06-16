@@ -182,7 +182,7 @@
           <url-type value="DATABASE" />
           <host value="localhost" />
           <port value="5432" />
-          <database value="lerna" />
+          <database value="lerna_main" />
           <type value="USER_PASSWORD" />
           <user value="postgres" />
           <deprecated-pwd value="MTIzNDU2Nzg5" />

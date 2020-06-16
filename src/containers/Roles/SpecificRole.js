@@ -53,6 +53,9 @@ class SpecificRole extends Component {
                     case ServerErrors.ROLE_NOT_UPDATEABLE:
                         message.error("This role is not allow to update");
                         break;
+                    case ServerErrors.ROLE_NAME_ALREADY_EXISTS:
+                        message.error("This role already have this permission.");
+                        break;
                     default:
                         message.error("Something went wrong");
                 }

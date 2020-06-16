@@ -2,6 +2,7 @@ import axios from 'axios';
 import {getToken} from "../utils/storage_util";
 
 // const proxy = 'http://10.130.48.178';
+// const proxy = 'http://192.168.20.12';
 const proxy = 'http://localhost';
 
 const instance = axios.create({
