@@ -1,163 +1,167 @@
 import React, {Component} from 'react';
 import styles from './QuestionCategories.module.css';
-import {Icon, Typography, Divider, Button, Table, Modal} from 'antd';
-import CategoryForm from './Form/Form';
+import {Icon, Divider, Table, Modal, message} from 'antd';
+import CategoryForm from './Form/QuestionCategoryForm';
+import {
+    createQuestionCategory,
+    deleteQuestionCategory,
+    getQuestionCategoryTree, updateQuestionCategory
+} from "../../../services/question_category_service";
+import {httpErrorHandler} from "../../../utils/axios_util";
+import {ServerErrors} from "../../../constants/server_error_constant";
+import Loading from "../../../components/Loading/Loading";
+import EditCategory from "../../../components/Categories/Form/EditCategory";
 
-const {Title} = Typography;
 const {confirm} = Modal;
 
-function showDeleteConfirm() {
-    confirm({
-        title: 'Are you sure delete this task?',
-        content: 'Some descriptions',
-        okText: 'Yes',
-        okType: 'danger',
-        cancelText: 'No',
-        onOk() {
-            console.log('OK');
-        },
-        onCancel() {
-            console.log('Cancel');
-        },
-    });
-}
 
-const treeData = [
-    {
-        title: 'Development',
-        description: "",
-        slug: "development",
-        count: 10,
-        value: '0-0',
-        key: '0-0',
-        children: [
-            {
-                title: 'Web development',
-                description: "",
-                slug: "web-development",
-                count: 10,
-                value: '0-0-1',
-                key: '0-0-1',
-                children: [
-                    {
-                        title: 'Javascript',
-                        description: "javascript",
-                        slug: "javascript",
-                        count: 10,
-                        value: '0-0-1-0',
-                        key: '0-0-1-0',
-                    },
-                    {
-                        title: 'React JS',
-                        description: "",
-                        slug: "react-js",
-                        count: 10,
-                        value: '0-0-1-1',
-                        key: '0-0-1-1',
-                    },
-                ]
-            },
-            {
-                title: 'Mobile Apps',
-                description: "",
-                slug: "mobile-apps",
-                count: 10,
-                value: '0-0-2',
-                key: '0-0-2',
-            },
-        ],
-    },
-    {
-        title: 'Business',
-        description: "",
-        slug: "business",
-        count: 10,
-        value: '0-1',
-        key: '0-1',
-        children: [
-            {
-                title: 'Finance',
-                description: "",
-                slug: "finance",
-                count: 10,
-                value: '0-1-0',
-                key: '0-1-0',
-            },
-            {
-                title: 'Entrepreneurship',
-                description: "entrepreneurship",
-                slug: "",
-                count: 10,
-                value: '0-1-1',
-                key: '0-1-1',
-            }
-        ]
-    },
-];
-
-
-export default class extends Component {
+class QuestionCategories extends Component {
     state = {
-        visible: false
+        categories: [],
+        loading: true,
+        editModal: false,
+        selected: null
     };
 
     columns = [
         {
-            title: 'Title',
-            dataIndex: 'title',
-            key: 'title',
-        },
-        {
-            title: 'Slug',
-            dataIndex: 'slug',
-            width: '30%',
-            key: 'slug',
-        },
-        {
-            title: 'Count',
-            dataIndex: 'count',
-            key: 'count',
+            title: 'Category Name',
+            dataIndex: 'name',
+            key: 'name',
         },
         {
             title: 'Action',
             key: 'action',
-            render: (text, record) => {
-                return (<div>
-                    <Icon type="edit" theme="twoTone" onClick={() => {
-                        this.setState({visible: true});
-                    }}/>
-                    <Divider type="vertical"/>
-                    <Icon type="delete" theme="twoTone" twoToneColor="#eb2f96" onClick={showDeleteConfirm}/>
-                </div>);
+            render: (text, row) => {
+                return (
+                    <div>
+                        <Icon type="edit" theme="twoTone" onClick={() => {
+                            this.setState({selected: row, editModal: true});
+                        }}/>
+                        <Divider type="vertical"/>
+                        <Icon type="delete" theme="twoTone" twoToneColor="#eb2f96"
+                              onClick={() => this.showDeleteConfirm(row.id)}/>
+                    </div>
+                );
             }
         }
     ];
-    handlerCancel = () => {
-        this.setState({visible: false});
+
+    async componentDidMount() {
+        try {
+            const {data} = await getQuestionCategoryTree();
+            this.setState({categories: data, loading: false});
+        } catch (e) {
+            message.error("Something went wrong");
+        }
+    }
+
+    handleCloseEditModal = () => {
+        this.setState({editModal: false});
+    };
+
+    handleNewCategory = async (body) => {
+        const key = "new-category";
+        try {
+            message.loading({content: "Loading", key});
+            await createQuestionCategory(body);
+            const {data} = await getQuestionCategoryTree();
+            message.success({content: "New category has been created", key});
+            this.setState({categories: data});
+        } catch (e) {
+            httpErrorHandler(e, () => {
+                switch (e.code) {
+                    default:
+                        message.error({content: "Title already exist", key});
+                }
+            })
+        }
+    };
+
+    handleEditCategory = async (patch) => {
+        const {selected} = this.state;
+        const {id} = selected;
+        const key = "edit-category";
+
+        try {
+            message.loading({content: "Loading", key});
+            await updateQuestionCategory(id, patch);
+            const {data} = await getQuestionCategoryTree();
+            message.success({content: "Category has been updated", key});
+            this.setState({categories: data, editModal: false});
+        } catch (e) {
+            httpErrorHandler(e, () => {
+                switch (e.code) {
+                    default:
+                        message.error({content: "Name already exist", key});
+                }
+            })
+        }
+    };
+
+    showDeleteConfirm = (id) => {
+        confirm({
+            title: 'Are you sure delete this category?',
+            okText: 'Yes',
+            okType: 'danger',
+            cancelText: 'No',
+            onOk: async () => {
+                const key = "delete";
+                try {
+                    message.loading({content: "Loading ...", key});
+                    await deleteQuestionCategory(id);
+                    const {data} = await getQuestionCategoryTree();
+                    this.setState({categories: data});
+                    message.success({content: "Category has been deleted", key})
+                } catch (e) {
+                    message.error({content: "Something went wrong", key});
+                }
+            },
+            onCancel() {
+                console.log('Cancel');
+            },
+        });
     };
 
     render() {
+        if (this.state.loading) return <Loading/>;
+
+        const {categories} = this.state;
+
         return (
             <div>
-                <Title level={4}>Course Categories</Title>
+                <h3>Question Bank Categories</h3>
                 <Divider/>
                 <div className={styles.container}>
+
                     <div className={styles.left}>
-                        <div className={styles.addTitle}>Add New Question Category</div>
-                        <CategoryForm treeData={treeData}/>
-                        <Divider/>
-                        <Button type={"primary"}>Add Category</Button>
+                        <div className={styles.addTitle}>Add New Question Bank Category</div>
+                        <CategoryForm categories={categories}
+                                      handleNewCategory={this.handleNewCategory}/>
                     </div>
-                    <Modal visible={this.state.visible} onOk={this.handlerCancel} onCancel={this.handlerCancel}
-                           title="Edit Category !">
-                        <CategoryForm treeData={treeData}/>
-                    </Modal>
+
                     <div className={styles.right}>
                         <div className={styles.addTitle}>Current Categories</div>
-                        <Table columns={this.columns} dataSource={treeData}/>
+                        <Table columns={this.columns}
+                               dataSource={categories}
+                               childrenColumnName={"subcategories"}
+                               rowKey={"id"}/>
                     </div>
+                    <p style={{clear: 'both'}}/>
                 </div>
+
+                <Modal visible={this.state.editModal}
+                       footer={null}
+                       bodyStyle={{padding: '0 24px 12px 24px'}}
+                       onCancel={this.handleCloseEditModal}
+                       title="Edit Category !">
+                    <CategoryForm categories={categories}
+                                  handleEditCategory={this.handleEditCategory}
+                                  data={this.state.selected}/>
+                </Modal>
             </div>
         );
     }
 }
+
+export default QuestionCategories;

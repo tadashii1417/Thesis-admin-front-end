@@ -1,3 +1,5 @@
-export function isHlsVideo(url) {
-    return url.startsWith('http://localhost:80/hlses');
+import {VideoUrlType} from "../constants/video_constant";
+
+export function isHlsVideo(data) {
+    return data.type === VideoUrlType.STREAMIZER_SERVICE;
 }

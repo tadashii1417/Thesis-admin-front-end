@@ -18,14 +18,9 @@ export default [
                 name: "courses",
             },
             {
-                name: "lessons",
-                display: "Lessons",
-                path: "/dashboard",
-            },
-            {
-                name: "quizzes",
-                display: "Quizzes",
-                path: "/quizzes",
+                name: "questionBank",
+                display: "Question Bank",
+                path: "/questions",
             }
         ]
     },

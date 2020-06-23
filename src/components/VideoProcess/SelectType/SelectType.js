@@ -17,7 +17,7 @@ const SelectType = (props) => {
     const uploadVideoFromLocal = async options => {
         const {onSuccess, onError, file, onProgress} = options;
         const config = {
-            headers: {"content-type": "multipart/form-data"},
+            headers: {"content-type": "multipart/questionCategoryForm-data"},
             onUploadProgress: event => {
                 const percent = Math.floor((event.loaded / event.total) * 100);
                 setProgress(percent);

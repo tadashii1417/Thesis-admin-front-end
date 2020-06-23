@@ -10,7 +10,7 @@ class CategoryForm extends Component {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                if(values.parentId === undefined){
+                if (values.parentId === undefined) {
                     delete values.parentId;
                 }
                 this.props.handleNewCategory(values);
@@ -18,16 +18,13 @@ class CategoryForm extends Component {
         });
     };
 
-    genChildren= (childs) => {
-          if(childs === undefined){
-              return;
-          }else{
-              return childs.map(child => (
-                  <TreeNode key={child.id} title={child.title} value={child.id}>
-                      {this.genChildren(child.subcategories)}
-                  </TreeNode>
-              ));
-          }
+    genChildren = (childs) => {
+        if (childs === undefined) return;
+        return childs.map(child => (
+            <TreeNode key={child.id} title={child.title} value={child.id}>
+                {this.genChildren(child.subcategories)}
+            </TreeNode>
+        ));
     };
 
     render() {

@@ -39,7 +39,7 @@ class VideoFinished extends Component {
 
         return <div className={styles.videoContainer}>
             {
-                isHlsVideo(instanceData.url) ?
+                isHlsVideo(instanceData) ?
                     <HlsPlayer src={instanceData.url}/> :
                     <iframe title="promotional video" src={instanceData.url} width="100%" height={500}/>
             }

@@ -3,7 +3,6 @@ import {Icon} from 'react-icons-kit';
 import ModulesConfig from '../ModulesConfig';
 import {Button, DatePicker, Form, Input, Radio, Switch} from "antd";
 import {ModuleType} from "../../../constants/module_constant";
-import moment from "moment";
 import config from "../../../config";
 
 const {TextArea} = Input;
@@ -98,6 +97,7 @@ class NewModuleBasic extends React.Component {
                         <Radio.Group style={{width: '100%'}} onChange={this.handleChangeModuleType}>
                             {
                                 Object.keys(ModulesConfig).map(key => {
+                                        if (key === ModuleType.SURVEY) return "";
                                         const config = ModulesConfig[key];
                                         return (<Radio key={key} value={key} style={radioStyle}>
                                             <Icon icon={config.icon} size={16}
