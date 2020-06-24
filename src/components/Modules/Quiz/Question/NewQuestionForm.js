@@ -2,18 +2,41 @@ import React from "react";
 import {
     Button,
     Form,
-    Select, InputNumber, Icon
+    Select, InputNumber, Icon, message, TreeSelect
 } from "antd";
 import {Editor} from 'doodle-editor';
 import {QuestionType} from "../../../../constants/quiz_constant";
 import ChoiceForm from "../../../Choice/ChoiceForm";
 import {removeIdNewChoices, removeUndefined} from "../../../../utils/dev_util";
+import {getQuestionCategoryTree} from "../../../../services/question_category_service";
 
 const {Option} = Select;
+const {TreeNode} = TreeSelect;
 
 class NewQuestionFormBasic extends React.Component {
     state = {
-        keys: [0]
+        keys: [0],
+        categories: null
+    };
+
+    async componentDidMount() {
+        if (this.props.isBankQuestion) {
+            try {
+                const {data} = await getQuestionCategoryTree();
+                this.setState({categories: data});
+            } catch (e) {
+                message.error("Fetch question categories failed");
+            }
+        }
+    }
+
+    genChildren = (childs) => {
+        if (childs === undefined || childs === null) return;
+        return childs.map(child => (
+            <TreeNode key={child.id} title={child.name} value={child.id}>
+                {this.genChildren(child.subcategories)}
+            </TreeNode>
+        ));
     };
 
     handleSubmit = e => {
@@ -65,6 +88,25 @@ class NewQuestionFormBasic extends React.Component {
                 removeOption={this.removeOption}
             />
         ));
+
+        let questionCategories = null;
+        if (this.props.isBankQuestion) {
+            const treeNodes = this.genChildren(this.state.categories);
+
+            questionCategories = (
+                <Form.Item label={"Question category"}>
+                    {getFieldDecorator('questionCategoryId', {})(
+                        <TreeSelect
+                            style={{width: '50%'}}
+                            allowClear
+                            placeholder="Parent">
+                            {treeNodes}
+                        </TreeSelect>
+                    )}
+                </Form.Item>
+            );
+        }
+
         return (
             <Form layout="vertical" onSubmit={this.handleSubmit} {...formItemLayout} hideRequiredMark>
                 <Form.Item label="Content">
@@ -73,11 +115,13 @@ class NewQuestionFormBasic extends React.Component {
                     })(<Editor/>)}
                 </Form.Item>
 
+                {questionCategories}
+
                 <Form.Item label={"Type"}>
                     {getFieldDecorator('type', {
                         initialValue: QuestionType.SINGLE_ANSWER
                     })(
-                        <Select>
+                        <Select style={{width: '250px'}}>
                             <Option value={QuestionType.INPUT}>Fill in the blank</Option>
                             <Option value={QuestionType.MULTIPLE_ANSWER}>Multiple answer</Option>
                             <Option value={QuestionType.SINGLE_ANSWER}>Single answer</Option>

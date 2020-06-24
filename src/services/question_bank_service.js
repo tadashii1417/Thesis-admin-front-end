@@ -8,6 +8,10 @@ export function getBankQuestionByCategory(categoryId) {
     return axios.get(`/api/bank-questions/category/${categoryId}`);
 }
 
+export function getSpecificQuestion(questionId) {
+    return axios.get(`/api/bank-questions/${questionId}`);
+}
+
 export function insertBankQuestion(questionData) {
     return axios.post('/api/bank-questions', questionData);
 }

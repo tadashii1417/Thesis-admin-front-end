@@ -15,3 +15,9 @@ export const QuestionType = {
     SINGLE_ANSWER,
     MULTIPLE_ANSWER
 };
+
+export const QuestionTypeMapping = {
+    [INPUT]: "Input",
+    [SINGLE_ANSWER]: "Single answer",
+    [MULTIPLE_ANSWER]: "Multiple answer"
+}

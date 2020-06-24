@@ -7,7 +7,6 @@ import {DEFAULT_SMALL_AVATAR} from "../../constants/dev_constant";
 import Loading from "../Loading/Loading";
 import {getDisplayName} from "../../utils/string_util";
 import {addRoleToUser, getRoles} from "../../services/role_service";
-import {httpErrorHandler} from "../../utils/axios_util";
 
 const {Search} = Input;
 

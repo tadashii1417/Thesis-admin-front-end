@@ -1,7 +1,6 @@
 import moment from "moment";
 import axios from '../config/axios-event';
 import { queryStringFromObject } from "../utils/url_util";
-import { EventType } from "../constants/event_constant";
 
 export function getModuleEvents(date) {
     const y = date.getFullYear();

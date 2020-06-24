@@ -8,9 +8,7 @@ import {
     getQuestionCategoryTree, updateQuestionCategory
 } from "../../../services/question_category_service";
 import {httpErrorHandler} from "../../../utils/axios_util";
-import {ServerErrors} from "../../../constants/server_error_constant";
 import Loading from "../../../components/Loading/Loading";
-import EditCategory from "../../../components/Categories/Form/EditCategory";
 
 const {confirm} = Modal;
 

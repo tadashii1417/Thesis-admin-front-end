@@ -8,6 +8,8 @@ import Unauthorized from "./components/PageResult/Unauthorized";
 import {RoleType} from "./constants/role_constant";
 import ForgotPassword from "./components/ForgotPassword/ForgotPassword";
 import ResetPassword from "./components/ResetPassword/ResetPassword";
+import NewQuestion from "./containers/QuestionsBank/NewQuestion/NewQuestion";
+import EditBankQuestion from "./containers/QuestionsBank/EditQuestion/EditBankQuestion";
 
 const QuestionsBank = React.lazy(() => import("./containers/QuestionsBank"));
 const Courses = React.lazy(() => import("./containers/Courses/"));
@@ -93,9 +95,17 @@ export default function (props) {
                              allowed={[RoleType.ADMIN, RoleType.INSTRUCTOR]}
                              component={Courses} exact/>
 
+                <SecureRoute path="/questions/:id"
+                             allowed={[RoleType.ADMIN, RoleType.INSTRUCTOR]}
+                             component={EditBankQuestion} exact/>
+
                 <SecureRoute path="/questions"
                              allowed={[RoleType.ADMIN, RoleType.INSTRUCTOR]}
-                             component={QuestionsBank}/>
+                             component={QuestionsBank} exact/>
+
+                <SecureRoute path="/new-question"
+                             allowed={[RoleType.ADMIN, RoleType.INSTRUCTOR]}
+                             component={NewQuestion}/>
 
                 <SecureRoute path="/profile"
                              allowed={[RoleType.ADMIN, RoleType.INSTRUCTOR]}

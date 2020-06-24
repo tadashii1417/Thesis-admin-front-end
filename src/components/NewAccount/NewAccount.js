@@ -1,7 +1,6 @@
 import React from "react";
 import {Button, Form, Input, message, Select} from "antd";
 import styles from './NewAccount.module.css';
-import {UserType} from "../../constants/user_contant";
 import {createUser} from "../../services/user_service";
 import {httpErrorHandler} from "../../utils/axios_util";
 import {ServerErrors} from "../../constants/server_error_constant";
