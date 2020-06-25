@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {Tabs} from 'antd';
 import QuestionCategories from "./QuestionCategories/QuestionCategories";
-import BankQuestions from "./BankQuestions/BankQuestions";
+import BankQuestionsPage from "./BankQuestionsPage/BankQuestionsPage";
 
 const {TabPane} = Tabs;
 
@@ -11,7 +11,7 @@ class QuestionBank extends Component {
             <div className="adminContent">
                 <Tabs type={"card"}>
                     <TabPane tab="Questions" key="1">
-                        <BankQuestions/>
+                        <BankQuestionsPage/>
                     </TabPane>
                     <TabPane tab="Categories" key="2">
                         <QuestionCategories/>

@@ -1,30 +1,53 @@
 import React, {Component} from "react";
-import {Table, Icon, message} from "antd";
-import styles from './BankQuestions.module.css';
-
-import {Typography, Button, Divider, Input, Modal} from "antd";
+import {Table, Icon, message, TreeSelect} from "antd";
+import {Button, Divider, Modal} from "antd";
 import {Link} from "react-router-dom";
-import {deleteBankQuestion, getAllBankQuestions} from "../../../services/question_bank_service";
-import Loading from "../../../components/Loading/Loading";
 import {EditorContent} from "doodle-editor";
-import {QuestionTypeMapping} from "../../../constants/quiz_constant";
 
-const {Title} = Typography;
-const {Search} = Input;
+import styles from './BankQuestion.module.css';
+import {deleteBankQuestion, getAllBankQuestions, getBankQuestionByCategory} from "../../services/question_bank_service";
+import {getQuestionCategoryTree} from "../../services/question_category_service";
+import {QuestionTypeMapping} from "../../constants/quiz_constant";
+import Loading from "../Loading/Loading";
+
+const {TreeNode} = TreeSelect;
 const {confirm} = Modal;
 
 class BankQuestions extends Component {
     state = {
         loading: true,
-        questions: []
+        loadTable: false,
+        questions: [],
+        categories: []
     }
 
     async componentDidMount() {
         try {
             const {data} = await getAllBankQuestions();
-            this.setState({questions: data, loading: false});
+            const {data: categories} = await getQuestionCategoryTree();
+            this.setState({questions: data, loading: false, categories: categories});
         } catch (e) {
             message.error("Fetch questions failed");
+        }
+    }
+
+    genChildren = (childs) => {
+        if (childs === undefined || childs === null) return;
+        return childs.map(child => (
+            <TreeNode key={child.id} title={child.name} value={child.id}>
+                {this.genChildren(child.subcategories)}
+            </TreeNode>
+        ));
+    };
+
+    handleChangeCategory = async (e) => {
+        this.setState({loadTable: true});
+        if (e === undefined) {
+            const {data} = await getAllBankQuestions();
+            this.setState({questions: data, loadTable: false});
+        } else {
+            const {data} = await getBankQuestionByCategory(e);
+            this.setState({questions: data, loadTable: false});
         }
     }
 
@@ -102,26 +125,34 @@ class BankQuestions extends Component {
         const {loading, questions} = this.state;
         if (loading) return <Loading/>;
 
+        const {rowSelection} = this.props;
+        const treeNodes = this.genChildren(this.state.categories);
+
         return (
-            <div>
-                <div className={styles.container}>
-                    <Title level={4}>Question Bank</Title>
-                    <Divider/>
-                    <div className={styles.toolbar}>
-                        <Link to={"/new-question"}>
-                            <Button icon="plus" type="primary">
-                                Add new
-                            </Button>
-                        </Link>
-                        <Search
-                            placeholder="Search questions"
-                            onSearch={value => console.log(value)}
-                            className={styles.searchBox}
-                            enterButton
-                        />
-                    </div>
-                    <Table columns={this.columns} dataSource={questions} rowKey="id"/>
+            <div className={styles.container}>
+
+                <div className={styles.toolbar}>
+                    <Link to={"/new-question"}>
+                        <Button icon="plus" type="primary">
+                            New question
+                        </Button>
+                    </Link>
+
+                    <TreeSelect
+                        style={{width: '300px'}}
+                        allowClear
+                        onChange={this.handleChangeCategory}
+                        placeholder="Categories">
+                        {treeNodes}
+                    </TreeSelect>
                 </div>
+
+                <Table loading={this.state.loadTable}
+                       columns={this.columns}
+                       rowSelection={rowSelection}
+                       dataSource={questions}
+                       className="stripe-table"
+                       rowKey="id"/>
             </div>
         );
     }

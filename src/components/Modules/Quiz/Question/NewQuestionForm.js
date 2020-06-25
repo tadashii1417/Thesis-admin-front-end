@@ -99,7 +99,7 @@ class NewQuestionFormBasic extends React.Component {
                         <TreeSelect
                             style={{width: '50%'}}
                             allowClear
-                            placeholder="Parent">
+                            placeholder="Categories">
                             {treeNodes}
                         </TreeSelect>
                     )}

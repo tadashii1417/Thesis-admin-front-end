@@ -5,7 +5,7 @@ import {httpErrorHandler} from "../../../utils/axios_util";
 import {
     deleteQuizQuestion,
     fetchQuizQuestions,
-    insertQuizQuestionByHand,
+    insertQuizQuestionByHand, insertQuizQuestionFromBank,
     updateQuizQuestion
 } from "../../../services/quiz_service";
 import {ServerErrors} from "../../../constants/server_error_constant";
@@ -16,12 +16,15 @@ const {confirm} = Modal;
 
 const QuestionDetail = React.lazy(() => import("./Question/QuestionDetail"));
 const NewQuestionForm = React.lazy(() => import("./Question/NewQuestionForm"));
+const BankQuestions = React.lazy(() => import("../../BankQuestions/BankQuestion"));
 
 export default class extends Component {
     state = {
         questions: [],
         loading: true,
         addModal: false,
+        addFromBank: false,
+        selectedQuestion: null
     };
 
     async componentDidMount() {
@@ -145,6 +148,30 @@ export default class extends Component {
         }
     };
 
+    handleAddQuestionFromBank = async () => {
+        const {selectedQuestion} = this.state;
+        if (!selectedQuestion) {
+            message.error("Please select one question");
+        } else {
+            try {
+                await insertQuizQuestionFromBank(this.props.moduleId, selectedQuestion.id);
+                const updatedQuestions = [...this.state.questions];
+                updatedQuestions.push(selectedQuestion);
+                this.setState({questions: updatedQuestions, addFromBank: false})
+                message.success("Question has been added");
+            } catch (e) {
+                message.error("Something went wrong");
+            }
+        }
+    }
+
+    rowSelection = {
+        onChange: (selectedRowKeys, selectedRows) => {
+            this.setState({selectedQuestion: selectedRows[0]});
+        },
+        type: "radio"
+    }
+
     render() {
         const {loading} = this.state;
         if (loading) return <Loading/>;
@@ -171,7 +198,9 @@ export default class extends Component {
                 <div className={styles.actionArea}>
                     <Button onClick={this.handleAddModal} type={"primary"}>Add question</Button>
                     <Divider type={"vertical"}/>
-                    <Button>Import from bank</Button>
+                    <Button onClick={() => this.setState({addFromBank: true})}>
+                        Import from bank
+                    </Button>
                 </div>
 
                 <Modal title={"Add new question"}
@@ -183,6 +212,21 @@ export default class extends Component {
                        footer={null}>
                     <Suspense fallback={null}>
                         <NewQuestionForm addQuestionHandler={this.addQuestionHandler}/>
+                    </Suspense>
+                </Modal>
+
+                <Modal title={"Insert question from bank"}
+                       visible={this.state.addFromBank}
+                       onCancel={() => this.setState({addFromBank: false})}
+                       bodyStyle={{padding: "12px 20px"}}
+                       style={{top: 20}}
+                       onOk={this.handleAddQuestionFromBank}
+                       width={'60%'}>
+
+                    <Suspense fallback={Loading()}>
+                        <BankQuestions
+                            isBeingImport={true}
+                            rowSelection={this.rowSelection}/>
                     </Suspense>
                 </Modal>
 

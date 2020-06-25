@@ -15,8 +15,8 @@ import {httpErrorHandler} from "../../utils/axios_util";
 import {createPatch} from "../../utils/patch_util";
 import {getAllSemesters} from "../../services/semester_service";
 import {CourseType} from "../../constants/course_constant";
-import {WeekdaysMapping} from "../../constants/weekdays_contant";
-import {convertNumbersToWeekday} from "../../utils/course_util";
+import {NumberToWeekday, WeekdayToNumber} from "../../constants/weekdays_contant";
+import {convertNumbersToWeekday, convertWeekdaysToNumbers} from "../../utils/course_util";
 import moment from "moment";
 import config from "../../config";
 
@@ -56,10 +56,17 @@ class CourseSettingsBasic extends React.Component {
             if (!err) {
                 for (let key of Object.keys(values)) {
                     if (isFieldTouched(key)) {
-                        if (key === 'startTime' || key === 'endTime') {
-                            createPatch(patch, key, values[key].format('HH:mm'));
-                        } else {
-                            createPatch(patch, key, values[key]);
+                        switch (key) {
+                            case "startTime":
+                            case "endTime":
+                                createPatch(patch, key, values[key].format('HH:mm'));
+                                break;
+                            case 'weekdays':
+                                createPatch(patch, key, convertWeekdaysToNumbers(values[key]));
+                                break;
+                            default:
+                                createPatch(patch, key, values[key]);
+
                         }
                     }
                 }
@@ -119,6 +126,10 @@ class CourseSettingsBasic extends React.Component {
             },
         };
 
+        if (!data.learningOutcomes) {
+            data.learningOutcomes = [];
+        }
+
         const outcomes = data.learningOutcomes.length;
         const newKeys = [...Array(outcomes).keys()];
 
@@ -152,16 +163,6 @@ class CourseSettingsBasic extends React.Component {
                     {getFieldDecorator('name', {
                         initialValue: data.name,
                         rules: [{required: true, message: 'Please input new course name'}]
-                    })(<Input/>)}
-                </Form.Item>
-
-                <Form.Item label={<span> Course slug
-                    <Tooltip title={"Course short name for URL"}>
-                        <Icon type="info-circle-o" style={{marginLeft: 4}}/>
-                    </Tooltip></span>}>
-                    {getFieldDecorator('slug', {
-                        initialValue: data.slug,
-                        rules: [{required: true, message: 'Please input course slug.'}]
                     })(<Input/>)}
                 </Form.Item>
 
@@ -239,8 +240,8 @@ class CourseSettingsBasic extends React.Component {
                         initialValue: convertNumbersToWeekday(data.weekdays)
                     })(
                         <Select mode="multiple">
-                            {Object.keys(WeekdaysMapping).map(key => (
-                                <Option key={key}>{WeekdaysMapping[key]}</Option>
+                            {Object.keys(WeekdayToNumber).map(key => (
+                                <Option key={key}>{key}</Option>
                             ))}
                         </Select>
                     )}

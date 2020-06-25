@@ -13,3 +13,8 @@
     width: 40%;
 
 }
+
+.table .ant-table-tbody > tr {
+    color: red;
+    background-color: #0b6623;
+}

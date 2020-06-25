@@ -60,7 +60,7 @@ class CategoryForm extends Component {
                         <TreeSelect
                             style={{width: '100%'}}
                             allowClear
-                            placeholder="Parent">
+                            placeholder="Categories">
                             {treeNodes}
                         </TreeSelect>
                     )}
