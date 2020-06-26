@@ -16,3 +16,8 @@ export function searchUser(text) {
     return axios.get(`/api/users/search?q=${text}`);
 }
 
+export function importUser(file) {
+    const formData = new FormData();
+    formData.append('file', file);
+    return axios.post('/api/users/import', formData);
+}

@@ -1,17 +1,41 @@
 import React from "react";
-import {Button, Form, Input, message, Select} from "antd";
+import {Button, Divider, Form, Icon, Input, message, Select, Upload} from "antd";
 import styles from './NewAccount.module.css';
-import {createUser} from "../../services/user_service";
+import {createUser, importUser} from "../../services/user_service";
 import {httpErrorHandler} from "../../utils/axios_util";
 import {ServerErrors} from "../../constants/server_error_constant";
 import Loading from "../Loading/Loading";
 import {getRoles} from "../../services/role_service";
+import {uploadVideo} from "../../services/video_service";
 
 class NewAccountBasic extends React.Component {
     state = {
         loading: true,
-        roles: []
+        roles: [],
+        fileList: []
     }
+
+    setFileList(newFiles) {
+        this.setState({fileList: newFiles});
+    }
+
+    handleOnChangeUpload = ({file, fileList, event}) => {
+        let nFileList = [...fileList];
+        nFileList = nFileList.slice(-1);
+        this.setFileList(nFileList);
+    };
+
+    handleUploadFile = async options => {
+        const {file} = options;
+        const key = "import-users";
+        message.loading({content: "Loading ...", key});
+        try {
+            await importUser(file);
+            message.success({content: "Users has been imported ! Please refresh page to see the changes", key})
+        } catch (e) {
+            message.error({content: "Something went wrong", key});
+        }
+    };
 
     async componentDidMount() {
         try {
@@ -53,7 +77,7 @@ class NewAccountBasic extends React.Component {
     };
 
     render() {
-        const {loading, roles} = this.state;
+        const {loading, roles, fileList} = this.state;
         if (loading) return <Loading/>;
 
         const {getFieldDecorator} = this.props.form;
@@ -102,10 +126,25 @@ class NewAccountBasic extends React.Component {
                         })(<Input style={{width: '50%'}}/>)}
                     </Form.Item>
 
-                    <Form.Item style={{textAlign: 'center'}}>
+                    <Form.Item label="&nbsp;">
                         <Button type="primary" htmlType="submit">
-                            Create account
+                            Create Account
                         </Button>
+
+                        <Divider type="vertical"/>
+
+                        <Upload
+                            multiple={false}
+                            customRequest={this.handleUploadFile}
+                            onChange={this.handleOnChangeUpload}
+                            showUploadList={false}
+                            fileList={fileList}
+                            defaultFileList={fileList}>
+                            <Button htmlType="button">
+                                <Icon type="upload"/> Import Users
+                            </Button>
+                        </Upload>
+
                     </Form.Item>
 
                 </Form>
