@@ -1,13 +1,13 @@
 import React from "react";
 import {Button, Form} from "antd";
-import {Editor} from "doodle-editor";
+import {Editor} from "lerna-rte";
 
 export default function ({handleUpdate, content, touched, handleContentChange}) {
     return (
         <Form type={"vertical"} onSubmit={handleUpdate}>
 
             <Form.Item className={'article'}>
-                <Editor initialContent={content}
+                <Editor value={content}
                         onChange={handleContentChange}/>
             </Form.Item>
 

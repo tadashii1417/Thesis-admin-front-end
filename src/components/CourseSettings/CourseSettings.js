@@ -66,12 +66,18 @@ class CourseSettingsBasic extends React.Component {
                                 break;
                             default:
                                 createPatch(patch, key, values[key]);
-
+                        }
+                    }
+                    if (key === "learningOutcomes") {
+                        for (let k of values.keys) {
+                            if (isFieldTouched(`learningOutcomes[${k}]`)) {
+                                createPatch(patch, "learningOutcomes", values.learningOutcomes.filter(n => n));
+                                break;
+                            }
                         }
                     }
                 }
                 this.props.handleUpdateCourse(patch);
-
             }
         });
     };
@@ -87,7 +93,7 @@ class CourseSettingsBasic extends React.Component {
     addOutcome = () => {
         const {form} = this.props;
         const keys = form.getFieldValue('keys');
-        const max = keys[keys.length - 1] + 1;
+        const max = keys.length === 0 ? 0 : keys[keys.length - 1] + 1;
         const nextKeys = keys.concat(max);
         form.setFieldsValue({
             keys: nextKeys,

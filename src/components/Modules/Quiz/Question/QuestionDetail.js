@@ -2,7 +2,7 @@ import React, {Component, Suspense} from "react";
 import styles from './Question.module.css';
 import {Button, Card, Collapse, Divider, Form, Icon, Input, InputNumber, Modal, Select} from "antd";
 import {QuestionType} from "../../../../constants/quiz_constant";
-import {EditorContent} from 'doodle-editor';
+import {EditorContent} from 'lerna-rte';
 
 const QuestionEditForm = React.lazy(() => import("./QuestionEditForm"));
 const {Option} = Select;

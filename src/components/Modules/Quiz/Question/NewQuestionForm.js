@@ -4,7 +4,7 @@ import {
     Form,
     Select, InputNumber, Icon, message, TreeSelect
 } from "antd";
-import {Editor} from 'doodle-editor';
+import {Editor} from 'lerna-rte';
 import {QuestionType} from "../../../../constants/quiz_constant";
 import ChoiceForm from "../../../Choice/ChoiceForm";
 import {removeIdNewChoices, removeUndefined} from "../../../../utils/dev_util";
@@ -128,6 +128,7 @@ class NewQuestionFormBasic extends React.Component {
                         </Select>
                     )}
                 </Form.Item>
+
 
                 <Form.Item label="Mark">
                     {getFieldDecorator('mark', {

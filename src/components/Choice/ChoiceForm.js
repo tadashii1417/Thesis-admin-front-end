@@ -1,6 +1,6 @@
 import React from "react";
 import {Form, Icon, Input, Row, Slider} from "antd";
-import {Editor} from 'doodle-editor';
+import {Editor} from 'lerna-rte';
 import styles from './ChoiceForm.module.css';
 
 export default function (props) {
@@ -42,6 +42,7 @@ export default function (props) {
                         initialValue: data.id,
                     })(<Input/>)}
                 </Form.Item>
+
                 <Form.Item
                     {...formItemLayout2}
                     label={'Option content'}
@@ -49,12 +50,11 @@ export default function (props) {
                     className={'choice-content'}
                     key={k}>
                     {getFieldDecorator(`choices[${k}].content`, {
-                        valuePropName: 'initialContent',
                         initialValue: data.content,
                         rules: [{required: true, message: "Please fill in at least one option."}]
-                    })(
-                        <Editor/>)}
+                    })(<Editor/>)}
                 </Form.Item>
+
             </Row>
             <Row>
                 <Form.Item
@@ -71,16 +71,15 @@ export default function (props) {
                 </Form.Item>
             </Row>
             <Row>
-                    <Form.Item
-                        {...formItemLayout}
-                        label={'Option Feedback'}
-                        style={{marginBottom: '7px'}}
-                        key={k}>
-                        {getFieldDecorator(`choices[${k}].feedback`, {
-                            initialValue: data.feedback
-                        })(
-                            <Input placeholder=""/>)}
-                    </Form.Item>
+                <Form.Item
+                    {...formItemLayout2}
+                    label={'Option Feedback'}
+                    style={{marginBottom: '7px'}}
+                    key={k}>
+                    {getFieldDecorator(`choices[${k}].feedback`, {
+                        initialValue: data.feedback
+                    })(<Editor/>)}
+                </Form.Item>
             </Row>
             <Row>
                 {state.keys.length > 1 ? (

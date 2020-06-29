@@ -2,7 +2,7 @@ import axios from '../config/axios-config';
 import {DEFAULT_PAGE_SIZE} from "../constants/dev_constant";
 
 export function getCoursesForAdmin(page = 1, pageSize = DEFAULT_PAGE_SIZE) {
-    return axios.get(`/api/courses?pageSize=${pageSize}&page=${page}`);
+    return axios.get(`/api/courses?pageSize=${pageSize}&page=${page}&field=avgRating`);
 }
 
 export function getCourseForInstructor() {

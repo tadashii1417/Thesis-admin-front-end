@@ -14,3 +14,4 @@ export async function downloadFile(file) {
     a.click();
     document.body.removeChild(a);
 }
+

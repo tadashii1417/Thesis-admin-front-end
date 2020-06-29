@@ -2,7 +2,7 @@ import React, {Component, Suspense} from "react";
 import {Button, Divider, Icon, message, Modal, Tabs, Upload} from "antd";
 import styles from "./Assignment.module.css";
 import Loading from "../../Loading/Loading";
-import {EditorContent} from "doodle-editor";
+import {EditorContent} from "lerna-rte";
 import moment from "moment";
 import config from "../../../config";
 import {httpErrorHandler} from "../../../utils/axios_util";

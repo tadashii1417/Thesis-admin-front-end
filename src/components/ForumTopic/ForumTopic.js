@@ -7,7 +7,7 @@ import {addComment, getPostComments} from "../../services/forum_service";
 import {httpErrorHandler} from "../../utils/axios_util";
 import ModuleLayout from "../ModuleLayout/ModuleLayout";
 import ForumComment from "../ForumComment/ForumComment";
-import {Editor} from "doodle-editor";
+import {Editor} from "lerna-rte";
 import Loading from "../Loading/Loading";
 
 class ForumTopic extends Component {

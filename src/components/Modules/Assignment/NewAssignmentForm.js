@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Button, DatePicker, Form, Icon, Upload} from "antd";
-import {Editor} from 'doodle-editor';
+import {Editor} from 'lerna-rte';
 import config from "../../../config";
 
 

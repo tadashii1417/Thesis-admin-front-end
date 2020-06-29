@@ -1,6 +1,6 @@
 import React from "react";
 import styles from './QuestionType.module.css';
-import {EditorContent} from "doodle-editor";
+import {EditorContent} from "lerna-rte";
 import {Checkbox, Col, Icon, Row} from "antd";
 
 export default function (props) {

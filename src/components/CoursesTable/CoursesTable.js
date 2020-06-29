@@ -96,7 +96,7 @@ export default class extends Component {
 
                     <Row gutter={gutter}>
                         {this.state.data.map(course => {
-                            const {id, name, slug, instructors, banner, type} = course;
+                            const {id, name, slug, instructors, banner, type, avgRating, priceResult: {price, listPrice}} = course;
                             return <Col key={id} sm={12} md={12} lg={8}>
                                 <Card
                                     size="small"
@@ -121,13 +121,13 @@ export default class extends Component {
                                         <div>{instructors && instructors.map(i => i.firstName)}</div>
 
                                         <div className={styles.courseRating}>
-                                            <Rate defaultValue={4} disabled/>
-                                            <b>4.5</b>
+                                            <Rate defaultValue={avgRating ? avgRating : 0} disabled/>
+                                            <b>{avgRating}</b>
                                         </div>
 
                                         <div className={styles.priceContainer}>
-                                            <div className={styles.originalPrice}>{"10 000 VND"}</div>
-                                            <div className={styles.salePrice}>{"9 000 VND"}</div>
+                                            <div className={styles.originalPrice}>{price.amount} {price.currency}</div>
+                                            <div className={styles.salePrice}>{price.amount} {price.currency}</div>
                                         </div>
 
                                     </div>

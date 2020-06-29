@@ -1,18 +1,18 @@
 import React from "react";
-import {Button, Divider, Form, Icon, Input, message, Select, Upload} from "antd";
+import {Alert, Button, Divider, Form, Icon, Input, message, Select, Upload} from "antd";
 import styles from './NewAccount.module.css';
 import {createUser, importUser} from "../../services/user_service";
 import {httpErrorHandler} from "../../utils/axios_util";
 import {ServerErrors} from "../../constants/server_error_constant";
 import Loading from "../Loading/Loading";
 import {getRoles} from "../../services/role_service";
-import {uploadVideo} from "../../services/video_service";
 
 class NewAccountBasic extends React.Component {
     state = {
         loading: true,
         roles: [],
-        fileList: []
+        fileList: [],
+        importFailed: []
     }
 
     setFileList(newFiles) {
@@ -30,7 +30,8 @@ class NewAccountBasic extends React.Component {
         const key = "import-users";
         message.loading({content: "Loading ...", key});
         try {
-            await importUser(file);
+            const {data: importFailed} = await importUser(file);
+            this.setState({importFailed: importFailed});
             message.success({content: "Users has been imported ! Please refresh page to see the changes", key})
         } catch (e) {
             message.error({content: "Something went wrong", key});
@@ -77,7 +78,7 @@ class NewAccountBasic extends React.Component {
     };
 
     render() {
-        const {loading, roles, fileList} = this.state;
+        const {loading, roles, fileList, importFailed} = this.state;
         if (loading) return <Loading/>;
 
         const {getFieldDecorator} = this.props.form;
@@ -110,7 +111,12 @@ class NewAccountBasic extends React.Component {
                         {getFieldDecorator('type', {
                             rules: [{required: true, message: "Please select type."}]
                         })(<Select style={{width: '50%'}}>
-                            {roles.map(role => <Select.Option value={role.name}>{role.name}</Select.Option>)}
+                            {
+                                roles.map(role =>
+                                    <Select.Option
+                                        value={role.name} key={role.id}>{role.name}
+                                    </Select.Option>)
+                            }
                         </Select>)}
                     </Form.Item>
 
@@ -148,6 +154,45 @@ class NewAccountBasic extends React.Component {
                     </Form.Item>
 
                 </Form>
+
+                <div className={styles.errorArea}>
+                    {importFailed.map((user, index) => {
+                        switch (user.reason.code) {
+                            case ServerErrors.EMAIL_ALREADY_EXISTS:
+                                return (
+                                    <Alert
+                                        key={index}
+                                        message={user.reason.value}
+                                        description="This email already exists."
+                                        type="error"
+                                        showIcon
+                                    />
+                                );
+                            case ServerErrors.USERNAME_ALREADY_EXISTS:
+                                return (
+                                    <Alert
+                                        key={index}
+                                        message={user.reason.value}
+                                        description="This username already exists."
+                                        type="error"
+                                        showIcon
+                                    />
+                                );
+                            case ServerErrors.INVALID_USER_DATA:
+                                return (
+                                    <Alert
+                                        key={index}
+                                        message={user.reason.value}
+                                        description="This values not satisfy all constraints."
+                                        type="error"
+                                        showIcon
+                                    />
+                                );
+                            default:
+                                return "";
+                        }
+                    })}
+                </div>
             </div>
         );
 

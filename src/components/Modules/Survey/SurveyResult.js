@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import LevelQuestionResult from "./LevelQuestionResult/LevelQuestionResult";
 import TextQuestionResult from "./TextQuestionResult/TextQuestionResult";
-import {Alert, Icon, message} from "antd";
+import {Alert, Button, Icon, message} from "antd";
 import {getSurveyResult, getSurveyResultTask} from "../../../services/survey_service";
 import Loading from "../../Loading/Loading";
 import config from "../../../config";
@@ -14,7 +14,8 @@ class SurveyResult extends Component {
         status: TaskStatus.CREATED,
         loading: true,
         taskId: null,
-        data: {}
+        data: {},
+        allowExport: false
     }
 
     intervalId = 0;
@@ -35,13 +36,12 @@ class SurveyResult extends Component {
 
         try {
             const {data: report} = await getSurveyResultTask(this.state.taskId);
-            console.log(report);
             switch (report.status) {
                 case TaskStatus.CREATED:
                     this.setState({status: TaskStatus.CREATED});
                     break;
                 case TaskStatus.FINISHED:
-                    this.setState({status: TaskStatus.FINISHED, data: report});
+                    this.setState({status: TaskStatus.FINISHED, data: report, allowExport: true});
                     clearInterval(this.intervalId);
                     break;
                 case TaskStatus.FAILED:
@@ -93,9 +93,19 @@ class SurveyResult extends Component {
             <div>
                 <Alert
                     message="Overall Result."
-                    description={'There is ' + result.conductorCount + ' / ' + result.learnerCount + ' students finish the survey'}
+                    description={
+                        <div>
+                            <div>
+                                There is {result.conductorCount} / {result.learnerCount} students finish the survey.
+                            </div>
+                            <div>
+                                <Button icon={'download'}>Export Survey</Button>
+                            </div>
+                        </div>
+                    }
                     type="info"
                     showIcon
+
                 />
 
                 {Object.keys(result.questions).map((key, index) => {

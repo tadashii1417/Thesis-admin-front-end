@@ -4,7 +4,7 @@ import {Avatar} from "antd";
 import {defaultAvatar} from "../../constants/dev_constant";
 import moment from "moment";
 import config from "../../config";
-import {EditorContent} from "doodle-editor";
+import {EditorContent} from "lerna-rte";
 
 export default function ({response}) {
     return (

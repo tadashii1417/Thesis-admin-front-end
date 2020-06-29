@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Button, DatePicker, Form} from "antd";
-import {Editor} from 'doodle-editor';
+import {Editor} from 'lerna-rte';
 import config from "../../../config";
 import moment from "moment";
 import {createPatch} from "../../../utils/patch_util";
@@ -33,7 +33,6 @@ class AssignmentFormBasic extends Component {
 
                 <Form.Item label="Description">
                     {getFieldDecorator('intro', {
-                        valuePropName: 'initialContent',
                         initialValue: data.intro,
                         rules: [{required: true, message: 'Please input description.'}]
                     })(<Editor/>)}

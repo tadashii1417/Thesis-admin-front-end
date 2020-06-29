@@ -18,7 +18,7 @@ export function deleteSurveyQuestion(id) {
 }
 
 export function getSurveyResult(courseId) {
-    return axiosSurvey.get(`/api/surveys/${courseId}/result`);
+    return axiosSurvey.post(`/api/surveys/${courseId}/result`);
 }
 
 export function getSurveyResultTask(taskId) {

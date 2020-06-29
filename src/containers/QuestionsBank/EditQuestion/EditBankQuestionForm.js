@@ -1,6 +1,6 @@
 import React from "react";
 import {Button, Form, Select, InputNumber, Icon, message, TreeSelect} from "antd";
-import {Editor} from 'doodle-editor';
+import {Editor} from 'lerna-rte';
 import {removeNullId, removeUndefined} from "../../../utils/dev_util";
 import Loading from "../../../components/Loading/Loading";
 import ChoiceForm from "../../../components/Choice/ChoiceForm";
@@ -129,7 +129,6 @@ class QuestionEditFormBasic extends React.Component {
                 <Form.Item label="Content" className={'quiz-content'}>
                     {getFieldDecorator('content', {
                         rules: [{required: true, message: "Please fill in content"}],
-                        valuePropName: 'initialContent',
                         initialValue: data.content
                     })(<Editor/>)}
                 </Form.Item>

@@ -44,6 +44,8 @@ class CourseDetail extends Component {
     }
 
     handleUpdateCourse = async (patch) => {
+        if (patch.length === 0) return;
+
         try {
             const {data} = await updateCourse(this.state.data.id, patch);
             message.success("Course has been updated");
