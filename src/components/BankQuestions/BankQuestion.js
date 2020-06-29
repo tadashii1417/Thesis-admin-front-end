@@ -1,14 +1,23 @@
 import React, {Component} from "react";
-import {Table, Icon, message, TreeSelect} from "antd";
+import {Table, Icon, message, TreeSelect, Dropdown, Menu, Upload, Alert} from "antd";
 import {Button, Divider, Modal} from "antd";
 import {Link} from "react-router-dom";
-import {EditorContent} from "doodle-editor";
+import {EditorContent} from "lerna-rte";
 
 import styles from './BankQuestion.module.css';
-import {deleteBankQuestion, getAllBankQuestions, getBankQuestionByCategory} from "../../services/question_bank_service";
+import {
+    deleteBankQuestion,
+    getAllBankQuestions,
+    getBankQuestionByCategory, getImportResult,
+    importBankQuestionFromLerna, importBankQuestionFromMoodle
+} from "../../services/question_bank_service";
 import {getQuestionCategoryTree} from "../../services/question_category_service";
 import {QuestionTypeMapping} from "../../constants/quiz_constant";
 import Loading from "../Loading/Loading";
+import {ImportSource} from "../../constants/question_bank_constant";
+import {TaskStatus} from "../../constants/task_constant";
+import {setIntervalImmediate} from "../../utils/lang_util";
+import config from "../../config";
 
 const {TreeNode} = TreeSelect;
 const {confirm} = Modal;
@@ -18,8 +27,14 @@ class BankQuestions extends Component {
         loading: true,
         loadTable: false,
         questions: [],
-        categories: []
+        categories: [],
+        fileList: [],
+        selectedSource: null,
+        taskId: null,
+        status: null
     }
+
+    intervalId = 0;
 
     async componentDidMount() {
         try {
@@ -41,6 +56,7 @@ class BankQuestions extends Component {
     };
 
     handleChangeCategory = async (e) => {
+        this.props.setSelectedCategory(e);
         this.setState({loadTable: true});
         if (e === undefined) {
             const {data} = await getAllBankQuestions();
@@ -121,22 +137,161 @@ class BankQuestions extends Component {
         }
     ];
 
+    handleOnChangeUpload = ({fileList}) => {
+        let nFileList = [...fileList];
+        nFileList = nFileList.slice(-1);
+        this.setState({fileList: nFileList})
+    };
+
+    handleImportQuestions = async ({file}) => {
+        const key = "import-questions";
+        message.loading({content: "Loading ...", key});
+        try {
+            let res;
+            switch (this.state.selectedSource) {
+                case ImportSource.LERNA:
+                    res = await importBankQuestionFromLerna(file);
+                    break;
+                case ImportSource.MOODLE:
+                    res = await importBankQuestionFromMoodle(file);
+                    break;
+                default:
+                    return;
+            }
+            this.intervalId = await setIntervalImmediate(
+                this.fetchImportProcess,
+                config.importQuestionBank
+            );
+            this.setState({taskId: res.data.id});
+        } catch (e) {
+            message.error({content: "Something went wrong", key});
+        }
+    }
+
+    fetchImportProcess = async () => {
+        if (!this.state.taskId) return;
+
+        try {
+            const {data} = await getImportResult(this.state.taskId);
+            switch (data.status) {
+                case TaskStatus.CREATED:
+                    this.setState({status: TaskStatus.CREATED});
+                    break;
+                case TaskStatus.FINISHED:
+                    this.setState({status: TaskStatus.FINISHED, loadTable: true});
+                    const {data: questions} = await getAllBankQuestions();
+                    this.setState({questions: questions, loadTable: false});
+                    clearInterval(this.intervalId);
+                    break;
+                case TaskStatus.FAILED:
+                    this.setState({status: TaskStatus.FAILED});
+                    clearInterval(this.intervalId);
+                    break;
+                default:
+                    clearInterval(this.intervalId);
+            }
+        } catch (e) {
+            clearInterval(this.intervalId);
+            message.error('Fetch export data failed.');
+        }
+    }
+
+    importMenu = (
+        <Menu onClick={e => this.setState({selectedSource: e.key})}>
+            <Menu.Item key={ImportSource.MOODLE}>
+                <Upload
+                    multiple={false}
+                    customRequest={this.handleImportQuestions}
+                    onChange={this.handleOnChangeUpload}
+                    showUploadList={false}
+                    fileList={this.state.fileList}
+                    defaultFileList={this.state.fileList}>
+                    Import from Moodle
+                </Upload>
+            </Menu.Item>
+
+            <Menu.Item key={ImportSource.LERNA}>
+                <Upload
+                    multiple={false}
+                    customRequest={this.handleImportQuestions}
+                    onChange={this.handleOnChangeUpload}
+                    showUploadList={false}
+                    fileList={this.state.fileList}
+                    defaultFileList={this.state.fileList}>
+                    Import from Lerna
+                </Upload>
+            </Menu.Item>
+        </Menu>
+    );
+
+
     render() {
-        const {loading, questions} = this.state;
+        const {loading, questions, status} = this.state;
         if (loading) return <Loading/>;
 
-        const {rowSelection} = this.props;
+        const {rowSelection, showActions, showExport, handleExportQuestions} = this.props;
         const treeNodes = this.genChildren(this.state.categories);
 
-        return (
-            <div className={styles.container}>
-
-                <div className={styles.toolbar}>
+        let actions = <span>&nbsp;</span>;
+        if (showActions) {
+            actions = (
+                <div>
                     <Link to={"/new-question"}>
                         <Button icon="plus" type="primary">
                             New question
                         </Button>
                     </Link>
+
+                    <Divider type="vertical"/>
+
+                    <Dropdown trigger={["click"]} overlay={this.importMenu}>
+                        <Button>
+                            <Icon type="upload"/> Import ...
+                        </Button>
+                    </Dropdown>
+
+                    <Divider type="vertical"/>
+                    {showExport &&
+                    <Button onClick={handleExportQuestions}>
+                        <Icon type="download"/> Export
+                    </Button>
+                    }
+
+                </div>
+            );
+        }
+
+        let importResult = "";
+        if (status === TaskStatus.CREATED) {
+            importResult = <Alert
+                message="Questions are being imported"
+                type="info"
+                icon={<Icon type="loading"/>}
+                showIcon
+            />;
+        }
+
+        if (status === TaskStatus.FINISHED) {
+            importResult = <Alert
+                message="Questions has been imported."
+                type="success"
+                showIcon
+            />;
+        }
+
+        if (status === TaskStatus.FAILED) {
+            importResult = <Alert
+                message="Error"
+                type="error"
+                showIcon
+            />
+        }
+
+        return (
+            <div className={styles.container}>
+
+                <div className={styles.toolbar}>
+                    {actions}
 
                     <TreeSelect
                         style={{width: '300px'}}
@@ -145,6 +300,10 @@ class BankQuestions extends Component {
                         placeholder="Categories">
                         {treeNodes}
                     </TreeSelect>
+                </div>
+
+                <div style={{margin: '10px 0'}}>
+                    {importResult}
                 </div>
 
                 <Table loading={this.state.loadTable}
