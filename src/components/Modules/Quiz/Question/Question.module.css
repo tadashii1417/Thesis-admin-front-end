@@ -3,7 +3,7 @@
 }
 
 .option {
-    width: 50%;
+    width: 40%;
     float: left;
 }
 
@@ -11,11 +11,11 @@
     padding: 0 5px;
 }
 .form > * {
-    margin-bottom: 0px;
+    margin-bottom: 0;
 }
 
 .setting {
-    width: 45%;
+    width: 55%;
     float: left;
     margin: 0 10px;
 }

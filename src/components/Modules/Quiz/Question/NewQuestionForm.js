@@ -2,7 +2,7 @@ import React from "react";
 import {
     Button,
     Form,
-    Select, InputNumber, Icon, message, TreeSelect
+    Select, InputNumber, Icon, message, TreeSelect, Switch
 } from "antd";
 import {Editor} from 'lerna-rte';
 import {QuestionType} from "../../../../constants/quiz_constant";
@@ -117,6 +117,10 @@ class NewQuestionFormBasic extends React.Component {
 
                 {questionCategories}
 
+                <Form.Item label="Shuffle Answers">
+                    {getFieldDecorator('shuffleAnswers', {})(<Switch/>)}
+                </Form.Item>
+
                 <Form.Item label={"Type"}>
                     {getFieldDecorator('type', {
                         initialValue: QuestionType.SINGLE_ANSWER
@@ -128,7 +132,6 @@ class NewQuestionFormBasic extends React.Component {
                         </Select>
                     )}
                 </Form.Item>
-
 
                 <Form.Item label="Mark">
                     {getFieldDecorator('mark', {

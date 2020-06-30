@@ -1,6 +1,6 @@
 import React, {Component, Suspense} from "react";
 import styles from './Question.module.css';
-import {Button, Card, Collapse, Divider, Form, Icon, Input, InputNumber, Modal, Select} from "antd";
+import {Button, Card, Collapse, Divider, Form, Icon, Input, InputNumber, Modal, Select, Switch} from "antd";
 import {QuestionType} from "../../../../constants/quiz_constant";
 import {EditorContent} from 'lerna-rte';
 
@@ -37,7 +37,7 @@ export default class extends Component {
         return (
             <div>
                 <div className={styles.option}>
-                    <Collapse accordion>
+                    <Collapse>
                         {choices.map(choice => (
                             <Panel key={choice.id} header={<EditorContent content={choice.content}/>}>
                                 <Form className={styles.form} layout={"vertical"}>
@@ -45,7 +45,7 @@ export default class extends Component {
                                         <InputNumber value={choice.fraction}/>
                                     </Form.Item>
                                     <Form.Item label={"Option Feedback"}>
-                                        <Input value={choice.feedback}/>
+                                        <EditorContent content={choice.feedback}/>
                                     </Form.Item>
                                 </Form>
                             </Panel>
@@ -59,9 +59,15 @@ export default class extends Component {
                         <Form.Item label={"Content"}>
                             <EditorContent content={question.content}/>
                         </Form.Item>
+
                         <Form.Item label={"Mark"} {...formItemLayout}>
                             <InputNumber value={question.mark}/>
                         </Form.Item>
+
+                        <Form.Item label={"Shuffle answers"} {...formItemLayout}>
+                            <Switch checked={question.shuffleAnswers}/>
+                        </Form.Item>
+
                         <Form.Item label={"Type"} {...formItemLayout}>
                             <Select value={question.type}>
                                 <Option value={QuestionType.SINGLE_ANSWER}>Single answer</Option>
@@ -69,6 +75,7 @@ export default class extends Component {
                                 <Option value={QuestionType.INPUT}>Fill in the blank</Option>
                             </Select>
                         </Form.Item>
+
                         <Divider style={{visibility: "hidden"}}/>
                         <div style={{display: 'flex', justifyContent: 'center'}}>
                             <Button icon={"edit"} type={"primary"} onClick={this.openEditModal}>Edit</Button>

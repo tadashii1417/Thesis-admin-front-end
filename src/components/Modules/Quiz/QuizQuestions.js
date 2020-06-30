@@ -185,7 +185,9 @@ export default class extends Component {
                 {this.state.questions.length ?
                     <Collapse accordion>
                         {this.state.questions.map((item, index) => (
-                            <Panel key={item.id} header={"Question " + (index + 1)} extra={this.genExtra(item)}>
+                            <Panel key={item.id}
+                                   header={<span> Question {index + 1}</span>}
+                                   extra={this.genExtra(item)}>
                                 <Suspense fallback={<Loading/>}>
                                     <QuestionDetail question={item} editQuestionHandler={this.editQuestionHandler}/>
                                 </Suspense>

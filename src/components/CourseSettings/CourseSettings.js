@@ -15,7 +15,7 @@ import {httpErrorHandler} from "../../utils/axios_util";
 import {createPatch} from "../../utils/patch_util";
 import {getAllSemesters} from "../../services/semester_service";
 import {CourseType} from "../../constants/course_constant";
-import {NumberToWeekday, WeekdayToNumber} from "../../constants/weekdays_contant";
+import {WeekdayToNumber} from "../../constants/weekdays_contant";
 import {convertNumbersToWeekday, convertWeekdaysToNumbers} from "../../utils/course_util";
 import moment from "moment";
 import config from "../../config";

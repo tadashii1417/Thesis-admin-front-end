@@ -9,7 +9,7 @@ import {
 import {setIntervalImmediate} from "../../../utils/lang_util";
 import config from "../../../config";
 import {TaskStatus} from "../../../constants/task_constant";
-import {downloadFile, forceDownload} from "../../../utils/file_util";
+import {downloadFile} from "../../../utils/file_util";
 
 const {Title} = Typography;
 

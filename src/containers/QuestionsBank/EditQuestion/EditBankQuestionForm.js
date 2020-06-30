@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Form, Select, InputNumber, Icon, message, TreeSelect} from "antd";
+import {Button, Form, Select, InputNumber, Icon, message, TreeSelect, Switch} from "antd";
 import {Editor} from 'lerna-rte';
 import {removeNullId, removeUndefined} from "../../../utils/dev_util";
 import Loading from "../../../components/Loading/Loading";
@@ -133,6 +133,13 @@ class QuestionEditFormBasic extends React.Component {
                     })(<Editor/>)}
                 </Form.Item>
 
+                <Form.Item label="Shuffle Answers">
+                    {getFieldDecorator('shuffleAnswers', {
+                        valuePropName: 'checked',
+                        initialValue: data.shuffleAnswers
+                    })(<Switch/>)}
+                </Form.Item>
+
                 <Form.Item label={"Question category"}>
                     {getFieldDecorator('questionCategoryId', {
                         initialValue: data.questionCategoryId
@@ -150,7 +157,7 @@ class QuestionEditFormBasic extends React.Component {
                     {getFieldDecorator('type', {
                         initialValue: data.type
                     })(
-                        <Select>
+                        <Select disabled>
                             <Option value={QuestionType.INPUT}>Fill in the blank</Option>
                             <Option value={QuestionType.MULTIPLE_ANSWER}>Multiple answer</Option>
                             <Option value={QuestionType.SINGLE_ANSWER}>Single answer</Option>

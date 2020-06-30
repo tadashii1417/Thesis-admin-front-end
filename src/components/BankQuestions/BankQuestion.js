@@ -56,7 +56,9 @@ class BankQuestions extends Component {
     };
 
     handleChangeCategory = async (e) => {
-        this.props.setSelectedCategory(e);
+        if (this.props.setSelectedCategory) {
+            this.props.setSelectedCategory(e);
+        }
         this.setState({loadTable: true});
         if (e === undefined) {
             const {data} = await getAllBankQuestions();

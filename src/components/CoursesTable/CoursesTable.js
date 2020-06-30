@@ -127,7 +127,8 @@ export default class extends Component {
 
                                         <div className={styles.priceContainer}>
                                             <div className={styles.originalPrice}>{price.amount} {price.currency}</div>
-                                            <div className={styles.salePrice}>{price.amount} {price.currency}</div>
+                                            <div
+                                                className={styles.salePrice}>{listPrice.amount} {listPrice.currency}</div>
                                         </div>
 
                                     </div>

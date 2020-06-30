@@ -100,6 +100,11 @@ h4.ant-typography, .ant-typography h4 {
     text-align: left;
 }
 
+.ant-collapse-header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
 /***************   EDITOR   ****************/
 .editor-class .ant-form-item-control {
     line-height: 0;

@@ -2,7 +2,7 @@ import React from "react";
 import {
     Button,
     Form,
-    Select, InputNumber, Icon, Divider
+    Select, InputNumber, Icon, Divider, Switch
 } from "antd";
 import {QuestionType} from "../../../../constants/quiz_constant";
 import ChoiceForm from "../../../Choice/ChoiceForm";
@@ -86,6 +86,13 @@ class QuestionEditFormBasic extends React.Component {
                         rules: [{required: true, message: "Please fill in content"}],
                         initialValue: data.content
                     })(<Editor/>)}
+                </Form.Item>
+
+                <Form.Item label="Shuffle Answers">
+                    {getFieldDecorator('shuffleAnswers', {
+                        valuePropName: 'checked',
+                        initialValue: data.shuffleAnswers
+                    })(<Switch/>)}
                 </Form.Item>
 
                 <Form.Item label={"Type"}>

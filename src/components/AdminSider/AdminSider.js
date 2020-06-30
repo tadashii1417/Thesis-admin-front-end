@@ -12,8 +12,9 @@ const adminSider = props => (
         trigger={null}
         collapsible
         collapsed={props.collapsed}
-        breakpoint="md"
+        breakpoint="xs"
         width={256}
+        collapsedWidth={0}
         theme="dark"
         className={styles.sider}>
 

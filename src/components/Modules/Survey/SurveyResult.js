@@ -2,23 +2,26 @@ import React, {Component} from "react";
 import LevelQuestionResult from "./LevelQuestionResult/LevelQuestionResult";
 import TextQuestionResult from "./TextQuestionResult/TextQuestionResult";
 import {Alert, Button, Icon, message} from "antd";
-import {getSurveyResult, getSurveyResultTask} from "../../../services/survey_service";
+import {exportSurveyResult, getSurveyResult, getSurveyResultTask} from "../../../services/survey_service";
 import Loading from "../../Loading/Loading";
 import config from "../../../config";
 import {TaskStatus} from "../../../constants/task_constant";
 import {setIntervalImmediate} from "../../../utils/lang_util";
 import {SurveyQuestionType} from "../../../constants/survey_constant";
+import {getExportResult} from "../../../services/question_bank_service";
 
 class SurveyResult extends Component {
     state = {
-        status: TaskStatus.CREATED,
         loading: true,
-        taskId: null,
         data: {},
-        allowExport: false
+        status: TaskStatus.CREATED,
+        taskId: null,
+        exportStatus: null,
+        exportTaskId: null
     }
 
     intervalId = 0;
+    exportIntervalId = 0;
 
     async componentDidMount() {
         try {
@@ -41,7 +44,7 @@ class SurveyResult extends Component {
                     this.setState({status: TaskStatus.CREATED});
                     break;
                 case TaskStatus.FINISHED:
-                    this.setState({status: TaskStatus.FINISHED, data: report, allowExport: true});
+                    this.setState({status: TaskStatus.FINISHED, data: report});
                     clearInterval(this.intervalId);
                     break;
                 case TaskStatus.FAILED:
@@ -54,6 +57,46 @@ class SurveyResult extends Component {
         } catch (e) {
             clearInterval(this.intervalId);
             message.error('Fetch survey statistic failed.');
+        }
+    }
+
+    handleExportSurvey = async () => {
+        try {
+            const {data} = await exportSurveyResult(this.props.courseId);
+            this.setState({exportTaskId: data.id});
+            this.exportIntervalId = await setIntervalImmediate(
+                this.fetchExportProcess,
+                config.exportSurvey
+            )
+
+        } catch (e) {
+            message.error("Something went wrong");
+        }
+    }
+
+    fetchExportProcess = async () => {
+        if (!this.state.exportTaskId) return;
+
+        try {
+            const {data} = await getExportResult(this.state.exportTaskId);
+            switch (data.status) {
+                case TaskStatus.CREATED:
+                    this.setState({exportStatus: TaskStatus.CREATED});
+                    break;
+                case TaskStatus.FINISHED:
+                    this.setState({exportStatus: TaskStatus.FINISHED});
+                    clearInterval(this.exportIntervalId);
+                    break;
+                case TaskStatus.FAILED:
+                    this.setState({exportStatus: TaskStatus.FAILED});
+                    clearInterval(this.exportIntervalId);
+                    break;
+                default:
+                    clearInterval(this.exportIntervalId);
+            }
+        } catch (e) {
+            clearInterval(this.exportIntervalId);
+            message.error('Fetch export data failed.');
         }
     }
 
@@ -99,13 +142,14 @@ class SurveyResult extends Component {
                                 There is {result.conductorCount} / {result.learnerCount} students finish the survey.
                             </div>
                             <div>
-                                <Button icon={'download'}>Export Survey</Button>
+                                <Button icon={'download'} onClick={this.handleExportSurvey}>
+                                    Export Survey
+                                </Button>
                             </div>
                         </div>
                     }
                     type="info"
                     showIcon
-
                 />
 
                 {Object.keys(result.questions).map((key, index) => {

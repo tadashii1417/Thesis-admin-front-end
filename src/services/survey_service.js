@@ -24,3 +24,7 @@ export function getSurveyResult(courseId) {
 export function getSurveyResultTask(taskId) {
     return axiosSurvey.get(`/api/tasks/${taskId}`);
 }
+
+export function exportSurveyResult(courseId){
+    return axiosSurvey.post(`/api/surveys/${courseId}/export`);
+}
