@@ -245,7 +245,6 @@ class BankQuestions extends Component {
                     </Link>
 
                     <Divider type="vertical"/>
-
                     <Dropdown trigger={["click"]} overlay={this.importMenu}>
                         <Button>
                             <Icon type="upload"/> Import ...
@@ -258,7 +257,6 @@ class BankQuestions extends Component {
                         <Icon type="download"/> Export
                     </Button>
                     }
-
                 </div>
             );
         }

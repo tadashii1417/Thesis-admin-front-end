@@ -30,8 +30,8 @@ class NewSurveyQuestionForm extends Component {
                         initialValue: SurveyQuestionType.LEVEL
                     })(
                         <Select>
-                            <Select.Option value={SurveyQuestionType.LEVEL}>LEVEL</Select.Option>
-                            <Select.Option value={SurveyQuestionType.TEXT}>TEXT</Select.Option>
+                            <Select.Option value={SurveyQuestionType.LEVEL}>Mức độ hài lòng</Select.Option>
+                            <Select.Option value={SurveyQuestionType.TEXT}>Trả lời câu hỏi</Select.Option>
                         </Select>
                     )}
                 </Form.Item>

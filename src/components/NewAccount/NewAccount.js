@@ -107,7 +107,7 @@ class NewAccountBasic extends React.Component {
                         })(<Input/>)}
                     </Form.Item>
 
-                    <Form.Item label="User type">
+                    <Form.Item label="Type">
                         {getFieldDecorator('type', {
                             rules: [{required: true, message: "Please select type."}]
                         })(<Select style={{width: '50%'}}>
@@ -122,13 +122,13 @@ class NewAccountBasic extends React.Component {
 
                     <Form.Item label="First name">
                         {getFieldDecorator('firstName', {
-                            rules: []
+                            rules: [{required: true, message: "First name is required"}]
                         })(<Input style={{width: '50%'}}/>)}
                     </Form.Item>
 
                     <Form.Item label="Last name">
                         {getFieldDecorator('lastName', {
-                            rules: []
+                            rules: [{required: true, message: "Last name is required"}]
                         })(<Input style={{width: '50%'}}/>)}
                     </Form.Item>
 

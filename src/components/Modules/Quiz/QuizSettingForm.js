@@ -56,7 +56,7 @@ class QuizSettingBasic extends React.Component {
                     })(<Input/>)}
                 </Form.Item>
 
-                <Form.Item label="Module type:">
+                <Form.Item label="Grading policy">
                     {getFieldDecorator('gradingPolicy', {
                         initialValue: data.gradingPolicy
                     })(
@@ -80,7 +80,7 @@ class QuizSettingBasic extends React.Component {
                     })(<Slider min={0} max={20} step={1}/>)}
                 </Form.Item>
 
-                <Form.Item label="Pass threshold">
+                <Form.Item label="Passing threshold">
                     {getFieldDecorator('passThreshold', {
                         initialValue: data.passThreshold
                     })(<Slider min={0} max={1} step={0.1}/>)}

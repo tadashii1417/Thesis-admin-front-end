@@ -5,16 +5,7 @@ import styles from './ChoiceForm.module.css';
 
 export default function (props) {
     const {k, getFieldDecorator, state, removeOption} = props;
-    const formItemLayout = {
-        labelCol: {
-            xs: {span: 24},
-            sm: {span: 24},
-        },
-        wrapperCol: {
-            xs: {span: 24},
-            sm: {span: 24},
-        },
-    };
+
     const formItemLayout2 = {
         labelCol: {
             xs: {span: 24},

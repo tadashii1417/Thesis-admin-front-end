@@ -1,9 +1,15 @@
 import React, {Component} from 'react';
 import styles from './Categories.module.css';
-import {Icon, Typography, Divider, Table, Modal, message} from 'antd';
+import {Icon, Typography, Divider, Table, Modal, message, Upload} from 'antd';
 import CategoryForm from './Form/CategoryForm';
 import {httpErrorHandler} from "../../utils/axios_util";
-import {createNewCategory, deleteCategory, fetchCategories, updateCategory} from "../../services/category_service";
+import {
+    createNewCategory,
+    deleteCategory,
+    fetchCategories,
+    updateCategory,
+    updateCategoryIcon
+} from "../../services/category_service";
 import {ServerErrors} from "../../constants/server_error_constant";
 import EditCategory from "./Form/EditCategory";
 import Loading from "../Loading/Loading";
@@ -16,14 +22,37 @@ export default class extends Component {
         categories: [],
         loading: true,
         editModal: false,
-        selected: null
+        selected: null,
+        fileList: [],
     };
+
+    handleOnChangeUpload = ({fileList}) => {
+        let nFileList = [...fileList];
+        nFileList = nFileList.slice(-1);
+        this.setState({fileList: nFileList})
+    };
+
+    handleUpdateIcon = async (file, id) => {
+        const key = "update-icon";
+        message.loading({content: "Loading ...", key});
+        try {
+            await updateCategoryIcon(id, file);
+            const {data} = await fetchCategories();
+            this.setState({categories: data});
+        } catch (e) {
+            message.error({content: "Something went wrong", key});
+        }
+    }
 
     columns = [
         {
             title: 'Title',
             dataIndex: 'title',
             key: 'title',
+            render: (title, row) => <span>
+                {row.icon && <img src={row.icon['50x50']} style={{width: '20px', height: '20px'}}
+                                  alt="icon"/>} {title}
+            </span>
         },
         {
             title: 'Slug',
@@ -43,6 +72,18 @@ export default class extends Component {
                         <Divider type="vertical"/>
                         <Icon type="delete" theme="twoTone" twoToneColor="#eb2f96"
                               onClick={() => this.showDeleteConfirm(row.id)}/>
+                        <Divider type="vertical"/>
+                        <Upload
+                            multiple={false}
+                            customRequest={(options) => this.handleUpdateIcon(options.file, row.id)}
+                            onChange={this.handleOnChangeUpload}
+                            showUploadList={false}
+                            fileList={this.state.fileList}
+                            defaultFileList={this.state.fileList}>
+                            <Icon type="picture" theme={"twoTone"}
+                                  style={{cursor: "pointer"}}
+                                  twoToneColor={'#52c41a'}/>
+                        </Upload>
                     </div>
                 );
             }
@@ -82,7 +123,7 @@ export default class extends Component {
                         message.error({content: "Slug already exist", key});
                         break;
                     default:
-                        message.error({content: "Title already exist", key });
+                        message.error({content: "Title already exist", key});
                 }
             })
         }
@@ -97,19 +138,19 @@ export default class extends Component {
             message.loading({content: "Loading", key});
             await updateCategory(id, patch);
             const {data} = await fetchCategories();
-            message.success({content: "Category has been updated", key });
+            message.success({content: "Category has been updated", key});
             this.setState({categories: data, editModal: false});
         } catch (e) {
             httpErrorHandler(e, () => {
                 switch (e.code) {
                     case ServerErrors.CATEGORY_NOT_FOUND:
-                        message.error({content: "Category not found", key });
+                        message.error({content: "Category not found", key});
                         break;
                     case ServerErrors.SLUG_ALREADY_EXISTS:
-                        message.error({content: "Slug already exist", key });
+                        message.error({content: "Slug already exist", key});
                         break;
                     default:
-                        message.error({content: "Title already exist", key });
+                        message.error({content: "Title already exist", key});
                 }
             })
         }

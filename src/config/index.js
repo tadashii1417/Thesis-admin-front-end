@@ -5,7 +5,7 @@ const config = {
     exportQuestionBank: 2000,
     importQuestionBank: 2000,
     exportSurvey: 2000,
-    proxy: 'http://192.168.43.41'
+    proxy: 'http://192.168.1.3'
 };
 
 export default config;

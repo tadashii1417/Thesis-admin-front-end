@@ -137,12 +137,12 @@ class CourseDetail extends Component {
                             <Curriculum courseData={data}/>
                         </TabPane>
 
-                        {<TabPane
+                        <TabPane
                             tab={<span><Icon type="calendar" theme={"twoTone"}
                                              style={{marginRight: '10px'}}/>My Calendar</span>}
                             key="calendar">
                             <MyCalendar courseId={data.id}/>
-                        </TabPane>}
+                        </TabPane>
 
                         <TabPane
                             tab={<span><Icon type="snippets" theme={"twoTone"}
@@ -151,11 +151,11 @@ class CourseDetail extends Component {
                             <CourseEnrollments courseId={data.id}/>
                         </TabPane>
 
-                        <TabPane tab={<span><Icon type="diff" theme={"twoTone"}
-                                                  style={{marginRight: '10px'}}/>Course Reviews</span>}
-                                 key="review">
+                        {isAdmin && <TabPane tab={<span><Icon type="diff" theme={"twoTone"}
+                                                              style={{marginRight: '10px'}}/>Course Reviews</span>}
+                                             key="review">
                             <CourseFeedback courseId={data.id}/>
-                        </TabPane>
+                        </TabPane>}
 
                         {isAdmin && <TabPane
                             tab={<span>

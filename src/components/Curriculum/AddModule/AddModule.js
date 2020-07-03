@@ -9,7 +9,6 @@ const {TextArea} = Input;
 
 class NewModuleBasic extends React.Component {
     state = {
-        showLivestream: false,
         forumIntro: false
     }
 
@@ -37,7 +36,7 @@ class NewModuleBasic extends React.Component {
 
     render() {
         const {getFieldDecorator} = this.props.form;
-        const {showLivestream, forumIntro} = this.state;
+        const {forumIntro} = this.state;
         const radioStyle = {
             width: '100%',
             display: 'flex',
@@ -48,26 +47,6 @@ class NewModuleBasic extends React.Component {
             padding: '20px',
             fontSize: '17px',
         };
-
-        let record = "";
-        if (showLivestream) {
-            record = (
-                <>
-                    <Form.Item label="Allow recording">
-                        {getFieldDecorator('record', {
-                            valuePropName: 'checked',
-                            initialValue: true,
-                        })(<Switch/>)}
-                    </Form.Item>
-
-                    <Form.Item label="Expect start time">
-                        {getFieldDecorator('expectedStartAt', {
-                            rules: [{required: true, message: "Please select expected start time."}]
-                        })(<DatePicker showTime placeholder="Select Start Time" format={config.timeFormat}/>)}
-                    </Form.Item>
-                </>
-            );
-        }
 
         let forum = "";
 
@@ -81,16 +60,14 @@ class NewModuleBasic extends React.Component {
 
         return (
             <Form layout="vertical" onSubmit={this.handleSubmit}>
-                <Form.Item label="Module Title">
+                <Form.Item label="Title">
                     {getFieldDecorator('title', {
                         rules: [{required: true, message: "Please input module title"}]
                     })(<Input/>)}
                 </Form.Item>
-
-                {record}
                 {forum}
 
-                <Form.Item label="Module type:">
+                <Form.Item label="Type:">
                     {getFieldDecorator('type', {
                         rules: [{required: true, message: "Please select module type"}],
                     })(

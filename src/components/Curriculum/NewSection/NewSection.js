@@ -19,7 +19,7 @@ class NewSectionBasic extends React.Component {
 
         return (
             <Form layout="vertical" onSubmit={this.handleSubmit}>
-                <Form.Item label="Session Title">
+                <Form.Item label="Title">
                     {getFieldDecorator('title', {
                         rules: [{required: true, message: "Please input section title"}]
                     })(

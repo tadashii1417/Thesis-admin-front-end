@@ -5,7 +5,7 @@ import {
     Icon,
     Input,
     InputNumber, message, Radio,
-    Select, TimePicker,
+    Select, Switch, TimePicker,
     Tooltip,
     TreeSelect
 } from "antd";
@@ -14,7 +14,7 @@ import {fetchCategories} from "../../services/category_service";
 import {httpErrorHandler} from "../../utils/axios_util";
 import {createPatch} from "../../utils/patch_util";
 import {getAllSemesters} from "../../services/semester_service";
-import {CourseType} from "../../constants/course_constant";
+import {CourseLevel, CourseType} from "../../constants/course_constant";
 import {WeekdayToNumber} from "../../constants/weekdays_contant";
 import {convertNumbersToWeekday, convertWeekdaysToNumbers} from "../../utils/course_util";
 import moment from "moment";
@@ -140,7 +140,9 @@ class CourseSettingsBasic extends React.Component {
         const newKeys = [...Array(outcomes).keys()];
 
         getFieldDecorator('keys', {initialValue: newKeys});
+
         const keys = getFieldValue('keys');
+
         const learningOutcomes = keys.map((k, index) => (
             <Form.Item {...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
                        label={index === 0 ? 'Learning outcomes' : ''}
@@ -149,7 +151,7 @@ class CourseSettingsBasic extends React.Component {
                     validateTrigger: ['onChange', 'onBlur'],
                     initialValue: data.learningOutcomes[k],
                     rules: [{required: true, message: "Please input learning outcome or delete this field.",},],
-                })(<Input placeholder="learning outcome" style={{width: '60%', marginRight: 8}}/>)}
+                })(<Input placeholder="Learning outcome" style={{width: '60%', marginRight: 8}}/>)}
 
                 {keys.length > 1 && (
                     <Icon className="dynamic-delete-button"
@@ -165,7 +167,7 @@ class CourseSettingsBasic extends React.Component {
                 <h4>General Setting</h4>
                 <Divider style={{margin: '12px 0 24px'}}/>
 
-                <Form.Item label={"Course full name"}>
+                <Form.Item label={"Name"}>
                     {getFieldDecorator('name', {
                         initialValue: data.name,
                         rules: [{required: true, message: 'Please input new course name'}]
@@ -173,7 +175,7 @@ class CourseSettingsBasic extends React.Component {
                 </Form.Item>
 
                 <Form.Item
-                    label={"Course Category"}>
+                    label={"Category"}>
                     {getFieldDecorator('categoryId', {
                         rules: [],
                         initialValue: data.categoryId
@@ -183,7 +185,21 @@ class CourseSettingsBasic extends React.Component {
                 </Form.Item>
 
                 <Form.Item
-                    label={"Course Semester"}>
+                    label={"Level"}>
+                    {getFieldDecorator('level', {
+                        rules: [],
+                        initialValue: data.level
+                    })(<Select style={{width: '50%'}}>
+                            <Option value={CourseLevel.ALL_LEVEL}>All Level</Option>
+                            <Option value={CourseLevel.BEGINNER}>Beginner</Option>
+                            <Option value={CourseLevel.IMMEDIATE}>Immediate</Option>
+                            <Option value={CourseLevel.ADVANCED}>Advanced</Option>
+                        </Select>
+                    )}
+                </Form.Item>
+
+                <Form.Item
+                    label={"Semester"}>
                     {getFieldDecorator('semesterId', {
                         rules: [],
                         initialValue: data.semester && data.semester.id
@@ -193,11 +209,11 @@ class CourseSettingsBasic extends React.Component {
                     </Select>)}
                 </Form.Item>
 
-                <Form.Item label="Course Type">
+                <Form.Item label="Type">
                     {getFieldDecorator('type', {
                         rules: [],
                         initialValue: data.type
-                    })(<Select style={{width: '50%'}}>
+                    })(<Select style={{width: '50%'}} disabled>
                         <Option value={CourseType.OFFLINE}>Offline</Option>
                         <Option value={CourseType.ONLINE}>Online</Option>
                     </Select>)}
@@ -209,7 +225,7 @@ class CourseSettingsBasic extends React.Component {
                     })(<InputNumber/>)}
                 </Form.Item>
 
-                <Form.Item label="List Price">
+                <Form.Item label="List price">
                     {getFieldDecorator('listPrice', {
                         initialValue: data.priceResult.listPrice.amount
                     })(<InputNumber/>)}
@@ -231,8 +247,22 @@ class CourseSettingsBasic extends React.Component {
                     )}
                 </Form.Item>
 
-                <Form.Item label={<span> Course estimate time
-                    <Tooltip title={"Total estimate time in hours"}>
+                <Form.Item label="Enrollable">
+                    {getFieldDecorator('isEnrollable', {
+                        valuePropName: 'checked',
+                        initialValue: data.isEnrollable
+                    })(<Switch/>)}
+                </Form.Item>
+
+                <Form.Item label="Livestream supported">
+                    {getFieldDecorator('livestreamSupported', {
+                        valuePropName: 'checked',
+                        initialValue: data.livestreamSupported
+                    })(<Switch/>)}
+                </Form.Item>
+
+                <Form.Item label={<span> Estimated duration
+                    <Tooltip title={"Total estimated duration in hours"}>
                         <Icon type="info-circle-o" style={{marginLeft: 4}}/>
                     </Tooltip></span>}>
                     {getFieldDecorator('amountOfTime', {
@@ -240,12 +270,17 @@ class CourseSettingsBasic extends React.Component {
                     })(<InputNumber min={0}/>)}
                 </Form.Item>
 
+                {data.type === CourseType.OFFLINE && <Form.Item label={"Number of periods"}>
+                    {getFieldDecorator('periodCount', {
+                        initialValue: data.periodCount,
+                    })(<InputNumber min={0}/>)}
+                </Form.Item>}
+
                 {data.type === CourseType.OFFLINE &&
-                <Form.Item label="Course weekdays">
+                <Form.Item label="Weekdays">
                     {getFieldDecorator('weekdays', {
                         initialValue: convertNumbersToWeekday(data.weekdays)
-                    })(
-                        <Select mode="multiple">
+                    })(<Select mode="multiple">
                             {Object.keys(WeekdayToNumber).map(key => (
                                 <Option key={key}>{key}</Option>
                             ))}
@@ -254,8 +289,20 @@ class CourseSettingsBasic extends React.Component {
                 </Form.Item>
                 }
 
+                {data.type === CourseType.OFFLINE && <Form.Item label={"Location"}>
+                    {getFieldDecorator('location', {
+                        initialValue: data.location,
+                    })(<Input/>)}
+                </Form.Item>}
+
+                {data.type === CourseType.OFFLINE && <Form.Item label={"Capacity"}>
+                    {getFieldDecorator('capacity', {
+                        initialValue: data.capacity,
+                    })(<InputNumber min={0}/>)}
+                </Form.Item>}
+
                 {data.type === CourseType.OFFLINE &&
-                <Form.Item label="Start At">
+                <Form.Item label="Open day">
                     {getFieldDecorator('startAt', {
                         initialValue: data.startAt ? moment(data.startAt, config.timeFormat) : null
                     })(<DatePicker/>)}
@@ -263,7 +310,7 @@ class CourseSettingsBasic extends React.Component {
                 }
 
                 {data.type === CourseType.OFFLINE &&
-                <Form.Item label="End At">
+                <Form.Item label="End day">
                     {getFieldDecorator('endAt', {
                         initialValue: data.endAt ? moment(data.endAt, config.timeFormat) : null
                     })(<DatePicker/>)}
@@ -271,7 +318,7 @@ class CourseSettingsBasic extends React.Component {
                 }
 
                 {data.type === CourseType.OFFLINE &&
-                <Form.Item label="Start Time">
+                <Form.Item label="Class start time">
                     {getFieldDecorator('startTime', {
                         initialValue: data.startTime ? moment(data.startTime, 'HH:mm') : null
                     })(<TimePicker/>)}
@@ -279,7 +326,7 @@ class CourseSettingsBasic extends React.Component {
                 }
 
                 {data.type === CourseType.OFFLINE &&
-                <Form.Item label="End Time">
+                <Form.Item label="Class end time">
                     {getFieldDecorator('endTime', {
                         initialValue: data.endTime ? moment(data.endTime, 'HH:mm') : null
                     })(<TimePicker/>)}
@@ -289,27 +336,33 @@ class CourseSettingsBasic extends React.Component {
                 <h4>Course Descriptions</h4>
                 <Divider style={{margin: '12px 0 24px'}}/>
 
-                <Form.Item label={"Course description"}>
+                <Form.Item label={"Description"}>
                     {getFieldDecorator('description', {
                         initialValue: data.description,
-                        rules: [{required: true, message: "Please input course description"}]
-                    })(<TextArea style={{height: '100px'}}/>)}
+                    })(<TextArea rows={3}/>)}
                 </Form.Item>
 
-                <Form.Item label={"Course requirements"}>
+                <Form.Item label={"Short description"}>
+                    {getFieldDecorator('shortDescription', {
+                        initialValue: data.shortDescription,
+                    })(<TextArea rows={2}/>)}
+                </Form.Item>
+
+                <Form.Item label={"Requirements"}>
                     {getFieldDecorator('requirements', {
                         initialValue: data.requirements,
-                        rules: [{required: true, message: "Please input course requirement"}]
-                    })(<TextArea style={{height: '75px'}}/>)}
+                    })(<TextArea rows={3}/>)}
                 </Form.Item>
 
-                <Form.Item label={"Course promotional video"}>
+                <Form.Item label={"Promotional video"}>
                     {getFieldDecorator('promoVideoUrl', {
                         initialValue: data.promoVideoUrl,
                     })(<Input/>)}
                 </Form.Item>
 
-                {learningOutcomes}
+                <div className="learningOutcomes">
+                    {learningOutcomes}
+                </div>
 
                 <Form.Item {...formItemLayoutWithOutLabel}>
                     <Button type="dashed" onClick={this.addOutcome} style={{width: '60%'}}>

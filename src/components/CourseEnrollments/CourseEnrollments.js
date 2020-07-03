@@ -116,7 +116,8 @@ class CourseEnrollments extends Component {
         {
             title: 'Last login',
             dataIndex: 'learner.lastLogin',
-            key: 'lastLogin'
+            key: 'lastLogin',
+            render: text => (moment(text, config.timeFormat).format('HH:mm:ss DD/MM/YYYY'))
         },
         {
             title: 'Since',
@@ -142,10 +143,11 @@ class CourseEnrollments extends Component {
 
         const children = searchResult.map(
             user => {
-                return (<Option key={user.id} value={`${user.id}`} display={user.firstName + user.lastName}>
-                    <Icon type={"user"}/>
-                    {user.email}
-                </Option>)
+                return (
+                    <Option key={user.id} value={`${user.id}`} display={user.firstName + user.lastName}>
+                        <Icon type={"user"} style={{marginRight: '10px'}}/>
+                        {user.email}
+                    </Option>)
             });
 
 

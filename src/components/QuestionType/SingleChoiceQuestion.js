@@ -24,17 +24,21 @@ export default function (props) {
             <div className={styles.content}>
                 <div className={styles.question}>
                     <EditorContent content={content} className={styles.title}/>
+                    <br/><br/>
                     <Row>
                         {
                             choices.map(choice =>
                                 <Col xm={24} sm={12} md={8} key={choice.id}>
                                     <Radio checked={choice.id === answer} className={styles.optionContainer}>
-                                        <EditorContent content={choice.content} className={styles.option}/>
-                                        {choice.id === answer ? (
-                                            answers.filter(ans => ans.id === answer).length ?
-                                                <Icon type={'check-circle'} className={styles.correct}/> :
-                                                <Icon type={'close-circle'} className={styles.incorrect}/>
-                                        ) : ""}
+                                        <div style={{display: 'flex'}}>
+                                            <EditorContent content={choice.content} className={styles.option}/>
+
+                                            {choice.id === answer ? (
+                                                answers.filter(ans => ans.id === answer).length ?
+                                                    <Icon type={'check-circle'} className={styles.correct}/> :
+                                                    <Icon type={'close-circle'} className={styles.incorrect}/>
+                                            ) : ""}
+                                        </div>
 
                                     </Radio>
                                 </Col>

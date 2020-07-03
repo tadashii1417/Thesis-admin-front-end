@@ -179,12 +179,12 @@ class CourseInstructors extends Component {
                 <div className={styles.searchBox}>
                     {searchLoading && <Icon type="loading" className={styles.spin}/>}
                     <AutoComplete onSearch={this.handleSearch}
-                                  placeholder="search user here ..."
+                                  placeholder="Search for instructors"
                                   onSelect={this.handleSelectOption}>
                         {children}
                     </AutoComplete>
 
-                    <Button type={"primary"} icon={"form"} onClick={this.handleAddInstructor}> Enroll </Button>
+                    <Button type={"primary"} icon={"form"} onClick={this.handleAddInstructor}> Add instructor </Button>
                 </div>
 
                 <Divider/>

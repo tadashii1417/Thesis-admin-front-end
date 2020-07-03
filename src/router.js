@@ -3,7 +3,6 @@ import {Route, Switch} from 'react-router-dom';
 import AdminLayout from "./containers/admin";
 import SecureRoute from "./routes/SecureRoute/";
 import Auth from "./containers/Auth";
-import TestOnly from "./containers/Test";
 import Unauthorized from "./components/PageResult/Unauthorized";
 import {RoleType} from "./constants/role_constant";
 import ForgotPassword from "./components/ForgotPassword/ForgotPassword";
@@ -37,7 +36,6 @@ export default function (props) {
             <Route path="/login" component={Auth}/>
             <Route path="/forgot-password" component={ForgotPassword}/>
             <Route path="/reset-password" component={ResetPassword}/>
-            <Route path="/test" component={TestOnly}/>
 
             <AdminLayout>
                 <Route path="/unauthorized" component={Unauthorized}/>

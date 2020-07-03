@@ -1,6 +1,6 @@
 import React, {Component, Suspense} from "react";
 import styles from './Question.module.css';
-import {Button, Card, Collapse, Divider, Form, Icon, Input, InputNumber, Modal, Select, Switch} from "antd";
+import {Button, Card, Collapse, Divider, Form, Icon, InputNumber, Modal, Select, Switch} from "antd";
 import {QuestionType} from "../../../../constants/quiz_constant";
 import {EditorContent} from 'lerna-rte';
 
@@ -32,6 +32,7 @@ export default class extends Component {
                 xs: {span: 24},
                 sm: {span: 12},
             },
+            className: styles.formItem
         };
 
         return (

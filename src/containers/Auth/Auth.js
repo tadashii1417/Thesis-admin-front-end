@@ -87,7 +87,7 @@ class LoginForm extends React.Component {
                                 Forgot password
                             </Link>
                             <Button type="primary" htmlType="submit" className="login-form-button">
-                                Log in
+                                Sign In
                             </Button>
                         </Form.Item>
 

@@ -1,7 +1,6 @@
 import React, {Component} from "react";
 import CoursesTable from "../../components/CoursesTable/CoursesTable";
 import Categories from "../../components/Categories/Categories";
-import CourseTags from "../../components/CourseTags/CourseTags";
 import {Tabs} from 'antd';
 import {checkIsAdmin} from "../../utils/permision_util";
 
@@ -21,12 +20,6 @@ class Courses extends Component {
                     {isAdmin &&
                     <TabPane tab="Categories" key="2">
                         <Categories/>
-                    </TabPane>
-                    }
-
-                    {isAdmin &&
-                    <TabPane tab="Tags" key="3">
-                        <CourseTags/>
                     </TabPane>
                     }
                 </Tabs>

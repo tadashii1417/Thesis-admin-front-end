@@ -5,16 +5,11 @@ import {Editor} from "lerna-rte";
 export default function ({handleUpdate, content, touched, handleContentChange}) {
     return (
         <Form type={"vertical"} onSubmit={handleUpdate}>
+            <div className={"article"}>
+                <Editor value={content} onChange={handleContentChange}/>
+            </div>
 
-            <Form.Item className={'article'}>
-                <Editor value={content}
-                        onChange={handleContentChange}/>
-            </Form.Item>
-
-            {touched ?
-                <div style={{textAlign: 'right', color: '#cf1322'}}>Content has not been saved yet
-                    !!!</div> : ""
-            }
+            {touched && <div style={{textAlign: 'right', color: '#cf1322'}}>Content has not been saved yet !!!</div>}
 
             <Form.Item>
                 <i>Supported function can be found

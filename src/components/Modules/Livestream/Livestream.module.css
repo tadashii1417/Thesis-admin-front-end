@@ -1,7 +1,6 @@
 .container {
-    width: 90%;
     text-align: center;
-    margin: 0 auto;
+    margin-top: 12px;
 }
 
 .introImg {

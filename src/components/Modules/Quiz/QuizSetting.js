@@ -16,22 +16,23 @@ export default function ({quizSettingDto, openSettingModal}) {
 
             <div className={styles.quizInfo}>
                 <div className={styles.fields}>
-                    <div>Grading policy</div>
-                    <div>Pass threshold</div>
-                    <div>Shuffle questions</div>
-                    <div>Duration</div>
                     <div>Open day</div>
                     <div>Close day</div>
-                    <div>Maximum attempt allowed</div>
+                    <div>Grading policy</div>
+                    <div>Pass threshold</div>
+                    <div>Duration</div>
+                    <div>Maximum attempt</div>
+                    <div>Shuffle questions</div>
                 </div>
+
                 <div className={styles.values}>
-                    <div>{quizSettingDto.gradingPolicy}</div>
-                    <div>{quizSettingDto.passThreshold}</div>
-                    <div>{quizSettingDto.shuffleQuestions}</div>
-                    <div>{quizSettingDto.duration} seconds</div>
                     <div>{quizSettingDto.openAt}</div>
                     <div>{quizSettingDto.closeAt}</div>
+                    <div>{quizSettingDto.gradingPolicy}</div>
+                    <div>{quizSettingDto.passThreshold}</div>
+                    <div>{quizSettingDto.duration} seconds</div>
                     <div>{quizSettingDto.numAttempt}</div>
+                    <div>{quizSettingDto.shuffleQuestions}</div>
                 </div>
             </div>
 

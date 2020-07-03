@@ -43,8 +43,8 @@ class EditSurveyQuestionForm extends Component {
                         initialValue: question.type
                     })(
                         <Select disabled>
-                            <Select.Option value={SurveyQuestionType.LEVEL}>LEVEL</Select.Option>
-                            <Select.Option value={SurveyQuestionType.TEXT}>TEXT</Select.Option>
+                            <Select.Option value={SurveyQuestionType.LEVEL}>Mức độ hài lòng</Select.Option>
+                            <Select.Option value={SurveyQuestionType.TEXT}>Trả lời câu hỏi</Select.Option>
                         </Select>
                     )}
                 </Form.Item>

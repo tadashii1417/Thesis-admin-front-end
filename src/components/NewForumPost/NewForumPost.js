@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import {Button, Form, Input} from "antd";
+import {Editor} from "lerna-rte";
 
 const FormItem = Form.Item;
 
@@ -32,7 +33,7 @@ class ForumPost extends Component {
                         rules: [{
                             required: true
                         }]
-                    })(<Input.TextArea rows={4}/>)}
+                    })(<Editor/>)}
                 </FormItem>
 
                 <FormItem>

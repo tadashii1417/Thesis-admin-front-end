@@ -9,6 +9,7 @@ import {TaskStatus} from "../../../constants/task_constant";
 import {setIntervalImmediate} from "../../../utils/lang_util";
 import {SurveyQuestionType} from "../../../constants/survey_constant";
 import {getExportResult} from "../../../services/question_bank_service";
+import {forceDownload} from "../../../utils/file_util";
 
 class SurveyResult extends Component {
     state = {
@@ -85,6 +86,7 @@ class SurveyResult extends Component {
                     break;
                 case TaskStatus.FINISHED:
                     this.setState({exportStatus: TaskStatus.FINISHED});
+                    forceDownload(data.result);
                     clearInterval(this.exportIntervalId);
                     break;
                 case TaskStatus.FAILED:
@@ -136,12 +138,13 @@ class SurveyResult extends Component {
             <div>
                 <Alert
                     message="Overall Result."
+                    style={{marginBottom: '20px'}}
                     description={
                         <div>
                             <div>
                                 There is {result.conductorCount} / {result.learnerCount} students finish the survey.
                             </div>
-                            <div>
+                            <div style={{margin: '15px 0 10px 0'}}>
                                 <Button icon={'download'} onClick={this.handleExportSurvey}>
                                     Export Survey
                                 </Button>

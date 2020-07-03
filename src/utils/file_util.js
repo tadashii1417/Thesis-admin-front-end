@@ -15,3 +15,11 @@ export async function downloadFile(file) {
     document.body.removeChild(a);
 }
 
+export function forceDownload(url, filename) {
+    const a = document.createElement("a");
+    a.style.display = "none";
+    a.setAttribute("href", url);
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+}

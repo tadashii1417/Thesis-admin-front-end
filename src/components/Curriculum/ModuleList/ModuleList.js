@@ -141,7 +141,6 @@ export default class extends Component {
                     await createNewArticle(data.id);
                     break;
                 case ModuleType.LIVESTREAM:
-                    await createLivestream(data.id, values.record, values.expectedStartAt);
                     break;
                 case ModuleType.FORUM:
                     await createForum(data.id, values.intro);

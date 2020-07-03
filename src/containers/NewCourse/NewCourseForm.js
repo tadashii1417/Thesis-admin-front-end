@@ -18,6 +18,7 @@ import {createCourse} from "../../services/course_service";
 import {ServerErrors} from "../../constants/server_error_constant";
 import {withRouter} from "react-router";
 import {fetchCategories} from "../../services/category_service";
+import {CourseLevel} from "../../constants/course_constant";
 
 const {TextArea} = Input;
 const {Option} = Select;
@@ -35,21 +36,23 @@ class NewCourseForm extends React.Component {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll(async (err, values) => {
             if (!err) {
+                const key = "create_course";
                 try {
+                    message.loading({content: "Loading ...", key});
                     await createCourse(values);
-                    message.success("Create course successfully .");
+                    message.success({content: "Create course successfully .", key});
                     this.props.history.push('/courses');
                 } catch (e) {
                     httpErrorHandler(e, () => {
                         switch (e.code) {
                             case ServerErrors.INVALID_COURSE_DATA:
-                                message.error(e.details);
+                                message.error({content: e.details, key});
                                 break;
                             case ServerErrors.SLUG_ALREADY_EXISTS:
-                                message.error(e.message);
+                                message.error({content: e.message, key});
                                 break;
                             default:
-                                message.error("Create course fail")
+                                message.error({content: "Create course fail", key})
                         }
                     })
                 }
@@ -132,7 +135,7 @@ class NewCourseForm extends React.Component {
                         },
                     ],
                 })(
-                    <Input placeholder="learning outcome" style={{width: '60%', marginRight: 8}}/>)}
+                    <Input placeholder="Learning outcome" style={{width: '60%', marginRight: 8}}/>)}
                 <Icon
                     className="dynamic-delete-button"
                     type="minus-circle-o"
@@ -145,16 +148,15 @@ class NewCourseForm extends React.Component {
             <Form {...formItemLayout}>
                 <h3>General Setting</h3>
                 <Divider style={{margin: '12px 0 24px'}}/>
-                <Form.Item label={"Course full name"}>
+
+                <Form.Item label={"Name"}>
                     {getFieldDecorator('name', {
                         rules: [{required: true, message: 'Please input new course name'}]
-                    })(
-                        <Input/>
-                    )}
+                    })(<Input/>)}
                 </Form.Item>
 
                 <Form.Item
-                    label={"Course Category"}>
+                    label={"Category"}>
                     {getFieldDecorator('categoryId', {
                         rules: []
                     })(<TreeSelect style={{width: '80%'}}>
@@ -163,9 +165,23 @@ class NewCourseForm extends React.Component {
                     )}
                 </Form.Item>
 
-                <Form.Item label="Course Type">
-                    {getFieldDecorator('type', {
+                <Form.Item
+                    label={"Level"}>
+                    {getFieldDecorator('level', {
                         rules: [],
+                        initialValue: CourseLevel.ALL_LEVEL
+                    })(<Select style={{width: '50%'}}>
+                            <Option value={CourseLevel.ALL_LEVEL}>All Level</Option>
+                            <Option value={CourseLevel.BEGINNER}>Beginner</Option>
+                            <Option value={CourseLevel.IMMEDIATE}>Immediate</Option>
+                            <Option value={CourseLevel.ADVANCED}>Advanced</Option>
+                        </Select>
+                    )}
+                </Form.Item>
+
+                <Form.Item label="Type">
+                    {getFieldDecorator('type', {
+                        rules: [{required: true, message: "Please select course type."}],
                         initialValue: 'online'
                     })(<Select style={{width: '50%'}}>
                         <Option value="offline">Offline</Option>
@@ -197,8 +213,8 @@ class NewCourseForm extends React.Component {
                     )}
                 </Form.Item>
 
-                <Form.Item label={<span> Course estimate time
-                    <Tooltip title={"Total estimate time in hours"}>
+                <Form.Item label={<span> Estimated duration
+                    <Tooltip title={"Total estimated duration in hours"}>
                         <Icon type="info-circle-o" style={{marginLeft: 4}}/>
                     </Tooltip></span>}>
                     {getFieldDecorator('amountOfTime', {})(<InputNumber min={0}/>)}
@@ -207,23 +223,21 @@ class NewCourseForm extends React.Component {
                 <h3>Course Descriptions</h3>
                 <Divider style={{margin: '12px 0 24px'}}/>
 
-                <Form.Item label={"Course description"}>
-                    {getFieldDecorator('description', {
-                        rules: [{required: true, message: "Please input course description"}]
-                    })(
-                        <TextArea style={{height: '100px'}}/>
+                <Form.Item label={"Description"}>
+                    {getFieldDecorator('description', {})(<TextArea rows={3}/>)}
+                </Form.Item>
+
+                <Form.Item label={"Short description"}>
+                    {getFieldDecorator('shortDescription', {})(<TextArea rows={2}/>)}
+                </Form.Item>
+
+                <Form.Item label={"Requirements"}>
+                    {getFieldDecorator('requirements', {})(
+                        <TextArea rows={3}/>
                     )}
                 </Form.Item>
 
-                <Form.Item label={"Course requirements"}>
-                    {getFieldDecorator('requirements', {
-                        rules: [{required: true, message: "Please input course requirement"}]
-                    })(
-                        <TextArea style={{height: '75px'}}/>
-                    )}
-                </Form.Item>
-
-                <Form.Item label={"Course image"}>
+                <Form.Item label={"Banner"}>
                     {getFieldDecorator('banner', {})(
                         <Dragger multiple={false} listType={"image"}>
                             <p className="ant-upload-drag-icon">
@@ -239,7 +253,10 @@ class NewCourseForm extends React.Component {
                         <Input placeholder={"learning outcome"}/>)}
                 </Form.Item>
 
-                {formItems}
+                <div className="learningOutcomes">
+                    {formItems}
+                </div>
+
                 <Form.Item {...formItemLayoutWithOutLabel}>
                     <Button type="dashed" onClick={this.addOutcome} style={{width: '60%'}}>
                         <Icon type="plus"/> Add learning outcome

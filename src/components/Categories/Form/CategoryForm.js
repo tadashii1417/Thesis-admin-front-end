@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import styles from '../Categories.module.css';
-import {Button, Form, Input, Tooltip, TreeSelect} from "antd";
+import {Button, Form, Icon, Input, Tooltip, TreeSelect, Upload} from "antd";
 
 const {TreeNode} = TreeSelect;
 
@@ -63,6 +63,16 @@ class CategoryForm extends Component {
                             placeholder="Parent">
                             {treeNodes}
                         </TreeSelect>
+                    )}
+                </Form.Item>
+
+                <Form.Item label={"Icon"} className={styles.formItem}>
+                    {getFieldDecorator('icon', {})(
+                        <Upload>
+                            <Button>
+                                <Icon type="upload"/> Upload Icon
+                            </Button>
+                        </Upload>
                     )}
                 </Form.Item>
 

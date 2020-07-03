@@ -63,7 +63,7 @@ class QuizResult extends Component {
                     dataIndex: 'result.finalMark',
                     key: 'finalMark',
                     align: 'center',
-                    render: score => <b>{score}</b>
+                    render: score => <b>{Number(score.toFixed(2))}</b>
                 },
                 {
                     title: "Passed",

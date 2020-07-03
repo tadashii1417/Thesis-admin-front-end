@@ -24,7 +24,7 @@ class MyCalendar extends Component {
             const {data: map} = await getModuleEvents(dayOfMonth);
             this.setState({eventMap: map, loading: false});
         } catch (e) {
-            message.error(e);
+            message.error("Something went wrong");
         }
     }
 
@@ -112,6 +112,7 @@ class MyCalendar extends Component {
                     onClickMonth={this.fetchMonthViewEvents}
                     tileContent={this.renderTileContent}
                     value={this.state.date}
+                    className={styles.calendar}
                 />
             </div>
         );

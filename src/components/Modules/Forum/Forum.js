@@ -173,6 +173,7 @@ class Forum extends Component {
 
                 <Modal visible={this.state.addPost}
                        onCancel={this.onAddPostCancel}
+                       width={"70%"}
                        footer={null}>
                     <Suspense fallback={null}>
                         <NewForumPost handleNewPost={this.handleNewPost}/>

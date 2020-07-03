@@ -5,6 +5,7 @@ import {LivestreamStatus, ModuleType} from "../../../constants/module_constant";
 import {getModule, updateModule} from "../../../services/module_service";
 import {httpErrorHandler} from "../../../utils/axios_util";
 import {
+    createLivestream,
     endLivestream,
     getLivestreamPlayback,
     joinLivestream,
@@ -12,6 +13,9 @@ import {
 } from "../../../services/livestream_service";
 import ModuleLayout from "../../ModuleLayout/ModuleLayout";
 import Loading from "../../Loading/Loading";
+import NewLivestream from "./NewLivestream";
+import LivestreamInfo from "./LivestreamInfo";
+import {ServerErrors} from "../../../constants/server_error_constant";
 
 class Livestream extends Component {
     state = {
@@ -31,6 +35,28 @@ class Livestream extends Component {
                         message.error("Something went wrong");
                 }
             });
+        }
+    }
+
+    handleCreateLivestream = async (values) => {
+        const key = "create_livestream";
+        message.loading({content: "Loading ...", key})
+        try {
+            await createLivestream(this.state.module.id, values);
+            const {data} = await getModule(this.state.module.id);
+            this.setState({module: data});
+            message.success({content: "Create livestream success", key});
+        } catch (e) {
+            httpErrorHandler(e, () => {
+                switch (e.code) {
+                    case ServerErrors.INVALID_START_AT:
+                        message.error({content: "Livestream must start after this moment", key});
+                        break;
+
+                    default:
+                        message.error({content: "Something went wrong", key});
+                }
+            })
         }
     }
 
@@ -119,9 +145,24 @@ class Livestream extends Component {
     render() {
         const {module, loading} = this.state;
         if (loading) return <Loading/>;
+        const {match: {params: {slug}}, location: {state: {courseName}}} = this.props;
+
+        if (!module.instanceData) {
+            return (
+                <ModuleLayout
+                    slug={slug}
+                    module={module}
+                    courseName={courseName}
+                    handleEditModule={this.handleEditModule}
+                    moduleType={ModuleType.LIVESTREAM}>
+                    <div style={{width: "60%", minWidth: "300px", margin: "0 auto"}}>
+                        <NewLivestream moduleId={module.id} handleCreateLivestream={this.handleCreateLivestream}/>
+                    </div>
+                </ModuleLayout>
+            );
+        }
 
         const {instanceData: {status}} = module;
-        const {match: {params: {slug}}, location: {state: {courseName}}} = this.props;
 
         return (
             <ModuleLayout
@@ -132,10 +173,9 @@ class Livestream extends Component {
                 moduleType={ModuleType.LIVESTREAM}>
 
                 <div className={styles.container}>
-                    <Result
-                        status="403"
-                        title="There is no conference."
-                    />
+                    <div style={{width: "60%", minWidth: "300px", margin: "0 auto"}}>
+                        <LivestreamInfo data={module.instanceData}/>
+                    </div>
 
                     <div className={styles.actionArea}>
                         {status === LivestreamStatus.CREATED && <Button

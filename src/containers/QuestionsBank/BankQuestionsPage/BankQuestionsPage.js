@@ -9,7 +9,7 @@ import {
 import {setIntervalImmediate} from "../../../utils/lang_util";
 import config from "../../../config";
 import {TaskStatus} from "../../../constants/task_constant";
-import {downloadFile} from "../../../utils/file_util";
+import {forceDownload} from "../../../utils/file_util";
 
 const {Title} = Typography;
 
@@ -67,7 +67,7 @@ class BankQuestionsPage extends Component {
                     break;
                 case TaskStatus.FINISHED:
                     this.setState({status: TaskStatus.FINISHED});
-                    await downloadFile(data.result);
+                    forceDownload(data.result);
                     clearInterval(this.intervalId);
                     break;
                 case TaskStatus.FAILED:

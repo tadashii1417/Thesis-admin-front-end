@@ -44,6 +44,10 @@ code {
     text-align: center;
 }
 
+.learningOutcomes .ant-row{
+    margin-bottom: 8px;
+}
+
 .stripe-table .ant-table-tbody > tr:nth-child(even),
 .stripe-table .ant-table-thead > tr {
     background-color: rgb(250, 250, 250);
@@ -147,8 +151,8 @@ h4.ant-typography, .ant-typography h4 {
 }
 
 /********************************** EDITOR ********************************/
-.article .ql-toolbar {
-    padding: 0;
+.article .ql-editor {
+    min-height: 200px;
 }
 
 .quiz-content .ql-toolbar {
@@ -157,10 +161,6 @@ h4.ant-typography, .ant-typography h4 {
 
 .choice-content .ql-toolbar {
     padding: 0;
-}
-
-.article .ql-editor {
-    min-height: 200px;
 }
 
 .circle-icon {
