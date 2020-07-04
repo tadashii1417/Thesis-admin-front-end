@@ -1,7 +1,6 @@
 import React, {Component} from "react";
-import {message, Button} from "antd";
+import {message, Button, Modal} from "antd";
 
-import styles from './ForumTopic.module.css';
 import {ModuleType} from "../../constants/module_constant";
 import {addComment, getPostComments} from "../../services/forum_service";
 import {httpErrorHandler} from "../../utils/axios_util";
@@ -9,10 +8,12 @@ import ModuleLayout from "../ModuleLayout/ModuleLayout";
 import ForumComment from "../ForumComment/ForumComment";
 import {Editor} from "lerna-rte";
 import Loading from "../Loading/Loading";
+import ForumQuestion from "../ForumQuestion/ForumQuestion";
 
 class ForumTopic extends Component {
     state = {
-        comment: "",
+        comment: false,
+        commentText: "",
         loading: true,
         answers: []
     };
@@ -27,18 +28,18 @@ class ForumTopic extends Component {
         }
     }
 
-    setComment = (value) => {
-        this.setState({comment: value});
+    setCommentText = (value) => {
+        this.setState({commentText: value});
     }
 
     handleComment = async () => {
         try {
             const {match: {params: {postId}}} = this.props;
-            const {comment} = this.state;
-            const {data} = await addComment(postId, comment);
+            const {commentText} = this.state;
+            const {data} = await addComment(postId, commentText);
             const oldAnswers = [...this.state.answers];
             oldAnswers.push(data);
-            this.setState({comment: "", answers: oldAnswers});
+            this.setState({comment: false, commentText: "", answers: oldAnswers});
         } catch (e) {
             httpErrorHandler(e, () => {
                 switch (e.code) {
@@ -67,15 +68,29 @@ class ForumTopic extends Component {
                               state: {courseName: courseName}
                           }}>
 
-                <ForumComment response={post}/>
-                {answers.length ? answers.map(res => (
-                    <ForumComment response={res}/>
-                )) : ""}
+                <ForumQuestion response={post} answerCount={answers.length}/>
 
-                <div className={styles.commentArea}>
-                    <Editor value={this.state.comment} onChange={this.setComment}/>
-                    <Button type={"primary"} onClick={this.handleComment}>Add Comment</Button>
+                {answers.length && answers.map((res, index) => (
+                    <ForumComment response={res} key={index}/>
+                ))}
+
+                <div style={{textAlign: 'right', margin: '20px'}}>
+                    <Button type={"primary"} onClick={() => {
+                        this.setState({comment: true})
+                    }}>Add Comment</Button>
                 </div>
+
+                <Modal visible={this.state.comment}
+                       footer={null}
+                       onCancel={() => this.setState({comment: false})}>
+                    <div>
+                        <Editor value={this.state.commentText} onChange={this.setCommentText}/>
+                        <Button type={"primary"}
+                                style={{margin: '15px 0'}}
+                                onClick={this.handleComment}>Add Comment</Button>
+                    </div>
+                </Modal>
+
 
             </ModuleLayout>
         );

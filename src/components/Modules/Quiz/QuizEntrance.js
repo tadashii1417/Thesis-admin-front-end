@@ -12,6 +12,7 @@ import ModuleLayout from "../../ModuleLayout/ModuleLayout";
 const QuizSetting = React.lazy(() => import("./QuizSetting"));
 const QuizQuestions = React.lazy(() => import('./QuizQuestions'));
 const QuizResult = React.lazy(() => import('./QuizResult'));
+const QuizStatistic = React.lazy(() => import("./QuizStatistic"));
 const QuizSettingForm = React.lazy(() => import("./QuizSettingForm"));
 
 const {TabPane} = Tabs;
@@ -114,11 +115,18 @@ export default class extends Component {
                         </Suspense>
                     </TabPane>
 
+                    <TabPane key={"statistic"} tab={<span> Statistic</span>}>
+                        <Suspense fallback={null}>
+                            <QuizStatistic moduleId={module.id} courseName={courseName}/>
+                        </Suspense>
+                    </TabPane>
+
                     <TabPane key={"attempts"} tab={<span> Results</span>}>
                         <Suspense fallback={null}>
                             <QuizResult moduleId={module.id} courseName={courseName}/>
                         </Suspense>
                     </TabPane>
+
                 </Tabs>
 
                 <Modal title={"Edit Quiz Setting"}

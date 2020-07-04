@@ -4,12 +4,10 @@ import styles from './NewAccount.module.css';
 import {createUser, importUser} from "../../services/user_service";
 import {httpErrorHandler} from "../../utils/axios_util";
 import {ServerErrors} from "../../constants/server_error_constant";
-import Loading from "../Loading/Loading";
-import {getRoles} from "../../services/role_service";
+import {UserType} from "../../constants/user_contant";
 
 class NewAccountBasic extends React.Component {
     state = {
-        loading: true,
         roles: [],
         fileList: [],
         importFailed: []
@@ -39,12 +37,6 @@ class NewAccountBasic extends React.Component {
     };
 
     async componentDidMount() {
-        try {
-            const {data} = await getRoles();
-            this.setState({roles: data, loading: false});
-        } catch (e) {
-            message.error("Fetch roles failed");
-        }
     }
 
     handleSubmit = e => {
@@ -78,8 +70,7 @@ class NewAccountBasic extends React.Component {
     };
 
     render() {
-        const {loading, roles, fileList, importFailed} = this.state;
-        if (loading) return <Loading/>;
+        const {fileList, importFailed} = this.state;
 
         const {getFieldDecorator} = this.props.form;
         const formItemLayout = {
@@ -111,12 +102,9 @@ class NewAccountBasic extends React.Component {
                         {getFieldDecorator('type', {
                             rules: [{required: true, message: "Please select type."}]
                         })(<Select style={{width: '50%'}}>
-                            {
-                                roles.map(role =>
-                                    <Select.Option
-                                        value={role.name} key={role.id}>{role.name}
-                                    </Select.Option>)
-                            }
+                            <Select.Option value={UserType.INSTRUCTOR}>Instructor</Select.Option>
+                            <Select.Option value={UserType.STAFF}>Staff</Select.Option>
+                            <Select.Option value={UserType.LEARNER}>Leaner</Select.Option>
                         </Select>)}
                     </Form.Item>
 

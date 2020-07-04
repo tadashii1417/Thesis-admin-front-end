@@ -9,14 +9,12 @@
     padding-top: 15px;
     float: left;
     text-align: center;
-    border-top: 1px solid #e9e9e9
 }
 
 .userComment {
     width: calc(100% - 45px);
     float: left;
-    border-top: 1px solid #e9e9e9;
-    padding: 12px;
+    padding: 12px 12px 0 12px;
 }
 
 .clearfix {
@@ -46,10 +44,10 @@
     font-size: 13px;
 }
 
-.comment {
-    font-size: 14px;
+.createAt {
+    font-size: 15px;
 }
 
-.createAt {
+.comment {
     font-size: 15px;
 }

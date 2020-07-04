@@ -18,6 +18,10 @@
     padding: 0 15px;
 }
 
+.instructors > * {
+    margin: 0 5px;
+}
+
 .CourseCard {
     position: relative;
     min-width: 220px;

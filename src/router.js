@@ -9,6 +9,7 @@ import ForgotPassword from "./components/ForgotPassword/ForgotPassword";
 import ResetPassword from "./components/ResetPassword/ResetPassword";
 import NewQuestion from "./containers/QuestionsBank/NewQuestion/NewQuestion";
 import EditBankQuestion from "./containers/QuestionsBank/EditQuestion/EditBankQuestion";
+import OrderPage from "./containers/OrderPage/OrderPage";
 
 const QuestionsBank = React.lazy(() => import("./containers/QuestionsBank"));
 const Courses = React.lazy(() => import("./containers/Courses/"));
@@ -116,6 +117,10 @@ export default function (props) {
                 <SecureRoute path="/semesters"
                              allowed={[RoleType.ADMIN]}
                              component={SemesterPage} exact/>
+
+                <SecureRoute path="/orders"
+                             allowed={[RoleType.ADMIN]}
+                             component={OrderPage} exact/>
 
                 <SecureRoute path="/departments"
                              allowed={[RoleType.ADMIN]}

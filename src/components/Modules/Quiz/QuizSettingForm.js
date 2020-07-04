@@ -68,7 +68,7 @@ class QuizSettingBasic extends React.Component {
                 </Form.Item>
 
                 <Form.Item
-                    label={<span> Duration <Tooltip title={"Seconds"}><Icon type="info-circle"/></Tooltip> </span>}>
+                    label={<span> Duration <Tooltip title={"Seconds"}><Icon type="info-circle"/></Tooltip></span>}>
                     {getFieldDecorator('duration', {
                         initialValue: data.duration
                     })(<InputNumber/>)}

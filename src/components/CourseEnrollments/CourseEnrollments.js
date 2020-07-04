@@ -160,7 +160,7 @@ class CourseEnrollments extends Component {
                     <div>
                         {searchLoading && <Icon type="loading" className={styles.spin}/>}
                         <AutoComplete onSearch={this.handleSearch}
-                                      placeholder="search user here ..."
+                                      placeholder="Search user here"
                                       optionLabelProp={'display'}
                                       onSelect={this.handleSelectOption}>
                             {children}

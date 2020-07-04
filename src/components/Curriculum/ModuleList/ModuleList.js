@@ -15,7 +15,6 @@ import NewModule from "../AddModule/AddModule";
 import {ModuleType} from "../../../constants/module_constant";
 import {createNewQuiz} from "../../../services/quiz_service";
 import {createNewArticle} from "../../../services/article_service";
-import {createLivestream} from "../../../services/livestream_service";
 import {createForum} from "../../../services/forum_service";
 
 const {confirm} = Modal;

@@ -3,6 +3,7 @@ import {Layout, Menu, Icon, Dropdown, Avatar, Tooltip} from "antd";
 import styles from "./AdminHeader.module.css";
 import {Redirect} from "react-router";
 import {defaultAvatar} from "../../constants/dev_constant";
+import {Link} from "react-router-dom";
 
 const {Header} = Layout;
 
@@ -14,15 +15,21 @@ class AdminHeader extends Component {
                 <Icon type="user"/>
                 <span>Account Center</span>
             </Menu.Item>
+
             <Menu.Item key="userinfo">
-                <Icon type="setting"/>
-                <span>Account Setting</span>
+                <Icon type="home"/>
+                <span>Departments</span>
+                <Link to={"/departments"}/>
             </Menu.Item>
+
             <Menu.Item key="triggerError">
                 <Icon type="solution"/>
                 <span>Profile</span>
+                <Link to={"/profile"}/>
             </Menu.Item>
+
             <Menu.Divider/>
+
             <Menu.Item key="logout" onClick={this.props.logout}>
                 <Icon type="logout"/>
                 <span>Logout</span>

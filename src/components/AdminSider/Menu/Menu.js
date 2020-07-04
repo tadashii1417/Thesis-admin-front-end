@@ -8,7 +8,7 @@ import {checkIsAdmin} from "../../../utils/permision_util";
 const {SubMenu} = Menu;
 
 export default function menu({user}) {
-    const isAdmin = user ? checkIsAdmin(user.roles): false;
+    const isAdmin = user ? checkIsAdmin(user.type): false;
 
     const loadMenu = menuConfig.map(menuItem => {
         if (menuItem.routes.length) {

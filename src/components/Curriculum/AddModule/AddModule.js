@@ -1,9 +1,8 @@
 import React from "react";
 import {Icon} from 'react-icons-kit';
 import ModulesConfig from '../ModulesConfig';
-import {Button, DatePicker, Form, Input, Radio, Switch} from "antd";
+import {Button,  Form, Input, Radio} from "antd";
 import {ModuleType} from "../../../constants/module_constant";
-import config from "../../../config";
 
 const {TextArea} = Input;
 

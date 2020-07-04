@@ -4,6 +4,8 @@ import styles from './Profile.module.css';
 import {createPatch} from "../../utils/patch_util";
 import {updateAvatar, updateProfile, updateUsername} from "../../services/me_service";
 import AvatarView from "../AvatarView/AvatarView";
+import TextArea from "antd/es/input/TextArea";
+import {UserType} from "../../constants/user_contant";
 
 const FormItem = Form.Item;
 
@@ -64,7 +66,7 @@ class Profile extends Component {
 
     render() {
         const {
-            form: {getFieldDecorator}, user: {email, firstName, lastName, avatar}
+            form: {getFieldDecorator}, user: {email, firstName, lastName, avatar, biography, title, type}
         } = this.props;
 
         return (
@@ -93,13 +95,33 @@ class Profile extends Component {
                             })(<Input/>)}
                         </FormItem>
 
+
+                        {type === UserType.INSTRUCTOR && (
+                            <>
+                                <FormItem label={"Title"}>
+                                    {getFieldDecorator('title', {
+                                        rules: [],
+                                        initialValue: title
+                                    })(<Input/>)}
+                                </FormItem>
+
+                                <FormItem label={"Biography"}>
+                                    {getFieldDecorator('biography', {
+                                        rules: [],
+                                        initialValue: biography
+                                    })(<TextArea rows={3}/>)}
+                                </FormItem>
+                            </>
+                        )}
+
                         <Button type="primary" htmlType="submit">
                             Update
                         </Button>
                     </Form>
                 </div>
                 <div className={styles.right}>
-                    <AvatarView avatar={avatar ? avatar['200x200'] : null} handleUpdateAvatar={this.handleUpdateAvatar}/>
+                    <AvatarView avatar={avatar ? avatar['200x200'] : null}
+                                handleUpdateAvatar={this.handleUpdateAvatar}/>
                     <Divider style={{visibility: 'hidden'}}/>
 
                     <div>Username</div>

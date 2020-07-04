@@ -1,19 +1,19 @@
 export function setToken(token) {
-    sessionStorage.setItem("x-access-token", token);
+    localStorage.setItem("x-access-token", token);
 }
 
 export function getToken() {
-    return sessionStorage.getItem("x-access-token") || "";
+    return localStorage.getItem("x-access-token") || "";
 }
 
 export function clearToken() {
-    sessionStorage.removeItem("x-access-token");
+    localStorage.removeItem("x-access-token");
 }
 
 export function localSetItem(key, value) {
-    return sessionStorage.setItem(key, value);
+    return localStorage.setItem(key, value);
 }
 
 export function localGetItem(key) {
-    return sessionStorage.getItem(key);
+    return localStorage.getItem(key);
 }

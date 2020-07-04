@@ -21,7 +21,7 @@ const adminSider = props => (
         <div className={styles.logo} id="logo">
             <Link to={"/"}>
                 <img src={logo} alt="logo"/>
-                <h1>Admin Board</h1>
+                <h1>Dashboard</h1>
             </Link>
         </div>
 

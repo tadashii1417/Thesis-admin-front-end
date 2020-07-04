@@ -1,12 +1,12 @@
 import React, {Component} from "react";
-import {message, Row, Col, Card, Rate, Pagination} from "antd";
+import {message, Row, Col, Card, Rate, Pagination, Avatar} from "antd";
 import Tag from "../Tag/Tag";
 import styles from './CoursesTable.module.css';
 import {Typography, Button, Divider, Input} from "antd";
 import {Link} from 'react-router-dom';
 import {httpErrorHandler} from "../../utils/axios_util";
 import {getCourseForInstructor, getCoursesForAdmin} from "../../services/course_service";
-import {DEFAULT_PAGE_SIZE, DEFAULT_PAGINATION} from "../../constants/dev_constant";
+import {DEFAULT_PAGE_SIZE, DEFAULT_PAGINATION, defaultAvatar} from "../../constants/dev_constant";
 import {CourseType} from "../../constants/course_constant";
 
 const {Title} = Typography;
@@ -118,7 +118,17 @@ export default class extends Component {
                                         <div className={styles.courseName}><Link to={"/courses/" + slug}>{name}</Link>
                                         </div>
 
-                                        <div>{instructors && instructors.map(i => i.firstName)}</div>
+                                        <div className={styles.instructors}>
+                                            {instructors && instructors.map(i =>
+                                                <span>
+                                                    <Avatar size={20}
+                                                            style={{marginRight: '5px'}}
+                                                            src={i.avatar ? i.avatar['50x50'] : defaultAvatar}
+                                                    />
+                                                    {i.firstName}
+                                                </span>
+                                            )}
+                                        </div>
 
                                         <div className={styles.courseRating}>
                                             <Rate defaultValue={avgRating ? avgRating : 0} disabled/>
@@ -126,7 +136,8 @@ export default class extends Component {
                                         </div>
 
                                         <div className={styles.priceContainer}>
-                                            <div className={styles.originalPrice}>{listPrice.amount} {listPrice.currency}</div>
+                                            <div
+                                                className={styles.originalPrice}>{listPrice.amount} {listPrice.currency}</div>
                                             <div className={styles.salePrice}>{price.amount} {price.currency}</div>
                                         </div>
 

@@ -1,11 +1,11 @@
 import React from "react";
-import styles from "./ForumComment.module.css";
-import {Avatar} from "antd";
+import styles from "./ForumQuestion.module.css";
+import {Avatar, Icon} from "antd";
 import {defaultAvatar} from "../../constants/dev_constant";
 import {EditorContent} from "lerna-rte";
 import {formatCalendarTime} from "../../utils/date_util";
 
-export default function ({response}) {
+export default function ({response, answerCount}) {
     return (
         <div className={styles.commentContainer}>
             <div className={styles.userInfo}>
@@ -18,12 +18,18 @@ export default function ({response}) {
                         {response.author.firstName}
                     </div>
                     <span className={styles.createAt}>
-                    {formatCalendarTime(response.createAt)}
+                        {formatCalendarTime(response.createAt)}
                     </span>
                 </div>
 
                 <div className={styles.comment}>
                     <EditorContent content={response.content}/>
+                </div>
+
+                <div style={{color: 'red'}}>
+                    <br/><br/>
+                    <Icon type="highlight" style={{marginRight: '10px'}}/>
+                    {answerCount} answers.
                 </div>
             </div>
             <p className={styles.clearfix}/>

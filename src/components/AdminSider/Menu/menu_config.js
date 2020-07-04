@@ -33,6 +33,14 @@ export default [
         routes: []
     },
     {
+        display: "Orders",
+        name: "orders",
+        onlyAdmin: true,
+        icon: "dollar",
+        path: "/orders",
+        routes: []
+    },
+    {
         display: "Departments",
         name: "department",
         onlyAdmin: true,

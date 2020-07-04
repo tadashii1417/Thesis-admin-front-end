@@ -80,7 +80,7 @@ class CourseDetail extends Component {
         const {data, loading} = this.state;
         if (loading) return <Loading/>;
         const {user} = this.props;
-        const isAdmin = checkIsAdmin(user.roles);
+        const isAdmin = checkIsAdmin(user.type);
 
         return (
             <React.Fragment>

@@ -99,9 +99,7 @@ class BankQuestions extends Component {
             title: "Content",
             dataIndex: "content",
             key: "content",
-            render: (content, row) => <Link to={'/questions/' + row.id}>
-                <EditorContent content={content} isInline={true}/>
-            </Link>
+            render: (content) => <EditorContent content={content} isInline={true}/>
         },
         {
             title: "Mark",

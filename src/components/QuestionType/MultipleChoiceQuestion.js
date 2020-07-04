@@ -1,7 +1,7 @@
 import React from "react";
 import styles from './QuestionType.module.css';
 import {EditorContent} from "lerna-rte";
-import {Checkbox, Col, Icon, Radio, Row} from "antd";
+import {Checkbox, Col, Icon, Row} from "antd";
 
 export default function (props) {
     const {data, index} = props;

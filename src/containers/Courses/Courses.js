@@ -8,7 +8,7 @@ const {TabPane} = Tabs;
 
 class Courses extends Component {
     render() {
-        const isAdmin = checkIsAdmin(this.props.user.roles);
+        const isAdmin = checkIsAdmin(this.props.user.type);
 
         return (
             <div className="adminContent">
