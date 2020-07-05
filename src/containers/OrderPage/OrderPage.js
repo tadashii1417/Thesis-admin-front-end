@@ -1,10 +1,11 @@
 import React, {Component} from "react";
 import styles from './Order.module.css';
-import {Avatar, Breadcrumb, Card, Icon, message, Table} from "antd";
+import {Avatar, Breadcrumb, Card, Icon, message, Table, Tag} from "antd";
 import {Link} from "react-router-dom";
 import {displayDateTime} from "../../utils/date_util";
 import {DEFAULT_PAGE_SIZE, DEFAULT_PAGINATION} from "../../constants/dev_constant";
 import {getOrders} from "../../services/orders_service";
+import {getDisplayName} from "../../utils/string_util";
 
 
 class OrderPage extends Component {
@@ -61,15 +62,44 @@ class OrderPage extends Component {
             }
         },
         {
+          title: "Name",
+          dataIndex: 'payer',
+          key: 'name',
+          render: text => getDisplayName(text)
+        },
+        {
             title: 'Email',
             dataIndex: 'payer.email',
             key: 'email',
         },
         {
-            title: "Enroll at",
+            title: "Created at",
             key: 'enroll',
             dataIndex: "createdAt",
             render: date => displayDateTime(date)
+        },
+        {
+            title: "Status",
+            key: 'status',
+            dataIndex: "status",
+            render: text => {
+                let color;
+                switch (text) {
+                    case 'created':
+                        color = 'green';
+                        break;
+                    case 'success':
+                        color = 'geekblue';
+                        break;
+                    default:
+                        color = 'volcano';
+                }
+                return (
+                    <Tag color={color} key={text}>
+                        {text.toUpperCase()}
+                    </Tag>
+                );
+            }
         }
     ];
 
