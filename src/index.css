@@ -31,13 +31,11 @@ code {
 }
 
 .adminContent {
-    /*margin: 24px 24px 0;*/
     margin: 15px 24px 0 24px;
     padding: 15px 24px;
     background: #fff;
     position: relative;
     border-radius: 2px;
-    /*box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05), 0 2px 4px rgba(0, 0, 0, 0.15);*/
 }
 
 .centered {

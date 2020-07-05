@@ -181,8 +181,8 @@ class CourseDetail extends Component {
 
                         {isAdmin &&
                         <TabPane key="videoUrl"
-                                 tab={<span><Icon type="sound" theme={"twoTone"}
-                                                  style={{marginRight: '10px'}}/>Promotional Video</span>}>
+                                 tab={<span><Icon type="sound" theme={"twoTone"} style={{marginRight: '10px'}}/>
+                                 Promotional Video</span>}>
                             <h4>Promotional video</h4>
                             {data.promoVideoUrl ?
                                 (<Card size="small"

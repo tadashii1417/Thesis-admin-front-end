@@ -84,104 +84,108 @@ class NewAccountBasic extends React.Component {
             },
         };
         return (
-            <div className={styles.container}>
-                <Form {...formItemLayout} layout={"vertical"} onSubmit={this.handleSubmit}>
-                    <Form.Item label="Username">
-                        {getFieldDecorator('username', {
-                            rules: [{required: true, message: "Please input old password"}]
-                        })(<Input/>)}
-                    </Form.Item>
+            <>
+                <h3 className={styles.tabTitle}>Create new account</h3>
+                <Divider/>
+                <div className={styles.container}>
+                    <Form {...formItemLayout} layout={"vertical"} onSubmit={this.handleSubmit}>
+                        <Form.Item label="Username">
+                            {getFieldDecorator('username', {
+                                rules: [{required: true, message: "Please input old password"}]
+                            })(<Input/>)}
+                        </Form.Item>
 
-                    <Form.Item label="Email">
-                        {getFieldDecorator('email', {
-                            rules: [{required: true, message: "Please re-type new password"}]
-                        })(<Input/>)}
-                    </Form.Item>
+                        <Form.Item label="Email">
+                            {getFieldDecorator('email', {
+                                rules: [{required: true, message: "Please re-type new password"}]
+                            })(<Input/>)}
+                        </Form.Item>
 
-                    <Form.Item label="Type">
-                        {getFieldDecorator('type', {
-                            rules: [{required: true, message: "Please select type."}]
-                        })(<Select style={{width: '50%'}}>
-                            <Select.Option value={UserType.INSTRUCTOR}>Instructor</Select.Option>
-                            <Select.Option value={UserType.STAFF}>Staff</Select.Option>
-                            <Select.Option value={UserType.LEARNER}>Leaner</Select.Option>
-                        </Select>)}
-                    </Form.Item>
+                        <Form.Item label="Type">
+                            {getFieldDecorator('type', {
+                                rules: [{required: true, message: "Please select type."}]
+                            })(<Select style={{width: '50%'}}>
+                                <Select.Option value={UserType.INSTRUCTOR}>Instructor</Select.Option>
+                                <Select.Option value={UserType.STAFF}>Staff</Select.Option>
+                                <Select.Option value={UserType.LEARNER}>Leaner</Select.Option>
+                            </Select>)}
+                        </Form.Item>
 
-                    <Form.Item label="First name">
-                        {getFieldDecorator('firstName', {
-                            rules: [{required: true, message: "First name is required"}]
-                        })(<Input style={{width: '50%'}}/>)}
-                    </Form.Item>
+                        <Form.Item label="First name">
+                            {getFieldDecorator('firstName', {
+                                rules: [{required: true, message: "First name is required"}]
+                            })(<Input style={{width: '50%'}}/>)}
+                        </Form.Item>
 
-                    <Form.Item label="Last name">
-                        {getFieldDecorator('lastName', {
-                            rules: [{required: true, message: "Last name is required"}]
-                        })(<Input style={{width: '50%'}}/>)}
-                    </Form.Item>
+                        <Form.Item label="Last name">
+                            {getFieldDecorator('lastName', {
+                                rules: [{required: true, message: "Last name is required"}]
+                            })(<Input style={{width: '50%'}}/>)}
+                        </Form.Item>
 
-                    <Form.Item label="&nbsp;">
-                        <Button type="primary" htmlType="submit">
-                            Create Account
-                        </Button>
-
-                        <Divider type="vertical"/>
-
-                        <Upload
-                            multiple={false}
-                            customRequest={this.handleUploadFile}
-                            onChange={this.handleOnChangeUpload}
-                            showUploadList={false}
-                            fileList={fileList}
-                            defaultFileList={fileList}>
-                            <Button htmlType="button">
-                                <Icon type="upload"/> Import Users
+                        <Form.Item label="&nbsp;">
+                            <Button type="primary" htmlType="submit">
+                                Create Account
                             </Button>
-                        </Upload>
 
-                    </Form.Item>
+                            <Divider type="vertical"/>
 
-                </Form>
+                            <Upload
+                                multiple={false}
+                                customRequest={this.handleUploadFile}
+                                onChange={this.handleOnChangeUpload}
+                                showUploadList={false}
+                                fileList={fileList}
+                                defaultFileList={fileList}>
+                                <Button htmlType="button">
+                                    <Icon type="upload"/> Import Users
+                                </Button>
+                            </Upload>
 
-                <div className={styles.errorArea}>
-                    {importFailed.map((user, index) => {
-                        switch (user.reason.code) {
-                            case ServerErrors.EMAIL_ALREADY_EXISTS:
-                                return (
-                                    <Alert
-                                        key={index}
-                                        message={user.reason.value}
-                                        description="This email already exists."
-                                        type="error"
-                                        showIcon
-                                    />
-                                );
-                            case ServerErrors.USERNAME_ALREADY_EXISTS:
-                                return (
-                                    <Alert
-                                        key={index}
-                                        message={user.reason.value}
-                                        description="This username already exists."
-                                        type="error"
-                                        showIcon
-                                    />
-                                );
-                            case ServerErrors.INVALID_USER_DATA:
-                                return (
-                                    <Alert
-                                        key={index}
-                                        message={user.reason.value}
-                                        description="This values not satisfy all constraints."
-                                        type="error"
-                                        showIcon
-                                    />
-                                );
-                            default:
-                                return "";
-                        }
-                    })}
+                        </Form.Item>
+
+                    </Form>
+
+                    <div className={styles.errorArea}>
+                        {importFailed.map((user, index) => {
+                            switch (user.reason.code) {
+                                case ServerErrors.EMAIL_ALREADY_EXISTS:
+                                    return (
+                                        <Alert
+                                            key={index}
+                                            message={user.reason.value}
+                                            description="This email already exists."
+                                            type="error"
+                                            showIcon
+                                        />
+                                    );
+                                case ServerErrors.USERNAME_ALREADY_EXISTS:
+                                    return (
+                                        <Alert
+                                            key={index}
+                                            message={user.reason.value}
+                                            description="This username already exists."
+                                            type="error"
+                                            showIcon
+                                        />
+                                    );
+                                case ServerErrors.INVALID_USER_DATA:
+                                    return (
+                                        <Alert
+                                            key={index}
+                                            message={user.reason.value}
+                                            description="This values not satisfy all constraints."
+                                            type="error"
+                                            showIcon
+                                        />
+                                    );
+                                default:
+                                    return "";
+                            }
+                        })}
+                    </div>
                 </div>
-            </div>
+            </>
         );
 
     }

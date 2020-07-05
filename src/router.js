@@ -2,15 +2,16 @@ import React from "react";
 import {Route, Switch} from 'react-router-dom';
 import AdminLayout from "./containers/admin";
 import SecureRoute from "./routes/SecureRoute/";
+
 import Auth from "./containers/Auth";
 import Unauthorized from "./components/PageResult/Unauthorized";
 import {RoleType} from "./constants/role_constant";
 import ForgotPassword from "./components/ForgotPassword/ForgotPassword";
 import ResetPassword from "./components/ResetPassword/ResetPassword";
-import NewQuestion from "./containers/QuestionsBank/NewQuestion/NewQuestion";
-import EditBankQuestion from "./containers/QuestionsBank/EditQuestion/EditBankQuestion";
-import OrderPage from "./containers/OrderPage/OrderPage";
 
+const NewQuestion = React.lazy(() => import("./containers/QuestionsBank/NewQuestion/NewQuestion"));
+const EditBankQuestion = React.lazy(() => import("./containers/QuestionsBank/EditQuestion/EditBankQuestion"));
+const OrderPage = React.lazy(() => import("./containers/OrderPage/OrderPage"));
 const QuestionsBank = React.lazy(() => import("./containers/QuestionsBank"));
 const Courses = React.lazy(() => import("./containers/Courses/"));
 const Dashboard = React.lazy(() => import("./containers/Dashboard"));

@@ -1,14 +1,14 @@
-import React, {Component} from 'react';
+import React, {Component, Suspense} from 'react';
 import {sortableContainer, sortableElement} from 'react-sortable-hoc';
 import arrayMove from 'array-move';
 import axios from '../../../config/axios-config';
 import {Button, Divider, message, Modal, Tooltip} from "antd";
-import NewSection from "../../../components/Curriculum/NewSection/NewSection";
 import Section from "../../../components/Curriculum/Sections/Sections";
 import {httpErrorHandler} from "../../../utils/axios_util";
 import {updateSection} from "../../../services/section_service";
 import Loading from "../../../components/Loading/Loading";
 
+const NewSection = React.lazy(() => import("../../../components/Curriculum/NewSection/NewSection"));
 // TODO: Lazy loading component
 
 const SortableContainer = sortableContainer(({children}) => {
@@ -139,7 +139,6 @@ class Curriculum extends Component {
                         <Button icon={'exclamation-circle'} type={'danger'} ghost
                                 onClick={this.handleOrderChange}>Update order</Button>
                     </Tooltip>}
-
                 </div>
                 <Divider style={{margin: '12px 0 24px'}}/>
 
@@ -173,7 +172,9 @@ class Curriculum extends Component {
                        visible={this.state.newModal}
                        onCancel={this.closeNewSection}
                        footer={null}>
-                    <NewSection handleSectionChange={this.handleSubmitNewSection}/>
+                    <Suspense fallback={null}>
+                        <NewSection handleSectionChange={this.handleSubmitNewSection}/>
+                    </Suspense>
                 </Modal>
 
             </React.Fragment>

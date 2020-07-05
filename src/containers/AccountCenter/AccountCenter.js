@@ -1,10 +1,12 @@
-import React, {Component} from "react";
-import {Breadcrumb, Card, Divider, Icon, Tabs} from "antd";
+import React, {Component, Suspense} from "react";
+import {Breadcrumb, Card, Icon, Tabs} from "antd";
 import styles from './AccountCenter.module.css';
-import UserList from "../../components/UserList/UserList";
-import NewAccount from "../../components/NewAccount/NewAccount";
 import {Link} from "react-router-dom";
-import RolesPage from "../Roles/RolesPage";
+import Loading from "../../components/Loading/Loading";
+
+const RolesPage = React.lazy(() => import("../Roles/RolesPage"))
+const UserList = React.lazy(() => import("../../components/UserList/UserList"));
+const NewAccount = React.lazy(() => import("../../components/NewAccount/NewAccount"));
 
 const {TabPane} = Tabs;
 
@@ -33,17 +35,21 @@ class AccountCenter extends Component {
                     <Card bordered={false}>
                         <Tabs defaultActiveKey="1">
                             <TabPane tab={<span><Icon type="usergroup-add"/> Manage Accounts</span>} key="1">
-                                <UserList/>
+                                <Suspense fallback={<Loading/>}>
+                                    <UserList/>
+                                </Suspense>
                             </TabPane>
 
                             <TabPane tab={<span><Icon type="user"/> Manage Roles</span>} key="2">
-                                <RolesPage/>
+                                <Suspense fallback={<Loading/>}>
+                                    <RolesPage/>
+                                </Suspense>
                             </TabPane>
 
                             <TabPane tab={<span><Icon type="key"/> Create New Account</span>} key="3">
-                                <h3 className={styles.tabTitle}>Create new account</h3>
-                                <Divider/>
-                                <NewAccount/>
+                                <Suspense fallback={<Loading/>}>
+                                    <NewAccount/>
+                                </Suspense>
                             </TabPane>
                         </Tabs>
                     </Card>
