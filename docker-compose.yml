@@ -1,0 +1,13 @@
+version: "3"
+services:
+  learner:
+    build:
+      context: .
+    env_file:
+      - .env
+    ports:
+      - "80:80"
+      - "443:443"
+    expose:
+      - 80
+      - 443
