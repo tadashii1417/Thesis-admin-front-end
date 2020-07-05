@@ -3,7 +3,7 @@ import PieChart from "../../PieChart/PieChart";
 import BarChart from "../../BarChart/BarChart";
 import {fetchQuizResult} from "../../../services/quiz_service";
 import {httpErrorHandler} from "../../../utils/axios_util";
-import {message} from "antd";
+import {Alert, message} from "antd";
 import Loading from "../../Loading/Loading";
 
 function convertScoresToStatistic(scores = [1, 3, 3, 2.7, 2.5, 5, 8, 10.1, 6]) {
@@ -46,6 +46,15 @@ class QuizStatistic extends Component {
     render() {
         const {loading, results} = this.state;
         if (loading) return <Loading/>;
+        if (results.length === 0) {
+            return (
+                <Alert
+                    message="No student finish the test."
+                    type="info"
+                    showIcon
+                />
+            );
+        }
 
         const passFailData = [
             {

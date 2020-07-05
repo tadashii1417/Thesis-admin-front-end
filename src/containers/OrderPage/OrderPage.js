@@ -1,126 +1,79 @@
 import React, {Component} from "react";
 import styles from './Order.module.css';
-import {Breadcrumb, Card, Icon, Timeline} from "antd";
+import {Avatar, Breadcrumb, Card, Icon, message, Table} from "antd";
 import {Link} from "react-router-dom";
-import {formatCalendarTime} from "../../utils/date_util";
+import {displayDateTime} from "../../utils/date_util";
+import {DEFAULT_PAGE_SIZE, DEFAULT_PAGINATION} from "../../constants/dev_constant";
+import {getOrders} from "../../services/orders_service";
 
-const res = {
-    "data": {
-        "items": [
-            {
-                "id": 1,
-                "status": "created",
-                "paymentMethod": "momo",
-                "createdAt": "2020-07-03T15:01:33.243Z",
-                "items": [
-                    {
-                        "courseId": 1,
-                        "unitPrice": 123000,
-                        "course": {
-                            "id": 1,
-                            "name": "Free course",
-                            "type": "offline",
-                            "instructors": [
-                                {
-                                    "id": 3,
-                                    "type": "instructor",
-                                    "email": "ntncsebku@gmail.com",
-                                    "username": "instructor",
-                                    "lastName": "nguyen",
-                                    "firstName": "nghia",
-                                    "lastLogin": null,
-                                    "lastLogout": null,
-                                    "title": null,
-                                    "biography": null
-                                },
-                                {
-                                    "id": 6,
-                                    "type": "instructor",
-                                    "email": "tadashii1417@gmail.com",
-                                    "username": "instructor123",
-                                    "lastName": "duong",
-                                    "firstName": "truong",
-                                    "lastLogin": "2020-07-04T06:12:43.693Z",
-                                    "lastLogout": null,
-                                    "title": null,
-                                    "biography": null
-                                }
-                            ],
-                            "banner": {
-                                "260x145": "https://storage.googleapis.com/lerna_storage/course_banners/9f0191cd-613a-4218-abba-d3fd6b2bbab1_260x145.png",
-                                "310x175": "https://storage.googleapis.com/lerna_storage/course_banners/9f0191cd-613a-4218-abba-d3fd6b2bbab1_310x175.png",
-                                "240x135": "https://storage.googleapis.com/lerna_storage/course_banners/9f0191cd-613a-4218-abba-d3fd6b2bbab1_240x135.png",
-                                "origin": "https://storage.googleapis.com/lerna_storage/course_banners/9f0191cd-613a-4218-abba-d3fd6b2bbab1.png"
-                            }
-                        }
-                    }
-                ],
-                "payer": {
-                    "id": 2,
-                    "type": "learner",
-                    "email": "trongnghianguyen1998@gmail.com",
-                    "username": null,
-                    "lastName": "Nguyễn",
-                    "firstName": "Trọng Nghĩa",
-                    "lastLogin": "2020-07-04T05:12:21.349Z",
-                    "lastLogout": null,
-                    "title": null,
-                    "biography": null
-                }
-            },
-            {
-                "id": 2,
-                "status": "created",
-                "paymentMethod": "momo",
-                "createdAt": "2020-07-04T02:46:16.091Z",
-                "items": [
-                    {
-                        "courseId": 2,
-                        "unitPrice": 123000,
-                        "course": {
-                            "id": 2,
-                            "name": "Free course",
-                            "type": "offline",
-                            "instructors": [],
-                            "banner": {
-                                "310x175": "https://storage.googleapis.com/lerna_storage/course_banners/a9a8bd7d-aecd-4a9d-94b2-8fe1b92eca56_310x175.png",
-                                "260x145": "https://storage.googleapis.com/lerna_storage/course_banners/a9a8bd7d-aecd-4a9d-94b2-8fe1b92eca56_260x145.png",
-                                "240x135": "https://storage.googleapis.com/lerna_storage/course_banners/a9a8bd7d-aecd-4a9d-94b2-8fe1b92eca56_240x135.png",
-                                "origin": "https://storage.googleapis.com/lerna_storage/course_banners/a9a8bd7d-aecd-4a9d-94b2-8fe1b92eca56.png"
-                            }
-                        }
-                    }
-                ],
-                "payer": {
-                    "id": 2,
-                    "type": "learner",
-                    "email": "trongnghianguyen1998@gmail.com",
-                    "username": null,
-                    "lastName": "Nguyễn",
-                    "firstName": "Trọng Nghĩa",
-                    "lastLogin": "2020-07-04T05:12:21.349Z",
-                    "lastLogout": null,
-                    "title": null,
-                    "biography": null
-                }
-            }
-        ],
-        "pageSize": 2,
-        "currentPage": 1,
-        "totalPageCount": 4,
-        "totalItemCount": 7,
-        "remainingItemCount": 5,
-        "url": "/api/orders/",
-        "next": "/api/orders/?pageSize=2&page=2",
-        "prev": null
-    }
-}
 
 class OrderPage extends Component {
+    state = {
+        orders: [],
+        pagination: DEFAULT_PAGINATION
+    }
+
+    async componentDidMount() {
+        try {
+            await this.fetchOrders({page: 1, pageSize: DEFAULT_PAGE_SIZE});
+        } catch (e) {
+            message.error("Fetch orders failed");
+        }
+    }
+
+    fetchOrders = async (params = {}) => {
+        try {
+            const {data} = await getOrders(params.page, params.pageSize)
+            const pagination = {...this.state.pagination};
+            pagination.total = data.totalItemCount;
+            this.setState({
+                orders: data.items,
+                pagination
+            })
+        } catch (e) {
+            message.error("Fetch order failed");
+        }
+    }
+
+    handleTableChange = ({current, pageSize}) => {
+        const pager = {...this.state.pagination};
+        pager.current = current;
+        pager.pageSize = pageSize;
+        this.setState({pagination: pager});
+
+        if (pager.pageSize !== pageSize) current = 1;
+        this.fetchOrders({page: current, pageSize: pageSize})
+    };
+    columns = [
+        {
+            title: "Courses",
+            key: "courses",
+            render: ({items}) => {
+                return items.map(course => {
+                        return (
+                            <div>
+                                <Avatar src={course.course.banner['240x135']} style={{marginRight: '10px'}}/>
+                                <b>{course.course.name}</b>
+                            </div>
+                        )
+                    }
+                )
+            }
+        },
+        {
+            title: 'Email',
+            dataIndex: 'payer.email',
+            key: 'email',
+        },
+        {
+            title: "Enroll at",
+            key: 'enroll',
+            dataIndex: "createdAt",
+            render: date => displayDateTime(date)
+        }
+    ];
 
     render() {
-        let {data: {items}} = res;
-
         return (
             <React.Fragment>
                 <div className={styles.header}>
@@ -139,18 +92,12 @@ class OrderPage extends Component {
                 </div>
                 <div className={styles.mainForm}>
                     <Card bordered={false}>
-                        <Timeline>
 
-                            {items.map(order => {
-                                const {createdAt, items, payer} = order;
-                                return (
-                                    <Timeline.Item>
-                                        <div>{formatCalendarTime(createdAt)}</div>
-                                    </Timeline.Item>
-                                )
-                            })}
-
-                        </Timeline>
+                        <Table columns={this.columns}
+                               dataSource={this.state.orders}
+                               pagination={this.state.pagination}
+                               onChange={this.handleTableChange}
+                               rowKey={'id'}/>
                     </Card>
                 </div>
             </React.Fragment>
