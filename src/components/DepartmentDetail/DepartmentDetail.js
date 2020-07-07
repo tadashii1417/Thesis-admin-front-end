@@ -7,11 +7,12 @@ import {
     getAllDepartments,
     updateDepartment
 } from "../../services/department_service";
-import NewDepartmentForm from "./DepartmentForm/NewDepartmentForm";
-import EditDepartmentForm from "./DepartmentForm/EditDepartmentForm";
 import Loading from "../Loading/Loading";
 
+const EditDepartmentForm = React.lazy(() => import("./DepartmentForm/EditDepartmentForm"));
+const NewDepartmentForm = React.lazy(() => import("./DepartmentForm/NewDepartmentForm"));
 const SpecificDepartment = React.lazy(() => import("./SpecificDepartment/SpecificDepartment"));
+
 const {Panel} = Collapse;
 const {confirm} = Modal;
 
@@ -165,17 +166,21 @@ class DepartmentDetail extends Component {
                        footer={null}
                        onCancel={this.closeNewDepartment}
                        title="New Department">
-                    <NewDepartmentForm handleNewDepartment={this.handleNewDepartment}
-                                       closeNewDepartment={this.closeNewDepartment}/>
+                    <React.Suspense fallback={"loading ..."}>
+                        <NewDepartmentForm handleNewDepartment={this.handleNewDepartment}
+                                           closeNewDepartment={this.closeNewDepartment}/>
+                    </React.Suspense>
                 </Modal>
 
                 <Modal visible={this.state.editDepartment}
                        footer={null}
                        onCancel={this.closeEditDepartment}
                        title="Edit Department">
-                    <EditDepartmentForm department={this.state.selectedDepartment}
-                                        handleEditDepartment={this.handleEditDepartment}
-                                        closeEditDepartment={this.closeEditDepartment}
+                    <React.Suspense fallback={"loading ..."}>
+                        <EditDepartmentForm department={this.state.selectedDepartment}
+                                            handleEditDepartment={this.handleEditDepartment}
+                                            closeEditDepartment={this.closeEditDepartment}/>
+                    </React.Suspense>
                     />
                 </Modal>
             </>

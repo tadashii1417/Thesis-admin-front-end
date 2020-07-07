@@ -3,7 +3,7 @@ import styles from './Order.module.css';
 import {Avatar, Breadcrumb, Card, Icon, message, Table, Tag} from "antd";
 import {Link} from "react-router-dom";
 import {displayDateTime} from "../../utils/date_util";
-import {DEFAULT_PAGE_SIZE, DEFAULT_PAGINATION} from "../../constants/dev_constant";
+import {DEFAULT_PAGE_SIZE, DEFAULT_PAGINATION, defaultCourseImage} from "../../constants/dev_constant";
 import {getOrders} from "../../services/orders_service";
 import {getDisplayName} from "../../utils/string_util";
 
@@ -52,8 +52,9 @@ class OrderPage extends Component {
             render: ({items}) => {
                 return items.map(course => {
                         return (
-                            <div>
-                                <Avatar src={course.course.banner['240x135']} style={{marginRight: '10px'}}/>
+                            <div style={{padding: '5px'}}>
+                                <Avatar src={course.course.banner ? course.course.banner['240x135'] : defaultCourseImage}
+                                        style={{marginRight: '10px'}}/>
                                 <b>{course.course.name}</b>
                             </div>
                         )
@@ -62,10 +63,10 @@ class OrderPage extends Component {
             }
         },
         {
-          title: "Name",
-          dataIndex: 'payer',
-          key: 'name',
-          render: text => getDisplayName(text)
+            title: "Name",
+            dataIndex: 'payer',
+            key: 'name',
+            render: text => getDisplayName(text)
         },
         {
             title: 'Email',

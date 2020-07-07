@@ -6,6 +6,7 @@ import {EditorContent} from "lerna-rte";
 import {formatCalendarTime} from "../../utils/date_util";
 
 export default function ({response}) {
+    console.log(response);
     return (
         <div className={styles.commentContainer}>
             <div className={styles.userInfo}>
@@ -18,7 +19,7 @@ export default function ({response}) {
                         {response.author.firstName}
                     </div>
                     <span className={styles.createAt}>
-                    {formatCalendarTime(response.createAt)}
+                    {formatCalendarTime(response.createdAt)}
                     </span>
                 </div>
 

@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import styles from './QuestionCategories.module.css';
 import {Icon, Divider, Table, Modal, message} from 'antd';
-import CategoryForm from './Form/QuestionCategoryForm';
 import {
     createQuestionCategory,
     deleteQuestionCategory,
@@ -9,6 +8,8 @@ import {
 } from "../../../services/question_category_service";
 import {httpErrorHandler} from "../../../utils/axios_util";
 import Loading from "../../../components/Loading/Loading";
+
+const CategoryForm = React.lazy(() => import('./Form/QuestionCategoryForm'));
 
 const {confirm} = Modal;
 
@@ -153,9 +154,11 @@ class QuestionCategories extends Component {
                        bodyStyle={{padding: '0 24px 12px 24px'}}
                        onCancel={this.handleCloseEditModal}
                        title="Edit Category !">
-                    <CategoryForm categories={categories}
-                                  handleEditCategory={this.handleEditCategory}
-                                  data={this.state.selected}/>
+                    <React.Suspense fallback={<Loading/>}>
+                        <CategoryForm categories={categories}
+                                      handleEditCategory={this.handleEditCategory}
+                                      data={this.state.selected}/>
+                    </React.Suspense>
                 </Modal>
             </div>
         );

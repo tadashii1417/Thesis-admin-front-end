@@ -17,19 +17,19 @@ export default function (props) {
         <Row gutter={24}>
             <Col {...topColResponsiveProps}>
                 <ChartCard title={"Total Visits"}
-                           totalNumber={123456}
+                           totalNumber={20}
                            subTitle={"Daily visits"}
-                           icon={<Icon type="flag" theme="twoTone" />}
-                           subNumber={123}>
+                           icon={<Icon type="flag" theme="twoTone"/>}
+                           subNumber={2}>
                     <VisitsChart/>
                 </ChartCard>
             </Col>
             <Col {...topColResponsiveProps}>
                 <ChartCard title={"Total Sales"}
-                           totalNumber={1.456}
+                           totalNumber={0}
                            subTitle={"Daily sale"}
-                           icon={<Icon type="shopping" theme="twoTone" />}
-                           subNumber={12}>
+                           icon={<Icon type="shopping" theme="twoTone"/>}
+                           subNumber={0}>
                     <img
                         alt={"total sale"}
                         src={"https://st2.depositphotos.com/5266903/8132/v/950/depositphotos_81321144-stock-illustration-sales-flat-soft-blue-colors.jpg"}
@@ -39,10 +39,10 @@ export default function (props) {
             </Col>
             <Col {...topColResponsiveProps}>
                 <ChartCard title={"Total Students"}
-                           totalNumber={123.456}
+                           totalNumber={10}
                            subTitle={"New student"}
-                           icon={<Icon type="edit" theme="twoTone" />}
-                           subNumber={123}>
+                           icon={<Icon type="edit" theme="twoTone"/>}
+                           subNumber={1}>
                     <img
                         alt={"total student"}
                         src={"https://img.icons8.com/bubbles/2x/student-male.png"}
@@ -52,10 +52,10 @@ export default function (props) {
             </Col>
             <Col {...topColResponsiveProps}>
                 <ChartCard title={"Total Courses"}
-                           totalNumber={16}
+                           totalNumber={10}
                            subTitle={"Daily visits"}
-                           icon={<Icon type="video-camera" theme="twoTone" />}
-                           subNumber={123}>
+                           icon={<Icon type="video-camera" theme="twoTone"/>}
+                           subNumber={1}>
                     <img
                         alt={"total course"}
                         src={"https://cdn4.iconfinder.com/data/icons/got-idea-vol-2/128/education_program-512.png"}

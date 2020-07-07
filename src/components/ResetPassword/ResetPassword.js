@@ -42,17 +42,13 @@ class ForgotPasswordForm extends Component {
             <AuthContainer>
                 <Form className="login-form" layout="vertical" hideRequiredMark onSubmit={this.handleSubmit}>
 
-                    <div className={"centered"}>
-                        <h2>Reset Password</h2>
-                    </div>
+                    <div className={"centered"}><h2>Reset Password</h2></div>
 
                     <Divider/>
 
                     <Form.Item>
                         {getFieldDecorator('newPassword', {
-                            rules: [
-                                {required: true, message: 'Please input new password'}
-                            ],
+                            rules: [{required: true, message: 'Please input new password'}],
                         })(<Input placeholder="New Password" type="password"
                                   prefix={<Icon type="key" style={{color: 'rgba(0,0,0,.25)'}}/>}/>
                         )}

@@ -2,12 +2,13 @@ import React, {Component, Suspense} from "react";
 import styles from './Roles.module.css';
 import {message, Icon, Divider, Collapse, Modal, Button} from "antd";
 import {createRole, deleteRole, getRoles, updateRole} from "../../services/role_service";
-import SpecificRole from "./SpecificRole";
-import NewRoleForm from "./Forms/NewRoleForm";
-import EditRoleForm from "./Forms/EditRoleForm";
 import {httpErrorHandler} from "../../utils/axios_util";
 import {ServerErrors} from "../../constants/server_error_constant";
+import Loading from "../../components/Loading/Loading";
 
+const SpecificRole = React.lazy(() => import("./SpecificRole"));
+const NewRoleForm = React.lazy(() => import("./Forms/NewRoleForm"));
+const EditRoleForm = React.lazy(() => import("./Forms/EditRoleForm"));
 const {Panel} = Collapse;
 const {confirm} = Modal;
 
@@ -176,17 +177,21 @@ class RolesPage extends Component {
                        onCancel={this.closeNewRoleModal}
                        footer={null}
                        title={"Create new role"}>
-                    <NewRoleForm handleNewRole={this.handleNewRole}
-                                 closeNewRole={this.closeNewRoleModal}/>
+                    <React.Suspense fallback={<Loading/>}>
+                        <NewRoleForm handleNewRole={this.handleNewRole}
+                                     closeNewRole={this.closeNewRoleModal}/>
+                    </React.Suspense>
                 </Modal>
 
                 <Modal visible={this.state.editRole}
                        onCancel={this.closeEditRoleModal}
                        footer={null}
                        title={"Edit role"}>
-                    <EditRoleForm handleEditRole={this.handleEditRole}
-                                  role={this.state.selectedRole}
-                                  closeEditRole={this.closeEditRoleModal}/>
+                    <React.Suspense fallback={<Loading/>}>
+                        <EditRoleForm handleEditRole={this.handleEditRole}
+                                      role={this.state.selectedRole}
+                                      closeEditRole={this.closeEditRoleModal}/>
+                    </React.Suspense>
                 </Modal>
             </React.Fragment>
         );

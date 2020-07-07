@@ -13,35 +13,35 @@ class MainChart extends React.Component {
     render() {
         const data = [
             {
-                year: "1951 年",
+                year: "January",
                 sales: 38
             },
             {
-                year: "1952 年",
+                year: "February",
                 sales: 52
             },
             {
-                year: "1956 年",
+                year: "March",
                 sales: 61
             },
             {
-                year: "1957 年",
+                year: "April",
                 sales: 145
             },
             {
-                year: "1958 年",
+                year: "May",
                 sales: 48
             },
             {
-                year: "1959 年",
+                year: "June",
                 sales: 38
             },
             {
-                year: "1960 年",
+                year: "July",
                 sales: 38
             },
             {
-                year: "1962 年",
+                year: "August",
                 sales: 38
             }
         ];

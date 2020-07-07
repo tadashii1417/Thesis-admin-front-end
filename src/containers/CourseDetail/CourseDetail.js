@@ -1,25 +1,25 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {Card, Upload, Button, Tabs, Icon, Breadcrumb, message, Result, Avatar} from 'antd';
+import {Tabs, Icon, Breadcrumb, message, Avatar} from 'antd';
 import styles from './CourseDetail.module.css';
-import Curriculum from "./Curriculum/Curriculum";
 import {Link} from "react-router-dom";
 import {httpErrorHandler} from "../../utils/axios_util";
 import axios from '../../config/axios-config';
-import CourseSettings from "../../components/CourseSettings/CourseSettings";
 import './CourseDetail.css';
 import {updateCourse, updateCourseBanner} from "../../services/course_service";
 import DynamicIcon from "../../components/DynamicIcon/DynamicIcon";
 import courseIcon from "../../components/CourseIcon/CourseIcon";
-import CourseEnrollments from "../../components/CourseEnrollments/CourseEnrollments";
-import MyCalendar from "../../components/Calendar/Calendar";
 import {checkIsAdmin} from "../../utils/permision_util";
-import CourseInstructors from "../../components/CourseInstructors/CourseInstructors";
-import CourseFeedback from "../../components/CourseFeedback/CourseFeedback";
 import Loading from "../../components/Loading/Loading";
 
-// TODO: Create lazy loading for tab panel
-
+const PromotionalVideo = React.lazy(() => import("../../components/PromotionalVideo/PromotionalVideo"));
+const UpdateBanner = React.lazy(() => import("../../components/UpdateBanner/UpdateBanner"));
+const Curriculum = React.lazy(() => import("./Curriculum/Curriculum"));
+const CourseFeedback = React.lazy(() => import("../../components/CourseFeedback/CourseFeedback"));
+const CourseEnrollments = React.lazy(() => import("../../components/CourseEnrollments/CourseEnrollments"));
+const CourseInstructors = React.lazy(() => import("../../components/CourseInstructors/CourseInstructors"));
+const MyCalendar = React.lazy(() => import("../../components/Calendar/Calendar"));
+const CourseSettings = React.lazy(() => import("../../components/CourseSettings/CourseSettings"));
 const {TabPane} = Tabs;
 
 class CourseDetail extends Component {
@@ -62,9 +62,11 @@ class CourseDetail extends Component {
 
     handleUpdateBanner = async (file) => {
         try {
-            const {data} = await updateCourseBanner(this.state.data.id, file);
-            message.success("Course banner has been updated");
+            const {slug} = this.props.match.params;
+            await updateCourseBanner(this.state.data.id, file);
+            const {data} = await axios.get('/api/courses/' + slug);
             this.setState({data: data});
+            message.success("Course banner has been updated");
         } catch (e) {
             httpErrorHandler(e, () => {
                 switch (e.code) {
@@ -113,83 +115,69 @@ class CourseDetail extends Component {
                     <Tabs defaultActiveKey="curriculum" tabPosition={"left"}>
                         {isAdmin &&
                         <TabPane
-                            tab={<span>
-                                <Icon type="home" theme={"twoTone"}
-                                      style={{marginRight: '10px'}}/>Basic Information
-                            </span>}
+                            tab={<span><Icon type="home" theme={"twoTone"} style={{marginRight: '10px'}}/>Basic Information</span>}
                             key="setting">
-                            <CourseSettings data={data} handleUpdateCourse={this.handleUpdateCourse}/>
+                            <React.Suspense fallback={"loading..."}>
+                                <CourseSettings data={data} handleUpdateCourse={this.handleUpdateCourse}/>
+                            </React.Suspense>
                         </TabPane>}
 
                         {isAdmin &&
                         <TabPane
-                            tab={<span>
-                                <Icon type="idcard" theme={"twoTone"}
-                                      style={{marginRight: '10px'}}/>Manage Instructors
-                            </span>}
+                            tab={<span><Icon type="idcard" theme={"twoTone"} style={{marginRight: '10px'}}/>Manage Instructors</span>}
                             key="instructor">
-                            <CourseInstructors courseId={data.id} instructors={data.instructors}/>
+                            <React.Suspense fallback={"loading ..."}>
+                                <CourseInstructors courseId={data.id} instructors={data.instructors}/>
+                            </React.Suspense>
                         </TabPane>}
 
                         <TabPane
                             tab={<span><Icon type="database" theme={"twoTone"} style={{marginRight: '10px'}}/>Course Curriculum</span>}
                             key="curriculum">
-                            <Curriculum courseData={data}/>
+                            <React.Suspense fallback={"loading ..."}>
+                                <Curriculum courseData={data}/>
+                            </React.Suspense>
                         </TabPane>
 
                         <TabPane
-                            tab={<span><Icon type="calendar" theme={"twoTone"}
-                                             style={{marginRight: '10px'}}/>My Calendar</span>}
+                            tab={<span><Icon type="calendar" theme={"twoTone"} style={{marginRight: '10px'}}/>My Calendar</span>}
                             key="calendar">
-                            <MyCalendar courseId={data.id}/>
+                            <React.Suspense fallback={"loading ..."}>
+                                <MyCalendar courseId={data.id}/>
+                            </React.Suspense>
                         </TabPane>
 
-                        <TabPane
-                            tab={<span><Icon type="snippets" theme={"twoTone"}
-                                             style={{marginRight: '10px'}}/>Enrollments</span>}
-                            key="enrollments">
-                            <CourseEnrollments courseId={data.id}/>
+                        <TabPane tab={<span><Icon type="snippets" theme={"twoTone"} style={{marginRight: '10px'}}/>Enrollments</span>}
+                                 key="enrollments">
+                            <React.Suspense fallback={"loading ..."}>
+                                <CourseEnrollments courseId={data.id}/>
+                            </React.Suspense>
                         </TabPane>
 
-                        {isAdmin && <TabPane tab={<span><Icon type="diff" theme={"twoTone"}
-                                                              style={{marginRight: '10px'}}/>Course Reviews</span>}
-                                             key="review">
-                            <CourseFeedback courseId={data.id}/>
+                        {isAdmin && <TabPane
+                            tab={<span><Icon type="diff" theme={"twoTone"} style={{marginRight: '10px'}}/>Course Reviews</span>}
+                            key="review">
+
+                            <React.Suspense fallback={"loading ..."}>
+                                <CourseFeedback courseId={data.id}/>
+                            </React.Suspense>
                         </TabPane>}
 
                         {isAdmin && <TabPane
-                            tab={<span>
-                                <Icon type="picture" theme={"twoTone"} style={{marginRight: '10px'}}/>Course Banner Image</span>}
+                            tab={<span><Icon type="picture" theme={"twoTone"} style={{marginRight: '10px'}}/>Course Banner Image</span>}
                             key="banner">
-                            <h4>Course banner image</h4>
-                            {data.banner ?
-                                (<img className={styles.imgBanner} alt="example" src={data.banner.origin}/>) :
-                                (<Result status="404" title="404" subTitle="No banner found."/>)}
-
-                            <Upload name="banner"
-                                    onChange={info => {
-                                        info.file.status = "done";
-                                    }}
-                                    customRequest={options => {
-                                        this.handleUpdateBanner(options.file);
-                                    }}>
-                                <Button className={styles.uploadBtn}>
-                                    <Icon type="upload"/> Click to update
-                                </Button>
-                            </Upload>
+                            <React.Suspense fallback={"loading ..."}>
+                                <UpdateBanner banner={data.banner} handleUpdateBanner={this.handleUpdateBanner}/>
+                            </React.Suspense>
                         </TabPane>}
 
                         {isAdmin &&
                         <TabPane key="videoUrl"
                                  tab={<span><Icon type="sound" theme={"twoTone"} style={{marginRight: '10px'}}/>
                                  Promotional Video</span>}>
-                            <h4>Promotional video</h4>
-                            {data.promoVideoUrl ?
-                                (<Card size="small"
-                                       actions={null}
-                                       cover={<iframe title="promotional video" src={data.promoVideoUrl} width="560"
-                                                      height="349"/>}/>
-                                ) : (<Result status="404" title="404" subTitle="No promotional video found."/>)}
+                            <React.Suspense fallback={"loading ..."}>
+                                <PromotionalVideo promoVideoUrl={data.promoVideoUrl}/>
+                            </React.Suspense>
                         </TabPane>}
 
                     </Tabs>

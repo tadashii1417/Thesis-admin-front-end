@@ -173,12 +173,7 @@ class UserList extends Component {
             <Modal visible={this.state.addRole}
                    onCancel={() => this.setState({addRole: false})}
                    footer={null}>
-                <div>
-                    <b>
-                        Please select role to add :
-                    </b>
-                </div>
-                <br/>
+                <div><b>Please select role to add :</b></div><br/>
                 <Radio.Group onChange={this.setSelectedRole} value={this.state.selectedRole}>
                     {this.state.roles.map(role =>
                         <Radio style={radioStyle} value={role.id} key={role.id}>
@@ -186,8 +181,7 @@ class UserList extends Component {
                         </Radio>)
                     }
                 </Radio.Group>
-                <br/>
-                <br/>
+                <br/><br/>
                 <Button type="primary" onClick={this.handleAddRole}>Add role</Button>
             </Modal>
         </>

@@ -134,8 +134,7 @@ class NewCourseForm extends React.Component {
                             message: "Please input learning outcome or delete this field.",
                         },
                     ],
-                })(
-                    <Input placeholder="Learning outcome" style={{width: '60%', marginRight: 8}}/>)}
+                })(<Input placeholder="Learning outcome" style={{width: '60%', marginRight: 8}}/>)}
                 <Icon
                     className="dynamic-delete-button"
                     type="minus-circle-o"

@@ -7,9 +7,9 @@ import {
 } from 'react-sortable-hoc';
 import ModuleList from "../ModuleList/ModuleList";
 import {httpErrorHandler} from "../../../utils/axios_util";
-import EditSection from "../EditSection/EditSection";
 import {deleteSection} from "../../../services/section_service";
 
+const EditSection = React.lazy(() => import("../EditSection/EditSection"));
 const {confirm} = Modal;
 
 const DragHandle = sortableHandle(() =>
@@ -105,7 +105,9 @@ class Sections extends Component {
                        visible={this.state.editModal}
                        onCancel={this.closeEditSectionModal}
                        footer={null}>
-                    <EditSection data={value} closeModal={this.closeEditSectionModal}/>
+                    <React.Suspense fallback={"loading ..."}>
+                        <EditSection data={value} closeModal={this.closeEditSectionModal}/>
+                    </React.Suspense>
                 </Modal>
             </Collapsible>
         );

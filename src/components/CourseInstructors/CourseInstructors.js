@@ -11,7 +11,6 @@ import {createPatch} from "../../utils/patch_util";
 
 const {Option} = AutoComplete;
 
-// TODO: improve user experience: ask to delete, change state, ...
 
 class CourseInstructors extends Component {
     state = {

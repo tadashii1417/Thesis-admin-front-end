@@ -11,8 +11,9 @@ import {
     updateCategoryIcon
 } from "../../services/category_service";
 import {ServerErrors} from "../../constants/server_error_constant";
-import EditCategory from "./Form/EditCategory";
 import Loading from "../Loading/Loading";
+
+const EditCategory = React.lazy(() => import("./Form/EditCategory"));
 
 const {Title} = Typography;
 const {confirm} = Modal;
@@ -215,9 +216,11 @@ export default class extends Component {
                        bodyStyle={{padding: '0 24px 12px 24px'}}
                        onCancel={this.handlerCancel}
                        title="Edit Category !">
-                    <EditCategory categories={categories}
-                                  handleEditCategory={this.handleEditCategory}
-                                  data={this.state.selected}/>
+                    <React.Suspense fallback={"loading ..."}>
+                        <EditCategory categories={categories}
+                                      handleEditCategory={this.handleEditCategory}
+                                      data={this.state.selected}/>
+                    </React.Suspense>
                 </Modal>
             </div>
         );

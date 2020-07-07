@@ -61,30 +61,6 @@ class AssignmentSubmissions extends Component {
 
         return (
             <div className={styles.assignmentContent}>
-                <h4>Grading Summary</h4>
-                <Divider className={styles.divider}/>
-                <table style={{width: "100%"}}>
-                    <tbody className={styles.table}>
-                    <tr>
-                        <td>Participants</td>
-                        <td>10</td>
-                    </tr>
-                    <tr>
-                        <td>Submitted</td>
-                        <td>2</td>
-                    </tr>
-                    <tr>
-                        <td>Due date</td>
-                        <td>Thursday, 26 December 2019, 1:00 AM</td>
-                    </tr>
-                    <tr>
-                        <td>Time remaining</td>
-                        <td>76 days 15 hours</td>
-                    </tr>
-                    </tbody>
-                </table>
-
-                <br/><br/>
                 <h4>Student Submissions</h4>
                 <Divider className={styles.divider}/>
                 <Table dataSource={submissions} columns={this.columns}/>

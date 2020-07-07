@@ -9,7 +9,6 @@ import {updateSection} from "../../../services/section_service";
 import Loading from "../../../components/Loading/Loading";
 
 const NewSection = React.lazy(() => import("../../../components/Curriculum/NewSection/NewSection"));
-// TODO: Lazy loading component
 
 const SortableContainer = sortableContainer(({children}) => {
     return <div>{children}</div>;

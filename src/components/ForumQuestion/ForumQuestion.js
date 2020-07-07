@@ -18,7 +18,7 @@ export default function ({response, answerCount}) {
                         {response.author.firstName}
                     </div>
                     <span className={styles.createAt}>
-                        {formatCalendarTime(response.createAt)}
+                        {formatCalendarTime(response.createdAt)}
                     </span>
                 </div>
 

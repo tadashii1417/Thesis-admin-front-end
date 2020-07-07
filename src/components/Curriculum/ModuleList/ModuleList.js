@@ -8,14 +8,15 @@ import ModulesConfig from "../ModulesConfig";
 import {ic_format_line_spacing} from "react-icons-kit/md/ic_format_line_spacing";
 import {cog} from "react-icons-kit/iconic/cog";
 import {Link} from "react-router-dom";
-import EditModule from "../EditModule/EditModule";
 import {httpErrorHandler} from "../../../utils/axios_util";
 import {createNewModule, deleteModule, updateModule} from "../../../services/module_service";
-import NewModule from "../AddModule/AddModule";
 import {ModuleType} from "../../../constants/module_constant";
 import {createNewQuiz} from "../../../services/quiz_service";
 import {createNewArticle} from "../../../services/article_service";
 import {createForum} from "../../../services/forum_service";
+
+const NewModule = React.lazy(() => import("../AddModule/AddModule"));
+const EditModule = React.lazy(() => import("../EditModule/EditModule"));
 
 const {confirm} = Modal;
 
@@ -247,10 +248,10 @@ export default class extends Component {
 
                 <div className={styles.moduleActions}>
                     {this.state.orderChange ?
-                            <Tooltip title={"Modules order hasn't been saved ! Click here to update."}>
-                                <AntIcon type={'exclamation-circle'} className={styles.orderAlert}
-                                         onClick={this.handleOrderChange}/>
-                            </Tooltip> : ""
+                        <Tooltip title={"Modules order hasn't been saved ! Click here to update."}>
+                            <AntIcon type={'exclamation-circle'} className={styles.orderAlert}
+                                     onClick={this.handleOrderChange}/>
+                        </Tooltip> : ""
                     }
                     <Button type={"link"} icon={"plus"}
                             onClick={this.openAddModule}
@@ -264,17 +265,21 @@ export default class extends Component {
                        onCancel={this.closeAddModule}
                        bodyStyle={{padding: "12px 24px"}}
                        footer={null}>
-                    <NewModule handleNewModule={this.handleNewModule}/>
+                    <React.Suspense fallback={"loading ..."}>
+                        <NewModule handleNewModule={this.handleNewModule}/>
+                    </React.Suspense>
                 </Modal>
 
                 <Modal title={"Edit module"}
                        visible={this.state.editModal}
                        onCancel={this.closeEditModule}
                        footer={null}>
-                    <EditModule
-                        data={this.state.selectedModule}
-                        handleEditModule={this.handleEditModule}
-                    />
+                    <React.Suspense fallback={"loading ..."}>
+                        <EditModule
+                            data={this.state.selectedModule}
+                            handleEditModule={this.handleEditModule}
+                        />
+                    </React.Suspense>
                 </Modal>
             </React.Fragment>
 

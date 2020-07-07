@@ -2,9 +2,10 @@ import React, {Component} from "react";
 import {Alert, Button, Divider, Icon, message, Modal} from "antd";
 import {createNewSemester, deleteSemester, getAllSemesters, updateSemester} from "../../services/semester_service";
 import styles from './Semester.module.css';
-import SemesterForm from "./SemesterForm";
-import EditSemesterForm from "./EditSemesterForm";
 import Loading from "../Loading/Loading";
+
+const EditSemesterForm = React.lazy(() => import("./EditSemesterForm"));
+const SemesterForm = React.lazy(() => import("./SemesterForm"));
 
 class SemesterDetail extends Component {
     state = {
@@ -109,17 +110,21 @@ class SemesterDetail extends Component {
                    footer={null}
                    onCancel={this.closeNewSemester}
                    title="New semester !">
-                <SemesterForm handleNewSemester={this.handleNewSemester}
-                              closeNewSemester={this.closeNewSemester}/>
+                <React.Suspense fallback={"loading ..."}>
+                    <SemesterForm handleNewSemester={this.handleNewSemester}
+                                  closeNewSemester={this.closeNewSemester}/>
+                </React.Suspense>
             </Modal>
 
             <Modal visible={this.state.editSemester}
                    footer={null}
                    onCancel={this.closeEditSemester}
                    title="Edit semester !">
-                <EditSemesterForm handleEditSemester={this.handleEditSemester}
-                                  semester={this.state.selectedSemester}
-                                  closeEditSemester={this.closeEditSemester}/>
+                <React.Suspense fallback={"loading ..."}>
+                    <EditSemesterForm handleEditSemester={this.handleEditSemester}
+                                      semester={this.state.selectedSemester}
+                                      closeEditSemester={this.closeEditSemester}/>
+                </React.Suspense>
             </Modal>
         </>;
     }

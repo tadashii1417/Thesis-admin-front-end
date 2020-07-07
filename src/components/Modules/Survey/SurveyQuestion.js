@@ -14,11 +14,11 @@ import {
 import {SurveyQuestionType, TextLevelMapping} from "../../../constants/survey_constant";
 import SurveyLevelQuestion from "../../SurveyLevelQuestion/SurveyLevelQuestion";
 import SurveyTextQuestion from "../../SurveyTextQuestion/SurveyTextQuestion";
-import NewSurveyQuestion from "./NewSurveyQuestionForm";
-import EditSurveyQuestion from "./EditSurveyQuestionForm";
 import Loading from "../../Loading/Loading";
-import SurveyResult from "./SurveyResult";
 
+const SurveyResult = React.lazy(() => import("./SurveyResult"));
+const NewSurveyQuestion = React.lazy(() => import("./NewSurveyQuestionForm"));
+const EditSurveyQuestion = React.lazy(() => import("./EditSurveyQuestionForm"));
 const {confirm} = Modal;
 
 class SurveyQuestion extends Component {
@@ -188,7 +188,9 @@ class SurveyQuestion extends Component {
 
                     </Tabs.TabPane>
                     <Tabs.TabPane key="result" tab={<span> <Icon type="bar-chart"/>Survey result</span>}>
-                        <SurveyResult courseId={courseId}/>
+                        <React.Suspense fallback={"loading ..."}>
+                            <SurveyResult courseId={courseId}/>
+                        </React.Suspense>
                     </Tabs.TabPane>
                 </Tabs>
 
@@ -196,16 +198,20 @@ class SurveyQuestion extends Component {
                        visible={this.state.newQuestion}
                        onCancel={this.closeNewQuestionModal}
                        footer={null}>
-                    <NewSurveyQuestion handleNewQuestion={this.handleNewQuestion}/>
+                    <React.Suspense fallback={"loading ..."}>
+                        <NewSurveyQuestion handleNewQuestion={this.handleNewQuestion}/>
+                    </React.Suspense>
                 </Modal>
 
                 <Modal title={"Edit survey question"}
                        visible={this.state.editQuestion}
                        onCancel={this.closeEditQuestionModal}
                        footer={null}>
-                    <EditSurveyQuestion question={this.state.selectedQuestion}
-                                        closeEditQuestion={this.closeEditQuestionModal}
-                                        handleEditQuestion={this.handleEditQuestion}/>
+                    <React.Suspense fallback={"loading ..."}>
+                        <EditSurveyQuestion question={this.state.selectedQuestion}
+                                            closeEditQuestion={this.closeEditQuestionModal}
+                                            handleEditQuestion={this.handleEditQuestion}/>
+                    </React.Suspense>
                 </Modal>
 
             </ModuleLayout>
