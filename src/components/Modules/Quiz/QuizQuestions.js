@@ -212,7 +212,7 @@ export default class extends Component {
                        style={{top: 20}}
                        width={'60%'}
                        footer={null}>
-                    <Suspense fallback={null}>
+                    <Suspense fallback={Loading()}>
                         <NewQuestionForm addQuestionHandler={this.addQuestionHandler}/>
                     </Suspense>
                 </Modal>
