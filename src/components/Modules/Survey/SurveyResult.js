@@ -156,11 +156,11 @@ class SurveyResult extends Component {
                 />
 
                 {Object.keys(result.questions).map((key, index) => {
+                    if ((result.questions[key].answers && Array.isArray(result.questions[key].answers)) || result.questions[key].type === SurveyQuestionType.TEXT) {
+                        return <TextQuestionResult index={index + 1} question={result.questions[key]} key={key}/>
+                    }
                     if (result.questions[key].type === SurveyQuestionType.LEVEL) {
                         return <LevelQuestionResult index={index + 1} question={result.questions[key]} key={key}/>;
-                    }
-                    if (result.questions[key].type === SurveyQuestionType.TEXT) {
-                        return <TextQuestionResult index={index + 1} question={result.questions[key]} key={key}/>
                     }
                     return "";
                 })}

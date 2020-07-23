@@ -8,7 +8,9 @@ export async function createNewCategory(body) {
     const formData = new FormData();
     formData.append('slug', body.slug);
     formData.append('title', body.title);
-    formData.append('parentId', body.parentId);
+    if (!!body.parentId) {
+        formData.append('parentId', body.parentId);
+    }
     if (body.icon) {
         formData.append('icon', body.icon.file.originFileObj);
     }
