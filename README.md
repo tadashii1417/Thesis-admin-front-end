@@ -18,7 +18,9 @@ The live demo is not available for now, since we closed the backend instance, in
 
   - Manage Course Categories
 ![Course Categories](./images/categories.png)
+
   - Video upload process
+
 ![Upload video](./images/upload-video.gif)
 
 ## Technologies
